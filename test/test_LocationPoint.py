@@ -1,5 +1,6 @@
 import unittest
 import datetime
+from copy import deepcopy
 
 from wenet_models import LocationPoint
 
@@ -56,6 +57,13 @@ class LocationPointTestCase(unittest.TestCase):
 
         res = pt1 / pt2
         self.assertTrue(res._lat == 3 and res._lng == 4)
+
+    def test_eq(self):
+        t1 = datetime.datetime.now()
+        pt1 = LocationPoint(t1, 6, 12)
+        pt2 = deepcopy(pt1)
+
+        self.assertEqual(pt1, pt2)
 
 
 if __name__ == "__main__":
