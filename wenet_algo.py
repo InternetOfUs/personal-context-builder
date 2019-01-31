@@ -56,7 +56,6 @@ def estimate_stay_points(
             distance = locations[i].space_distance_m(locations[j])
             if distance < distance_max_m:
                 if dt > time_min_ms:
-                    # TODO ask Trung with interval [i, j-1] or [i, j]
                     centroid = estimate_centroid(locations[i : j + 1])
                     t_start = locations[i]._pts_t
                     t_stop = locations[j - 1]._pts_t
