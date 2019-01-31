@@ -101,6 +101,22 @@ class WenetAlgoTestCase(unittest.TestCase):
         self.assertAlmostEqual(list_res[1]._lat, 3.5)
         self.assertAlmostEqual(list_res[1]._lng, 35)
 
+    def test_estimate_stay_points_t_start_t_stop(self):
+        t1 = datetime.datetime.now()
+        t2 = t1 + datetime.timedelta(seconds=5)
+        t3 = t2 + datetime.timedelta(seconds=5)
+        pt1 = LocationPoint(t1, 1, 10)
+        pt2 = LocationPoint(t2, 2, 20)
+        pt3 = LocationPoint(t3, 3, 30)
+
+        res = estimate_stay_points(
+            [pt1, pt2, pt3], time_min_ms=4999, distance_max_m=10 ** 17
+        )
+        self.assertTrue(len(res) == 1)
+        res_one = res.pop()
+        self.assertEqual(res_one._t_start, t1)
+        self.assertEqual(res_one._t_stop, t2)
+
 
 if __name__ == "__main__":
     unittest.main()
