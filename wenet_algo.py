@@ -44,7 +44,7 @@ def estimate_stay_points(
 
     """
     stay_points = set()
-    i = 1
+    i = 0
     len_locations = len(locations)
     while i < len_locations:
         j = i + 1
@@ -54,8 +54,8 @@ def estimate_stay_points(
                 i = j
                 break
             distance = locations[i].space_distance_m(locations[j])
-            if distance > distance_max_m:
-                if dt < time_min_ms:
+            if distance < distance_max_m:
+                if dt > time_min_ms:
                     # TODO ask Trung with interval [i, j-1] or [i, j]
                     centroid = estimate_centroid(locations[i : j + 1])
                     t_start = locations[i]._pts_t
@@ -67,4 +67,6 @@ def estimate_stay_points(
                 i = j
                 break
             j = j + 1
+        # if not, can be stuck
+        i += 1
     return stay_points
