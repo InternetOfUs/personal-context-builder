@@ -59,7 +59,7 @@ def estimate_stay_points(
                 if dt > time_min_ms:
                     centroid = estimate_centroid(locations[i : j + 1])
                     t_start = locations[i]._pts_t
-                    t_stop = locations[j - 1]._pts_t
+                    t_stop = locations[j]._pts_t
                     stay_point = StayPoint(
                         t_start, t_stop, centroid._lat, centroid._lng
                     )
