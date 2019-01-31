@@ -43,6 +43,7 @@ def estimate_stay_points(
         Set of StayPoint
 
     """
+    locations = sorted(locations, key=lambda l: l._pts_t)
     stay_points = set()
     i = 0
     len_locations = len(locations)
