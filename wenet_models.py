@@ -36,38 +36,32 @@ class LocationPoint(object):
         return distance
 
     def __add__(self, other):
-        pts_t = self._pts_t + other._pts_t
         lat = self._lat + other._lat
         lng = self._lng + other._lng
-        return LocationPoint(pts_t, lat, lng)
+        return LocationPoint(self._pts_t, lat, lng)
 
     def __sub__(self, other):
-        pts_t = self._pts_t - other._pts_t
         lat = self._lat - other._lat
         lng = self._lng - other._lng
-        return LocationPoint(pts_t, lat, lng)
+        return LocationPoint(self._pts_t, lat, lng)
 
     def __truediv__(self, other):
         if isinstance(other, LocationPoint):
-            pts_t = self._pts_t / other._pts_t
             lat = self._lat / other._lat
             lng = self._lng / other._lng
         else:
-            pts_t = self._pts_t / other
             lat = self._lat / other
             lng = self._lng / other
-        return LocationPoint(pts_t, lat, lng)
+        return LocationPoint(self._pts_t, lat, lng)
 
     def __mul__(self, other):
         if isinstance(other, LocationPoint):
-            pts_t = self._pts_t * other._pts_t
             lat = self._lat * other._lat
             lng = self._lng * other._lng
         else:
-            pts_t = self._pts_t * other
             lat = self._lat * other
             lng = self._lng * other
-        return LocationPoint(pts_t, lat, lng)
+        return LocationPoint(self._pts_t, lat, lng)
 
     def __hash__(self):
         return str(self).__hash__()
