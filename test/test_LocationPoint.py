@@ -33,6 +33,14 @@ class LocationPointTestCase(unittest.TestCase):
         res = pt1 + pt2
         self.assertTrue(res._lat == 1 and res._lng == 1)
 
+    def test_sub(self):
+        t1 = datetime.datetime.now()
+        pt1 = LocationPoint(t1, 1, 0)
+        pt2 = LocationPoint(t1, 0, 1)
+
+        res = pt1 - pt2
+        self.assertTrue(res._lat == 1 and res._lng == -1)
+
 
 if __name__ == "__main__":
     unittest.main()
