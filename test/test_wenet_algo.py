@@ -34,6 +34,36 @@ class WenetAlgoTestCase(unittest.TestCase):
         res = estimate_stay_points([pt1, pt2], time_min_ms=5000)
         self.assertTrue(len(res) == 0)
 
+    def test_estimate_stay_points_dont_find_a_point_distance(self):
+        martigny_lat = 46.101965
+        martigny_lng = 7.079912
+        neuchatel_lat = 46.991318
+        neuchatel_lng = 6.926592
+        t1 = datetime.datetime.now()
+        t2 = t1 + datetime.timedelta(seconds=5)
+        pt1 = LocationPoint(t1, martigny_lat, martigny_lng)
+        pt2 = LocationPoint(t2, neuchatel_lat, neuchatel_lng)
+
+        res = estimate_stay_points(
+            [pt1, pt2], time_min_ms=4999, distance_max_m=98922.59 - 1
+        )
+        self.assertTrue(len(res) == 0)
+
+    def test_estimate_stay_points_find_a_point_distance(self):
+        martigny_lat = 46.101965
+        martigny_lng = 7.079912
+        neuchatel_lat = 46.991318
+        neuchatel_lng = 6.926592
+        t1 = datetime.datetime.now()
+        t2 = t1 + datetime.timedelta(seconds=5)
+        pt1 = LocationPoint(t1, martigny_lat, martigny_lng)
+        pt2 = LocationPoint(t2, neuchatel_lat, neuchatel_lng)
+
+        res = estimate_stay_points(
+            [pt1, pt2], time_min_ms=4999, distance_max_m=98922.59 + 1
+        )
+        self.assertTrue(len(res) == 1)
+
 
 if __name__ == "__main__":
     unittest.main()
