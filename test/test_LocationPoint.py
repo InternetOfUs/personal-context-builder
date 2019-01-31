@@ -13,6 +13,18 @@ class LocationPointTestCase(unittest.TestCase):
         dt = pt2.time_difference_ms(pt1)
         self.assertEqual(dt, 1000)
 
+    def test_space_distance_m(self):
+        martigny_lat = 46.101965
+        martigny_lng = 7.079912
+        neuchatel_lat = 46.991318
+        neuchatel_lng = 6.926592
+        t1 = datetime.datetime.now()
+        pt1 = LocationPoint(t1, martigny_lat, martigny_lng)
+        pt2 = LocationPoint(t1, neuchatel_lat, neuchatel_lng)
+        distance = pt1.space_distance_m(pt2)
+        distance_truth = 98922.59
+        self.assertAlmostEqual(distance, distance_truth, delta=2)
+
 
 if __name__ == "__main__":
     unittest.main()
