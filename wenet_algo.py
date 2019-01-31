@@ -51,7 +51,7 @@ def estimate_stay_points(
             if dt > time_max_ms:
                 i = j
                 break
-            distance = locations[i].space_distance(locations[j])
+            distance = locations[i].space_distance_m(locations[j])
             if distance > distance_max_m:
                 if dt < time_min_ms:
                     # TODO ask Trung with interval [i, j-1] or [i, j]

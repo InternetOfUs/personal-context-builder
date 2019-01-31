@@ -18,7 +18,7 @@ class LocationPoint(object):
     def time_difference_ms(self, other):
         return (self._pts_t - other._pts_t).total_seconds() * 1000
 
-    def space_distance(self, other):
+    def space_distance_m(self, other):
         R = 6_373_000.0
         lat1, lng1 = self._lat, self._lng
         lat2, lng2 = other._lat, self._lng
