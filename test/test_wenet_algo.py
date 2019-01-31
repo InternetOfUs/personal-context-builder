@@ -34,6 +34,24 @@ class WenetAlgoTestCase(unittest.TestCase):
         res = estimate_stay_points([pt1, pt2], time_min_ms=5000)
         self.assertTrue(len(res) == 0)
 
+    def test_estimate_stay_points_find_a_point_time_max(self):
+        t1 = datetime.datetime.now()
+        t2 = t1 + datetime.timedelta(seconds=5)
+        pt1 = LocationPoint(t1, 1, 1)
+        pt2 = LocationPoint(t2, 1, 1)
+
+        res = estimate_stay_points([pt1, pt2], time_max_ms=5001, time_min_ms=4999)
+        self.assertTrue(len(res) == 1)
+
+    def test_estimate_stay_points_dont_find_a_point_time_max(self):
+        t1 = datetime.datetime.now()
+        t2 = t1 + datetime.timedelta(seconds=5)
+        pt1 = LocationPoint(t1, 1, 1)
+        pt2 = LocationPoint(t2, 1, 1)
+
+        res = estimate_stay_points([pt1, pt2], time_max_ms=4999, time_min_ms=4999)
+        self.assertTrue(len(res) == 0)
+
     def test_estimate_stay_points_dont_find_a_point_distance(self):
         martigny_lat = 46.101965
         martigny_lng = 7.079912
