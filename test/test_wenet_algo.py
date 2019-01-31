@@ -80,6 +80,27 @@ class WenetAlgoTestCase(unittest.TestCase):
         self.assertAlmostEqual(res_one._lat, 1.5)
         self.assertAlmostEqual(res_one._lng, 15)
 
+    def test_estimate_stay_points_lat_lng_2_points(self):
+        t1 = datetime.datetime.now()
+        t2 = t1 + datetime.timedelta(seconds=5)
+        t3 = t2 + datetime.timedelta(seconds=5)
+        t4 = t3 + datetime.timedelta(seconds=5)
+        pt1 = LocationPoint(t1, 1, 10)
+        pt2 = LocationPoint(t2, 2, 20)
+        pt3 = LocationPoint(t3, 3, 30)
+        pt4 = LocationPoint(t4, 4, 40)
+
+        res = estimate_stay_points(
+            [pt1, pt2, pt3, pt4], time_min_ms=4999, distance_max_m=10 ** 17
+        )
+        self.assertTrue(len(res) == 2)
+        list_res = sorted(list(res), key=lambda l: l._lat)
+        self.assertAlmostEqual(list_res[0]._lat, 1.5)
+        self.assertAlmostEqual(list_res[0]._lng, 15)
+
+        self.assertAlmostEqual(list_res[1]._lat, 3.5)
+        self.assertAlmostEqual(list_res[1]._lng, 35)
+
 
 if __name__ == "__main__":
     unittest.main()
