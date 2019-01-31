@@ -4,6 +4,8 @@ module that contain algorithms used for the wenet project
 
 from typing import List, Set
 import math
+from operator import add
+from functools import reduce
 from math import sin, cos, sqrt, atan2, radians
 from wenet_models import StayPoint, LocationPoint
 
@@ -18,7 +20,7 @@ def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
     Return:
         a location point located as the average of all points
     """
-    return sum(locations) / len(locations)
+    return reduce(add, locations) / len(locations)
 
 
 def estimate_stay_points(
