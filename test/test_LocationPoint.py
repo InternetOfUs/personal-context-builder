@@ -50,6 +50,14 @@ class LocationPointTestCase(unittest.TestCase):
         res = pt1 * pt2
         self.assertTrue(res._lat == 0 and res._lng == 0)
 
+    def test_mul_numerical(self):
+        t1 = datetime.datetime.now()
+        pt1 = LocationPoint(t1, 1, 1)
+        res_truth = LocationPoint(t1, 3, 3)
+
+        res = pt1 * 3
+        self.assertEqual(res, res_truth)
+
     def test_truediv(self):
         t1 = datetime.datetime.now()
         pt1 = LocationPoint(t1, 6, 12)
