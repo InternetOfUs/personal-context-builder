@@ -18,12 +18,13 @@ class SimpleView(HTTPMethodView):
 
         if "locations" not in req_json:
             return json({})
+        datetime_format = config.DEFAULT_DATETIME_FORMAT
+        if "datetime_format" in req_json:
+            datetime_format = req_json["datetime_format"]
         locations = []
         for location_dict in req_json["locations"]:
             location = LocationPoint(
-                datetime.datetime.strptime(
-                    location_dict["pts_t"], config.DEFAULT_DATETIME_FORMAT
-                ),
+                datetime.datetime.strptime(location_dict["pts_t"], datetime_format),
                 location_dict["lat"],
                 location_dict["lng"],
             )
