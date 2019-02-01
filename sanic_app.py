@@ -10,6 +10,13 @@ import datetime
 app = Sanic(config.DEFAULT_APP_NAME)
 
 
+def get_field_if_exist(container_dict, field, default_value):
+    if field not in container_dict:
+        return default_value
+    else:
+        return container_dict[field]
+
+
 class SimpleView(HTTPMethodView):
     def post(self, request):
         req_json = request.json
@@ -18,9 +25,18 @@ class SimpleView(HTTPMethodView):
 
         if "locations" not in req_json:
             return json({})
-        datetime_format = config.DEFAULT_DATETIME_FORMAT
-        if "datetime_format" in req_json:
-            datetime_format = req_json["datetime_format"]
+        datetime_format = get_field_if_exist(
+            req_json, "datetime_format", config.DEFAULT_DATETIME_FORMAT
+        )
+        time_max_ms = get_field_if_exist(
+            req_json, "time_max_ms", config.DEFAULT_STAYPOINTS_TIME_MAX_MS
+        )
+        time_min_ms = get_field_if_exist(
+            req_json, "time_min_ms", config.DEFAULT_STAYPOINTS_TIME_MIN_MS
+        )
+        distance_max_m = get_field_if_exist(
+            req_json, "distance_max_m", config.DEFAULT_STAYPOINTS_DISTANCE_MAX_M
+        )
         locations = []
         for location_dict in req_json["locations"]:
             location = LocationPoint(
@@ -29,7 +45,12 @@ class SimpleView(HTTPMethodView):
                 location_dict["lng"],
             )
             locations.append(location)
-        res = estimate_stay_points(locations, time_min_ms=-1)
+        res = estimate_stay_points(
+            locations,
+            time_min_ms=time_min_ms,
+            time_max_ms=time_max_ms,
+            distance_max_m=distance_max_m,
+        )
         res = [s.__dict__ for s in res]
         return json({"staypoints": res})
 
