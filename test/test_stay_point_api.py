@@ -18,7 +18,8 @@ class StayPointAPITestCase(unittest.TestCase):
             "locations": [
                 {"pts_t": str(datetime.datetime.now()), "lat": 1, "lng": 2},
                 {"pts_t": str(datetime.datetime.now()), "lat": 1, "lng": 2},
-            ]
+            ],
+            "time_min_ms": -1,
         }
         _, response = app.test_client.post("/staypoints/", data=json.dumps(data))
         self.assertEqual(len(response.json.get("staypoints")), 1)
@@ -43,6 +44,7 @@ class StayPointAPITestCase(unittest.TestCase):
                 {"pts_t": t2, "lat": 1, "lng": 2},
             ],
             "datetime_format": datetime_format,
+            "time_min_ms": -1,
         }
         _, response = app.test_client.post("/staypoints/", data=json.dumps(data))
         self.assertEqual(len(response.json.get("staypoints")), 1)
