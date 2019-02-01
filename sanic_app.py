@@ -17,25 +17,33 @@ def get_field_if_exist(container_dict, field, default_value):
         return container_dict[field]
 
 
+def is_staypoints_request_valide(req_json):
+    return req_json is not None and "locations" in req_json
+
+
+def retreive_staypoints_parameters(req_json):
+    datetime_format = get_field_if_exist(
+        req_json, "datetime_format", config.DEFAULT_DATETIME_FORMAT
+    )
+    time_max_ms = get_field_if_exist(
+        req_json, "time_max_ms", config.DEFAULT_STAYPOINTS_TIME_MAX_MS
+    )
+    time_min_ms = get_field_if_exist(
+        req_json, "time_min_ms", config.DEFAULT_STAYPOINTS_TIME_MIN_MS
+    )
+    distance_max_m = get_field_if_exist(
+        req_json, "distance_max_m", config.DEFAULT_STAYPOINTS_DISTANCE_MAX_M
+    )
+    return datetime_format, time_max_ms, time_min_ms, distance_max_m
+
+
 class SimpleView(HTTPMethodView):
     def post(self, request):
         req_json = request.json
-        if req_json is None:
+        if not is_staypoints_request_valide(req_json):
             return json({})
-
-        if "locations" not in req_json:
-            return json({})
-        datetime_format = get_field_if_exist(
-            req_json, "datetime_format", config.DEFAULT_DATETIME_FORMAT
-        )
-        time_max_ms = get_field_if_exist(
-            req_json, "time_max_ms", config.DEFAULT_STAYPOINTS_TIME_MAX_MS
-        )
-        time_min_ms = get_field_if_exist(
-            req_json, "time_min_ms", config.DEFAULT_STAYPOINTS_TIME_MIN_MS
-        )
-        distance_max_m = get_field_if_exist(
-            req_json, "distance_max_m", config.DEFAULT_STAYPOINTS_DISTANCE_MAX_M
+        datetime_format, time_max_ms, time_min_ms, distance_max_m = retreive_staypoints_parameters(
+            req_json
         )
         locations = []
         for location_dict in req_json["locations"]:
@@ -53,8 +61,8 @@ class SimpleView(HTTPMethodView):
         )
         res = [s.__dict__ for s in res]
         for p in res:
-            p['_t_start'] = p['_t_start'].strftime(datetime_format)
-            p['_t_stop'] = p['_t_stop'].strftime(datetime_format)
+            p["_t_start"] = p["_t_start"].strftime(datetime_format)
+            p["_t_stop"] = p["_t_stop"].strftime(datetime_format)
         return json({"staypoints": res})
 
 
