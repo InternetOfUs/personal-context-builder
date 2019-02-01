@@ -6,3 +6,5 @@ ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 ADD . .
 RUN coverage run --source=. -m unittest discover
+EXPOSE 8000
+CMD ["python3", "-m", "sanic_app"]
