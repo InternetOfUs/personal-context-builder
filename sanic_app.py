@@ -20,7 +20,11 @@ class SimpleView(HTTPMethodView):
         locations = []
         for location_dict in req_json["locations"]:
             location = LocationPoint(
-                datetime.datetime.now(), location_dict["lat"], location_dict["lng"]
+                datetime.datetime.strptime(
+                    location_dict["pts_t"], "%Y-%m-%d %H:%M:%S.%f"
+                ),
+                location_dict["lat"],
+                location_dict["lng"],
             )
             locations.append(location)
         res = estimate_stay_points(locations, time_min_ms=-1)

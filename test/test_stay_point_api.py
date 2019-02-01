@@ -1,5 +1,6 @@
 import unittest
 import json
+import datetime
 from sanic_app import app
 
 
@@ -13,7 +14,12 @@ class StayPointAPITestCase(unittest.TestCase):
         self.assertEqual(response.json, {})
 
     def test_one_stay_points(self):
-        data = {"locations": [{"lat": 1, "lng": 2}, {"lat": 1, "lng": 2}]}
+        data = {
+            "locations": [
+                {"pts_t": str(datetime.datetime.now()), "lat": 1, "lng": 2},
+                {"pts_t": str(datetime.datetime.now()), "lat": 1, "lng": 2},
+            ]
+        }
         _, response = app.test_client.post("/staypoints/", data=json.dumps(data))
         self.assertEqual(len(response.json.get("staypoints")), 1)
 
