@@ -14,5 +14,5 @@ class SimpleView(HTTPMethodView):
 app.add_route(SimpleView.as_view(), "/staypoints/")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     app.run(host="0.0.0.0", port=8000)

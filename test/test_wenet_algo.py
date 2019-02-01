@@ -136,5 +136,5 @@ class WenetAlgoTestCase(unittest.TestCase):
         self.assertEqual(res_one._t_stop, t2)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     unittest.main()
