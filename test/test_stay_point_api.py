@@ -33,6 +33,20 @@ class StayPointAPITestCase(unittest.TestCase):
         _, response = app.test_client.post("/staypoints/", data=json.dumps(data))
         self.assertEqual(len(response.json.get("staypoints")), 0)
 
+    def test_custom_datetime_format(self):
+        datetime_format = "%A, %d. %B %Y %I:%M%p"
+        t1 = datetime.datetime.now().strftime(datetime_format)
+        t2 = datetime.datetime.now().strftime(datetime_format)
+        data = {
+            "locations": [
+                {"pts_t": t1, "lat": 1, "lng": 2},
+                {"pts_t": t2, "lat": 1, "lng": 2},
+            ],
+            "datetime_format": datetime_format,
+        }
+        _, response = app.test_client.post("/staypoints/", data=json.dumps(data))
+        self.assertEqual(len(response.json.get("staypoints")), 1)
+
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
