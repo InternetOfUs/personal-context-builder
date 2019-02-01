@@ -4,4 +4,6 @@
  build_image:
    script:
      - docker build -t wenet:latest .
+ coverage:
+   script:
      - docker run wenet:latest coverage report
