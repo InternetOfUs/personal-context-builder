@@ -1,6 +1,4 @@
-[![pipeline status](https://gitlab.idiap.ch/wenet/personal_context_builder/badges/master/pipeline.svg)](https://gitlab.idiap.ch/wenet/personal_context_builder/commits/master)
-
-[![coverage report](https://gitlab.idiap.ch/wenet/personal_context_builder/badges/master/coverage.svg)](https://gitlab.idiap.ch/wenet/personal_context_builder/commits/master)
+[![pipeline status](https://gitlab.idiap.ch/wenet/personal_context_builder/badges/master/pipeline.svg)](https://gitlab.idiap.ch/wenet/personal_context_builder/commits/master) [![coverage report](https://gitlab.idiap.ch/wenet/personal_context_builder/badges/master/coverage.svg)](https://gitlab.idiap.ch/wenet/personal_context_builder/commits/master)
 
 # Wenet project
 
