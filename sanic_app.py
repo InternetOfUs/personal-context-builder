@@ -15,7 +15,7 @@ class SimpleView(HTTPMethodView):
         if req_json is None:
             return json({})
 
-        if not "locations" in req_json:
+        if "locations" not in req_json:
             return json({})
         locations = []
         for location_dict in req_json["locations"]:
