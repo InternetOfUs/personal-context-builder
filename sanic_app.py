@@ -52,6 +52,9 @@ class SimpleView(HTTPMethodView):
             distance_max_m=distance_max_m,
         )
         res = [s.__dict__ for s in res]
+        for p in res:
+            p['_t_start'] = p['_t_start'].strftime(datetime_format)
+            p['_t_stop'] = p['_t_stop'].strftime(datetime_format)
         return json({"staypoints": res})
 
 
