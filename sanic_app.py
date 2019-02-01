@@ -4,9 +4,10 @@ from sanic.response import text
 from sanic.response import json
 from wenet_models import LocationPoint
 from wenet_algo import estimate_stay_points
+import config
 import datetime
 
-app = Sanic("wenet_personal_context_builder")
+app = Sanic(config.DEFAULT_APP_NAME)
 
 
 class SimpleView(HTTPMethodView):
@@ -21,7 +22,7 @@ class SimpleView(HTTPMethodView):
         for location_dict in req_json["locations"]:
             location = LocationPoint(
                 datetime.datetime.strptime(
-                    location_dict["pts_t"], "%Y-%m-%d %H:%M:%S.%f"
+                    location_dict["pts_t"], config.DEFAULT_DATETIME_FORMAT
                 ),
                 location_dict["lat"],
                 location_dict["lng"],
@@ -36,4 +37,4 @@ app.add_route(SimpleView.as_view(), "/staypoints/")
 
 
 if __name__ == "__main__":  # pragma: no cover
-    app.run(host="0.0.0.0", port=8000)
+    app.run(host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT)

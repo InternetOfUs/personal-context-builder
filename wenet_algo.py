@@ -8,6 +8,7 @@ from operator import add
 from functools import reduce
 from math import sin, cos, sqrt, atan2, radians
 from wenet_models import StayPoint, LocationPoint
+import config
 
 
 def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
@@ -25,9 +26,9 @@ def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
 
 def estimate_stay_points(
     locations: List[LocationPoint],
-    time_min_ms: int = 5 * 60 * 1000,
-    time_max_ms: int = 4 * 60 * 60 * 1000,
-    distance_max_m: int = 200,
+    time_min_ms: int = config.DEFAULT_STAYPOINTS_TIME_MIN_MS,
+    time_max_ms: int = config.DEFAULT_STAYPOINTS_TIME_MAX_MS,
+    distance_max_m: int = config.DEFAULT_STAYPOINTS_DISTANCE_MAX_M,
 ) -> Set[StayPoint]:
     """
     Estimate stay points from a list of location points
