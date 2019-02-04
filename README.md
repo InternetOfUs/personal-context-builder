@@ -4,6 +4,12 @@
 
 The WeNet project: diversity-aware, machine-mediated paradigm of social relations.
 
+# Dev setup
+
+## Setup hook
+
+Just create a symlink with `ln -s ../../pre-commit.bash .git/hooks/pre-commit`
+
 # API Usage
 
 ## Parameters
