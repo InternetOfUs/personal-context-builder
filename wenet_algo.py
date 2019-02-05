@@ -6,9 +6,11 @@ from typing import List, Set
 import math
 from operator import add
 from functools import reduce
-from math import sin, cos, sqrt, atan2, radians
-from wenet_models import StayPoint, LocationPoint
+from wenet_models import StayPoint, LocationPoint, StayRegion
 import config
+from collections import defaultdict
+from sklearn.cluster import DBSCAN
+import numpy as np
 
 
 def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
@@ -71,3 +73,40 @@ def estimate_stay_points(
         # if not, can be stuck
         i += 1
     return stay_points
+
+
+def estimate_stay_regions_a_day(
+    staypoints: List[StayPoint],
+    distance_threshold_m: int = config.DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M,
+) -> Set[StayRegion]:
+    """
+    Estimate stay regions from a list of stay points
+
+    This function work only if all StayPoint are in the same day
+
+    TODO cite paper here
+    TODO use custom metric to match lat/lng
+    TODO Test
+    Args:
+        staypoints: list of staypoint to use to extract stay region
+        distance_threshold_m: distance of the threshold in meter
+    """
+    clustered_staypoints = defaultdict(list)
+    staypoint_matrix = np.array([[p._lat, p._lng] for p in staypoints])
+    clustering = DBSCAN(eps=distance_threshold_m).fit(staypoint_matrix)
+    labels = clustering.labels_
+    for label, staypoint in zip(labels, staypoints):
+        if label == -1:
+            continue
+        clustered_staypoints[label].append(staypoint)
+    results = []
+    for _, staypoints in clustered_staypoints.items():
+        # TODO average or median should be better
+        # TODO optimize for less traversal of staypoints
+        min_t_start = min(staypoints, key=lambda p: p._t_start)
+        max_t_stop = max(staypoints, key=lambda p: p._t_start)
+        lat_mean = np.average([s._lat for s in staypoints])
+        lng_mean = np.average([s._lng for s in staypoints])
+        region = StayRegion(min_t_start, max_t_stop, lat_mean, lng_mean)
+        results.append(region)
+    return region
