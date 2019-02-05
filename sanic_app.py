@@ -21,6 +21,10 @@ def is_staypoints_request_valide(req_json):
     return req_json is not None and "locations" in req_json
 
 
+def is_stayregions_request_valide(req_json):
+    return req_json is not None and "staypoints" in req_json
+
+
 def retreive_staypoints_parameters(req_json):
     datetime_format = get_field_if_exist(
         req_json, "datetime_format", config.DEFAULT_DATETIME_FORMAT
@@ -64,6 +68,17 @@ class StayPointsView(HTTPMethodView):
             p["_t_start"] = p["_t_start"].strftime(datetime_format)
             p["_t_stop"] = p["_t_stop"].strftime(datetime_format)
         return json({"staypoints": res})
+
+
+class StayRegionsView(HTTPMethodView):
+    """
+    TODO test
+    """
+
+    def post(self, request):
+        req_json = request.json
+        if not is_stayregions_request_valide(req_json):
+            return json({})
 
 
 app.add_route(StayPointsView.as_view(), "/staypoints/")
