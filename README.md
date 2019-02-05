@@ -12,7 +12,9 @@ Just create a symlink with `ln -s ../../pre-commit.bash .git/hooks/pre-commit`
 
 # API Usage
 
-## Parameters
+## Retreive Stay points
+
+### Parameters
 
 * time_min_ms (can be null)
    * minimum time interval allowed to make staypoints
@@ -38,7 +40,7 @@ Staypoint:
 * _t_start : time at the beginin of the staypoint
 * _t_stop : time at the end of the staypoint
 
-## Retreive staypoints
+## Retreive staypoints example
 
 with httpie, here a example that give 2 locations points and ask for staypoints
 
