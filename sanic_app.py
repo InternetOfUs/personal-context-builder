@@ -37,7 +37,7 @@ def retreive_staypoints_parameters(req_json):
     return datetime_format, time_max_ms, time_min_ms, distance_max_m
 
 
-class SimpleView(HTTPMethodView):
+class StayPointsView(HTTPMethodView):
     def post(self, request):
         req_json = request.json
         if not is_staypoints_request_valide(req_json):
@@ -66,7 +66,7 @@ class SimpleView(HTTPMethodView):
         return json({"staypoints": res})
 
 
-app.add_route(SimpleView.as_view(), "/staypoints/")
+app.add_route(StayPointsView.as_view(), "/staypoints/")
 
 
 if __name__ == "__main__":  # pragma: no cover
