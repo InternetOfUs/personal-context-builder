@@ -3,6 +3,7 @@ module with models and data structure relevant to wenet project
 """
 import math
 from math import sin, cos, sqrt, atan2, radians
+from wenet_tools import space_distance_m, time_difference_ms
 
 
 class LocationPoint(object):
@@ -23,7 +24,7 @@ class LocationPoint(object):
 
         Return: time difference in ms
         """
-        return (self._pts_t - other._pts_t).total_seconds() * 1000
+        return time_difference_ms(self._pts_t, other._pts_t)
 
     def space_distance_m(self, other):
         """ Compute the spatial distance in meters
@@ -33,21 +34,9 @@ class LocationPoint(object):
 
         Return: distance in meters
         """
-        R = 6_373_000.0
         lat1, lng1 = self._lat, self._lng
         lat2, lng2 = other._lat, self._lng
-
-        lat1 = radians(lat1)
-        lng1 = radians(lng1)
-        lat2 = radians(lat2)
-        lng2 = radians(lng2)
-
-        dlon = lng2 - lng1
-        dlat = lat2 - lat1
-        a = (sin(dlat / 2)) ** 2 + cos(lat1) * cos(lat2) * (sin(dlon / 2)) ** 2
-        c = 2 * atan2(sqrt(a), sqrt(1 - a))
-        distance = R * c
-        return distance
+        return space_distance_m(lat1, lng1, lat2, lng2)
 
     def __add__(self, other):
         lat = self._lat + other._lat
@@ -106,3 +95,8 @@ class StayPoint(object):
 
     def __eq__(self, other):
         return self.__hash__() == other.__hash__()
+
+
+class StayRegion(StayPoint):
+    def __init__(self, t_start, t_stop, lat, lng):
+        super().__init__(t_start, t_stop, lat, lng)
