@@ -86,6 +86,7 @@ def estimate_stay_regions_a_day(
 
     TODO cite paper here
     TODO use custom metric to match lat/lng
+    TODO use grid-based clustering as in the paper
     TODO Test
     Args:
         staypoints: list of staypoint to use to extract stay region
