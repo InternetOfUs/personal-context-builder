@@ -16,6 +16,18 @@ def time_difference_ms(time_1, time_2):
     return (time_1 - time_2).total_seconds() * 1000
 
 
+def space_distance_m_by_vect(latlng1, latlng2):
+    """ Compute the spatial distance in meters
+
+    Args:
+        latlng1: list-like where [0] is latitude and [1] is longitude
+        latlng2: list-like where [0] is latitude and [1] is longitude
+
+    Return: distance in meters
+    """
+    return space_distance_m(*latlng1, *latlng2)
+
+
 def space_distance_m(lat1, lng1, lat2, lng2):
     """ Compute the spatial distance in meters
 
