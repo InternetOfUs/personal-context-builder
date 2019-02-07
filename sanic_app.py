@@ -80,7 +80,7 @@ class StayPointsView(HTTPMethodView):
         return json({"staypoints": res})
 
 
-class StayRegionsView(HTTPMethodView):
+class StayRegionsOneDayView(HTTPMethodView):
     def post(self, request):
         req_json = request.json
         if not is_stayregions_request_valide(req_json):
@@ -109,7 +109,7 @@ class StayRegionsView(HTTPMethodView):
 
 
 app.add_route(StayPointsView.as_view(), "/staypoints/")
-app.add_route(StayRegionsView.as_view(), "/stayregions/")
+app.add_route(StayRegionsOneDayView.as_view(), "/stayregionsoneday/")
 
 
 if __name__ == "__main__":  # pragma: no cover

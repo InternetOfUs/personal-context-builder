@@ -36,7 +36,7 @@ class StayPointAPITestCase(unittest.TestCase):
         stay_points_dict["staypoints"] = stay_points
         stay_points_dict["distance_threshold_m"] = 10 ** 7
         _, response = app.test_client.post(
-            "/stayregions/", data=json.dumps(stay_points_dict)
+            "/stayregionsoneday/", data=json.dumps(stay_points_dict)
         )
         self.assertEqual(response.status, 200)
         self.assertEqual(len(response.json.get("stayregions")), 2)
