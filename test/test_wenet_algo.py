@@ -8,6 +8,7 @@ from wenet_algo import (
     estimate_centroid,
     estimate_stay_points,
     estimate_stay_regions_a_day,
+    estimate_stay_regions,
 )
 
 
@@ -140,7 +141,7 @@ class WenetAlgoTestCase(unittest.TestCase):
         self.assertEqual(res_one._t_start, t1)
         self.assertEqual(res_one._t_stop, t2)
 
-    def test_estimate_stay_region_simple(self):
+    def test_estimate_stay_region_one_day_simple(self):
         current_time = datetime.datetime.now()
         locations = []
         n = 100
@@ -159,7 +160,7 @@ class WenetAlgoTestCase(unittest.TestCase):
 
         self.assertEqual(len(stay_regions), 1)
 
-    def test_estimate_stay_region_2_regions(self):
+    def test_estimate_stay_region_one_day_2_regions(self):
         current_time = datetime.datetime.now()
         locations = []
         n = 100
@@ -180,6 +181,32 @@ class WenetAlgoTestCase(unittest.TestCase):
         )
 
         self.assertEqual(len(stay_regions), 2)
+
+    def test_estimate_stay_region_2x1_region(self):
+        day_one = datetime.datetime(2019, 2, 6, 11, 16)
+        day_two = datetime.datetime(2019, 2, 7, 11, 16)
+        locations = []
+        n = 100
+        for i in range(n):
+            if i < n // 2:
+                pt = LocationPoint(day_one, randint(-10, 0), randint(-10, 0))
+                day_one = day_one + datetime.timedelta(seconds=5)
+            else:
+                pt = LocationPoint(day_two, randint(50, 55), randint(150, 155))
+                day_two = day_two + datetime.timedelta(seconds=5)
+            locations.append(pt)
+
+        stay_points = estimate_stay_points(
+            locations, time_min_ms=4999, distance_max_m=10 ** 7
+        )
+        self.assertEqual(len(stay_points), n // 2)
+        stay_regions = estimate_stay_regions(stay_points, distance_threshold_m=10 ** 7)
+        print(stay_regions.items())
+
+        self.assertEqual(len(stay_regions), 2)
+
+        self.assertEqual(len(stay_regions["2019-02-06"]), 1)
+        self.assertEqual(len(stay_regions["2019-02-07"]), 1)
 
 
 if __name__ == "__main__":  # pragma: no cover
