@@ -201,7 +201,6 @@ class WenetAlgoTestCase(unittest.TestCase):
         )
         self.assertEqual(len(stay_points), n // 2)
         stay_regions = estimate_stay_regions(stay_points, distance_threshold_m=10 ** 7)
-        print(stay_regions.items())
 
         self.assertEqual(len(stay_regions), 2)
 
