@@ -1,9 +1,14 @@
 import unittest
 import datetime
 from copy import deepcopy
+from random import randint
 
 from wenet_models import LocationPoint
-from wenet_algo import estimate_centroid, estimate_stay_points
+from wenet_algo import (
+    estimate_centroid,
+    estimate_stay_points,
+    estimate_stay_regions_a_day,
+)
 
 
 class WenetAlgoTestCase(unittest.TestCase):
@@ -134,6 +139,47 @@ class WenetAlgoTestCase(unittest.TestCase):
         res_one = res.pop()
         self.assertEqual(res_one._t_start, t1)
         self.assertEqual(res_one._t_stop, t2)
+
+    def test_estimate_stay_region_simple(self):
+        current_time = datetime.datetime.now()
+        locations = []
+        n = 100
+        for _ in range(n):
+            pt = LocationPoint(current_time, randint(-85, 85), randint(-180, 180))
+            locations.append(pt)
+            current_time = current_time + datetime.timedelta(seconds=5)
+
+        stay_points = estimate_stay_points(
+            locations, time_min_ms=4999, distance_max_m=10 ** 17
+        )
+        self.assertEqual(len(stay_points), n // 2)
+        stay_regions = estimate_stay_regions_a_day(
+            stay_points, distance_threshold_m=10 ** 17
+        )
+
+        self.assertEqual(len(stay_regions), 1)
+
+    def test_estimate_stay_region_2_regions(self):
+        current_time = datetime.datetime.now()
+        locations = []
+        n = 100
+        for i in range(n):
+            if i < n // 2:
+                pt = LocationPoint(current_time, randint(-10, 0), randint(-10, 0))
+            else:
+                pt = LocationPoint(current_time, randint(50, 55), randint(150, 155))
+            locations.append(pt)
+            current_time = current_time + datetime.timedelta(seconds=5)
+
+        stay_points = estimate_stay_points(
+            locations, time_min_ms=4999, distance_max_m=10 ** 7
+        )
+        self.assertEqual(len(stay_points), n // 2)
+        stay_regions = estimate_stay_regions_a_day(
+            stay_points, distance_threshold_m=10 ** 7
+        )
+
+        self.assertEqual(len(stay_regions), 2)
 
 
 if __name__ == "__main__":  # pragma: no cover
