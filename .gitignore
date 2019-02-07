@@ -1,4 +1,6 @@
 __pycache__/
 .vscode/
 .coverage
+google_api_key.txt
+.ipynb_checkpoints/
 htmlcov/
