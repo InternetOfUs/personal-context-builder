@@ -107,8 +107,8 @@ def estimate_stay_regions_a_day(
     for _, staypoints in clustered_staypoints.items():
         # TODO average or median should be better
         # TODO optimize for less traversal of staypoints
-        min_t_start = min(staypoints, key=lambda p: p._t_start)
-        max_t_stop = max(staypoints, key=lambda p: p._t_stop)
+        min_t_start = min(staypoints, key=lambda p: p._t_start)._t_start
+        max_t_stop = max(staypoints, key=lambda p: p._t_stop)._t_stop
         lat_mean = np.average([s._lat for s in staypoints])
         lng_mean = np.average([s._lng for s in staypoints])
         region = StayRegion(min_t_start, max_t_stop, lat_mean, lng_mean)
