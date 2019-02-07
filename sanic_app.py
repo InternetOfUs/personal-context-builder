@@ -3,9 +3,14 @@ from sanic.views import HTTPMethodView
 from sanic.response import text
 from sanic.response import json
 from wenet_models import LocationPoint, StayPoint
-from wenet_algo import estimate_stay_points, estimate_stay_regions_a_day
+from wenet_algo import (
+    estimate_stay_points,
+    estimate_stay_regions_a_day,
+    estimate_stay_regions,
+)
 import config
 import datetime
+from pprint import pprint
 
 app = Sanic(config.DEFAULT_APP_NAME)
 
@@ -108,8 +113,41 @@ class StayRegionsOneDayView(HTTPMethodView):
         return json({"stayregions": res})
 
 
+class StayRegionsView(HTTPMethodView):
+    def post(self, request):
+        req_json = request.json
+        if not is_stayregions_request_valide(req_json):
+            return json({})
+        datetime_format, distance_threshold_m = retreive_stayregions_parameters(
+            req_json
+        )
+        stay_points = []
+        for stay_point_dict in req_json["staypoints"]:
+            stay_point = StayPoint(
+                datetime.datetime.strptime(
+                    stay_point_dict["_t_start"], datetime_format
+                ),
+                datetime.datetime.strptime(stay_point_dict["_t_stop"], datetime_format),
+                stay_point_dict["_lat"],
+                stay_point_dict["_lng"],
+            )
+            stay_points.append(stay_point)
+
+        res = estimate_stay_regions(stay_points, distance_threshold_m)
+        dict_res = {}
+        for day, stayregions in res.items():
+            stayregions = [s.__dict__ for s in stayregions]
+            for p in stayregions:
+                p["_t_start"] = p["_t_start"].strftime(datetime_format)
+                p["_t_stop"] = p["_t_stop"].strftime(datetime_format)
+            dict_res[day] = stayregions
+
+        return json(dict_res)
+
+
 app.add_route(StayPointsView.as_view(), "/staypoints/")
 app.add_route(StayRegionsOneDayView.as_view(), "/stayregionsoneday/")
+app.add_route(StayRegionsView.as_view(), "/stayregions/")
 
 
 if __name__ == "__main__":  # pragma: no cover
