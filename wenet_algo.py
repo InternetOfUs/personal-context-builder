@@ -2,7 +2,7 @@
 module that contain algorithms used for the wenet project
 """
 
-from typing import List, Set
+from typing import List, Set, DefaultDict
 import math
 from operator import add
 from functools import reduce
@@ -74,6 +74,33 @@ def estimate_stay_points(
         # if not, can be stuck
         i += 1
     return stay_points
+
+
+def estimate_stay_regions(
+    staypoints: List[StayPoint],
+    distance_threshold_m: int = config.DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M,
+) -> DefaultDict[str, List[StayRegion]]:
+    """
+    Estimate stay regions from a list of stay points
+
+    Args:
+        staypoints: list of staypoint to use to extract stay region
+        distance_threshold_m: distance of the threshold in meter
+
+    Return:
+        dict with key is a day and values are list of StayRegion.
+        day format is YYYY-MM-DD
+    """
+    stay_points_per_day = defaultdict(list)
+    stay_regions_per_day = defaultdict(list)
+    for staypoint in staypoints:
+        stay_points_per_day[staypoint._t_start.strftime("%Y-%m-%d")].append(staypoint)
+
+    for day, values in stay_points_per_day.items():
+        stay_regions_per_day[day].append(
+            estimate_stay_regions_a_day(values, distance_threshold_m)
+        )
+    return stay_regions_per_day
 
 
 def estimate_stay_regions_a_day(
