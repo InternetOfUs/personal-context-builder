@@ -11,6 +11,7 @@ import config
 from collections import defaultdict
 from sklearn.cluster import DBSCAN
 import numpy as np
+from wenet_tools import space_distance_m_by_vect
 
 
 def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
@@ -94,7 +95,9 @@ def estimate_stay_regions_a_day(
     """
     clustered_staypoints = defaultdict(list)
     staypoint_matrix = np.array([[p._lat, p._lng] for p in staypoints])
-    clustering = DBSCAN(eps=distance_threshold_m).fit(staypoint_matrix)
+    clustering = DBSCAN(eps=distance_threshold_m, metric=space_distance_m_by_vect).fit(
+        staypoint_matrix
+    )
     labels = clustering.labels_
     for label, staypoint in zip(labels, staypoints):
         if label == -1:
@@ -105,9 +108,9 @@ def estimate_stay_regions_a_day(
         # TODO average or median should be better
         # TODO optimize for less traversal of staypoints
         min_t_start = min(staypoints, key=lambda p: p._t_start)
-        max_t_stop = max(staypoints, key=lambda p: p._t_start)
+        max_t_stop = max(staypoints, key=lambda p: p._t_stop)
         lat_mean = np.average([s._lat for s in staypoints])
         lng_mean = np.average([s._lng for s in staypoints])
         region = StayRegion(min_t_start, max_t_stop, lat_mean, lng_mean)
         results.append(region)
-    return region
+    return results
