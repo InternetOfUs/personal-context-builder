@@ -123,7 +123,8 @@ def estimate_stay_regions(
     ).fit(staypoint_matrix)
     labels = clustering.labels_
     for label, staypoint in zip(labels, staypoints):
-        if label == -1:
+        # should not be happening if min_samples=1
+        if label == -1:  # pragma: no cover
             continue
         clustered_staypoints[label].append(staypoint)
     results = []
