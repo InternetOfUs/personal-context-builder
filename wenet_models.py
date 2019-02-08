@@ -4,6 +4,7 @@ module with models and data structure relevant to wenet project
 import math
 from math import sin, cos, sqrt, atan2, radians
 from wenet_tools import space_distance_m, time_difference_ms
+import numpy as np
 
 
 class LocationPoint(object):
@@ -98,5 +99,41 @@ class StayPoint(object):
 
 
 class StayRegion(StayPoint):
-    def __init__(self, t_start, t_stop, lat, lng):
-        super().__init__(t_start, t_stop, lat, lng)
+    def __init__(
+        self,
+        t_start,
+        t_stop,
+        centroid_lat,
+        centroid_lng,
+        topleft_lat,
+        topleft_lng,
+        bottomright_lat,
+        bottomright_lng,
+    ):
+        super().__init__(t_start, t_stop, centroid_lat, centroid_lng)
+        self._topleft_lat = topleft_lat
+        self._topleft_lng = topleft_lng
+        self._bottomright_lat = bottomright_lat
+        self._bottomright_lng = bottomright_lng
+
+    @classmethod
+    def create_from_cluster(cls, staypoints):
+        min_t_start = min(staypoints, key=lambda p: p._t_start)._t_start
+        max_t_stop = max(staypoints, key=lambda p: p._t_stop)._t_stop
+        lat_mean = np.average([s._lat for s in staypoints])
+        lng_mean = np.average([s._lng for s in staypoints])
+        topleft_lat = max(staypoints, key=lambda p: p._lat)._lat
+        topleft_lng = max(staypoints, key=lambda p: p._lng)._lng
+        bottomright_lat = min(staypoints, key=lambda p: p._lat)._lat
+        bottomright_lng = min(staypoints, key=lambda p: p._lng)._lng
+        region = StayRegion(
+            min_t_start,
+            max_t_stop,
+            lat_mean,
+            lng_mean,
+            topleft_lat,
+            topleft_lng,
+            bottomright_lat,
+            bottomright_lng,
+        )
+        return region
