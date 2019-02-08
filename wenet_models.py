@@ -110,6 +110,18 @@ class StayRegion(StayPoint):
         bottomright_lat,
         bottomright_lng,
     ):
+        """ Constructor
+
+        Args:
+            t_start: time when enter the region the first time
+            t_stop: time when go out of the region the last time
+            centroid_lat: latitude of the centroid of the staypoints
+            centroid_lng: longitude of the centroid of the staypoints
+            topleft_lat: highest latitude in the staypoints
+            topleft_lng: highest longitude in the staypoints
+            bottomright_lat: smallest latitude in the staypoints
+            bottomrght_lng: smallest longitude in the staypoints
+        """
         super().__init__(t_start, t_stop, centroid_lat, centroid_lng)
         self._topleft_lat = topleft_lat
         self._topleft_lng = topleft_lng
@@ -118,6 +130,13 @@ class StayRegion(StayPoint):
 
     @classmethod
     def create_from_cluster(cls, staypoints):
+        """ Create a region from a list of staypoints
+
+        Args:
+            staypoints: list of staypoints
+
+        Return: a StayRegion instance
+        """
         min_t_start = min(staypoints, key=lambda p: p._t_start)._t_start
         max_t_stop = max(staypoints, key=lambda p: p._t_stop)._t_stop
         lat_mean = np.average([s._lat for s in staypoints])
