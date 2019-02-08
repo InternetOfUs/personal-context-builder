@@ -119,12 +119,11 @@ def estimate_stay_regions(
     clustered_staypoints = defaultdict(list)
     staypoint_matrix = np.array([[p._lat, p._lng] for p in staypoints])
     clustering = DBSCAN(
-        eps=distance_threshold_m, metric=space_distance_m_by_vect, min_samples=1
+        eps=distance_threshold_m, metric=space_distance_m_by_vect, min_samples=2
     ).fit(staypoint_matrix)
     labels = clustering.labels_
     for label, staypoint in zip(labels, staypoints):
-        # should not be happening if min_samples=1
-        if label == -1:  # pragma: no cover
+        if label == -1:
             continue
         clustered_staypoints[label].append(staypoint)
     results = []
