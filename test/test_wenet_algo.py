@@ -7,8 +7,8 @@ from wenet_models import LocationPoint
 from wenet_algo import (
     estimate_centroid,
     estimate_stay_points,
-    estimate_stay_regions_a_day,
     estimate_stay_regions,
+    estimate_stay_regions_per_day,
 )
 
 
@@ -154,9 +154,7 @@ class WenetAlgoTestCase(unittest.TestCase):
             locations, time_min_ms=4999, distance_max_m=10 ** 17
         )
         self.assertEqual(len(stay_points), n // 2)
-        stay_regions = estimate_stay_regions_a_day(
-            stay_points, distance_threshold_m=10 ** 17
-        )
+        stay_regions = estimate_stay_regions(stay_points, distance_threshold_m=10 ** 17)
 
         self.assertEqual(len(stay_regions), 1)
 
@@ -176,9 +174,7 @@ class WenetAlgoTestCase(unittest.TestCase):
             locations, time_min_ms=4999, distance_max_m=10 ** 7
         )
         self.assertEqual(len(stay_points), n // 2)
-        stay_regions = estimate_stay_regions_a_day(
-            stay_points, distance_threshold_m=10 ** 7
-        )
+        stay_regions = estimate_stay_regions(stay_points, distance_threshold_m=10 ** 7)
 
         self.assertEqual(len(stay_regions), 2)
 
@@ -200,7 +196,9 @@ class WenetAlgoTestCase(unittest.TestCase):
             locations, time_min_ms=4999, distance_max_m=10 ** 7
         )
         self.assertEqual(len(stay_points), n // 2)
-        stay_regions = estimate_stay_regions(stay_points, distance_threshold_m=10 ** 7)
+        stay_regions = estimate_stay_regions_per_day(
+            stay_points, distance_threshold_m=10 ** 7
+        )
 
         self.assertEqual(len(stay_regions), 2)
 

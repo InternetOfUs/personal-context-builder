@@ -5,8 +5,8 @@ from sanic.response import json
 from wenet_models import LocationPoint, StayPoint
 from wenet_algo import (
     estimate_stay_points,
-    estimate_stay_regions_a_day,
     estimate_stay_regions,
+    estimate_stay_regions_per_day,
 )
 import config
 import datetime
@@ -105,7 +105,7 @@ class StayRegionsOneDayView(HTTPMethodView):
             )
             stay_points.append(stay_point)
 
-        res = estimate_stay_regions_a_day(stay_points, distance_threshold_m)
+        res = estimate_stay_regions(stay_points, distance_threshold_m)
         res = [s.__dict__ for s in res]
         for p in res:
             p["_t_start"] = p["_t_start"].strftime(datetime_format)
@@ -133,7 +133,7 @@ class StayRegionsView(HTTPMethodView):
             )
             stay_points.append(stay_point)
 
-        res = estimate_stay_regions(stay_points, distance_threshold_m)
+        res = estimate_stay_regions_per_day(stay_points, distance_threshold_m)
         dict_res = {}
         for day, stayregions in res.items():
             stayregions = [s.__dict__ for s in stayregions]

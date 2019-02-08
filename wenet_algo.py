@@ -76,7 +76,7 @@ def estimate_stay_points(
     return stay_points
 
 
-def estimate_stay_regions(
+def estimate_stay_regions_per_day(
     staypoints: List[StayPoint],
     distance_threshold_m: int = config.DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M,
 ) -> Dict[str, List[StayRegion]]:
@@ -97,20 +97,16 @@ def estimate_stay_regions(
         stay_points_per_day[staypoint._t_start.strftime("%Y-%m-%d")].append(staypoint)
 
     for day, values in stay_points_per_day.items():
-        stay_regions_per_day[day] = estimate_stay_regions_a_day(
-            values, distance_threshold_m
-        )
+        stay_regions_per_day[day] = estimate_stay_regions(values, distance_threshold_m)
     return stay_regions_per_day
 
 
-def estimate_stay_regions_a_day(
+def estimate_stay_regions(
     staypoints: List[StayPoint],
     distance_threshold_m: int = config.DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M,
 ) -> Set[StayRegion]:
     """
     Estimate stay regions from a list of stay points
-
-    This function work only if all StayPoint are in the same day
 
     TODO cite paper here
     TODO use custom metric to match lat/lng
