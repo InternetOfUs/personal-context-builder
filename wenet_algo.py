@@ -109,7 +109,6 @@ def estimate_stay_regions(
     Estimate stay regions from a list of stay points
 
     TODO cite paper here
-    TODO use custom metric to match lat/lng
     TODO use grid-based clustering as in the paper
     TODO Test outliers (-1)
     Args:
