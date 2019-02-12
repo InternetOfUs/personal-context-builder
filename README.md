@@ -4,7 +4,9 @@
 
 The WeNet project: diversity-aware, machine-mediated paradigm of social relations.
 
-![map example](./media/middle_level_map.png)
+![map example top level](./media/top_level_map.png)
+![map example middle level](./media/middle_level_map.png)
+![map example low level](./media/low_level_map.png)
 
 # Dev setup
 
