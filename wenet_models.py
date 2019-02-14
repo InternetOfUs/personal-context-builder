@@ -149,7 +149,7 @@ class StayRegion(StayPoint):
         self._bottomright_lat = bottomright_lat
         self._bottomright_lng = bottomright_lng
 
-    def __contains__(self, key):
+    def __contains__(self, key: GPSPoint):
         lat = key._lat
         lng = key._lng
         return not (
