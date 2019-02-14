@@ -4,7 +4,10 @@ module with models and data structure relevant to wenet project
 import math
 from math import sin, cos, sqrt, atan2, radians
 from wenet_tools import space_distance_m, time_difference_ms
+import config
 import numpy as np
+from typing import List
+from functools import partial
 
 
 class GPSPoint(object):
@@ -221,3 +224,31 @@ class UserPlace(LocationPoint):
         super().__init__(pts_t, lat, lng)
         self._label = label
         self._user = user
+
+
+class UserPlaceTimeOnly(object):
+    """ Class that store user defined place
+    """
+
+    def __init__(self, pts_t, label, user="anonymous"):
+        self._pts_t = pts_t
+        self._label = label
+        self._user = user
+
+    def to_user_place(
+        self,
+        locations: List[LocationPoint],
+        max_delta_time_ms=config.DEFAULT_USERPLACE_TIME_MAX_DELTA_MS,
+    ):
+        compare_dt = partial(time_difference_ms, self._pts_t)
+        closest_location = min(locations, key=lambda x: compare_dt(x._pts_t))
+        if compare_dt(closest_location._pts_t) > max_delta_time_ms:
+            return None
+        else:
+            return UserPlace(
+                self._pts_t,
+                closest_location._lat,
+                closest_location._lng,
+                self._label,
+                self._user,
+            )
