@@ -187,3 +187,27 @@ class StayRegion(StayPoint):
             bottomright_lng,
         )
         return region
+
+
+class LabelledStayRegion(StayRegion):
+    """ StayRegion with label
+    """
+
+    def __init__(self, label, stay_region: StayRegion):
+        """ Constructor
+
+        Args:
+            label: label for the StayRegion
+            stay_region: StayRegion instance that will be copied
+        """
+        super().__init__(
+            stay_region._t_start,
+            stay_region._t_stop,
+            stay_region._lat,
+            stay_region._lng,
+            stay_region._topleft_lat,
+            stay_region._topleft_lng,
+            stay_region._bottomright_lat,
+            stay_region._bottomright_lng,
+        )
+        self._label = label
