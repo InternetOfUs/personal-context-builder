@@ -6,7 +6,13 @@ from typing import List, Set, Dict
 import math
 from operator import add
 from functools import reduce
-from wenet_models import StayPoint, LocationPoint, StayRegion
+from wenet_models import (
+    StayPoint,
+    LocationPoint,
+    StayRegion,
+    LabelledStayRegion,
+    UserPlace,
+)
 import config
 from collections import defaultdict
 from sklearn.cluster import DBSCAN
@@ -130,3 +136,29 @@ def estimate_stay_regions(
         region = StayRegion.create_from_cluster(staypoints)
         results.append(region)
     return results
+
+
+def labelize_stay_region(
+    stay_regions: List[StayRegion], user_places: List[UserPlace]
+) -> Set[LabelledStayRegion]:
+    """ Labelize the Stay regions given by using user-provided list of user place.
+
+    TODO try to reduce complexity (currently O(N^2))
+    TODO test
+
+    Args:
+        stay_regions: List of stay_region to labelize
+        user_places: List of user place to use
+
+    Return:
+        Set of Labelled Stay Regions.
+    """
+    labelled_stay_regions = set()
+    for stay_region in stay_regions:
+        for user_place in user_places:
+            if user_place in stay_region:
+                labelled_stay_regions.add(
+                    LabelledStayRegion(user_place._label, stay_region)
+                )
+                break
+    return labelled_stay_regions
