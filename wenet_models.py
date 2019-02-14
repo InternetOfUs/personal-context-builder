@@ -211,3 +211,13 @@ class LabelledStayRegion(StayRegion):
             stay_region._bottomright_lng,
         )
         self._label = label
+
+
+class UserPlace(LocationPoint):
+    """ Class that store user defined place
+    """
+
+    def __init__(self, pts_t, lat, lng, label, user="anonymous"):
+        super().__init__(pts_t, lat, lng)
+        self._label = label
+        self._user = user
