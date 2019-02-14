@@ -3,12 +3,13 @@ import datetime
 from copy import deepcopy
 from random import randint
 
-from wenet_models import LocationPoint
+from wenet_models import LocationPoint, StayRegion, UserPlace
 from wenet_algo import (
     estimate_centroid,
     estimate_stay_points,
     estimate_stay_regions,
     estimate_stay_regions_per_day,
+    labelize_stay_region,
 )
 
 
@@ -204,6 +205,20 @@ class WenetAlgoTestCase(unittest.TestCase):
 
         self.assertEqual(len(stay_regions["2019-02-06"]), 1)
         self.assertEqual(len(stay_regions["2019-02-07"]), 1)
+
+    def test_labelize_stay_region_simple_case(self):
+        t1 = datetime.datetime.now()
+        t2 = datetime.datetime.now()
+        regions = [
+            StayRegion(t1, t2, 1.5, 1.5, 2, 2, 1, 1),
+            StayRegion(t1, t2, 4.5, 4.5, 5, 5, 4, 4),
+        ]
+        user_places = [UserPlace(t1, 1.1, 1.1, "one"), UserPlace(t2, 4.1, 4.1, "two")]
+        labelled_stay_regions = labelize_stay_region(regions, user_places)
+        self.assertEqual(len(labelled_stay_regions), 2)
+        one, two = sorted(list(labelled_stay_regions), key=lambda x: x._lat)
+        self.assertEqual(one._label, "one")
+        self.assertEqual(two._label, "two")
 
 
 if __name__ == "__main__":  # pragma: no cover
