@@ -149,6 +149,16 @@ class StayRegion(StayPoint):
         self._bottomright_lat = bottomright_lat
         self._bottomright_lng = bottomright_lng
 
+    def __contains__(self, key):
+        lat = key._lat
+        lng = key._lng
+        return not (
+            lat < self._bottomright_lat
+            or lat > self._topleft_lat
+            or lng < self._bottomright_lat
+            or lng > self._topleft_lng
+        )
+
     @classmethod
     def create_from_cluster(cls, staypoints):
         """ Create a region from a list of staypoints
