@@ -13,7 +13,7 @@ def time_difference_ms(time_1, time_2):
 
     Return: time difference in ms
     """
-    return (time_1 - time_2).total_seconds() * 1000
+    return abs((time_1 - time_2).total_seconds() * 1000)
 
 
 def space_distance_m_by_vect(latlng1, latlng2):
