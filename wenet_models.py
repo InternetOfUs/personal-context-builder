@@ -152,13 +152,18 @@ class StayRegion(StayPoint):
         self._bottomright_lat = bottomright_lat
         self._bottomright_lng = bottomright_lng
 
+    def __str__(self):
+        my_str = f"\n\t{self._topleft_lat} : {self._topleft_lng}\n"
+        my_str += f"\t\t{self._bottomright_lat} : {self._bottomright_lng}"
+        return super().__str__() + my_str
+
     def __contains__(self, key: GPSPoint):
         lat = key._lat
         lng = key._lng
         return not (
             lat < self._bottomright_lat
             or lat > self._topleft_lat
-            or lng < self._bottomright_lat
+            or lng < self._bottomright_lng
             or lng > self._topleft_lng
         )
 
