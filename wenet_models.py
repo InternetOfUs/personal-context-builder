@@ -2,6 +2,7 @@
 module with models and data structure relevant to wenet project
 """
 import math
+import datetime
 from math import sin, cos, sqrt, atan2, radians
 from wenet_tools import space_distance_m, time_difference_ms
 import config
@@ -257,3 +258,19 @@ class UserPlaceTimeOnly(object):
                 self._label,
                 self._user,
             )
+
+    def to_user_place_from_stay_points(
+        self,
+        stay_points: List[StayPoint],
+        max_delta_time_ms=config.DEFAULT_USERPLACE_TIME_MAX_DELTA_MS,
+        stay_points_sample_ms=config.DEFAULT_USERPLACE_STAY_POINT_SAMPLING,
+    ):
+        locations = []
+        t_increment = datetime.timedelta(milliseconds=stay_points_sample_ms)
+        for stay_point in stay_points:
+            dt = stay_point._t_start
+            while dt < stay_point._t_stop:
+                dt += t_increment
+                location = LocationPoint(dt, stay_point._lat, stay_point._lng)
+                locations.append(location)
+        return self.to_user_place(locations, max_delta_time_ms=max_delta_time_ms)
