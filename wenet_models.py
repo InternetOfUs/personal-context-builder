@@ -125,6 +125,34 @@ class StayPoint(GPSPoint):
     def __str__(self):
         return super().__str__() + f"[{self._t_start} to {self._t_stop}]"
 
+    def _get_min_max_latitude_from_accuracy(self, delta_inc):
+        cpt = 0
+        distance = space_distance_m(
+            self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
+        )
+        while distance <= self._accuracy_m:
+            distance = space_distance_m(
+                self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
+            )
+            cpt += 1
+        min_lat = self._lat - delta_inc * cpt
+        max_lat = self._lat + delta_inc * cpt
+        return min_lat, max_lat
+
+    def _get_min_max_longitude_from_accuracy(self, delta_inc):
+        cpt = 0
+        distance = space_distance_m(
+            self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
+        )
+        while distance <= self._accuracy_m:
+            distance = space_distance_m(
+                self._lat, self._lng, self._lat, self._lng + cpt * delta_inc
+            )
+            cpt += 1
+        min_lng = self._lng - delta_inc * cpt
+        max_lng = self._lng + delta_inc * cpt
+        return min_lng, max_lng
+
     def _get_surrouder_points(self, delta_inc):
         """ generate 100 points that are around this points.
 
@@ -141,28 +169,8 @@ class StayPoint(GPSPoint):
         """
         if self._accuracy_m == 0:
             return [self]
-        cpt = 0
-        distance = space_distance_m(
-            self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
-        )
-        while distance <= self._accuracy_m:
-            distance = space_distance_m(
-                self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
-            )
-            cpt += 1
-        min_lat = self._lat - delta_inc * cpt
-        max_lat = self._lat + delta_inc * cpt
-        cpt = 0
-        distance = space_distance_m(
-            self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
-        )
-        while distance <= self._accuracy_m:
-            distance = space_distance_m(
-                self._lat, self._lng, self._lat, self._lng + cpt * delta_inc
-            )
-            cpt += 1
-        min_lng = self._lng - delta_inc * cpt
-        max_lng = self._lng + delta_inc * cpt
+        min_lat, max_lat = self._get_min_max_latitude_from_accuracy(delta_inc)
+        min_lng, max_lng = self._get_min_max_longitude_from_accuracy(delta_inc)
         nb_points = 0
         points = []
         while nb_points < 100:
