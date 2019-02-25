@@ -75,9 +75,10 @@ class LocationPoint(GPSPoint):
     class that handle timestamped gps points
     """
 
-    def __init__(self, pts_t, lat, lng):
+    def __init__(self, pts_t, lat, lng, accuracy_m=0):
         super().__init__(lat, lng)
         self._pts_t = pts_t
+        self._accuracy_m = accuracy_m
 
     def time_difference_ms(self, other):
         """ Compute the time difference in (ms)
@@ -91,19 +92,19 @@ class LocationPoint(GPSPoint):
 
     def __add__(self, other):
         point = super().__add__(other)
-        return LocationPoint(self._pts_t, point._lat, point._lng)
+        return LocationPoint(self._pts_t, point._lat, point._lng, self._accuracy_m)
 
     def __sub__(self, other):
         point = super().__sub__(other)
-        return LocationPoint(self._pts_t, point._lat, point._lng)
+        return LocationPoint(self._pts_t, point._lat, point._lng, self._accuracy_m)
 
     def __truediv__(self, other):
         point = super().__truediv__(other)
-        return LocationPoint(self._pts_t, point._lat, point._lng)
+        return LocationPoint(self._pts_t, point._lat, point._lng, self._accuracy_m)
 
     def __mul__(self, other):
         point = super().__mul__(other)
-        return LocationPoint(self._pts_t, point._lat, point._lng)
+        return LocationPoint(self._pts_t, point._lat, point._lng, self._accuracy_m)
 
     def __str__(self):
         return super().__str__() + f" [{self._pts_t}]"
@@ -114,10 +115,11 @@ class StayPoint(GPSPoint):
     class for stay point
     """
 
-    def __init__(self, t_start, t_stop, lat, lng):
+    def __init__(self, t_start, t_stop, lat, lng, accuracy_m=0):
         super().__init__(lat, lng)
         self._t_start = t_start
         self._t_stop = t_stop
+        self._accuracy_m = accuracy_m
 
     def __str__(self):
         return super().__str__() + f"[{self._t_start} to {self._t_stop}]"
