@@ -68,10 +68,17 @@ def estimate_stay_points(
             if distance < distance_max_m:
                 if dt > time_min_ms:
                     centroid = estimate_centroid(locations[i : j + 1])
+                    maximum_accuracy = max(
+                        [l._accuracy_m for l in locations[i : j + 1]]
+                    )
                     t_start = locations[i]._pts_t
                     t_stop = locations[j]._pts_t
                     stay_point = StayPoint(
-                        t_start, t_stop, centroid._lat, centroid._lng
+                        t_start,
+                        t_stop,
+                        centroid._lat,
+                        centroid._lng,
+                        accuracy_m=maximum_accuracy,
                     )
                     stay_points.add(stay_point)
                 i = j
@@ -133,7 +140,7 @@ def estimate_stay_regions(
         clustered_staypoints[label].append(staypoint)
     results = []
     for _, staypoints in clustered_staypoints.items():
-        region = StayRegion.create_from_cluster(staypoints)
+        region = StayRegion.create_from_cluster_maximum_surround(staypoints)
         results.append(region)
     return results
 
