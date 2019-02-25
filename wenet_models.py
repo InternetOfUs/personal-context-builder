@@ -9,6 +9,7 @@ import config
 import numpy as np
 from typing import List
 from functools import partial
+from random import random
 
 
 class GPSPoint(object):
@@ -124,6 +125,57 @@ class StayPoint(GPSPoint):
     def __str__(self):
         return super().__str__() + f"[{self._t_start} to {self._t_stop}]"
 
+    def _get_surrouder_points(self, delta_inc):
+        """ generate 100 points that are around this points.
+
+        Inspired of monte-carlo method:
+            - get a square of 2x accuracy, centered in lat/lng
+            - generate a random points inside
+            - keep points that is close to the accuracy circle border
+            - repeat until 100 points
+
+        Args:
+        delta_inc: increment step at each iteration, both lat and lng
+
+        Return: 100 staypoints as list, or 1 staypoint if accuracy is 0
+        """
+        if self._accuracy_m == 0:
+            return [self]
+        cpt = 0
+        distance = space_distance_m(
+            self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
+        )
+        while distance <= self._accuracy_m:
+            distance = space_distance_m(
+                self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
+            )
+            cpt += 1
+        min_lat = self._lat - delta_inc * cpt
+        max_lat = self._lat + delta_inc * cpt
+        cpt = 0
+        distance = space_distance_m(
+            self._lat, self._lng, self._lat + cpt * delta_inc, self._lng
+        )
+        while distance <= self._accuracy_m:
+            distance = space_distance_m(
+                self._lat, self._lng, self._lat, self._lng + cpt * delta_inc
+            )
+            cpt += 1
+        min_lng = self._lng - delta_inc * cpt
+        max_lng = self._lng + delta_inc * cpt
+        nb_points = 0
+        points = []
+        while nb_points < 100:
+            random_lat = random() * (max_lat - min_lat) + min_lat
+            random_lng = random() * (max_lng - min_lng) + min_lng
+            distance = space_distance_m(self._lat, self._lng, random_lat, random_lng)
+            if abs(distance - self._accuracy_m) < 1:
+                points.append(
+                    StayPoint(self._t_start, self._t_stop, random_lat, random_lng, 0)
+                )
+                nb_points += 1
+        return points
+
 
 class StayRegion(StayPoint):
     def __init__(
@@ -198,6 +250,23 @@ class StayRegion(StayPoint):
             bottomright_lng,
         )
         return region
+
+    @classmethod
+    def create_from_cluster_maximum_surround(
+        cls, staypoints, delta_inc=config.DEFAULT_STAYREGION_INC_DELTA
+    ):
+        """ Create a region from a list of staypoints
+        surround the points based on accuracy of them
+
+        Args:
+            staypoints: list of staypoints
+
+        Return: a StayRegion instance
+        """
+        englobing_stay_points = []
+        for stay_point in staypoints:
+            englobing_stay_points += stay_point._get_surrouder_points(delta_inc)
+        return cls.create_from_cluster(englobing_stay_points)
 
 
 class LabelledStayRegion(StayRegion):
