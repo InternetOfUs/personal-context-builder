@@ -153,7 +153,7 @@ class StayPoint(GPSPoint):
         max_lng = self._lng + delta_inc * cpt
         return min_lng, max_lng
 
-    def _get_surrouder_points(self, delta_inc):
+    def _get_surrouder_points(self, delta_inc, nb_wanted_points=100):
         """ generate 100 points that are around this points.
 
         Inspired of monte-carlo method:
@@ -173,7 +173,7 @@ class StayPoint(GPSPoint):
         min_lng, max_lng = self._get_min_max_longitude_from_accuracy(delta_inc)
         nb_points = 0
         points = []
-        while nb_points < 100:
+        while nb_points < nb_wanted_points:
             random_lat = random() * (max_lat - min_lat) + min_lat
             random_lng = random() * (max_lng - min_lng) + min_lng
             distance = space_distance_m(self._lat, self._lng, random_lat, random_lng)
