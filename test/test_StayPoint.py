@@ -31,6 +31,19 @@ class StayPointTestCase(unittest.TestCase):
         distance = space_distance_m(25, min_lng, 25, max_lng)
         self.assertAlmostEqual(distance, 40, delta=1)
 
+    def test_get_surrounded_points(self):
+        t1 = datetime.datetime.now()
+        t2 = datetime.datetime.now()
+        pt1 = StayPoint(t1, t2, 25, 30, accuracy_m=20)
+        points = pt1._get_surrouder_points(delta_inc=0.0000001)
+
+        self.assertEqual(len(points), 100)
+
+        greater_points = [p for p in points if p.space_distance_m(pt1) > 22]
+        self.assertEqual(len(greater_points), 0)
+        lesser_points = [p for p in points if p.space_distance_m(pt1) < 18]
+        self.assertEqual(len(lesser_points), 0)
+
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
