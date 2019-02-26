@@ -23,7 +23,7 @@ class LocationPointTestCase(unittest.TestCase):
         pt1 = LocationPoint(t1, martigny_lat, martigny_lng)
         pt2 = LocationPoint(t1, neuchatel_lat, neuchatel_lng)
         distance = pt1.space_distance_m(pt2)
-        distance_truth = 98922.59
+        distance_truth = 99615.43
         self.assertAlmostEqual(distance, distance_truth, delta=2)
 
     def test_add(self):

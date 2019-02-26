@@ -30,7 +30,7 @@ class GPSPoint(object):
         Return: distance in meters
         """
         lat1, lng1 = self._lat, self._lng
-        lat2, lng2 = other._lat, self._lng
+        lat2, lng2 = other._lat, other._lng
         return space_distance_m(lat1, lng1, lat2, lng2)
 
     def __add__(self, other):

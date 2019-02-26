@@ -85,7 +85,7 @@ class WenetAlgoTestCase(unittest.TestCase):
         pt2 = LocationPoint(t2, neuchatel_lat, neuchatel_lng)
 
         res = estimate_stay_points(
-            [pt1, pt2], time_min_ms=4999, distance_max_m=98922.59 + 1
+            [pt1, pt2], time_min_ms=4999, distance_max_m=99615.43 + 1
         )
         self.assertTrue(len(res) == 1)
 
