@@ -117,6 +117,7 @@ def estimate_stay_regions_per_day(
 def estimate_stay_regions(
     staypoints: List[StayPoint],
     distance_threshold_m: int = config.DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M,
+    accuracy_aware: bool = True,
 ) -> Set[StayRegion]:
     """
     Estimate stay regions from a list of stay points
@@ -127,6 +128,7 @@ def estimate_stay_regions(
     Args:
         staypoints: list of staypoint to use to extract stay region
         distance_threshold_m: distance of the threshold in meter
+        accuracy_aware: if true, take accuracy into consideration when building regions
     """
     clustered_staypoints = defaultdict(list)
     staypoint_matrix = np.array([[p._lat, p._lng] for p in staypoints])
@@ -140,7 +142,10 @@ def estimate_stay_regions(
         clustered_staypoints[label].append(staypoint)
     results = []
     for _, staypoints in clustered_staypoints.items():
-        region = StayRegion.create_from_cluster_maximum_surround(staypoints)
+        if accuracy_aware:
+            region = StayRegion.create_from_cluster_maximum_surround(staypoints)
+        else:
+            region = StayRegion.create_from_cluster(staypoints)
         results.append(region)
     return results
 
