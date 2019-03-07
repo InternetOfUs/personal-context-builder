@@ -123,7 +123,10 @@ class StayPoint(GPSPoint):
         self._accuracy_m = accuracy_m
 
     def __str__(self):
-        return super().__str__() + f"[{self._t_start} to {self._t_stop}]"
+        return (
+            super().__str__()
+            + f"[{self._t_start} to {self._t_stop}] +- {self._accuracy_m} m"
+        )
 
     def _get_min_max_latitude_from_accuracy(self, delta_inc):
         cpt = 0
