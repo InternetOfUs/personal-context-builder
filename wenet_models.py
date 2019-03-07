@@ -250,7 +250,7 @@ class StayRegion(StayPoint):
         topleft_lng = max(staypoints, key=lambda p: p._lng)._lng
         bottomright_lat = min(staypoints, key=lambda p: p._lat)._lat
         bottomright_lng = min(staypoints, key=lambda p: p._lng)._lng
-        region = StayRegion(
+        region = cls(
             min_t_start,
             max_t_stop,
             lat_mean,
