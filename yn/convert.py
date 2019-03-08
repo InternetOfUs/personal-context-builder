@@ -12,6 +12,7 @@ from yn.yn_models import YNLocationPoint, YNUser
 from wenet_models import LocationPoint, UserPlaceTimeOnly
 from wenet_algo import get_label_if_exist
 from collections import defaultdict
+from progress.bar import Bar
 
 
 def get_drink_places_trung(trung_file):
@@ -75,9 +76,10 @@ def write_to_json(json_output_file, gps_folder, ambiance_file=None, trung_file=N
     )
     trung_places = dict() if trung_file is None else get_drink_places_trung(trung_file)
     list_of_users = []
+    bar = Bar("processing", max=len(location_files))
     with open(json_output_file, "w") as f:
-
         for location_file in location_files:
+            bar.next()
             df = pd.read_csv(location_file)
             try:
                 user = df["userid"].tolist()[0]
@@ -134,6 +136,7 @@ def write_to_json(json_output_file, gps_folder, ambiance_file=None, trung_file=N
                 )
                 list_of_users.append(yn_user.to_dict())
         f.write(json.dumps(list_of_users, indent=4))
+    bar.finish()
 
 
 if __name__ == "__main__":
