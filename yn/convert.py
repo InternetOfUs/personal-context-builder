@@ -61,6 +61,54 @@ def get_ambiance_places(ambiance_file):
     return user_places
 
 
+def _convert_to_places_if_needed(user, stay_points, ambiance_places, trung_places):
+    if user in ambiance_places:
+        ambiance_places[user] = [
+            p.to_user_place_from_stay_points(
+                stay_points, max_delta_time_ms=1000 * 60 * 3
+            )
+            for p in ambiance_places[user]
+        ]
+    if user in trung_places:
+        trung_places[user] = [
+            p.to_user_place_from_stay_points(
+                stay_points, max_delta_time_ms=1000 * 60 * 3
+            )
+            for p in trung_places[user]
+        ]
+
+
+def _labelize(user, stay_regions, ambiance_places, trung_places):
+    for stay_region in stay_regions:
+        if user in ambiance_places:
+            label = get_label_if_exist(stay_region, ambiance_places[user])
+            if label is not None:
+                stay_region.set_label(label)
+        if user in trung_places:
+            trung_label = get_label_if_exist(stay_region, trung_places[user])
+            if trung_label is not None:
+                stay_region.set_trung_label(trung_label)
+
+
+def _create_locations(df):
+    locations = []
+    for index, row in df.iterrows():
+        accuracy = row["accuracy"]
+        if accuracy > 37:
+            continue
+        pts_t = datetime.fromtimestamp(row["timestamp"])
+        location = YNLocationPoint(
+            pts_t,
+            row["latitude"],
+            row["longitude"],
+            accuracy,
+            row["timezone"],
+            row["night"],
+        )
+        locations.append(location)
+    return locations
+
+
 def write_to_json(json_output_file, gps_folder, ambiance_file=None, trung_file=None):
     """ convert the data to a json file with StayPoints, StayRegion and LocationPoint.
     (WIP) - TODO write this function
@@ -85,52 +133,17 @@ def write_to_json(json_output_file, gps_folder, ambiance_file=None, trung_file=N
                 user = df["userid"].tolist()[0]
             except IndexError:
                 continue
-            locations = []
-            for index, row in df.iterrows():
-                accuracy = row["accuracy"]
-                if accuracy > 37:
-                    continue
-                pts_t = datetime.fromtimestamp(row["timestamp"])
-                location = YNLocationPoint(
-                    pts_t,
-                    row["latitude"],
-                    row["longitude"],
-                    accuracy,
-                    row["timezone"],
-                    row["night"],
-                )
-                locations.append(location)
+            locations = _create_locations(df)
 
             stay_points = yn_estimate_stay_points(locations)
             if len(stay_points) > 1:
                 stay_regions = yn_estimate_stay_regions(
                     stay_points, accuracy_aware=False
                 )
-                if user in ambiance_places:
-                    ambiance_places[user] = [
-                        p.to_user_place_from_stay_points(
-                            stay_points, max_delta_time_ms=1000 * 60 * 3
-                        )
-                        for p in ambiance_places[user]
-                    ]
-                if user in trung_places:
-                    trung_places[user] = [
-                        p.to_user_place_from_stay_points(
-                            stay_points, max_delta_time_ms=1000 * 60 * 3
-                        )
-                        for p in trung_places[user]
-                    ]
-                for stay_region in stay_regions:
-                    if user in ambiance_places:
-                        label = get_label_if_exist(stay_region, ambiance_places[user])
-                        if label is not None:
-                            stay_region.set_label(label)
-                    if user in trung_places:
-                        trung_label = get_label_if_exist(
-                            stay_region, ambiance_places[user]
-                        )
-                        if trung_label is not None:
-                            stay_region.set_trung_label(trung_label)
+                _convert_to_places_if_needed(
+                    user, stay_points, ambiance_places, trung_places
+                )
+                _labelize(user, stay_regions, ambiance_places, trung_places)
                 yn_user = YNUser(
                     user_id=user, stay_points=stay_points, stay_regions=stay_regions
                 )
