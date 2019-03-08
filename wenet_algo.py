@@ -174,3 +174,21 @@ def labelize_stay_region(
                 )
                 break
     return labelled_stay_regions
+
+
+def get_label_if_exist(stay_region: StayRegion, user_places: List[UserPlace]) -> str:
+    """ try to retreive the label of a stay region given by using user-provided list of user place.
+
+    Args:
+        stay_region: the stay region to check label
+        user_places: List of user place to use
+
+    Return:
+        label or none
+    """
+    for user_place in user_places:
+        if user_place is None:
+            continue
+        if user_place in stay_region:
+            return user_place._label
+    return None
