@@ -110,8 +110,8 @@ def _create_locations(df):
     locations = []
     for index, row in df.iterrows():
         accuracy = row["accuracy"]
-        if accuracy > 37:
-            continue
+        # if accuracy > 37:
+        #     continue
         pts_t = datetime.fromtimestamp(row["timestamp"])
         location = YNLocationPoint(
             pts_t,
