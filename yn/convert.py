@@ -127,7 +127,6 @@ def _create_locations(df):
 
 def write_to_json(json_output_file, gps_folder, ambiance_file=None, trung_file=None):
     """ convert the data to a json file with StayPoints, StayRegion and LocationPoint.
-    (WIP) - TODO write this function
     Args:
         json_output_file: file that will contain the data transformed
         gps_folder: folder that contain the gps records
