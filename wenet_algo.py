@@ -74,12 +74,10 @@ def estimate_stay_points(
     previous_location = locations[0]
     sublist = [previous_location]
     while i < len_locations:
-        #  print(i)
         current_location = locations[i]
         dt = previous_location.time_difference_ms(current_location)
         dt_start_end = sublist[0].time_difference_ms(current_location)
         distance = previous_location.space_distance_m(current_location)
-        #  print(f"{dt} {dt_start_end} {distance}")
         if (
             dt > time_min_ms
             and dt_start_end < time_max_ms
