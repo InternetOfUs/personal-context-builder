@@ -33,6 +33,17 @@ def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
     return reduce(add, locations) / len(locations)
 
 
+def create_stay_point(locations):
+    centroid = estimate_centroid(locations)
+    maximum_accuracy = max([l._accuracy_m for l in locations])
+    t_start = locations[0]._pts_t
+    t_stop = locations[-1]._pts_t
+    stay_point = StayPoint(
+        t_start, t_stop, centroid._lat, centroid._lng, accuracy_m=maximum_accuracy
+    )
+    return stay_point
+
+
 def estimate_stay_points(
     locations: List[LocationPoint],
     time_min_ms: int = config.DEFAULT_STAYPOINTS_TIME_MIN_MS,
@@ -42,7 +53,8 @@ def estimate_stay_points(
     """
     Estimate stay points from a list of location points
 
-    TODO cite paper here
+    version from scratch
+
     Args:
         locations: the list of location points to process
         time_min_ms: minimum delta time (ms) allowed to create a StayPoint
@@ -55,37 +67,35 @@ def estimate_stay_points(
     """
     locations = sorted(locations, key=lambda l: l._pts_t)
     stay_points = set()
-    i = 0
     len_locations = len(locations)
+    if not len_locations > 1:
+        return stay_points
+    i = 1
+    previous_location = locations[0]
+    sublist = [previous_location]
     while i < len_locations:
-        j = i + 1
-        while j < len_locations:
-            dt = locations[j].time_difference_ms(locations[j - 1])
-            if dt > time_max_ms:
-                i = j
-                break
-            distance = locations[i].space_distance_m(locations[j])
-            if distance < distance_max_m:
-                if dt > time_min_ms:
-                    centroid = estimate_centroid(locations[i : j + 1])
-                    maximum_accuracy = max(
-                        [l._accuracy_m for l in locations[i : j + 1]]
-                    )
-                    t_start = locations[i]._pts_t
-                    t_stop = locations[j]._pts_t
-                    stay_point = StayPoint(
-                        t_start,
-                        t_stop,
-                        centroid._lat,
-                        centroid._lng,
-                        accuracy_m=maximum_accuracy,
-                    )
-                    stay_points.add(stay_point)
-                i = j
-                break
-            j = j + 1
-        # if not, can be stuck
-        i += 1
+        #  print(i)
+        current_location = locations[i]
+        dt = previous_location.time_difference_ms(current_location)
+        dt_start_end = sublist[0].time_difference_ms(current_location)
+        distance = previous_location.space_distance_m(current_location)
+        #  print(f"{dt} {dt_start_end} {distance}")
+        if (
+            dt > time_min_ms
+            and dt_start_end < time_max_ms
+            and distance < distance_max_m
+        ):
+            sublist.append(current_location)
+        else:
+            if len(sublist) > 1:
+                stay_point = create_stay_point(sublist)
+                stay_points.add(stay_point)
+            sublist = [current_location]
+        previous_location = current_location
+        i = i + 1
+    if len(sublist) > 1:
+        stay_point = create_stay_point(sublist)
+        stay_points.add(stay_point)
     return stay_points
 
 
