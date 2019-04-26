@@ -42,7 +42,6 @@ class UserProfileDBTestCase(unittest.TestCase):
         v2 = [1, 0, 1, 0]
         set_profiles([self.user_5, self.user_6], [v1, v2])
         res = get_all_profiles(match="test_*")
-        print(res)
         self.assertEqual(v2, res[self.user_6])
 
     def tearDown(self):
