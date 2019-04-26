@@ -28,3 +28,11 @@ def get_profile(user_id):
 def set_profile(user_id, vector):
     value = json.dumps(vector)
     _REDIS_SERVER.set(user_id, value)
+
+
+def set_profiles(user_ids, vectors):
+    pipeline = _REDIS_SERVER.pipeline()
+    for user_id, vector in zip(user_ids, vectors):
+        value = json.dumps(vector)
+        pipeline.set(user_id, value)
+    pipeline.execute()
