@@ -23,6 +23,8 @@ DEFAULT_APP_PORT = 8000
 DEFAULT_REDIS_HOST = "localhost"
 DEFAULT_REDIS_PORT = 6379
 
+DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
+
 
 def _update_parameters_from_env():
     """ update the config values from env
