@@ -14,8 +14,11 @@ def delete_profile(user_id):
     _REDIS_SERVER.delete(user_id)
 
 
-def get_all_profiles():
-    pass
+def get_all_profiles(match=None):
+    my_dict = dict()
+    for key in _REDIS_SERVER.scan_iter(match=match):
+        my_dict[key.decode("utf-8")] = json.loads(_REDIS_SERVER.get(key))
+    return my_dict
 
 
 def get_profile(user_id):
