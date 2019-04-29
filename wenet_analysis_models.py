@@ -33,11 +33,23 @@ class BaseModelWrapper(BaseModel):
         self._model_instance = self._model_class(*args, **kwargs)
 
     def save(self, filename=config.DEFAULT_ANALYSIS_MODEL_FILE, dump_fct=pickle.dump):
+        """ save this current instance of BaseModelWrapper
+            Args:
+                filename: file that will be used to store the instance
+                dump_fct: function to use to dump the instance into a file
+        """
         with open(filename, "wb") as f:
             dump_fct(self.__dict__, f)
 
     @staticmethod
     def load(filename=config.DEFAULT_ANALYSIS_MODEL_FILE, load_fct=pickle.load):
+        """ Create a instance of BaseModelWrapper from a previously saved file
+            Args:
+                filename: file that contain the saved BaseModelWrapper instance
+                load_fct: function to use to load the instance from a file
+            Return:
+                An instance of BaseModelWrapper
+        """
         with open(filename, "rb") as f:
             wrapper = BaseModelWrapper(None)
             wrapper.__dict__ = load_fct(f)
