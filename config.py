@@ -25,6 +25,8 @@ DEFAULT_REDIS_PORT = 6379
 
 DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
 
+DEFAULT_ANALYSIS_MODEL_FILE = "model.p"
+
 
 def _update_parameters_from_env():
     """ update the config values from env
