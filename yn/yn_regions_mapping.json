@@ -1,0 +1,16 @@
+{
+    "no_data": 0,
+    "unknow": 1,
+    "unknow_region": 2,
+    "bar": 3,
+    "club": 4,
+    "events": 5,
+    "friend_home": 6,
+    "home_no_parents": 7,
+    "home_with_parents": 8,
+    "other_cabane en foret avec parents": 9,
+    "other_friends place": 9,
+    "public": 10,
+    "restaurant": 11,
+    "school": 12
+}
