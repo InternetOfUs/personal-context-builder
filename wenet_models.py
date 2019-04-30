@@ -111,6 +111,43 @@ class LocationPoint(GPSPoint):
         return super().__str__() + f" [{self._pts_t}]"
 
 
+class UserLocationPoint(LocationPoint):
+    """
+    class that handle timestamped gps points
+    """
+
+    def __init__(self, pts_t, lat, lng, accuracy_m=0, user="anonymous"):
+        super().__init__(pts_t, lat, lng, accuracy_m)
+        self._user = user
+
+    def __str__(self):
+        return f"[{self._user}] " + super().__str__()
+
+    def __add__(self, other):
+        point = super().__add__(other)
+        return UserLocationPoint(
+            self._pts_t, point._lat, point._lng, self._accuracy_m, self._user
+        )
+
+    def __sub__(self, other):
+        point = super().__sub__(other)
+        return UserLocationPoint(
+            self._pts_t, point._lat, point._lng, self._accuracy_m, self._user
+        )
+
+    def __truediv__(self, other):
+        point = super().__truediv__(other)
+        return UserLocationPoint(
+            self._pts_t, point._lat, point._lng, self._accuracy_m, self._user
+        )
+
+    def __mul__(self, other):
+        point = super().__mul__(other)
+        return UserLocationPoint(
+            self._pts_t, point._lat, point._lng, self._accuracy_m, self._user
+        )
+
+
 class StayPoint(GPSPoint):
     """
     class for stay point
