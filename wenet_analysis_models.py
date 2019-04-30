@@ -7,7 +7,7 @@ import pickle
 
 class BaseModel(object):
     def predict(self, *args, **kwargs):
-        return self.transform(*args, **kwargs)
+        raise NotImplementedError("not implemented")
 
     def transform(self, *args, **kwargs):
         raise NotImplementedError("not implemented")
@@ -20,17 +20,23 @@ class BaseModelWrapper(BaseModel):
     def __init__(self, model_class, name="unamed"):
         self._model_class = model_class
         self._name = name
-        self._model_instance = None
+        if model_class is not None:
+            self._model_instance = self._model_class()
+        else:
+            self._model_instance = None
 
     def transform(self, *args, **kwargs):
         if self._model_instance is None:
-            raise Exception(
-                "model has to be loaded of trained before transform/predict"
-            )
+            raise Exception("model has to be loaded of trained before transform")
         return self._model_instance.transform(*args, **kwargs)
 
+    def predict(self, *args, **kwargs):
+        if self._model_instance is None:
+            raise Exception("model has to be loaded of trained before predict")
+        return self._model_instance.predict(*args, **kwargs)
+
     def fit(self, *args, **kwargs):
-        self._model_instance = self._model_class(*args, **kwargs)
+        self._model_instance.fit(*args, **kwargs)
 
     def save(self, filename=config.DEFAULT_ANALYSIS_MODEL_FILE, dump_fct=pickle.dump):
         """ save this current instance of BaseModelWrapper
