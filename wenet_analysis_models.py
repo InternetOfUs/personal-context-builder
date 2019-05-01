@@ -3,6 +3,9 @@ models (ML sense) used for create user profile
 """
 import config
 import pickle
+from functools import partial
+
+from sklearn.decomposition import LatentDirichletAllocation
 
 
 class BaseModel(object):
@@ -60,3 +63,18 @@ class BaseModelWrapper(BaseModel):
             wrapper = BaseModelWrapper(None)
             wrapper.__dict__ = load_fct(f)
             return wrapper
+
+
+class SimpleLDA(BaseModelWrapper):
+    def __init__(self, n_components=15, random_state=0, n_jobs=-1, **kwargs):
+        my_lda = partial(
+            LatentDirichletAllocation,
+            n_components=15,
+            random_state=0,
+            n_jobs=-1,
+            **kwargs
+        )
+        super().__init__(my_lda, "simple_lda.p")
+
+    def predict(self, *args, **kwargs):
+        return super().transform(*args, **kwargs)
