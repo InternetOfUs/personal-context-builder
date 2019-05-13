@@ -6,6 +6,7 @@ import json
 import numpy as np
 from copy import deepcopy
 from functools import lru_cache
+import pickle
 
 
 @lru_cache(maxsize=None)
@@ -66,3 +67,26 @@ class BagOfWordsVectorizer(object):
                     current_vector[self._regions_mapping["unknow"]] = 1
             big_vector += current_vector
         return big_vector
+
+    def save(self, filename=config.DEFAULT_BOW_MODEL_FILE, dump_fct=pickle.dump):
+        """ save this current instance of BagOfWordsVectorizer
+            Args:
+                filename: file that will be used to store the instance
+                dump_fct: function to use to dump the instance into a file
+        """
+        with open(filename, "wb") as f:
+            dump_fct(self.__dict__, f)
+
+    @staticmethod
+    def load(filename=config.DEFAULT_BOW_MODEL_FILE, load_fct=pickle.load):
+        """ Create a instance of BagOfWordsVectorizer from a previously saved file
+            Args:
+                filename: file that contain the saved BagOfWordsVectorizer instance
+                load_fct: function to use to load the instance from a file
+            Return:
+                An instance of BagOfWordsVectorizer
+        """
+        with open(filename, "rb") as f:
+            instance = BagOfWordsVectorizer(None, None)
+            instance.__dict__ = load_fct(f)
+            return instance
