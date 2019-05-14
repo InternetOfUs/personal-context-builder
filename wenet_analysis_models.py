@@ -50,8 +50,8 @@ class BaseModelWrapper(BaseModel):
         with open(filename, "wb") as f:
             dump_fct(self.__dict__, f)
 
-    @staticmethod
-    def load(filename=config.DEFAULT_ANALYSIS_MODEL_FILE, load_fct=pickle.load):
+    @classmethod
+    def load(cls, filename=config.DEFAULT_ANALYSIS_MODEL_FILE, load_fct=pickle.load):
         """ Create a instance of BaseModelWrapper from a previously saved file
             Args:
                 filename: file that contain the saved BaseModelWrapper instance
@@ -60,7 +60,7 @@ class BaseModelWrapper(BaseModel):
                 An instance of BaseModelWrapper
         """
         with open(filename, "rb") as f:
-            wrapper = BaseModelWrapper(None)
+            wrapper = cls()
             wrapper.__dict__ = load_fct(f)
             return wrapper
 
