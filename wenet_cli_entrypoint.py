@@ -44,6 +44,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--update", help="update the profiles in the db", action="store_true"
     )
+    parser.add_argument("--db_clean", help="clean the db", action="store_true")
+    parser.add_argument("--show", help="show a specific profile from the db")
+    parser.add_argument(
+        "--show_all", help="show all profiles from the db", action="store_true"
+    )
     parser.add_argument("--app_run", help="run the application", action="store_true")
     parser.add_argument(
         "--mock",
