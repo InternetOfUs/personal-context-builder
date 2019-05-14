@@ -34,12 +34,22 @@ class ProfileWritter(object):
 
 
 class ProfileWritterFromMock(ProfileWritter):
-    def __init__(self):
-        source_locations = MockWenetSourceLocations()
-        source_labels = MockWenetSourceLabels(source_locations)
-        model_instance = SimpleLDA().load(filename="mock_lda.p")
-        bow_instance = BagOfWordsVectorizer.load(filename="mock_bow.p")
-        super().__init__(source_locations, source_labels, model_instance, bow_instance)
+    def __init__(
+        self,
+        source_locations=None,
+        source_labels=None,
+        model_instance=None,
+        bow_trainer=None,
+    ):
+        if source_locations is None:
+            source_locations = MockWenetSourceLocations()
+        if source_labels is None:
+            source_labels = MockWenetSourceLabels(source_locations)
+        if model_instance is None:
+            model_instance = SimpleLDA().load(filename="mock_lda.p")
+        if bow_trainer is None:
+            bow_trainer = bow_trainer = BaseBOWTrainer(source_locations, source_labels)
+        super().__init__(source_locations, source_labels, model_instance, bow_trainer)
 
     def update_profile(self, user, profile):
         print("mock - update profile of user {} with {}".format(user, str(profile)))
