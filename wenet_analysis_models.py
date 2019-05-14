@@ -66,7 +66,9 @@ class BaseModelWrapper(BaseModel):
 
 
 class SimpleLDA(BaseModelWrapper):
-    def __init__(self, n_components=15, random_state=0, n_jobs=-1, **kwargs):
+    def __init__(
+        self, name="simple_lda", n_components=15, random_state=0, n_jobs=-1, **kwargs
+    ):
         my_lda = partial(
             LatentDirichletAllocation,
             n_components=15,
@@ -74,7 +76,7 @@ class SimpleLDA(BaseModelWrapper):
             n_jobs=-1,
             **kwargs
         )
-        super().__init__(my_lda, "simple_lda.p")
+        super().__init__(my_lda, name)
 
     def predict(self, *args, **kwargs):
         return super().transform(*args, **kwargs)
