@@ -80,18 +80,20 @@ class MockWenetSourceLocations(BaseSourceLocations):
         return self._users_locations[user_id]
 
     def get_locations_all_users(self, max_n=None):
-        self._users_locations
+        return self._users_locations
 
 
 class MockWenetSourceLabels(BaseSourceLabels):
     def __init__(self, source_locations):
         super().__init__("mock source labels")
         self._source_locations = source_locations
-        self._users_labels = dict()
+        self._users_labels = defaultdict(list)
         for user, locations in self._source_locations.get_locations_all_users().items():
             first_loc = locations[0]
-            self._users_labels[user] = UserPlace(
-                first_loc._pts_t, first_loc._lat, first_loc._lng, "mock label", user
+            self._users_labels[user].append(
+                UserPlace(
+                    first_loc._pts_t, first_loc._lat, first_loc._lng, "mock label", user
+                )
             )
 
     def get_users(self):
