@@ -20,7 +20,7 @@ class BaseModel(object):
 
 
 class BaseModelWrapper(BaseModel):
-    def __init__(self, model_class, name="unamed"):
+    def __init__(self, model_class=None, name="unamed"):
         self._model_class = model_class
         self._name = name
         if model_class is not None:
