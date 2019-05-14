@@ -37,11 +37,7 @@ class BaseBOWTrainer(object):
         stay_points = estimate_stay_points(
             self._locations_source.get_locations(user_id)
         )
-        sample = [str(x) for x in self._locations_source.get_locations(user_id)[:4]]
-        print("\n".join(sample))
-        print("number of stay points : {}".format(len(stay_points)))
         stay_regions = estimate_stay_regions(stay_points)
-        print("number of stay regions : {}".format(len(stay_regions)))
         user_places = self._labels_source.get_labels(user_id)
         labelled_stay_regions = labelize_stay_region(stay_regions, user_places)
         stay_regions = list(set(stay_regions) - set(labelled_stay_regions))
