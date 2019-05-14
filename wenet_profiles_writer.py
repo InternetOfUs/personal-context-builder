@@ -6,20 +6,26 @@ from wenet_user_profile_db import set_profile
 from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from wenet_analysis_models import SimpleLDA
 from wenet_analysis import BagOfWordsVectorizer
+from wenet_trainer import BaseBOWTrainer
 
 
 class ProfileWritter(object):
-    def __init__(self, locations_source, labels_source, model_instance, bow_vectorizer):
+    def __init__(self, locations_source, labels_source, model_instance, bow_trainer):
         self._locations_source = locations_source
         self._labels_source = labels_source
         self._model_instance = model_instance
-        self._bow_vectorizer = bow_vectorizer
+        self._bow_trainer = bow_trainer
 
     def update_profiles(self):
         users_locations = self._locations_source.get_locations_all_users()
         for user, locations in users_locations.items():
-            X = self._bow_vectorizer.vectorize(locations)
-            res = self._model_instance.predit(X)
+            X = []
+            bow_user = self._bow_trainer.train(user)
+            for day in BagOfWordsVectorizer.group_by_days(locations, user):
+                data = bow_user.vectorize(day)
+                X.append(data)
+            X = np.array(X).reshape(len(X), -1)
+            res = self._model_instance.predict(X)
             profile = np.mean(res, axis=0)
             self.update_profile(user, profile)
 
