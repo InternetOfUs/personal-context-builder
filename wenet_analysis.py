@@ -7,6 +7,9 @@ import numpy as np
 from copy import deepcopy
 from functools import lru_cache
 import pickle
+import pandas as pd
+from datetime import datetime, timedelta
+from wenet_models import UserLocationPoint
 
 
 @lru_cache(maxsize=None)
@@ -36,6 +39,39 @@ class BagOfWordsVectorizer(object):
         self._stay_regions = stay_regions
         self._regions_mapping = _loads_regions(regions_mapping_file)
         self._inner_vector_size = max(self._regions_mapping.values()) + 1
+
+    @classmethod
+    def group_by_days(
+        cls, locations, user="unknow", start_day="00:00:00", dt_hours=24, freq="30T"
+    ):
+        data = [l.__dict__ for l in locations]
+        df = pd.DataFrame.from_records(data)
+        df["_pts_t"] = pd.to_datetime(df["_pts_t"])
+        df["days"] = df["_pts_t"].dt.strftime("%Y%m%d")
+        df["index"] = df["_pts_t"]
+        df = df.set_index("index")
+        days_list = []
+        for name, grouped in df.groupby("days"):
+            current_day = []
+            fullday = str(name)
+            year = fullday[:4]
+            month = fullday[4:6]
+            days = fullday[6:]
+            start_date = datetime.strptime(
+                f"{year}-{month}-{days} {start_day}", "%Y-%m-%d %H:%M:%S"
+            )
+            end_date = start_date + timedelta(hours=dt_hours)
+            df_median = grouped.resample(freq).median()
+            df_day_activity = df_median.reindex(
+                pd.date_range(start=start_date, end=end_date, freq=freq)
+            )
+            df_day_activity["_pts_t"] = df_day_activity.index
+            df_day_activity["_user"] = [user for _ in range(len(df_day_activity))]
+            for index, row in df_day_activity.iterrows():
+                location = UserLocationPoint.from_dict(row)
+                current_day.append(location)
+            days_list.append(current_day)
+        return days_list
 
     def vectorize(self, locations):
         """ Create a bag of words vector
