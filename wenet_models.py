@@ -120,6 +120,15 @@ class UserLocationPoint(LocationPoint):
         super().__init__(pts_t, lat, lng, accuracy_m)
         self._user = user
 
+    @classmethod
+    def from_dict(cls, dict_like_obj):
+        pts_t = dict_like_obj["_pts_t"]
+        lat = dict_like_obj["_lat"]
+        lng = dict_like_obj["_lng"]
+        accuracy_m = dict_like_obj["_accuracy_m"]
+        user = dict_like_obj["_user"]
+        return UserLocationPoint(pts_t, lat, lng, accuracy_m, user)
+
     def __str__(self):
         return f"[{self._user}] " + super().__str__()
 
