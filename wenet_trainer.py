@@ -48,7 +48,7 @@ class BaseBOWTrainer(object):
 
     def vectorize(self):
         data = []
-        len_data = 0
+        cpt = 0
         for (
             user_id,
             locations,
@@ -57,9 +57,9 @@ class BaseBOWTrainer(object):
             for day in BagOfWordsVectorizer.group_by_days(locations, user_id):
                 X = bow_vectorizer.vectorize(day)
                 data += X
-        len_data = len(data)
-        if len_data > 0:
-            return np.array(data).reshape(len_data, -1)
+                cpt += 1
+        if cpt > 0:
+            return np.array(data).reshape(cpt, -1)
         else:
             return None
 
