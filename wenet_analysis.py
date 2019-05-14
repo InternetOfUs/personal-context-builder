@@ -91,7 +91,11 @@ class BagOfWordsVectorizer(object):
                 is_in_region = False
                 for region in self._labelled_stay_regions:
                     if location in region:
-                        current_vector[self._regions_mapping[region._label]] = 1
+                        if region._label in self._regions_mapping:
+                            label = self._regions_mapping[region._label]
+                        else:
+                            label = self._regions_mapping["unknow_labelled_region"]
+                        current_vector[label] = 1
                         is_in_region = True
                         break
                 for region in self._stay_regions:
