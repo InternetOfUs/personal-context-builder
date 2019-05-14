@@ -12,5 +12,6 @@
     "other_friends place": 9,
     "public": 10,
     "restaurant": 11,
-    "school": 12
+    "school": 12,
+    "unknow_labelled_region": 2
 }
