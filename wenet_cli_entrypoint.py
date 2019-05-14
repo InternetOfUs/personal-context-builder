@@ -7,6 +7,23 @@ CLI entrypoint for wenet
 """
 
 import argparse
+from wenet_trainer import BaseBOWTrainer, BaseModelTrainer
+from wenet_analysis_models import SimpleLDA
+from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+from wenet_profiles_writer import MockWenetSourceLabels, MockWenetSourceLocations
+
+
+def train():
+    source_locations = MockWenetSourceLocations()
+    source_labels = MockWenetSourceLabels(source_locations)
+    bow_trainer = BaseBOWTrainer(source_locations, source_labels)
+    lda_model_untrained = SimpleLDA()
+    model_trainer = BaseModelTrainer(
+        source_locations, source_labels, bow_trainer, lda_model_untrained
+    )
+    lda_model = model_trainer.train()
+    lda_model.save(filename="last_lda.p")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Wenet Command line interface")
@@ -24,7 +41,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     if args.train:
-        pass  # TODO train
+        train()
     if args.update:
         pass  # TODO update profiles
     if args.app_run:
