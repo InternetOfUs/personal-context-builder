@@ -3,10 +3,13 @@ Module that load locations/labels data
 """
 
 from abc import ABC, abstractmethod
+from datetime import timedelta
 from datetime import datetime
 from random import random
+from collections import defaultdict
 import hashlib
 from wenet_models import UserLocationPoint, UserPlace
+import config
 
 
 class BaseSourceLocations(ABC):
@@ -53,19 +56,21 @@ class MockWenetSourceLocations(BaseSourceLocations):
         }
 
     @classmethod
-    def _create_fake_locations(cls, user_id, nb=20, dt_s=1):
+    def _create_fake_locations(
+        cls, user_id, nb=2000, dt_s=config.DEFAULT_STAYPOINTS_TIME_MIN_MS / 1000
+    ):
         locations = []
         start_date = datetime.now()
-        for _ in range(len(nb)):
-            lat = 46.109394 + (hashlib.sha224(user_id).hexdigest() & 63) * (
-                (random() - 0.5) / 1000
-            )
-            lng = 7.084442 + (hashlib.sha224(user_id).hexdigest() & 63) * (
-                (random() - 0.5) / 1000
-            )
+        for _ in range(nb):
+            lat = 46.109394 + (
+                int(hashlib.sha224(user_id.encode("utf-8")).hexdigest(), 16) & 63
+            ) * ((random() - 0.5) / 100000)
+            lng = 7.084442 + (
+                int(hashlib.sha224(user_id.encode("utf-8")).hexdigest(), 16) & 63
+            ) * ((random() - 0.5) / 100000)
             location = UserLocationPoint(start_date, lat, lng, 0, user_id)
             locations.append(location)
-            start_date = start_date - datetime.timedelta(seconds=dt_s)
+            start_date = start_date - timedelta(seconds=dt_s + 1)
         return locations
 
     def get_users(self):
