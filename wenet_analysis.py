@@ -44,6 +44,16 @@ class BagOfWordsVectorizer(object):
     def group_by_days(
         cls, locations, user="unknow", start_day="00:00:00", dt_hours=24, freq="30T"
     ):
+        """ class method to group the locations by days
+        Args:
+            locations: list of location to use
+            user: user to use to create UserLocationPoint
+            start_day: "HH:MM:SS" to define the start of a day
+            dt_hours: how many hours we use from the start_day to define the day
+            freq: at which freqency the data will be sample
+        Return:
+            List of list of location, each sublist is a day
+        """
         data = [l.__dict__ for l in locations]
         df = pd.DataFrame.from_records(data)
         df["_pts_t"] = pd.to_datetime(df["_pts_t"])
