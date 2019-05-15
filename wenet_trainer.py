@@ -40,11 +40,23 @@ class BaseBOWTrainer(object):
         labels_source,
         regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
     ):
+        """ Handle the trainer of the Bag-Of-Words
+        Args:
+            locations_source: source of data of locations
+            labels_source: source of data for the labels
+            regions_mapping_file: region mapping file to use
+        """
         self._locations_source = locations_source
         self._labels_source = labels_source
         self._regions_mapping_file = regions_mapping_file
 
     def train(self, user_id):
+        """ train by using this user_id
+        Args:
+            user_id: user to use to train
+        Return:
+            Trained bow vectorizer
+        """
         stay_points = estimate_stay_points(
             self._locations_source.get_locations(user_id)
         )
@@ -58,6 +70,10 @@ class BaseBOWTrainer(object):
         return bow_vectorizer
 
     def vectorize(self):
+        """ Vectorize the data for all users, for all days
+        Return:
+            2D array with data or None if zero data
+        """
         data = []
         cpt = 0
         for (
