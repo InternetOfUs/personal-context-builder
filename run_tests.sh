@@ -1,2 +1,7 @@
 #! /bin/bash
-coverage run --source=. -m unittest discover && coverage report
+if [ "$HOSTNAME" != "redbull" ]
+then
+    coverage run --source=. -m unittest discover && coverage report
+else
+    echo "Warning - Test skipped on this computer"
+fi
