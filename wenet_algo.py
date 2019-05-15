@@ -33,7 +33,14 @@ def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
     return reduce(add, locations) / len(locations)
 
 
-def create_stay_point(locations):
+def create_stay_point(locations: List[LocationPoint]) -> StayPoint:
+    """
+    Create a single stay point from a list of location
+    Args:
+        locations: list of LocationPoint to use to create a stay point
+    Return:
+        Single StayPoint created from the list of LocationPoint
+    """
     centroid = estimate_centroid(locations)
     maximum_accuracy = max([l._accuracy_m for l in locations])
     t_start = locations[0]._pts_t
