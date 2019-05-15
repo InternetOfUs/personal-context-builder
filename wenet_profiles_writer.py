@@ -11,12 +11,21 @@ from wenet_trainer import BaseBOWTrainer
 
 class ProfileWritter(object):
     def __init__(self, locations_source, labels_source, model_instance, bow_trainer):
+        """ Handle the writting in the db of the profiles
+        Args:
+            locations_source: data source for location
+            labels_source: data source for the labels
+            model_instance: instance of the model to use (ML)
+            bow_trainer: Bag-Of-Words trainer to use
+        """
         self._locations_source = locations_source
         self._labels_source = labels_source
         self._model_instance = model_instance
         self._bow_trainer = bow_trainer
 
     def update_profiles(self):
+        """ update all profiles
+        """
         users_locations = self._locations_source.get_locations_all_users()
         for user, locations in users_locations.items():
             X = []
@@ -30,6 +39,11 @@ class ProfileWritter(object):
             self.update_profile(user, profile)
 
     def update_profile(self, user, profile):
+        """ update a single profile
+        Args:
+            user: user to update
+            profile: profile to use
+        """
         set_profile(user, profile)
 
 
