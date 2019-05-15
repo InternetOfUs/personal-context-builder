@@ -2,6 +2,7 @@
 Module that load locations/labels data
 """
 
+from typing import List
 from abc import ABC, abstractmethod
 from datetime import timedelta
 from datetime import datetime
@@ -57,8 +58,19 @@ class MockWenetSourceLocations(BaseSourceLocations):
 
     @classmethod
     def _create_fake_locations(
-        cls, user_id, nb=2000, dt_s=config.DEFAULT_STAYPOINTS_TIME_MIN_MS / 1000
-    ):
+        cls,
+        user_id,
+        nb: int = 2000,
+        dt_s: int = config.DEFAULT_STAYPOINTS_TIME_MIN_MS / 1000,
+    ) -> List[UserLocationPoint]:
+        """ class method to create some fake locations
+        Args:
+            user_id: the user_id to use
+            nb: number of fake locations to create
+            dt_s: delta time to use between each location
+        Return:
+            list of "fake" UserLocationPoint
+        """
         locations = []
         start_date = datetime.now()
         for _ in range(nb):
