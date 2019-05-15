@@ -8,6 +8,27 @@ The WeNet project: diversity-aware, machine-mediated paradigm of social relation
 ![map example middle level](./media/middle_level_map.png)
 ![map example low level](./media/low_level_map.png)
 
+# Wenet entry points
+
+Wenet have a single entrypoint for all functionality. By typing `python3 -m wenet_cli_entrypoint --help`, you can have the help
+
+<pre>
+usage: wenet_cli_entrypoint.py [-h] [--train] [--update] [--db_clean]
+                               [--show SHOW] [--show_all] [--app_run] [--mock]
+
+Wenet Command line interface
+
+optional arguments:
+  -h, --help   show this help message and exit
+  --train      train the model from the latest data
+  --update     update the profiles in the db
+  --db_clean   clean the db
+  --show SHOW  show a specific profile from the db
+  --show_all   show all profiles from the db
+  --app_run    run the application
+  --mock       use mock data/db instead of real wenet data
+</pre>
+
 # Dev setup
 
 ## Setup hook
