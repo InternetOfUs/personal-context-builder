@@ -11,12 +11,23 @@ class BaseModelTrainer(object):
     def __init__(
         self, locations_source, labels_source, bow_trainer, untrained_model_instance
     ):
+        """ Handle the training of models
+        Args:
+            locations_source: source of data of locations
+            labels_source: source of data for the labels
+            bow_trainer: Bag-of-words trainer to use
+            untrained_model_instance: the instance to train
+        """
         self._locations_source = locations_source
         self._labels_source = labels_source
         self._bow_trainer = bow_trainer
         self._untrained_model_instance = untrained_model_instance
 
     def train(self):
+        """ Train to untrained_model_instance using bow_trainer
+        Return:
+            trained instance of the model
+        """
         X = self._bow_trainer.vectorize()
         self._untrained_model_instance.fit(X)
         return self._untrained_model_instance
