@@ -66,6 +66,10 @@ def show_all_profiles():
         print(f"[{user_id}] {profile}")
 
 
+def clean_db_cmd():
+    clean_db()
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Wenet Command line interface")
     parser.add_argument(
@@ -74,7 +78,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--update", help="update the profiles in the db", action="store_true"
     )
-    parser.add_argument("--db_clean", help="clean the db", action="store_true")
+    parser.add_argument("--clean_db", help="clean the db", action="store_true")
     parser.add_argument("--show", help="show a specific profile from the db")
     parser.add_argument(
         "--show_all", help="show all profiles from the db", action="store_true"
@@ -86,6 +90,8 @@ if __name__ == "__main__":
         action="store_true",
     )
     args = parser.parse_args()
+    if args.clean_db:
+        clean_db_cmd()
     if args.train:
         train(args.mock)
     if args.update:
