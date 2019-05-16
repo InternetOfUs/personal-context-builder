@@ -36,7 +36,7 @@ class ProfileWritter(object):
             X = np.array(X).reshape(len(X), -1)
             res = self._model_instance.predict(X)
             profile = np.mean(res, axis=0)
-            self.update_profile(user, profile)
+            self.update_profile(user, profile.tolist())
 
     def update_profile(self, user, profile):
         """ update a single profile
