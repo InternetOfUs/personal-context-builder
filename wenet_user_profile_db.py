@@ -1,5 +1,7 @@
 """
 Module that handle database access for user's profile
+
+TODO refactor to use class, for make it easier to mock and test
 """
 import config
 import redis
