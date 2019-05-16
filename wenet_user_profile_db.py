@@ -10,6 +10,13 @@ _REDIS_SERVER = redis.Redis(
 )
 
 
+def clean_db():
+    """ clean the db (delete all entries)
+    """
+    for key in _REDIS_SERVER.scan_iter():
+        _REDIS_SERVER.delete(key)
+
+
 def delete_profile(user_id):
     """ delete a profile
     Args:
