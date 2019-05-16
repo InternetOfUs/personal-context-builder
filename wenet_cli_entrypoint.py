@@ -10,8 +10,8 @@ import argparse
 from wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from wenet_analysis_models import SimpleLDA
 from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from wenet_profiles_writer import ProfileWritterFromMock
-from wenet_user_profile_db import get_all_profiles, get_profile
+from wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
+from wenet_user_profile_db import get_all_profiles, get_profile, clean_db
 
 
 def train(is_mock=False):
@@ -37,6 +37,17 @@ def update(is_mock=False):
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
         model = SimpleLDA.load("last_lda.p")
         profile_writter = ProfileWritterFromMock(
+            source_locations, source_labels, model, bow_trainer
+        )
+        profile_writter.update_profiles()
+        print(f"done")
+    else:
+        print(f"updating profiles on real data (mock for now, TODO changeme)")
+        source_locations = MockWenetSourceLocations()
+        source_labels = MockWenetSourceLabels(source_locations)
+        bow_trainer = BaseBOWTrainer(source_locations, source_labels)
+        model = SimpleLDA.load("last_lda.p")
+        profile_writter = ProfileWritter(
             source_locations, source_labels, model, bow_trainer
         )
         profile_writter.update_profiles()
