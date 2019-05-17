@@ -42,7 +42,7 @@ class BagOfWordsVectorizer(object):
 
     @classmethod
     def group_by_days(
-        cls, locations, user="unknow", start_day="00:00:00", dt_hours=24, freq="30T"
+        cls, locations, user="unknow", start_day="00:00:00", dt_hours=23.5, freq="30T"
     ):
         """ class method to group the locations by days
         Args:
