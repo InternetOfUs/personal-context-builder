@@ -38,7 +38,7 @@ class BagOfWordsVectorizer(object):
         self._labelled_stay_regions = labelled_stay_regions
         self._stay_regions = stay_regions
         self._regions_mapping = _loads_regions(regions_mapping_file)
-        self._inner_vector_size = max(self._regions_mapping.values()) + 1
+        self._inner_vector_size = max(self._regions_mapping.values())
 
     @classmethod
     def group_by_days(
