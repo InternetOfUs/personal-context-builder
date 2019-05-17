@@ -11,13 +11,7 @@ from wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from wenet_analysis_models import SimpleLDA
 from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
-from wenet_user_profile_db import (
-    get_all_profiles,
-    get_profile,
-    clean_db,
-    DatabaseProfileHandlerMock,
-    DatabaseProfileHandler,
-)
+from wenet_user_profile_db import DatabaseProfileHandlerMock, DatabaseProfileHandler
 
 
 def train(is_mock=False):
