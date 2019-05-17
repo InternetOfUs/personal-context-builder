@@ -45,7 +45,7 @@ def update(is_mock=False):
         )
         profile_writter.update_profiles()
         print(f"done")
-    else:
+    else:  # pragma: no cover
         print(f"updating profiles on real data (mock for now, TODO changeme)")
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
@@ -65,7 +65,7 @@ def update(is_mock=False):
 def show_profile(user_id, is_mock=False):
     if is_mock:
         profile = DatabaseProfileHandlerMock.get_instance().get_profile(user_id)
-    else:
+    else:  # pragma: no cover
         profile = DatabaseProfileHandler.get_instance().get_profile(user_id)
     print(f"[{user_id}] {profile}")
 
@@ -73,7 +73,7 @@ def show_profile(user_id, is_mock=False):
 def show_all_profiles(is_mock=False):
     if is_mock:
         users_profiles = DatabaseProfileHandlerMock.get_instance().get_all_profiles()
-    else:
+    else:  # pragma: no cover
         users_profiles = DatabaseProfileHandler.get_instance().get_all_profiles()
     print(f"number of profiles : {len(users_profiles)}")
     for user_id, profile in users_profiles.items():
@@ -83,7 +83,7 @@ def show_all_profiles(is_mock=False):
 def clean_db_cmd(is_mock=False):
     if is_mock:
         DatabaseProfileHandlerMock.get_instance().clean_db()
-    else:
+    else:  # pragma: no cover
         DatabaseProfileHandler.get_instance().clean_db()
 
 
