@@ -48,12 +48,12 @@ class BaseSourceLabels(ABC):
 
 
 class MockWenetSourceLocations(BaseSourceLocations):
-    def __init__(self):
+    def __init__(self, nb=2000):
         super().__init__("mock wenet source locations")
         self._users_locations = {
-            "mock_user_1": self._create_fake_locations("mock_user_1"),
-            "mock_user_2": self._create_fake_locations("mock_user_2"),
-            "mock_user_3": self._create_fake_locations("mock_user_3"),
+            "mock_user_1": self._create_fake_locations("mock_user_1", nb),
+            "mock_user_2": self._create_fake_locations("mock_user_2", nb),
+            "mock_user_3": self._create_fake_locations("mock_user_3", nb),
         }
 
     @classmethod
