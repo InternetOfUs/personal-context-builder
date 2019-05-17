@@ -2,7 +2,7 @@
 """
 import numpy as np
 
-from wenet_user_profile_db import set_profile
+from wenet_user_profile_db import DatabaseProfileHandlerMock
 from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from wenet_analysis_models import SimpleLDA
 from wenet_analysis import BagOfWordsVectorizer
@@ -10,7 +10,14 @@ from wenet_trainer import BaseBOWTrainer
 
 
 class ProfileWritter(object):
-    def __init__(self, locations_source, labels_source, model_instance, bow_trainer):
+    def __init__(
+        self,
+        locations_source,
+        labels_source,
+        model_instance,
+        bow_trainer,
+        database_instance,
+    ):
         """ Handle the writting in the db of the profiles
         Args:
             locations_source: data source for location
@@ -22,6 +29,7 @@ class ProfileWritter(object):
         self._labels_source = labels_source
         self._model_instance = model_instance
         self._bow_trainer = bow_trainer
+        self._database_instance = database_instance
 
     def update_profiles(self):
         """ update all profiles
@@ -44,7 +52,7 @@ class ProfileWritter(object):
             user: user to update
             profile: profile to use
         """
-        set_profile(user, profile)
+        self._database_instance.set_profile(user, profile)
 
 
 class ProfileWritterFromMock(ProfileWritter):
@@ -54,6 +62,7 @@ class ProfileWritterFromMock(ProfileWritter):
         source_labels=None,
         model_instance=None,
         bow_trainer=None,
+        database_instance=None,
     ):
         if source_locations is None:
             source_locations = MockWenetSourceLocations()
@@ -63,7 +72,12 @@ class ProfileWritterFromMock(ProfileWritter):
             model_instance = SimpleLDA().load(filename="mock_lda.p")
         if bow_trainer is None:
             bow_trainer = bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        super().__init__(source_locations, source_labels, model_instance, bow_trainer)
-
-    def update_profile(self, user, profile):
-        print("mock - update profile of user {} with {}".format(user, str(profile)))
+        if database_instance is None:
+            database_instance = DatabaseProfileHandlerMock.get_instance()
+        super().__init__(
+            source_locations,
+            source_labels,
+            model_instance,
+            bow_trainer,
+            database_instance,
+        )

@@ -11,7 +11,13 @@ from wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from wenet_analysis_models import SimpleLDA
 from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
-from wenet_user_profile_db import get_all_profiles, get_profile, clean_db
+from wenet_user_profile_db import (
+    get_all_profiles,
+    get_profile,
+    clean_db,
+    DatabaseProfileHandlerMock,
+    DatabaseProfileHandler,
+)
 
 
 def train(is_mock=False):
@@ -36,8 +42,12 @@ def update(is_mock=False):
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
         model = SimpleLDA.load("last_lda.p")
-        profile_writter = ProfileWritterFromMock(
-            source_locations, source_labels, model, bow_trainer
+        profile_writter = ProfileWritter(
+            source_locations,
+            source_labels,
+            model,
+            bow_trainer,
+            DatabaseProfileHandlerMock.get_instance(),
         )
         profile_writter.update_profiles()
         print(f"done")
@@ -48,26 +58,39 @@ def update(is_mock=False):
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
         model = SimpleLDA.load("last_lda.p")
         profile_writter = ProfileWritter(
-            source_locations, source_labels, model, bow_trainer
+            source_locations,
+            source_labels,
+            model,
+            bow_trainer,
+            DatabaseProfileHandler.get_instance(),
         )
         profile_writter.update_profiles()
         print(f"done")
 
 
-def show_profile(user_id):
-    profile = get_profile(user_id)
+def show_profile(user_id, is_mock=False):
+    if is_mock:
+        profile = DatabaseProfileHandlerMock.get_instance().get_profile(user_id)
+    else:
+        profile = DatabaseProfileHandler.get_instance().get_profile(user_id)
     print(f"[{user_id}] {profile}")
 
 
-def show_all_profiles():
-    users_profiles = get_all_profiles()
+def show_all_profiles(is_mock=False):
+    if is_mock:
+        users_profiles = DatabaseProfileHandlerMock.get_instance().get_all_profiles()
+    else:
+        users_profiles = DatabaseProfileHandler.get_instance().get_all_profiles()
     print(f"number of profiles : {len(users_profiles)}")
     for user_id, profile in users_profiles.items():
         print(f"[{user_id}] {profile}")
 
 
-def clean_db_cmd():
-    clean_db()
+def clean_db_cmd(is_mock=False):
+    if is_mock:
+        DatabaseProfileHandlerMock.get_instance().clean_db()
+    else:
+        DatabaseProfileHandler.get_instance().clean_db()
 
 
 if __name__ == "__main__":
@@ -97,6 +120,8 @@ if __name__ == "__main__":
     if args.update:
         update(args.mock)
     if args.show_all:
-        show_all_profiles()
+        show_all_profiles(args.mock)
+    if args.show:
+        show_profile(args.show, args.mock)
     if args.app_run:
         pass  # TODO run the services
