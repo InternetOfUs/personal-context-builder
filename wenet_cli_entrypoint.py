@@ -87,7 +87,7 @@ def clean_db_cmd(is_mock=False):
         DatabaseProfileHandler.get_instance().clean_db()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     parser = argparse.ArgumentParser(description="Wenet Command line interface")
     parser.add_argument(
         "--train", help="train the model from the latest data", action="store_true"
