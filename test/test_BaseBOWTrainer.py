@@ -1,7 +1,8 @@
 import unittest
 from wenet_data_loading import MockWenetSourceLocations, MockWenetSourceLabels
-from wenet_analysis import BagOfWordsVectorizer
+from wenet_analysis import BagOfWordsVectorizer, _loads_regions
 from wenet_trainer import BaseBOWTrainer
+import config
 
 
 class BagOfWordsVectorizerTestCase(unittest.TestCase):
@@ -18,6 +19,17 @@ class BagOfWordsVectorizerTestCase(unittest.TestCase):
         first_day = days_locations[0]
         vector = bow_vectorizer.vectorize(first_day)
         self.assertEqual(sum(vector), 48)
+
+    def test_vectorize(self):
+        source_locations = MockWenetSourceLocations(nb=20)
+        source_labels = MockWenetSourceLabels(source_locations)
+        bow_trainer = BaseBOWTrainer(source_locations, source_labels)
+        nb_users = len(source_locations.get_users())
+        vectors = bow_trainer.vectorize()
+        vectors_size = (
+            max(list(_loads_regions(config.DEFAULT_REGION_MAPPING_FILE).values())) * 48
+        )
+        self.assertEqual(vectors.shape, (nb_users, vectors_size))
 
 
 if __name__ == "__main__":  # pragma: no cover
