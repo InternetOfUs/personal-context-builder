@@ -8,7 +8,7 @@ CLI entrypoint for wenet
 
 import argparse
 from wenet_trainer import BaseBOWTrainer, BaseModelTrainer
-from wenet_analysis_models import SimpleLDA
+from wenet_analysis_models import SimpleLDA, SimpleBOW
 from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
 from wenet_user_profile_db import DatabaseProfileHandlerMock, DatabaseProfileHandler
@@ -20,12 +20,14 @@ def train(is_mock=False):
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        model_untrained = SimpleLDA()
+        #  model_untrained = SimpleLDA()
+        model_untrained = SimpleBOW()
         model_trainer = BaseModelTrainer(
             source_locations, source_labels, bow_trainer, model_untrained
         )
         model = model_trainer.train()
-        model.save(filename="last_lda.p")
+        #  model.save(filename="last_lda.p")
+        model.save(filename="last_bow.p")
         print(f"done")
 
 
@@ -35,7 +37,8 @@ def update(is_mock=False):
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        model = SimpleLDA.load("last_lda.p")
+        #  model = SimpleLDA.load("last_lda.p")
+        model = SimpleBOW.load("last_bow.p")
         profile_writter = ProfileWritter(
             source_locations,
             source_labels,
@@ -50,7 +53,8 @@ def update(is_mock=False):
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        model = SimpleLDA.load("last_lda.p")
+        #  model = SimpleLDA.load("last_lda.p")
+        model = SimpleBOW.load("last_bow.p")
         profile_writter = ProfileWritter(
             source_locations,
             source_labels,
