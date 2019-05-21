@@ -43,7 +43,10 @@ class ProfileWritter(object):
                 X.append(data)
             X = np.array(X).reshape(len(X), -1)
             res = self._model_instance.predict(X)
-            profile = np.mean(res, axis=0)
+            if len(res.shape) == 2:
+                profile = np.mean(res, axis=0)
+            else:
+                profile = res.copy()
             self.update_profile(user, profile.tolist())
 
     def update_profile(self, user, profile):
