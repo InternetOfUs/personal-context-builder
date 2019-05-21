@@ -5,6 +5,7 @@ import config
 import pickle
 from functools import partial
 
+import numpy as np
 from sklearn.decomposition import LatentDirichletAllocation
 
 
@@ -80,3 +81,18 @@ class SimpleLDA(BaseModelWrapper):
 
     def predict(self, *args, **kwargs):
         return super().transform(*args, **kwargs)
+
+
+class SimpleBOW(BaseModelWrapper):
+    def __init__(self, name="simple_bow"):
+        super().__init__(None, name)
+
+    def transform(self, *args, **kwargs):
+        return self.predict(*args, **kwargs)
+
+    def predict(self, *args, **kwargs):
+        X = args[0]
+        return np.mean(X, axis=0)
+
+    def fit(self, *args, **kwargs):
+        pass
