@@ -20,12 +20,12 @@ def train(is_mock=False):
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        lda_model_untrained = SimpleLDA()
+        model_untrained = SimpleLDA()
         model_trainer = BaseModelTrainer(
-            source_locations, source_labels, bow_trainer, lda_model_untrained
+            source_locations, source_labels, bow_trainer, model_untrained
         )
-        lda_model = model_trainer.train()
-        lda_model.save(filename="last_lda.p")
+        model = model_trainer.train()
+        model.save(filename="last_lda.p")
         print(f"done")
 
 
