@@ -45,6 +45,14 @@ This project uses a Redis database. The database can be changed by editing `conf
 
 If you don't modify `config.py` the project expect a Redis database on localhost.
 
+## Install the dependencies
+
+In your virtualenv
+
+```bash
+pip install -r requirements.txt
+```
+
 # API Usage
 
 The API provides user's routine with two routes:
