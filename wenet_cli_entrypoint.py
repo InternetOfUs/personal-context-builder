@@ -12,6 +12,7 @@ from wenet_analysis_models import SimpleLDA, SimpleBOW
 from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
 from wenet_user_profile_db import DatabaseProfileHandlerMock, DatabaseProfileHandler
+from sanic_app import WenetApp
 
 
 def train(is_mock=False):
@@ -88,6 +89,11 @@ def clean_db_cmd(is_mock=False):
         DatabaseProfileHandler.get_instance().clean_db()
 
 
+def run_app():
+    wenet_app = WenetApp()
+    wenet_app.run()
+
+
 if __name__ == "__main__":  # pragma: no cover
     parser = argparse.ArgumentParser(description="Wenet Command line interface")
     parser.add_argument(
@@ -119,4 +125,4 @@ if __name__ == "__main__":  # pragma: no cover
     if args.show:
         show_profile(args.show, args.mock)
     if args.app_run:
-        pass  # TODO run the services
+        run_app()
