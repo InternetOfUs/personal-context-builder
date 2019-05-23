@@ -33,7 +33,7 @@ class UserProfile(HTTPMethodView):
         if routine is not None:
             return json({user_id: routine})
         else:
-            raise NotFound(f"user_id {user_id} not found in the routine databases")
+            raise NotFound(f"user_id {user_id} not found in the routines database")
 
 
 class UserProfiles(HTTPMethodView):
