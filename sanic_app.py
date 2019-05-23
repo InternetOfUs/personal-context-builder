@@ -21,6 +21,7 @@ class WenetApp(object):
     def __init__(self, app_name=config.DEFAULT_APP_NAME):
         self._app = Sanic(app_name)
         self._app.add_route(UserProfile.as_view(), "/routines/<user_id>/")
+        self._app.add_route(UserProfiles.as_view(), "/routines/")
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
         self._app.run(host, port)
@@ -30,6 +31,12 @@ class UserProfile(HTTPMethodView):
     async def get(self, request, user_id):
         routine = DatabaseProfileHandler.get_instance().get_profile(user_id)
         if routine is not None:
-            return json({"user_id": user_id, "routine": routine})
+            return json({user_id: routine})
         else:
             raise NotFound(f"user_id {user_id} not found in the routine databases")
+
+
+class UserProfiles(HTTPMethodView):
+    async def get(self, request):
+        routines = DatabaseProfileHandler.get_instance().get_all_profiles()
+        return json(routines)
