@@ -8,4 +8,4 @@ ADD . .
 ENV DEFAULT_REDIS_HOST 10.0.2.15
 RUN coverage run --source=. -m unittest discover
 EXPOSE 8000
-CMD ["python3", "-m", "sanic_app"]
+CMD ["python3", "-m", "wenet_cli_entrypoint", "--app_run"]
