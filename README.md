@@ -39,6 +39,12 @@ You can run the app with `python3 -m wenet_cli_entrypoint --app_run`
 
 Just create a symlink with `ln -s ../../pre-commit.bash .git/hooks/pre-commit`
 
+## Database
+
+This project uses a Redis database. The database can be changed by editing `config.py` and modifing the line `DEFAULT_REDIS_HOST = "localhost"`. Be aware that this value is overrided in the `Dockerfile`
+
+If you don't modify `config.py` the project expect a Redis database on localhost.
+
 # API Usage
 
 The API provides user's routine with two routes:
