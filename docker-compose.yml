@@ -5,7 +5,7 @@ services:
     image: "redis:alpine"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
-     - redis-data:/data
+     - wenet-redis-data:/data
   wenet-api:
     build: .
     container_name: wenet-api
@@ -22,5 +22,5 @@ networks:
       name: docker1
 
 volumes:
-  redis-data:
+  wenet-redis-data:
   wenet-data:
