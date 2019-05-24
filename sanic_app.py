@@ -16,10 +16,23 @@ from pprint import pprint
 
 
 class WenetApp(object):
-    def __init__(self, app_name=config.DEFAULT_APP_NAME):
+    def __init__(
+        self,
+        app_name=config.DEFAULT_APP_NAME,
+        virtual_host=config.DEFAULT_VIRTUAL_HOST,
+        virtual_host_location=config.DEFAULT_VIRTUAL_HOST_LOCATION,
+    ):
         self._app = Sanic(app_name)
-        self._app.add_route(UserProfile.as_view(), "/routines/<user_id>/")
-        self._app.add_route(UserProfiles.as_view(), "/routines/")
+        self._app.add_route(
+            UserProfile.as_view(),
+            virtual_host_location + "/routines/<user_id>/",
+            host=virtual_host_location if virtual_host_location != "" else None,
+        )
+        self._app.add_route(
+            UserProfiles.as_view(),
+            virtual_host_location + "/routines/",
+            host=virtual_host_location if virtual_host_location != "" else None,
+        )
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
         self._app.run(host, port)
