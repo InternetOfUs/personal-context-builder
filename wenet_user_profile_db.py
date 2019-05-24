@@ -62,7 +62,10 @@ class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
 
     def delete_profile(self, user_id):
         print(f"mock delete profile {user_id}")
-        del self._my_dict[user_id]
+        try:
+            del self._my_dict[user_id]
+        except KeyError:
+            pass
 
     def get_all_profiles(self, match=None):
         print("mock get all profiles")
@@ -70,7 +73,11 @@ class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
 
     def get_profile(self, user_id):
         print(f"mock get profile {user_id}")
-        return self._my_dict[user_id]
+        try:
+            return self._my_dict[user_id]
+        except KeyError:
+            print(f"\tmock unable to get profile {user_id} - doesn't exist")
+            return None
 
     def set_profile(self, user_id, vector):
         print(f"mock set profile {user_id} with {vector}")
