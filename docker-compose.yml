@@ -12,7 +12,7 @@ services:
     env_file:
       - wenet.env
     ports:
-     - "8000:8000"
+     - "8081:80"
     volumes:
      - wenet-data:/data
     image:  'docker.idiap.ch/wenet/personal_context_builder:latest'
