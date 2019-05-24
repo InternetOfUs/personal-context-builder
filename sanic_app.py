@@ -14,8 +14,6 @@ import config
 import datetime
 from pprint import pprint
 
-app = Sanic(config.DEFAULT_APP_NAME)
-
 
 class WenetApp(object):
     def __init__(self, app_name=config.DEFAULT_APP_NAME):
