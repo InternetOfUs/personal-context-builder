@@ -38,7 +38,7 @@ def _update_parameters_from_env():
     """ update the config values from env
     """
     for k, v in globals().items():
-        if k.startswith("DEFAULT_") or k in ["VIRTUAL_HOST", "VIRTUAL_HOST_LOCATION"]:
+        if k.startswith("DEFAULT_"):
             if k in environ:
                 new_v = type(v)(environ[k])
                 print(
@@ -47,6 +47,16 @@ def _update_parameters_from_env():
                     )
                 )
                 globals()[k] = new_v
+
+    if "VIRTUAL_HOST" in environ:
+        globals()["DEFAULT_VIRTUAL_HOST"] = environ["VIRTUAL_HOST"]
+        print("VIRTUAL_HOST set to {}".format(environ["VIRTUAL_HOST"]))
+
+    if "VIRTUAL_HOST_LOCATION" in environ:
+        globals()["DEFAULT_VIRTUAL_HOST_LOCATION"] = environ["VIRTUAL_HOST_LOCATION"]
+        print(
+            "VIRTUAL_HOST_LOCATION set to {}".format(environ["VIRTUAL_HOST_LOCATION"])
+        )
 
 
 # update the config by using env
