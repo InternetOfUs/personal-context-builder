@@ -1,0 +1,24 @@
+version: '3'
+services:
+  redis:
+    image: "redis:alpine"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+     - redis-data:/data
+  wenet:
+    build: .
+    environment:
+     - DEFAULT_REDIS_HOST=redis
+     - DEFAULT_DATA_FOLDER=/data
+    ports:
+     - "8000:8000"
+    volumes:
+     - wenet-data:/data
+networks:
+  default:
+    external:
+      name: docker1
+
+volumes:
+  redis-data:
+  wenet-data:
