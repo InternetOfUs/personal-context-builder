@@ -1,10 +1,12 @@
 import unittest
 from os import remove
+from os.path import join
 from sklearn.datasets import load_iris
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from wenet_analysis_models import BaseModelWrapper
 from functools import partial
+import config
 
 
 class UserProfileDBTestCase(unittest.TestCase):
@@ -28,7 +30,8 @@ class UserProfileDBTestCase(unittest.TestCase):
         self.assertTrue((prediction_1 == prediction_2).all())
 
     def tearDown(self):
-        remove(self.model_1)
+        location = join(config.DEFAULT_DATA_FOLDER, self.model_1)
+        remove(location)
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -5,6 +5,7 @@ import config
 import json
 import numpy as np
 from copy import deepcopy
+from os.path import join
 from functools import lru_cache
 import pickle
 import pandas as pd
@@ -124,7 +125,8 @@ class BagOfWordsVectorizer(object):
                 filename: file that will be used to store the instance
                 dump_fct: function to use to dump the instance into a file
         """
-        with open(filename, "wb") as f:
+        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        with open(location, "wb") as f:
             dump_fct(self.__dict__, f)
 
     @staticmethod
@@ -136,7 +138,8 @@ class BagOfWordsVectorizer(object):
             Return:
                 An instance of BagOfWordsVectorizer
         """
-        with open(filename, "rb") as f:
+        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        with open(location, "rb") as f:
             instance = BagOfWordsVectorizer(None, None)
             instance.__dict__ = load_fct(f)
             return instance

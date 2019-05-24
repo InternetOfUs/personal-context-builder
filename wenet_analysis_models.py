@@ -4,6 +4,7 @@ models (ML sense) used for create user profile
 import config
 import pickle
 from functools import partial
+from os.path import join
 
 import numpy as np
 from sklearn.decomposition import LatentDirichletAllocation
@@ -48,7 +49,8 @@ class BaseModelWrapper(BaseModel):
                 filename: file that will be used to store the instance
                 dump_fct: function to use to dump the instance into a file
         """
-        with open(filename, "wb") as f:
+        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        with open(location, "wb") as f:
             dump_fct(self.__dict__, f)
 
     @classmethod
@@ -60,7 +62,8 @@ class BaseModelWrapper(BaseModel):
             Return:
                 An instance of BaseModelWrapper
         """
-        with open(filename, "rb") as f:
+        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        with open(location, "rb") as f:
             wrapper = cls()
             wrapper.__dict__ = load_fct(f)
             return wrapper

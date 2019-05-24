@@ -3,7 +3,8 @@ from wenet_data_loading import MockWenetSourceLocations, MockWenetSourceLabels
 from wenet_algo import estimate_stay_regions, estimate_stay_points, labelize_stay_region
 import unittest
 from os import remove
-
+from os.path import join
+import config
 
 class BagOfWordsVectorizerTestCase(unittest.TestCase):
     def test_save_load(self):
@@ -14,7 +15,8 @@ class BagOfWordsVectorizerTestCase(unittest.TestCase):
         filename = "bow_delete_me.p"
         vectorizer.save(filename)
         vectorizer = BagOfWordsVectorizer.load(filename)
-        remove(filename)
+        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        remove(location)
         self.assertEqual(regions_size, vectorizer._inner_vector_size)
 
     def test_vecrotizer(self):
