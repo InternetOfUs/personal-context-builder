@@ -24,14 +24,10 @@ class WenetApp(object):
     ):
         self._app = Sanic(app_name)
         self._app.add_route(
-            UserProfile.as_view(),
-            virtual_host_location + "/routines/<user_id>/",
-            host=virtual_host_location if virtual_host_location != "" else None,
+            UserProfile.as_view(), virtual_host_location + "/routines/<user_id>/"
         )
         self._app.add_route(
-            UserProfiles.as_view(),
-            virtual_host_location + "/routines/",
-            host=virtual_host_location if virtual_host_location != "" else None,
+            UserProfiles.as_view(), virtual_host_location + "/routines/"
         )
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
