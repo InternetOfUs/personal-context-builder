@@ -5,7 +5,5 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y python3-pip
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 ADD . .
-ENV DEFAULT_REDIS_HOST 10.0.2.15
-RUN coverage run --source=. -m unittest discover
 EXPOSE 8000
 CMD ["python3", "-m", "wenet_cli_entrypoint", "--app_run"]
