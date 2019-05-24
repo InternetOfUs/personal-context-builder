@@ -7,13 +7,13 @@ services:
      - redis-data:/data
   wenet:
     build: .
-    environment:
-     - DEFAULT_REDIS_HOST=redis
-     - DEFAULT_DATA_FOLDER=/data
+    env_file:
+      - wenet.env
     ports:
      - "8000:8000"
     volumes:
      - wenet-data:/data
+    image:  'docker.idiap.ch/wenet/personal_context_builder:latest'
 networks:
   default:
     external:
