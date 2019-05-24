@@ -1,14 +1,14 @@
 version: '3'
 services:
-  redis:
-    container_name: wenet_redis
+  wenet-redis:
+    container_name: wenet-redis
     image: "redis:alpine"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
      - redis-data:/data
-  wenet:
+  wenet-api:
     build: .
-    container_name: wenet_api
+    container_name: wenet-api
     env_file:
       - wenet.env
     ports:
