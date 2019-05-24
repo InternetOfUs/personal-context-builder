@@ -38,7 +38,7 @@ def _update_parameters_from_env():
     """ update the config values from env
     """
     for k, v in globals().items():
-        if k.startswith("DEFAULT_"):
+        if k.startswith("DEFAULT_") or k in ["VIRTUAL_HOST", "VIRTUAL_HOST_LOCATION"]:
             if k in environ:
                 new_v = type(v)(environ[k])
                 print(
