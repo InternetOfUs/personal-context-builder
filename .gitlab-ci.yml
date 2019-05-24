@@ -3,7 +3,9 @@
 
  build_image:
    script:
-     - docker build -t wenet:latest .
+     - docker-compose build
  coverage:
    script:
-     - docker run wenet:latest coverage report
+     - docker-compose up -d
+     - ./docker_run_tests.sh
+     - docker-compose down
