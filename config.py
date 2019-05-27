@@ -26,12 +26,20 @@ DEFAULT_VIRTUAL_HOST_LOCATION = ""
 DEFAULT_REDIS_HOST = "localhost"
 DEFAULT_REDIS_PORT = 6379
 
+# up to 16 (0-15) locations in default Redis settings
+DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA"
+DEFAULT_REDIS_DATABASE_MODEL_1 = "SimpleBOW"
+
 DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
 
 DEFAULT_DATA_FOLDER = "."
 
 DEFAULT_ANALYSIS_MODEL_FILE = "model.p"
 DEFAULT_BOW_MODEL_FILE = "bow.p"
+
+# will contain mapping for models
+MAP_DB_TO_MODEL = dict()
+MAP_MODEL_TO_DB = dict()
 
 
 def _update_parameters_from_env():
@@ -63,6 +71,17 @@ def _update_parameters_if_virtual_host():
         )
 
 
+def _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB):
+    """ fill two dict to map Redis DB <--> model classes
+    """
+    for k, v in globals().items():
+        if k.startswith("DEFAULT_REDIS_DATABASE_MODEL_"):
+            number = int(k.split("_")[-1])
+            MAP_DB_TO_MODEL[number] = v
+            MAP_MODEL_TO_DB[v] = number
+
+
 # update the config by using env
 _update_parameters_from_env()
 _update_parameters_if_virtual_host()
+_update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB)
