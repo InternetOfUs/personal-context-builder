@@ -34,8 +34,9 @@ DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
 
 DEFAULT_DATA_FOLDER = "."
 
-DEFAULT_ANALYSIS_MODEL_FILE = "model.p"
-DEFAULT_BOW_MODEL_FILE = "bow.p"
+# Shouldn't be used
+DEFAULT_GENERIC_MODEL_NAME = "last_model.p"
+DEFAULT_BOW_MODEL_FILE = "last_bow_vectorizer.p"
 
 # will contain mapping for models
 MAP_DB_TO_MODEL = dict()
