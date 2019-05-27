@@ -11,5 +11,5 @@
      - docker-compose down
  push:
   script:
-     - echo $CI_PUSH_TOKEN | docker login -u wdroz --password-stdin
+     - echo $CI_PUSH_TOKEN | docker.idiap.ch login -u wdroz --password-stdin
      - docker push docker.idiap.ch/wenet/personal_context_builder
