@@ -9,3 +9,7 @@
      - docker-compose up -d
      - ./docker_run_tests.sh
      - docker-compose down
+ push:
+  script:
+     - docker login -u wdroz -p $CI_PUSH_TOKEN
+     - docker push docker.idiap.ch/wenet/personal_context_builder
