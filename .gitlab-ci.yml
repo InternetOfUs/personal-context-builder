@@ -10,6 +10,8 @@
      - ./docker_run_tests.sh
      - docker-compose down
  push:
+  only:
+     - master
   script:
      - echo $CI_PUSH_TOKEN | docker login docker.idiap.ch -u wdroz --password-stdin
      - docker push docker.idiap.ch/wenet/personal_context_builder
