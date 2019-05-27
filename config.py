@@ -48,6 +48,10 @@ def _update_parameters_from_env():
                 )
                 globals()[k] = new_v
 
+
+def _update_parameters_if_virtual_host():
+    """ Update parameter if virtual host is defined
+    """
     if "VIRTUAL_HOST" in environ:
         globals()["DEFAULT_VIRTUAL_HOST"] = environ["VIRTUAL_HOST"]
         print("VIRTUAL_HOST set to {}".format(environ["VIRTUAL_HOST"]))
@@ -61,3 +65,4 @@ def _update_parameters_from_env():
 
 # update the config by using env
 _update_parameters_from_env()
+_update_parameters_if_virtual_host()
