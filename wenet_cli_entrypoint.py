@@ -114,6 +114,13 @@ def clean_db_cmd(is_mock=False):
             DatabaseProfileHandler.get_instance(db_index=db_index).clean_db()
 
 
+def show_models():
+    res = dict()
+    for model_name in config.MAP_MODEL_TO_DB.keys():
+        model_doc = getattr(wenet_analysis_models, model_name).__doc__
+        print(f"[{model_name}] \t{model_doc}")
+
+
 def run_app():
     wenet_app = WenetApp()
     wenet_app.run()
@@ -134,6 +141,9 @@ if __name__ == "__main__":  # pragma: no cover
     )
     parser.add_argument("--app_run", help="run the application", action="store_true")
     parser.add_argument(
+        "--show_models", help="show the list of models", action="store_true"
+    )
+    parser.add_argument(
         "--mock",
         help="use mock data/db instead of real wenet data",
         action="store_true",
@@ -149,5 +159,7 @@ if __name__ == "__main__":  # pragma: no cover
         show_all_profiles(args.mock)
     if args.show:
         show_profile(args.show, args.mock)
+    if args.show_models:
+        show_models()
     if args.app_run:
         run_app()
