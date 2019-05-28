@@ -62,6 +62,8 @@ The API provides user's routine with two routes:
 
 Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
 
+List of available models can be retreive with the route `/models/`
+
 ## Architecture
 
 ![architecture](./media/architecture.png)
