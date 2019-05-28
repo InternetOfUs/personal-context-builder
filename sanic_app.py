@@ -36,14 +36,24 @@ class WenetApp(object):
 
 class UserProfile(HTTPMethodView):
     async def get(self, request, user_id):
-        routine = DatabaseProfileHandler.get_instance().get_profile(user_id)
-        if routine is not None:
-            return json({user_id: routine})
-        else:
-            raise NotFound(f"user_id {user_id} not found in the routines database")
+        res = dict()
+        for db_index, model_name in config.MAP_DB_TO_MODEL.items():
+            routine = DatabaseProfileHandler.get_instance(
+                db_index=db_index
+            ).get_profile(user_id)
+            if routine is not None:
+                res[model_name] = {user_id: routine}
+            else:
+                raise NotFound(f"user_id {user_id} not found in the routines database")
+        return json(res)
 
 
 class UserProfiles(HTTPMethodView):
     async def get(self, request):
-        routines = DatabaseProfileHandler.get_instance().get_all_profiles()
-        return json(routines)
+        res = dict()
+        for db_index, model_name in config.MAP_DB_TO_MODEL.items():
+            routines = DatabaseProfileHandler.get_instance(
+                db_index=db_index
+            ).get_all_profiles()
+            res[model_name] = routines
+        return json(res)

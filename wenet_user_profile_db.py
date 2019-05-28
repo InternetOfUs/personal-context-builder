@@ -16,16 +16,16 @@ _REDIS_SERVER = redis.Redis(
 class DatabaseProfileHandlerBase(ABC):
     """ Base interface for handling database access for the profiles
 
-    is a Singleton
+    is a dict of Singleton
     """
 
-    _INSTANCE = None
+    _INSTANCES = dict()
 
     @classmethod
-    def get_instance(cls, *args, **kwargs):
-        if cls._INSTANCE is None:
-            cls._INSTANCE = cls(*args, **kwargs)
-        return cls._INSTANCE
+    def get_instance(cls, *args, db_index=0, **kwargs):
+        if db_index not in cls._INSTANCES:
+            cls._INSTANCES[db_index] = cls(*args, db_index=db_index, **kwargs)
+        return cls._INSTANCES[db_index]
 
     @abstractmethod
     def clean_db(self):
@@ -53,7 +53,7 @@ class DatabaseProfileHandlerBase(ABC):
 
 
 class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
-    def __init__(self):
+    def __init__(self, db_index=0):
         self._my_dict = dict()
 
     def clean_db(self):
@@ -95,8 +95,10 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
 
     """
 
-    def __init__(self, host=config.DEFAULT_REDIS_HOST, port=config.DEFAULT_REDIS_PORT):
-        self._server = redis.Redis(host=host, port=port, db=0)
+    def __init__(
+        self, db_index=0, host=config.DEFAULT_REDIS_HOST, port=config.DEFAULT_REDIS_PORT
+    ):
+        self._server = redis.Redis(host=host, port=port, db=db_index)
 
     def clean_db(self):
         """ clean the db (delete all entries)
