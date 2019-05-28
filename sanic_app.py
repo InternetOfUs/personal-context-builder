@@ -9,6 +9,7 @@ from wenet_algo import (
     estimate_stay_regions,
     estimate_stay_regions_per_day,
 )
+import wenet_analysis_models
 from wenet_user_profile_db import DatabaseProfileHandler
 import config
 import datetime
@@ -28,6 +29,9 @@ class WenetApp(object):
         )
         self._app.add_route(
             UserProfiles.as_view(), virtual_host_location + "/routines/"
+        )
+        self._app.add_route(
+            AvailableModels.as_view(), virtual_host_location + "/models/"
         )
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
@@ -56,4 +60,12 @@ class UserProfiles(HTTPMethodView):
                 db_index=db_index
             ).get_all_profiles()
             res[model_name] = routines
+        return json(res)
+
+
+class AvailableModels(HTTPMethodView):
+    async def get(self, request):
+        res = dict()
+        for model_name in config.MAP_MODEL_TO_DB.keys():
+            res[model_name] = getattr(wenet_analysis_models, model_name).__doc__
         return json(res)
