@@ -70,6 +70,9 @@ class BaseModelWrapper(BaseModel):
 
 
 class SimpleLDA(BaseModelWrapper):
+    """ Simple LDA over all the users, with 15 topics
+    """
+
     def __init__(
         self, name="simple_lda", n_components=15, random_state=0, n_jobs=-1, **kwargs
     ):
@@ -87,6 +90,9 @@ class SimpleLDA(BaseModelWrapper):
 
 
 class SimpleBOW(BaseModelWrapper):
+    """ Bag-of-words approach, compute the mean of all days
+    """
+
     def __init__(self, name="simple_bow"):
         super().__init__(None, name)
 
