@@ -60,7 +60,7 @@ The API provides user's routine with two routes:
 *  `/routines/` for all routines for all users
 *  `/routines/<user_id>/` routine for specific user
 
-Routines are a dict with user_id as key and list of float as routine of the user.
+Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
 
 ## Architecture
 
