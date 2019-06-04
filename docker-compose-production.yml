@@ -1,0 +1,27 @@
+version: '3'
+services:
+  wenet-redis:
+    restart: always
+    container_name: wenet-redis
+    image: "redis:5.0-alpine"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+     - wenet-redis-data:/data
+  wenet-api:
+    restart: always
+    container_name: wenet-api
+    env_file:
+      - wenet.env
+    ports:
+     - "8081:80"
+    volumes:
+     - wenet-data:/data
+    image:  'docker.idiap.ch/wenet/personal_context_builder:201381cdb784465cd44a5fcf4bf2b1f9d0ef2159'
+networks:
+  default:
+    external:
+      name: docker1
+
+volumes:
+  wenet-redis-data:
+  wenet-data:
