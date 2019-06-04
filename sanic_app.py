@@ -1,4 +1,5 @@
 from sanic import Sanic
+from sanic import Blueprint
 from sanic_openapi import swagger_blueprint
 
 from sanic_wenet_blueprints import create_available_models_bp, create_routines_bp
@@ -18,8 +19,10 @@ class WenetApp(object):
 
         routines_bp = create_routines_bp(virtual_host_location)
         models_bp = create_available_models_bp(virtual_host_location)
-
-        self._app.blueprint([swagger_blueprint, routines_bp, models_bp])
+        swagger_blueprint_with_prefix = Blueprint.group(
+            swagger_blueprint, url_prefix=virtual_host_location
+        )
+        self._app.blueprint([swagger_blueprint_with_prefix, routines_bp, models_bp])
         self._app.config.API_HOST = virtual_host
         self._app.config.API_BASEPATH = virtual_host_location
 
