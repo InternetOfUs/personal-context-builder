@@ -18,7 +18,11 @@ class WenetApp(object):
         routines_bp = create_routines_bp(virtual_host_location)
         models_bp = create_available_models_bp(virtual_host_location)
 
-        self._app.blueprint(swagger_blueprint, url_prefix=virtual_host_location)
+        self._app.blueprint(
+            swagger_blueprint,
+            url_prefix=virtual_host_location + "/swagger/",
+            strict_slashes=True,
+        )
 
         self._app.blueprint([routines_bp, models_bp])
         self._app.config.API_HOST = virtual_host
