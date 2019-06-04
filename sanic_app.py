@@ -1,4 +1,5 @@
 from sanic import Sanic
+from sanic_openapi import swagger_blueprint
 
 from sanic_wenet_blueprints import create_available_models_bp, create_routines_bp
 import config
@@ -14,7 +15,7 @@ class WenetApp(object):
         self._app = Sanic(app_name)
         routines_bp = create_routines_bp(virtual_host_location)
         models_bp = create_available_models_bp(virtual_host_location)
-        self._app.blueprint([routines_bp, models_bp])
+        self._app.blueprint([swagger_blueprint, routines_bp, models_bp])
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
         self._app.run(host, port)
