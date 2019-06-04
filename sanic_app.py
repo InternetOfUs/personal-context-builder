@@ -24,7 +24,6 @@ class WenetApp(object):
 
         self._app.blueprint([routines_bp, models_bp], strict_slashes=True)
         self._app.config.API_HOST = virtual_host
-        self._app.config.API_BASEPATH = virtual_host_location
         self._app.config.API_SCHEMES = ["https"]
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
