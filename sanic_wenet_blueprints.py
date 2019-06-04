@@ -11,14 +11,16 @@ import config
 
 def create_routines_bp(virtual_host_location):
     routines_bp = Blueprint("routines", url_prefix=virtual_host_location)
-    routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
-    routines_bp.add_route(UserProfiles.as_view(), "/routines/")
+    routines_bp.add_route(
+        UserProfile.as_view(), "/routines/<user_id>/", strict_slashes=True
+    )
+    routines_bp.add_route(UserProfiles.as_view(), "/routines/", strict_slashes=True)
     return routines_bp
 
 
 def create_available_models_bp(virtual_host_location):
     models_bp = Blueprint("available models", url_prefix=virtual_host_location)
-    models_bp.add_route(AvailableModels.as_view(), "/models/")
+    models_bp.add_route(AvailableModels.as_view(), "/models/", strict_slashes=True)
     return models_bp
 
 
