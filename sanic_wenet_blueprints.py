@@ -2,7 +2,6 @@ from sanic.views import HTTPMethodView
 from sanic.exceptions import NotFound
 from sanic.response import json
 from sanic import Blueprint
-from sanic_openapi import doc
 
 from wenet_user_profile_db import DatabaseProfileHandler
 import wenet_analysis_models
@@ -11,7 +10,7 @@ import config
 
 def create_routines_bp(virtual_host_location):
     routines_bp = Blueprint("routines", url_prefix=virtual_host_location)
-    routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>")
+    routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
     routines_bp.add_route(UserProfiles.as_view(), "/routines/")
     return routines_bp
 
