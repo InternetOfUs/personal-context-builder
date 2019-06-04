@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  description: 'Component that handle the personal context of the users'
+  version: 0.0.2
+  title: WeNet - personal_context_builder
+  contact:
+    email: william.droz@idiap.ch
+paths:
+  /routines/:
+    get:
+      summary: get the list all routines for all users with all models
+      responses:
+        '200':
+          description: user routines
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Models"
+              examples:
+                SimpleLDA:
+                  value: {
+                  
+                    "mock_user_1" : [0, 1, 0, 0.5, 1],
+                    "mock_user_2" : [0, 1, 1, 0.5, 1],
+                    "mock_user_3" : [0, 1, 0, 0.5, 0]
+                  }
+                SimpleBOW:
+                  value: {
+                  
+                    "mock_user_1" : [1, 1, 0, 0.5, 1],
+                    "mock_user_2" : [1, 1, 1, 0.5, 1],
+                    "mock_user_3" : [1, 1, 0, 0.5, 0]
+                  }
+  /routines/{user_id}/:
+    get:
+      summary: get specific user routine
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: specific user's routine
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Models"
+              examples:
+                SimpleLDA:
+                  value: {
+                    "mock_user_1" : [0, 1, 0, 0.5, 1],
+                  }
+                SimpleBOW:
+                  value: {
+                    "mock_user_1" : [1, 1, 0, 0.5, 1],
+                  }
+  /models/:
+    get:
+      summary: get the list of all available models
+      responses:
+        '200':
+          description: available models
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModelDescriptions"
+components:
+  schemas:
+    UserRoutine:
+      type: object
+      description: "user_id"
+      additionalProperties:
+        type: array
+        description: "vector that represent user routine"
+        items:
+          type: number
+    Model:
+      type: object
+      description: "model name"
+      additionalProperties:
+        type: array
+        items:
+          $ref: "#/components/schemas/UserRoutine"
+          
+    Models:
+      type: array
+      description: "list of model"
+      items:
+        $ref: "#/components/schemas/Model"
+      
+    ModelDescription:
+      type: object
+      additionalProperties:
+        type: string
+        description: "description of the model"
+    ModelDescriptions:
+      description: "list of model description"
+      type: array
+      items:
+        $ref: "#/components/schemas/ModelDescription"
