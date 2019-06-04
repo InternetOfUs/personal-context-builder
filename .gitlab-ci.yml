@@ -15,3 +15,4 @@
   script:
      - echo $CI_PUSH_TOKEN | docker login docker.idiap.ch -u wdroz --password-stdin
      - docker push docker.idiap.ch/wenet/personal_context_builder
+     - docker push docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_SHA
