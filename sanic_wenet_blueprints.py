@@ -11,7 +11,7 @@ import config
 
 def create_routines_bp(virtual_host_location):
     routines_bp = Blueprint("routines", url_prefix=virtual_host_location)
-    routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
+    routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>")
     routines_bp.add_route(UserProfiles.as_view(), "/routines/")
     return routines_bp
 
