@@ -55,6 +55,8 @@ pip install -r requirements.txt
 
 # API Usage
 
+Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
+
 The API provides user's routine with two routes:
 
 *  `/routines/` for all routines for all users
