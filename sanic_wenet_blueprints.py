@@ -1,36 +1,24 @@
-from sanic import Sanic
 from sanic.views import HTTPMethodView
-from sanic.response import text
 from sanic.exceptions import NotFound
 from sanic.response import json
-from wenet_models import LocationPoint, StayPoint
-from wenet_algo import (
-    estimate_stay_points,
-    estimate_stay_regions,
-    estimate_stay_regions_per_day,
-)
-import wenet_analysis_models
+from sanic import Blueprint
+
 from wenet_user_profile_db import DatabaseProfileHandler
+import wenet_analysis_models
 import config
-import datetime
-from pprint import pprint
-from sanic_wenet_blueprints import create_available_models_bp, create_routines_bp
 
 
-class WenetApp(object):
-    def __init__(
-        self,
-        app_name=config.DEFAULT_APP_NAME,
-        virtual_host=config.DEFAULT_VIRTUAL_HOST,
-        virtual_host_location=config.DEFAULT_VIRTUAL_HOST_LOCATION,
-    ):
-        self._app = Sanic(app_name)
-        routines_bp = create_routines_bp(virtual_host_location)
-        models_bp = create_available_models_bp(virtual_host_location)
-        self._app.blueprint([routines_bp, models_bp])
+def create_routines_bp(virtual_host_location):
+    routines_bp = Blueprint("routines", url_prefix=virtual_host_location)
+    routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
+    routines_bp.add_route(UserProfiles.as_view(), "/routines/")
+    return routines_bp
 
-    def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
-        self._app.run(host, port)
+
+def create_available_models_bp(virtual_host_location):
+    models_bp = Blueprint("available models", url_prefix=virtual_host_location)
+    models_bp.add_route(AvailableModels.as_view(), "/models/")
+    return models_bp
 
 
 class UserProfile(HTTPMethodView):
