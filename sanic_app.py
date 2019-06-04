@@ -14,7 +14,7 @@ class WenetApp(object):
     ):
         self._app = Sanic(app_name)
 
-        swagger_blueprint.url_prefix = virtual_host_location
+        #  swagger_blueprint.url_prefix = virtual_host_location
 
         routines_bp = create_routines_bp(virtual_host_location)
         models_bp = create_available_models_bp(virtual_host_location)
