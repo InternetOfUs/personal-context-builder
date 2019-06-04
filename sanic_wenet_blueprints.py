@@ -2,6 +2,7 @@ from sanic.views import HTTPMethodView
 from sanic.exceptions import NotFound
 from sanic.response import json
 from sanic import Blueprint
+from sanic_openapi import doc
 
 from wenet_user_profile_db import DatabaseProfileHandler
 import wenet_analysis_models
@@ -22,6 +23,8 @@ def create_available_models_bp(virtual_host_location):
 
 
 class UserProfile(HTTPMethodView):
+    @doc.summary("Fetches a routine by user_id")
+    @doc.produces([{"model": {"user": list}}])
     async def get(self, request, user_id):
         res = dict()
         for db_index, model_name in config.MAP_DB_TO_MODEL.items():
