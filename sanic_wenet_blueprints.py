@@ -25,7 +25,7 @@ class UserProfile(HTTPMethodView):
     async def get(self, request, user_id):
         res = dict()
         if "models" in request.args:
-            models_set = set(request.args["models"].split(":"))
+            models_set = set(request.args["models"])
             db_dict = dict(
                 [
                     (db_index, model_name)
@@ -50,7 +50,7 @@ class UserProfiles(HTTPMethodView):
     async def get(self, request):
         res = dict()
         if "models" in request.args:
-            models_set = set(request.args["models"].split(":"))
+            models_set = set(request.args["models"])
             db_dict = dict(
                 [
                     (db_index, model_name)
