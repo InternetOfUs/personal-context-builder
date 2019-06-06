@@ -15,7 +15,6 @@
   script:
      - echo $CI_PUSH_TOKEN | docker login docker.idiap.ch -u wdroz --password-stdin
      - docker push docker.idiap.ch/wenet/personal_context_builder:latest
-
  push_version:
   only:
      - tags
