@@ -1,4 +1,5 @@
  stages:
+   - before_script
    - build_image
    - coverage
    - push
