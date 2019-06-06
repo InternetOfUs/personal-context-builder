@@ -6,24 +6,29 @@
    - push_version
 
  check_docker_exist:
+   stage: check_docker_exist
    script:
      - docker info
 
  build_image:
+   stage: build_image
    script:
      - docker-compose build
  coverage:
+   stage: coverage
    script:
      - docker-compose up -d
      - ./docker_run_tests.sh
      - docker-compose down
  push:
+  stage: push
   only:
      - master
   script:
      - echo $CI_PUSH_TOKEN | docker login docker.idiap.ch -u wdroz --password-stdin
      - docker push docker.idiap.ch/wenet/personal_context_builder:latest
  push_version:
+  stage: push_version
   only:
      - tags
   script:
