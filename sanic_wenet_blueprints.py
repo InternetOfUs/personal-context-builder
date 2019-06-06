@@ -24,7 +24,18 @@ def create_available_models_bp(virtual_host_location):
 class UserProfile(HTTPMethodView):
     async def get(self, request, user_id):
         res = dict()
-        for db_index, model_name in config.MAP_DB_TO_MODEL.items():
+        if "models" in request.args:
+            models_set = set(request.args["models"])
+            db_dict = dict(
+                [
+                    (db_index, model_name)
+                    for db_index, model_name in config.MAP_DB_TO_MODEL.items()
+                    if model_name in models_set
+                ]
+            )
+        else:
+            db_dict = config.MAP_DB_TO_MODEL
+        for db_index, model_name in db_dict.items():
             routine = DatabaseProfileHandler.get_instance(
                 db_index=db_index
             ).get_profile(user_id)
@@ -38,7 +49,18 @@ class UserProfile(HTTPMethodView):
 class UserProfiles(HTTPMethodView):
     async def get(self, request):
         res = dict()
-        for db_index, model_name in config.MAP_DB_TO_MODEL.items():
+        if "models" in request.args:
+            models_set = set(request.args["models"])
+            db_dict = dict(
+                [
+                    (db_index, model_name)
+                    for db_index, model_name in config.MAP_DB_TO_MODEL.items()
+                    if model_name in models_set
+                ]
+            )
+        else:
+            db_dict = config.MAP_DB_TO_MODEL
+        for db_index, model_name in db_dict.items():
             routines = DatabaseProfileHandler.get_instance(
                 db_index=db_index
             ).get_all_profiles()
