@@ -1,2 +1,2 @@
 #! /bin/sh
-docker run -v wenet-data:/data -e DEFAULT_DATA_FOLDER=/data -e DEFAULT_REDIS_HOST=wenet-redis --network=docker1 docker.idiap.ch/wenet/personal_context_builder:201381cdb784465cd44a5fcf4bf2b1f9d0ef2159 python3 -m wenet_cli_entrypoint --train $@
+docker run -v wenet-data:/data -e DEFAULT_DATA_FOLDER=/data -e DEFAULT_REDIS_HOST=wenet-redis --network=docker1 docker.idiap.ch/wenet/personal_context_builder:$(python get_production_version.py) python3 -m wenet_cli_entrypoint --train $@
