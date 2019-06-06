@@ -6,7 +6,8 @@
    - push_version
 
  check_docker_exist:
-   - docker info
+   script:
+     - docker info
 
  build_image:
    script:
