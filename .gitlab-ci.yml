@@ -1,11 +1,11 @@
  stages:
-   - before_script
+   - check_docker_exist
    - build_image
    - coverage
    - push
    - push_version
 
- before_script:
+ check_docker_exist:
    - docker info
 
  build_image:
