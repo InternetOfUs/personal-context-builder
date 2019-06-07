@@ -1,4 +1,7 @@
 openapi: 3.0.0
+servers:
+  - url: https://lab.idiap.ch/devel/wenet/
+    description: Idiap production server
 info:
   description: 'Component that handle the personal context of the users'
   version: 0.0.1b
