@@ -64,6 +64,8 @@ The API provides user's routine with two routes:
 
 Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
 
+It's possible to filter models base on name with the parameters `models`. Example to get only `SimpleBOW` : `/routines/?models=SimpleBOW`. It's possible to add several time `models` parameter to get multiple models.
+
 List of available models can be retreive with the route `/models/`
 
 ## Architecture
