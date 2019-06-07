@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: 'Component that handle the personal context of the users'
-  version: 0.0.2
+  version: 0.0.1b
   title: WeNet - personal_context_builder
   contact:
     email: william.droz@idiap.ch
@@ -9,6 +9,17 @@ paths:
   /routines/:
     get:
       summary: get the list all routines for all users with all models
+      parameters:
+        - in: query
+          name: models
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: filter models base on name
+          
+          
       responses:
         '200':
           description: user routines
@@ -42,6 +53,14 @@ paths:
           schema:
             type: string
             format: string
+        - in: query
+          name: models
+          schema:
+            type: array
+            items:
+              type: string
+          required: false
+          description: filter models base on name
       responses:
         '200':
           description: specific user's routine
