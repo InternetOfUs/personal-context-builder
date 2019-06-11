@@ -15,16 +15,19 @@ from wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
 from wenet_user_profile_db import DatabaseProfileHandlerMock, DatabaseProfileHandler
 from sanic_app import WenetApp
 import config
+from wenet_logger import create_logger
+
+LOGGER = create_logger(__name__)
 
 
 def train(is_mock=False):
     if is_mock:
-        print(f"Training on mock data")
+        LOGGER.info("Training on mock data")
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
         for model_class_name, db_index in config.MAP_MODEL_TO_DB.items():
-            print(f"Train model {model_class_name}")
+            LOGGER.info(f"Train model {model_class_name}")
             model_class = getattr(wenet_analysis_models, model_class_name)
             model_untrained = model_class()
             model_trainer = BaseModelTrainer(
@@ -32,19 +35,21 @@ def train(is_mock=False):
             )
             model = model_trainer.train()
             model.save(filename=f"_models_{db_index:02d}_{model_class_name}.p")
-            print(f"Model {model_class_name} saved")
+            LOGGER.info(f"Model {model_class_name} saved")
         #  model_untrained = SimpleLDA()
-        print(f"done")
+        LOGGER.info("done")
 
 
 def update(is_mock=False):
     if is_mock:
-        print(f"updating profiles on mock data")
+        LOGGER.info(f"updating profiles on mock data")
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
         for model_class_name, db_index in config.MAP_MODEL_TO_DB.items():
-            print(f"Update profiles at DB {db_index:02d} from model {model_class_name}")
+            LOGGER.info(
+                f"Update profiles at DB {db_index:02d} from model {model_class_name}"
+            )
             model_class = getattr(wenet_analysis_models, model_class_name)
             model = model_class.load(f"_models_{db_index:02d}_{model_class_name}.p")
             profile_writter = ProfileWritter(
@@ -55,15 +60,17 @@ def update(is_mock=False):
                 DatabaseProfileHandlerMock.get_instance(db_index=db_index),
             )
             profile_writter.update_profiles()
-            print("profiles updated")
-        print(f"done")
+            LOGGER.info("profiles updated")
+        LOGGER.info("done")
     else:  # pragma: no cover
-        print(f"updating profiles on real data (mock for now, TODO changeme)")
+        LOGGER.info(f"updating profiles on real data (mock for now, TODO changeme)")
         source_locations = MockWenetSourceLocations()
         source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
         for model_class_name, db_index in config.MAP_MODEL_TO_DB.items():
-            print(f"Update profiles at DB {db_index:02d} from model {model_class_name}")
+            LOGGER.info(
+                f"Update profiles at DB {db_index:02d} from model {model_class_name}"
+            )
             model_class = getattr(wenet_analysis_models, model_class_name)
             model = model_class.load(f"_models_{db_index:02d}_{model_class_name}.p")
             profile_writter = ProfileWritter(
@@ -74,8 +81,8 @@ def update(is_mock=False):
                 DatabaseProfileHandler.get_instance(db_index=db_index),
             )
             profile_writter.update_profiles()
-            print("profiles updated")
-        print(f"done")
+            LOGGER.info("profiles updated")
+        LOGGER.info("done")
 
 
 def show_profile(user_id, is_mock=False):
