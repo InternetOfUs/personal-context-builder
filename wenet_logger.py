@@ -35,16 +35,16 @@ def create_web_logger_config():
         version=1,
         disable_existing_loggers=False,
         loggers={
-            "sanic.root": {"level": "INFO", "handlers": ["console"]},
+            "sanic.root": {"level": "INFO", "handlers": ["console", "sys-logger0"]},
             "sanic.error": {
                 "level": "INFO",
-                "handlers": ["error_console"],
+                "handlers": ["error_console", "sys-logger0"],
                 "propagate": True,
                 "qualname": "sanic.error",
             },
             "sanic.access": {
                 "level": "INFO",
-                "handlers": ["access_console"],
+                "handlers": ["access_console", "sys-logger0"],
                 "propagate": True,
                 "qualname": "sanic.access",
             },
