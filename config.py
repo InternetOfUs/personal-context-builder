@@ -6,6 +6,10 @@ from os import environ
 
 DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 
+DEFAULT_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+DEFAULT_SANIC_LOGGER_FORMAT = "%(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
+DEFAULT_LOGGER_LEVEL = 20  # info
+
 DEFAULT_STAYPOINTS_TIME_MIN_MS = 5 * 60 * 1000
 DEFAULT_STAYPOINTS_TIME_MAX_MS = 4 * 60 * 60 * 1000
 DEFAULT_STAYPOINTS_DISTANCE_MAX_M = 200
