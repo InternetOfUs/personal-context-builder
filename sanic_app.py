@@ -1,8 +1,13 @@
 from sanic import Sanic
 from sanic import Blueprint
-
+import sanic
+import logging
 from sanic_wenet_blueprints import create_available_models_bp, create_routines_bp
 import config
+
+from wenet_logger import create_web_logger_config, create_logger
+
+_LOGGER_CONFIG = create_web_logger_config()
 
 
 class WenetApp(object):
@@ -20,4 +25,5 @@ class WenetApp(object):
         self._app.blueprint([routines_bp, models_bp])
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
-        self._app.run(host, port)
+        logging.config.dictConfig(_LOGGER_CONFIG)
+        self._app.run(host, port, configure_logging=False)
