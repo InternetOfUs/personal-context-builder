@@ -157,7 +157,7 @@ if __name__ == "__main__":  # pragma: no cover
     )
     args = parser.parse_args()
     if args.clean_db:
-        clean_db_cmd()
+        clean_db_cmd(args.mock)
     if args.train:
         train(args.mock)
     if args.update:
