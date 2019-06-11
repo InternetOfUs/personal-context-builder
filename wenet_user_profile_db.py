@@ -7,10 +7,13 @@ import config
 import redis
 import json
 from abc import ABC, abstractmethod
+from wenet_logger import create_logger
 
 _REDIS_SERVER = redis.Redis(
     host=config.DEFAULT_REDIS_HOST, port=config.DEFAULT_REDIS_PORT, db=0
 )
+
+_LOGGER = create_logger(__name__)
 
 
 class DatabaseProfileHandlerBase(ABC):
@@ -57,30 +60,30 @@ class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
         self._my_dict = dict()
 
     def clean_db(self):
-        print("mock clean db called")
+        _LOGGER.info("mock clean db called")
         self._my_dict = dict()
 
     def delete_profile(self, user_id):
-        print(f"mock delete profile {user_id}")
+        _LOGGER.info(f"mock delete profile {user_id}")
         try:
             del self._my_dict[user_id]
         except KeyError:
             pass
 
     def get_all_profiles(self, match=None):
-        print("mock get all profiles")
+        _LOGGER.info("mock get all profiles")
         return self._my_dict
 
     def get_profile(self, user_id):
-        print(f"mock get profile {user_id}")
+        _LOGGER.info(f"mock get profile {user_id}")
         try:
             return self._my_dict[user_id]
         except KeyError:
-            print(f"\tmock unable to get profile {user_id} - doesn't exist")
+            _LOGGER.warn(f"\tmock unable to get profile {user_id} - doesn't exist")
             return None
 
     def set_profile(self, user_id, vector):
-        print(f"mock set profile {user_id} with {vector}")
+        _LOGGER.info(f"mock set profile {user_id} with {vector}")
         self._my_dict[user_id] = vector
 
     def set_profiles(self, user_ids, vectors):
@@ -103,6 +106,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
     def clean_db(self):
         """ clean the db (delete all entries)
         """
+        _LOGGER.info("clean db called")
         for key in self._server.scan_iter():
             self._server.delete(key)
 
@@ -111,6 +115,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         Args:
             user_id: user_id of the profile
         """
+        _LOGGER.info(f"delete profile {user_id}")
         self._server.delete(user_id)
 
     def get_all_profiles(self, match=None):
@@ -120,6 +125,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         Return:
             dict with user_id -> vector
         """
+        _LOGGER.info("get all profiles")
         my_dict = dict()
         for key in self._server.scan_iter(match=match):
             my_dict[key.decode("utf-8")] = json.loads(self._server.get(key))
@@ -132,6 +138,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         Return:
             a vector (list of float)
         """
+        _LOGGER.info(f"get profile {user_id}")
         res = self._server.get(user_id)
         if res is None:
             return res
@@ -143,6 +150,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
             user_id: user_id of the profile
             vector: list of float for that profile
         """
+        _LOGGER.info(f"set profile {user_id} with {vector}")
         value = json.dumps(vector)
         self._server.set(user_id, value)
 
@@ -155,6 +163,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
             user_ids: list of user_id
             vectors: list of vector
         """
+        _LOGGER.info("set profiles in batch")
         pipeline = self._server.pipeline()
         for user_id, vector in zip(user_ids, vectors):
             value = json.dumps(vector)
