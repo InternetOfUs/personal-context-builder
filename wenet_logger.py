@@ -81,12 +81,10 @@ def create_web_logger_config():
         formatters={
             "generic": {
                 "format": config.DEFAULT_LOGGER_FORMAT,
-                "datefmt": "[%Y-%m-%d %H:%M:%S %z]",
                 "class": "logging.Formatter",
             },
             "access": {
                 "format": config.DEFAULT_SANIC_LOGGER_FORMAT,
-                "datefmt": "[%Y-%m-%d %H:%M:%S %z]",
                 "class": "logging.Formatter",
             },
         },
