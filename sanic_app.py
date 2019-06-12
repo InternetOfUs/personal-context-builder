@@ -1,6 +1,6 @@
 from sanic import Sanic
 from sanic import Blueprint
-from sanic.exceptions import NotFound
+from sanic.exceptions import NotFound, ServerError
 from sanic.response import text
 import logging
 from sanic_wenet_blueprints import create_available_models_bp, create_routines_bp
@@ -30,5 +30,6 @@ class WenetApp(object):
         logging.config.dictConfig(_LOGGER_CONFIG)
 
         self._app.error_handler.add(NotFound, wenet_exceptions.ignore_404s)
+        self._app.error_handler.add(ServerError, wenet_exceptions.server_error)
 
         self._app.run(host, port, configure_logging=False)
