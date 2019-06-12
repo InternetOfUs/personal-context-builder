@@ -4,6 +4,8 @@ Config for the project
 
 from os import environ
 
+MAINTENER = "william.droz@idiap.ch"
+
 DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 
 DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
