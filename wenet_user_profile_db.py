@@ -7,6 +7,7 @@ import config
 import redis
 import json
 from abc import ABC, abstractmethod
+from sanic.exceptions import ServerError
 from wenet_logger import create_logger
 
 _REDIS_SERVER = redis.Redis(
@@ -101,7 +102,10 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
     def __init__(
         self, db_index=0, host=config.DEFAULT_REDIS_HOST, port=config.DEFAULT_REDIS_PORT
     ):
-        self._server = redis.Redis(host=host, port=port, db=db_index)
+        try:
+            self._server = redis.Redis(host=host, port=port, db=db_index)
+        except:  # TODO catch specific exception
+            raise ServerError("Unable to access the Redis DB")
 
     def clean_db(self):
         """ clean the db (delete all entries)
