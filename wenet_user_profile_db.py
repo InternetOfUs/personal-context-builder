@@ -10,10 +10,6 @@ from abc import ABC, abstractmethod
 from sanic.exceptions import ServerError
 from wenet_logger import create_logger
 
-_REDIS_SERVER = redis.Redis(
-    host=config.DEFAULT_REDIS_HOST, port=config.DEFAULT_REDIS_PORT, db=0
-)
-
 _LOGGER = create_logger(__name__)
 
 
