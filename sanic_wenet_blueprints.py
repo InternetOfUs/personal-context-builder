@@ -9,6 +9,12 @@ import config
 
 
 def create_routines_bp(virtual_host_location):
+    """ create blueprint that handle /routines/ and /routines/<user_id>/ paths
+    Args:
+    virtual_host_location -- virtual host location (can be provided by nginx) e. g. /devel/wenet/
+    Return:
+    the Blueprint instance that handle these paths
+    """
     routines_bp = Blueprint("routines", url_prefix=virtual_host_location)
     routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
     routines_bp.add_route(UserProfiles.as_view(), "/routines/")
@@ -16,6 +22,12 @@ def create_routines_bp(virtual_host_location):
 
 
 def create_available_models_bp(virtual_host_location):
+    """ create blueprint that handle /models/ path
+    Args:
+    virtual_host_location -- virtual host location (can be provided by nginx) e. g. /devel/wenet/
+    Return:
+    the Blueprint instance that handle /models/ path
+    """
     models_bp = Blueprint("available models", url_prefix=virtual_host_location)
     models_bp.add_route(AvailableModels.as_view(), "/models/")
     return models_bp
