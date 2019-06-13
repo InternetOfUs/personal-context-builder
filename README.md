@@ -33,25 +33,81 @@ optional arguments:
 
 You can run the app with `python3 -m wenet_cli_entrypoint --app_run`
 
-# Dev setup
+# Dev section
 
-## Setup hook
+## Dev setup
+
+### Setup hook
 
 Just create a symlink with `ln -s ../../pre-commit.bash .git/hooks/pre-commit`
 
-## Database
+### Database
 
 This project uses a Redis database. The database can be changed by editing `config.py` and modifing the line `DEFAULT_REDIS_HOST = "localhost"`. Be aware that this value is overrided in the `Dockerfile`
 
 If you don't modify `config.py` the project expect a Redis database on localhost.
 
-## Install the dependencies
+### Install the dependencies
 
 In your virtualenv
 
 ```bash
 pip install -r requirements.txt
 ```
+
+## Add new models
+
+To add a new model, you have to create a class that inherit from BaseModelWrapper in the file **wenet_analysis_models.py**.
+
+Example with **SimpleLDA** model
+
+```python
+class SimpleLDA(BaseModelWrapper):
+    """ Simple LDA over all the users, with 15 topics
+    """
+
+    def __init__(
+        self, name="simple_lda", n_components=15, random_state=0, n_jobs=-1, **kwargs
+    ):
+        my_lda = partial(
+            LatentDirichletAllocation,
+            n_components=15,
+            random_state=0,
+            n_jobs=-1,
+            **kwargs
+        )
+        super().__init__(my_lda, name)
+
+    def predict(self, *args, **kwargs):
+        return super().transform(*args, **kwargs)
+```
+
+The wrapper already provides the predict and fit methods for the scikit-like inner model.
+
+If you don't want to use the inner model or you want to customize more your model, you can do like with **SimpleBOW**.
+
+```python
+class SimpleBOW(BaseModelWrapper):
+    """ Bag-of-words approach, compute the mean of all days
+    """
+
+    def __init__(self, name="simple_bow"):
+        super().__init__(None, name)
+
+    def transform(self, *args, **kwargs):
+        return self.predict(*args, **kwargs)
+
+    def predict(self, *args, **kwargs):
+        X = args[0]
+        return np.mean(X, axis=0)
+
+    def fit(self, *args, **kwargs):
+        pass
+```
+
+Then you must register the class to a db index in **config.py**.
+
+`DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA"` you can replace 0 by another number, up to 15.
 
 # API Usage
 
