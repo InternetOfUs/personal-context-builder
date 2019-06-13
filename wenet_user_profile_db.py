@@ -100,6 +100,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
     ):
         try:
             self._server = redis.Redis(host=host, port=port, db=db_index)
+            self._server.ping()
         except:  # TODO catch specific exception
             raise ServerError("Unable to access the Redis DB")
 
