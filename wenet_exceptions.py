@@ -12,8 +12,8 @@ async def ignore_404s(request, exception):
 
 
 async def server_error(request, exception):
-    _LOGGER.error(f"error 500 on {request.url} - {exception.message}")
+    _LOGGER.error(f"error 500 on {request.url} - {str(exception)}")
     return text(
         f"500 - sorry, we have issue with our applications\nplease contact {config.MAINTENER}"
-    )
+    , status=500)
 
