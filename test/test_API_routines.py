@@ -16,6 +16,12 @@ class APIRoutinesTestCase(unittest.TestCase):
         )
         self.assertIn("SimpleLDA", response.json)
 
+    def test_simple_lda_not_exist(self):
+        _, response = self._app.test_client.get(
+            config.DEFAULT_VIRTUAL_HOST_LOCATION + "/routines/?models=SimpleBOW"
+        )
+        self.assertNotIn("SimpleLDA", response.json)
+
     def test_mock_user_1(self):
         _, response = self._app.test_client.get(
             config.DEFAULT_VIRTUAL_HOST_LOCATION + "/routines/"
