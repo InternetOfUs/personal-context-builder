@@ -16,7 +16,7 @@ services:
      - "8081:80"
     volumes:
      - wenet-data:/data
-    image:  'docker.idiap.ch/wenet/personal_context_builder:v0.0.2'
+    image:  'docker.idiap.ch/wenet/personal_context_builder:v0.0.3'
 networks:
   default:
     external:
