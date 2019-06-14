@@ -5,3 +5,4 @@ scikit-learn==0.20.2
 progress==1.5
 redis==3.2.1
 pandas==0.24.1
+numpy==1.16.4
