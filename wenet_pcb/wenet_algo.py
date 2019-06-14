@@ -6,18 +6,18 @@ from typing import List, Set, Dict
 import math
 from operator import add
 from functools import reduce
-from wenet_models import (
+from wenet_pcb.wenet_models import (
     StayPoint,
     LocationPoint,
     StayRegion,
     LabelledStayRegion,
     UserPlace,
 )
-import config
+from wenet_pcb import config
 from collections import defaultdict
 from sklearn.cluster import DBSCAN
 import numpy as np
-from wenet_tools import space_distance_m_by_vect
+from wenet_pcb.wenet_tools import space_distance_m_by_vect
 
 
 def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:

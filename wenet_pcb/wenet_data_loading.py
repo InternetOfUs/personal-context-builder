@@ -9,8 +9,8 @@ from datetime import datetime
 from random import random
 from collections import defaultdict
 import hashlib
-from wenet_models import UserLocationPoint, UserPlace
-import config
+from wenet_pcb.wenet_models import UserLocationPoint, UserPlace
+from wenet_pcb import config
 
 
 class BaseSourceLocations(ABC):

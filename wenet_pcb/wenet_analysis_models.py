@@ -1,7 +1,7 @@
 """
 models (ML sense) used for create user profile
 """
-import config
+from wenet_pcb import config
 import pickle
 from functools import partial
 from os.path import join

@@ -3,9 +3,12 @@ from sanic.exceptions import NotFound
 from sanic.response import json
 from sanic import Blueprint
 
-from wenet_user_profile_db import DatabaseProfileHandler, DatabaseProfileHandlerMock
-import wenet_analysis_models
-import config
+from wenet_pcb.wenet_user_profile_db import (
+    DatabaseProfileHandler,
+    DatabaseProfileHandlerMock,
+)
+from wenet_pcb import wenet_analysis_models
+from wenet_pcb import config
 
 
 def create_routines_bp(virtual_host_location, is_mock=False):

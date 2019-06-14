@@ -1,7 +1,7 @@
 import unittest
 import datetime
 
-from wenet_models import StayRegion, LabelledStayRegion
+from wenet_pcb.wenet_models import StayRegion, LabelledStayRegion
 
 
 class LabelledStayRegionTestCase(unittest.TestCase):

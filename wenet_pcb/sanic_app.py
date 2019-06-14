@@ -3,11 +3,14 @@ from sanic import Blueprint
 from sanic.exceptions import NotFound, ServerError
 from sanic.response import text
 import logging
-from sanic_wenet_blueprints import create_available_models_bp, create_routines_bp
-import config
+from wenet_pcb.sanic_wenet_blueprints import (
+    create_available_models_bp,
+    create_routines_bp,
+)
+from wenet_pcb import config
 
-import wenet_exceptions
-from wenet_logger import create_web_logger_config, create_logger
+from wenet_pcb import wenet_exceptions
+from wenet_pcb.wenet_logger import create_web_logger_config, create_logger
 
 _LOGGER_CONFIG = create_web_logger_config()
 

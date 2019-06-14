@@ -1,6 +1,6 @@
 import unittest
-from sanic_app import WenetApp
-import config
+from wenet_pcb.sanic_app import WenetApp
+from wenet_pcb import config
 
 
 class APIModelsTestCase(unittest.TestCase):

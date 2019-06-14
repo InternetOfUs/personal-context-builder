@@ -7,15 +7,18 @@ CLI entrypoint for wenet
 """
 
 import argparse
-from wenet_trainer import BaseBOWTrainer, BaseModelTrainer
-import wenet_analysis_models
-from wenet_analysis_models import SimpleLDA, SimpleBOW
-from wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
-from wenet_user_profile_db import DatabaseProfileHandlerMock, DatabaseProfileHandler
-from sanic_app import WenetApp
-import config
-from wenet_logger import create_logger
+from wenet_pcb.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
+from wenet_pcb import wenet_analysis_models
+from wenet_pcb.wenet_analysis_models import SimpleLDA, SimpleBOW
+from wenet_pcb.wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+from wenet_pcb.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
+from wenet_pcb.wenet_user_profile_db import (
+    DatabaseProfileHandlerMock,
+    DatabaseProfileHandler,
+)
+from wenet_pcb.sanic_app import WenetApp
+from wenet_pcb import config
+from wenet_pcb.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
 

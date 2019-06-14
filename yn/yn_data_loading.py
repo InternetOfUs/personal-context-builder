@@ -8,8 +8,8 @@ from typing import List, Dict
 
 import pandas as pd
 
-from wenet_models import UserLocationPoint, UserPlaceTimeOnly, UserPlace
-from wenet_data_loading import BaseSourceLabels, BaseSourceLocations
+from wenet_pcb.wenet_models import UserLocationPoint, UserPlaceTimeOnly, UserPlace
+from wenet_pcb.wenet_data_loading import BaseSourceLabels, BaseSourceLocations
 
 
 class YNSourceLocations(BaseSourceLocations):

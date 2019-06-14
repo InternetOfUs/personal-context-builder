@@ -1,5 +1,7 @@
 import unittest
-from wenet_user_profile_db import DatabaseProfileHandlerMock as DatabaseProfileHandler
+from wenet_pcb.wenet_user_profile_db import (
+    DatabaseProfileHandlerMock as DatabaseProfileHandler,
+)
 
 
 class UserProfileDBTestCase(unittest.TestCase):

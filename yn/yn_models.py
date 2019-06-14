@@ -4,8 +4,8 @@ module for Y@N specific models
 Use wenet models as bases
 """
 
-import wenet_models as wm
-import config
+import wenet_pcb.wenet_models as wm
+from wenet_pcb import config
 import json
 from copy import deepcopy
 import hashlib

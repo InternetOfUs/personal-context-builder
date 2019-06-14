@@ -9,8 +9,8 @@ import json
 import pandas as pd
 from yn.yn_algo import yn_estimate_stay_points, yn_estimate_stay_regions
 from yn.yn_models import YNLocationPoint, YNUser
-from wenet_models import LocationPoint, UserPlaceTimeOnly
-from wenet_algo import get_label_if_exist
+from wenet_pcb.wenet_models import LocationPoint, UserPlaceTimeOnly
+from wenet_pcb.wenet_algo import get_label_if_exist
 from collections import defaultdict
 from progress.bar import Bar
 

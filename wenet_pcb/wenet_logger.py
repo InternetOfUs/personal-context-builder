@@ -5,7 +5,7 @@ use syslog
 """
 import logging
 import logging.handlers
-import config
+from wenet_pcb import config
 import sys
 
 

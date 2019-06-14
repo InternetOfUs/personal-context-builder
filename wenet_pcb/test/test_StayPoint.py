@@ -2,8 +2,8 @@ import unittest
 import datetime
 from copy import deepcopy
 
-from wenet_models import StayPoint
-from wenet_tools import space_distance_m
+from wenet_pcb.wenet_models import StayPoint
+from wenet_pcb.wenet_tools import space_distance_m
 
 
 class StayPointTestCase(unittest.TestCase):

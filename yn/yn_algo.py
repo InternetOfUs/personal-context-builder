@@ -1,13 +1,13 @@
 """ Y@N algorithms
 """
-import config
+from wenet_pcb import config
 from typing import List, Set, Dict
 from yn.yn_models import YNStayPoint, YNLocationPoint, YNStayRegion
-from wenet_algo import estimate_centroid
+from wenet_pcb.wenet_algo import estimate_centroid
 from collections import defaultdict
 from sklearn.cluster import DBSCAN
 import numpy as np
-from wenet_tools import space_distance_m_by_vect
+from wenet_pcb.wenet_tools import space_distance_m_by_vect
 
 
 def create_stay_point(locations):

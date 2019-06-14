@@ -1,7 +1,7 @@
 import unittest
 import datetime
 
-from wenet_models import UserPlaceTimeOnly, LocationPoint, StayPoint
+from wenet_pcb.wenet_models import UserPlaceTimeOnly, LocationPoint, StayPoint
 
 
 class UserPlaceTimeOnlyTestCase(unittest.TestCase):

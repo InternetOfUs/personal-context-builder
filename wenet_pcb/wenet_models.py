@@ -4,8 +4,8 @@ module with models and data structure relevant to wenet project
 import math
 import datetime
 from math import sin, cos, sqrt, atan2, radians
-from wenet_tools import space_distance_m, time_difference_ms
-import config
+from wenet_pcb.wenet_tools import space_distance_m, time_difference_ms
+from wenet_pcb import config
 import numpy as np
 from typing import List
 from functools import partial

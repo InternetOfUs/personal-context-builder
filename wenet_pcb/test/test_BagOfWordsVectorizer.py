@@ -1,10 +1,15 @@
-from wenet_analysis import BagOfWordsVectorizer
-from wenet_data_loading import MockWenetSourceLocations, MockWenetSourceLabels
-from wenet_algo import estimate_stay_regions, estimate_stay_points, labelize_stay_region
+from wenet_pcb.wenet_analysis import BagOfWordsVectorizer
+from wenet_pcb.wenet_data_loading import MockWenetSourceLocations, MockWenetSourceLabels
+from wenet_pcb.wenet_algo import (
+    estimate_stay_regions,
+    estimate_stay_points,
+    labelize_stay_region,
+)
 import unittest
 from os import remove
 from os.path import join
-import config
+from wenet_pcb import config
+
 
 class BagOfWordsVectorizerTestCase(unittest.TestCase):
     def test_save_load(self):

@@ -3,8 +3,8 @@ import datetime
 from copy import deepcopy
 from random import randint
 
-from wenet_models import LocationPoint, StayRegion, UserPlace
-from wenet_algo import (
+from wenet_pcb.wenet_models import LocationPoint, StayRegion, UserPlace
+from wenet_pcb.wenet_algo import (
     estimate_centroid,
     estimate_stay_points,
     estimate_stay_regions,

@@ -1,7 +1,7 @@
 import unittest
 import datetime
 
-from wenet_models import StayRegion, GPSPoint
+from wenet_pcb.wenet_models import StayRegion, GPSPoint
 
 
 class StayRegionTestCase(unittest.TestCase):
