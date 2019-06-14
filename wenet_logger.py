@@ -17,13 +17,13 @@ def create_logger(name="wenet-undefined"):
     logger.setLevel(config.DEFAULT_LOGGER_LEVEL)
     formatter = logging.Formatter(config.DEFAULT_LOGGER_FORMAT)
 
-    syslog = logging.handlers.SysLogHandler("/dev/log")
+    log_file = logging.handlers.WatchedFileHandler(config.DEFAULT_LOG_FILE)
     ch = logging.StreamHandler()
 
-    syslog.formatter = formatter
+    log_file.formatter = formatter
     ch.formatter = formatter
 
-    logger.addHandler(syslog)
+    logger.addHandler(log_file)
     logger.addHandler(ch)
     return logger
 
@@ -35,16 +35,16 @@ def create_web_logger_config():
         version=1,
         disable_existing_loggers=False,
         loggers={
-            "sanic.root": {"level": "INFO", "handlers": ["console", "sys-logger1"]},
+            "sanic.root": {"level": "INFO", "handlers": ["console", "log_file_1"]},
             "sanic.error": {
                 "level": "INFO",
-                "handlers": ["error_console", "sys-logger1"],
+                "handlers": ["error_console", "log_file_1"],
                 "propagate": True,
                 "qualname": "sanic.error",
             },
             "sanic.access": {
                 "level": "INFO",
-                "handlers": ["access_console", "sys-logger0"],
+                "handlers": ["access_console", "log_file_0"],
                 "propagate": True,
                 "qualname": "sanic.access",
             },
@@ -65,16 +65,14 @@ def create_web_logger_config():
                 "formatter": "access",
                 "stream": sys.stdout,
             },
-            "sys-logger0": {
-                "class": "logging.handlers.SysLogHandler",
-                "address": "/dev/log",
-                "facility": "user",
+            "log_file_0": {
+                "class": "logging.handlers.WatchedFileHandler",
+                "filename": config.DEFAULT_LOG_FILE,
                 "formatter": "access",
             },
-            "sys-logger1": {
-                "class": "logging.handlers.SysLogHandler",
-                "address": "/dev/log",
-                "facility": "user",
+            "log_file_1": {
+                "class": "logging.handlers.WatchedFileHandler",
+                "filename": config.DEFAULT_LOG_FILE,
                 "formatter": "generic",
             },
         },
