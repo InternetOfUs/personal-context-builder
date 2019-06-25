@@ -23,6 +23,10 @@ class DatabaseProfileHandlerBase(ABC):
 
     @classmethod
     def get_instance(cls, *args, db_index=0, **kwargs):
+        """ get the instance or create if doesn't exist
+
+        Can be have multiple instance when multiple db_index are used
+        """
         if db_index not in cls._INSTANCES:
             cls._INSTANCES[db_index] = cls(*args, db_index=db_index, **kwargs)
         return cls._INSTANCES[db_index]
