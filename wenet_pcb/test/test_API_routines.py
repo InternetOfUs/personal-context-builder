@@ -15,28 +15,29 @@ class APIRoutinesTestCase(unittest.TestCase):
         _, response = self._app.test_client.get(
             config.DEFAULT_VIRTUAL_HOST_LOCATION + "/routines/"
         )
-        self.assertIn("SimpleLDA", response.json)
+        self.assertIn("SimpleLDA:PipelineBOW", response.json)
 
     def test_simple_lda_not_exist(self):
         _, response = self._app.test_client.get(
-            config.DEFAULT_VIRTUAL_HOST_LOCATION + "/routines/?models=SimpleBOW"
+            config.DEFAULT_VIRTUAL_HOST_LOCATION
+            + "/routines/?models=SimplePOW:PipelineBOW"
         )
-        self.assertNotIn("SimpleLDA", response.json)
+        self.assertNotIn("SimpleLDA:PipelineBOW", response.json)
 
     def test_mock_user_1(self):
         _, response = self._app.test_client.get(
             config.DEFAULT_VIRTUAL_HOST_LOCATION + "/routines/"
         )
-        self.assertIn("mock_user_1", response.json.get("SimpleLDA"))
+        self.assertIn("mock_user_1", response.json.get("SimpleLDA:PipelineBOW"))
 
     def test_not_mock_user_1(self):
         _, response = self._app.test_client.get(
             config.DEFAULT_VIRTUAL_HOST_LOCATION + "/routines/mock_user_1/"
         )
-        self.assertNotIn("mock_user_2", response.json.get("SimpleLDA"))
+        self.assertNotIn("mock_user_2", response.json.get("SimpleLDA:PipelineBOW"))
 
     def test_mock_user_1_with_mock_user_1(self):
         _, response = self._app.test_client.get(
             config.DEFAULT_VIRTUAL_HOST_LOCATION + "/routines/mock_user_1/"
         )
-        self.assertIn("mock_user_1", response.json.get("SimpleLDA"))
+        self.assertIn("mock_user_1", response.json.get("SimpleLDA:PipelineBOW"))

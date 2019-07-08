@@ -91,7 +91,10 @@ class UserProfiles(HTTPMethodView):
 class AvailableModels(HTTPMethodView):
     async def get(self, request):
         res = dict()
-        for model_name in config.MAP_MODEL_TO_DB.keys():
+        models = [
+            model_name.split(":")[0] for model_name in config.MAP_MODEL_TO_DB.keys()
+        ]
+        for model_name in models:
             res[model_name] = getattr(wenet_analysis_models, model_name).__doc__
         return json(res)
 

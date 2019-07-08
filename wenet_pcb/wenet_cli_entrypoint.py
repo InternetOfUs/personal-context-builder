@@ -8,7 +8,7 @@ CLI entrypoint for wenet
 
 import argparse
 from wenet_pcb.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
-from wenet_pcb import wenet_analysis_models
+from wenet_pcb import wenet_analysis_models, wenet_pipelines
 from wenet_pcb.wenet_analysis_models import SimpleLDA, SimpleBOW
 from wenet_pcb.wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from wenet_pcb.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
@@ -24,68 +24,29 @@ _LOGGER = create_logger(__name__)
 
 
 def train(is_mock=False):
-    if is_mock:
-        _LOGGER.info("Training on mock data")
-        source_locations = MockWenetSourceLocations()
-        source_labels = MockWenetSourceLabels(source_locations)
-        bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        for model_class_name, db_index in config.MAP_MODEL_TO_DB.items():
-            _LOGGER.info(f"Train model {model_class_name}")
-            model_class = getattr(wenet_analysis_models, model_class_name)
-            model_untrained = model_class()
-            model_trainer = BaseModelTrainer(
-                source_locations, source_labels, bow_trainer, model_untrained
-            )
-            model = model_trainer.train()
-            model.save(filename=f"_models_{db_index:02d}_{model_class_name}.p")
-            _LOGGER.info(f"Model {model_class_name} saved")
-        #  model_untrained = SimpleLDA()
-        _LOGGER.info("done")
+    for (
+        pipeline_class_name,
+        map_model_to_db,
+    ) in config.MAP_PIPELINE_TO_MAP_MODEL_TO_DB.items():
+        pipeline_class = getattr(wenet_pipelines, pipeline_class_name)
+        pipeline = pipeline_class(
+            mock_db=is_mock, mock_datasources=is_mock, db_map=map_model_to_db
+        )
+        _LOGGER.info(f"train -- pipeline {pipeline_class_name}")
+        pipeline.train()
 
 
 def update(is_mock=False):
-    if is_mock:
-        _LOGGER.info(f"updating profiles on mock data")
-        source_locations = MockWenetSourceLocations()
-        source_labels = MockWenetSourceLabels(source_locations)
-        bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        for model_class_name, db_index in config.MAP_MODEL_TO_DB.items():
-            _LOGGER.info(
-                f"Update profiles at DB {db_index:02d} from model {model_class_name}"
-            )
-            model_class = getattr(wenet_analysis_models, model_class_name)
-            model = model_class.load(f"_models_{db_index:02d}_{model_class_name}.p")
-            profile_writter = ProfileWritter(
-                source_locations,
-                source_labels,
-                model,
-                bow_trainer,
-                DatabaseProfileHandlerMock.get_instance(db_index=db_index),
-            )
-            profile_writter.update_profiles()
-            _LOGGER.info("profiles updated")
-        _LOGGER.info("done")
-    else:  # pragma: no cover
-        _LOGGER.info(f"updating profiles on real data (mock for now, TODO changeme)")
-        source_locations = MockWenetSourceLocations()
-        source_labels = MockWenetSourceLabels(source_locations)
-        bow_trainer = BaseBOWTrainer(source_locations, source_labels)
-        for model_class_name, db_index in config.MAP_MODEL_TO_DB.items():
-            _LOGGER.info(
-                f"Update profiles at DB {db_index:02d} from model {model_class_name}"
-            )
-            model_class = getattr(wenet_analysis_models, model_class_name)
-            model = model_class.load(f"_models_{db_index:02d}_{model_class_name}.p")
-            profile_writter = ProfileWritter(
-                source_locations,
-                source_labels,
-                model,
-                bow_trainer,
-                DatabaseProfileHandler.get_instance(db_index=db_index),
-            )
-            profile_writter.update_profiles()
-            _LOGGER.info("profiles updated")
-        _LOGGER.info("done")
+    for (
+        pipeline_class_name,
+        map_model_to_db,
+    ) in config.MAP_PIPELINE_TO_MAP_MODEL_TO_DB.items():
+        pipeline_class = getattr(wenet_pipelines, pipeline_class_name)
+        pipeline = pipeline_class(
+            mock_db=is_mock, mock_datasources=is_mock, db_map=map_model_to_db
+        )
+        _LOGGER.info(f"update -- pipeline {pipeline_class_name}")
+        pipeline.update()
 
 
 def show_profile(user_id, is_mock=False):
@@ -126,7 +87,8 @@ def clean_db_cmd(is_mock=False):
 
 def show_models():
     res = dict()
-    for model_name in config.MAP_MODEL_TO_DB.keys():
+    models = [model_name.split(":")[0] for model_name in config.MAP_MODEL_TO_DB.keys()]
+    for model_name in models:
         model_doc = getattr(wenet_analysis_models, model_name).__doc__
         print(f"[{model_name}] \t{model_doc}")
 

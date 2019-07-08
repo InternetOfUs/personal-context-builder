@@ -3,6 +3,7 @@ Config for the project
 """
 
 from os import environ
+from collections import defaultdict
 
 MAINTENER = "william.droz@idiap.ch"
 
@@ -34,8 +35,9 @@ DEFAULT_REDIS_HOST = "localhost"
 DEFAULT_REDIS_PORT = 6379
 
 # up to 16 (0-15) locations in default Redis settings
-DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA"
-DEFAULT_REDIS_DATABASE_MODEL_1 = "SimpleBOW"
+# Format {ModelClassName}:{PipelineClassName}
+DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"
+DEFAULT_REDIS_DATABASE_MODEL_1 = "SimpleBOW:PipelineBOW"
 
 DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
 
@@ -48,6 +50,8 @@ DEFAULT_BOW_MODEL_FILE = "last_bow_vectorizer.p"
 # will contain mapping for models
 MAP_DB_TO_MODEL = dict()
 MAP_MODEL_TO_DB = dict()
+
+MAP_PIPELINE_TO_MAP_MODEL_TO_DB = defaultdict(dict)
 
 
 def _update_parameters_from_env():
@@ -85,8 +89,10 @@ def _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB):
     for k, v in globals().items():
         if k.startswith("DEFAULT_REDIS_DATABASE_MODEL_"):
             number = int(k.split("_")[-1])
+            model, pipeline = v.split(":")
             MAP_DB_TO_MODEL[number] = v
             MAP_MODEL_TO_DB[v] = number
+            MAP_PIPELINE_TO_MAP_MODEL_TO_DB[pipeline][model] = number
 
 
 # update the config by using env
