@@ -107,7 +107,9 @@ class SimpleBOW(BaseModelWrapper):
 
 Then you must register the class to a db index in **config.py**.
 
-`DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA"` you can replace 0 by another number, up to 15.
+`DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"` you can replace 0 by another number, up to 15.
+
+If you want to use a different pipleline (other data sources or/and other features), you can create them in `wenet_pipelines.py`
 
 # API Usage
 
@@ -120,7 +122,7 @@ The API provides user's routine with two routes:
 
 Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
 
-It's possible to filter models base on name with the parameters `models`. Example to get only `SimpleBOW` : `/routines/?models=SimpleBOW`. It's possible to add several time `models` parameter to get multiple models.
+It's possible to filter models base on name with the parameters `models`. Example to get only `SimpleBOW:PipelineBOW` : `/routines/?models=SimpleBOW:PipelineBOW`. It's possible to add several time `models` parameter to get multiple models.
 
 List of available models can be retreive with the route `/models/`
 
