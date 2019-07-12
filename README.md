@@ -132,6 +132,8 @@ It's possible to filter models base on name with the parameters `models`. Exampl
 
 List of available models can be retreive with the route `/models/`
 
+You can get the N closest users from a location with the route `/closest/<lat:number>/<lng:number>/<N:number>/`
+
 ## Architecture
 
 ![architecture](./media/architecture.png)
