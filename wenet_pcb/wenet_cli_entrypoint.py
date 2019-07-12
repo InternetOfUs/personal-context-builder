@@ -7,6 +7,7 @@ CLI entrypoint for wenet
 """
 
 import argparse
+from uuid import uuid4
 from wenet_pcb.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from wenet_pcb import wenet_analysis_models, wenet_pipelines
 from wenet_pcb.wenet_analysis_models import SimpleLDA, SimpleBOW
@@ -29,6 +30,25 @@ from wenet_pcb import config
 from wenet_pcb.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
+
+
+def force_update_locations(is_mock=False):
+    if is_mock:
+        db = DatabaseRealtimeLocationsHandlerMock.get_instance()
+        newest_locations = [
+            MockWenetSourceLocations._create_fake_locations(str(uuid4()), nb=1)[0]
+            for _ in range(100)
+        ]
+
+    else:
+        db = DatabaseRealtimeLocationsHandler.get_instance()
+
+        # TODO changeme
+        newest_locations = [
+            MockWenetSourceLocations._create_fake_locations(str(uuid4()), nb=1)[0]
+            for _ in range(100)
+        ]
+    db.update(newest_locations)
 
 
 def closest(lat, lng, N, is_mock=False):
@@ -140,6 +160,11 @@ if __name__ == "__main__":  # pragma: no cover
         nargs=3,
         metavar=("lat", "lng", "N"),
     )
+    parser.add_argument(
+        "--force_update_locations",
+        help="update the locations of the users",
+        action="store_true",
+    )
     args = parser.parse_args()
     if args.clean_db:
         clean_db_cmd(args.mock)
@@ -153,6 +178,8 @@ if __name__ == "__main__":  # pragma: no cover
         show_profile(args.show, args.mock)
     if args.show_models:
         show_models()
+    if args.force_update_locations:
+        force_update_locations(args.mock)
     if args.closest:
         lat = float(args.closest[0])
         lng = float(args.closest[1])
