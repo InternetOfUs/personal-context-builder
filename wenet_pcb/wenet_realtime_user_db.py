@@ -1,6 +1,6 @@
 """ module that handle real-time
 """
-
+from datetime import datetime
 from wenet_pcb import config
 import redis
 import json
@@ -89,6 +89,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         _LOGGER.info("update real-time user locations")
         pipeline = self._server.pipeline()
         for userplace in userplaces:
+            userplace._pts_t = userplace._pts_t.strftime(config.DEFAULT_DATETIME_FORMAT)
             value = json.dumps(userplace.__dict__)
             pipeline.set(userplace._user, value)
         pipeline.execute()
@@ -103,6 +104,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         my_dict = dict()
         for key in self._server.scan_iter():
             dict_user_location = json.loads(self._server.get(key))
+            dict_user_location["_pts_t"] = datetime.strptime(dict_user_location["_pts_t"], config.DEFAULT_DATETIME_FORMAT)
             my_dict[key.decode("utf-8")] = UserLocationPoint.from_dict(
                 dict_user_location
             )
