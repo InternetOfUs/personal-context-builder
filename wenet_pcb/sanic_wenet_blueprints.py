@@ -8,6 +8,7 @@ from wenet_pcb.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
 )
 from wenet_pcb import wenet_analysis_models
+from wenet_pcb.wenet_data_loading import closest_users
 from wenet_pcb import config
 
 
@@ -23,9 +24,15 @@ def create_routines_bp(virtual_host_location, is_mock=False):
     if is_mock:
         routines_bp.add_route(UserProfileMock.as_view(), "/routines/<user_id>/")
         routines_bp.add_route(UserProfilesMock.as_view(), "/routines/")
+        routines_bp.add_route(
+            ClosestUsersMock.as_view(), "/closest/<lat:number>/<lng:number>/<N:number>/"
+        )
     else:
         routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
         routines_bp.add_route(UserProfiles.as_view(), "/routines/")
+        routines_bp.add_route(
+            ClosestUsers.as_view(), "/closest/<lat:number>/<lng:number>/<N:number>/"
+        )
     return routines_bp
 
 
@@ -143,4 +150,22 @@ class UserProfilesMock(HTTPMethodView):
                 db_index=db_index
             ).get_all_profiles()
             res[model_name] = routines
+        return json(res)
+
+
+class ClosestUsers(HTTPMethodView):
+    async def get(self, request, lat, lng, N):
+        res = dict()
+        distance_user_location = closest_users(lat, lng, int(N), is_mock=False)
+        for distance, user_location in distance_user_location:
+            res[user_location._user] = distance
+        return json(res)
+
+
+class ClosestUsersMock(HTTPMethodView):
+    async def get(self, request, lat, lng, N):
+        res = dict()
+        distance_user_location = closest_users(lat, lng, N, is_mock=True)
+        for distance, user_location in distance_user_location:
+            res[user_location._user] = distance
         return json(res)
