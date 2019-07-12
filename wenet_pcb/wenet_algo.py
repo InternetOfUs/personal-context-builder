@@ -20,6 +20,15 @@ import numpy as np
 from wenet_pcb.wenet_tools import space_distance_m_by_vect
 
 
+def closest_locations(source_location, locations, N=None):
+    """ get the N closest locations from source_location
+    """
+    distance_locations = [
+        (int(source_location.space_distance_m(l)), l) for l in locations
+    ]
+    return sorted(distance_locations, key=lambda l: l[0])[:N]
+
+
 def estimate_centroid(locations: List[LocationPoint]) -> LocationPoint:
     """
     compute the average for all locations combined
