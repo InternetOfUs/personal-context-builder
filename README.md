@@ -13,20 +13,26 @@ The WeNet project: diversity-aware, machine-mediated paradigm of social relation
 Wenet have a single entrypoint for all functionality. By typing `python3 -m wenet_cli_entrypoint --help`, you can have the help
 
 <pre>
-usage: wenet_cli_entrypoint.py [-h] [--train] [--update] [--db_clean]
-                               [--show SHOW] [--show_all] [--app_run] [--mock]
+usage: wenet_cli_entrypoint.py [-h] [--train] [--update] [--clean_db]
+                               [--show SHOW] [--show_all] [--app_run]
+                               [--show_models] [--mock] [--closest lat lng N]
+                               [--force_update_locations]
 
 Wenet Command line interface
 
 optional arguments:
-  -h, --help   show this help message and exit
-  --train      train the model from the latest data
-  --update     update the profiles in the db
-  --db_clean   clean the db
-  --show SHOW  show a specific profile from the db
-  --show_all   show all profiles from the db
-  --app_run    run the application
-  --mock       use mock data/db instead of real wenet data
+  -h, --help            show this help message and exit
+  --train               train the model from the latest data
+  --update              update the profiles in the db
+  --clean_db            clean the db
+  --show SHOW           show a specific profile from the db
+  --show_all            show all profiles from the db
+  --app_run             run the application
+  --show_models         show the list of models
+  --mock                use mock data/db instead of real wenet data
+  --closest lat lng N   get N closest users from lat, lng
+  --force_update_locations
+                        update the locations of the users
 </pre>
 
 ## Run the app
