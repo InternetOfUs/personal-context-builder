@@ -10,17 +10,31 @@ import argparse
 from wenet_pcb.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from wenet_pcb import wenet_analysis_models, wenet_pipelines
 from wenet_pcb.wenet_analysis_models import SimpleLDA, SimpleBOW
-from wenet_pcb.wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+from wenet_pcb.wenet_data_loading import (
+    MockWenetSourceLabels,
+    MockWenetSourceLocations,
+    closest_users,
+)
 from wenet_pcb.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
 from wenet_pcb.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
     DatabaseProfileHandler,
+)
+from wenet_pcb.wenet_realtime_user_db import (
+    DatabaseRealtimeLocationsHandler,
+    DatabaseRealtimeLocationsHandlerMock,
 )
 from wenet_pcb.sanic_app import WenetApp
 from wenet_pcb import config
 from wenet_pcb.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
+
+
+def closest(lat, lng, N, is_mock=False):
+    sorted_users_locations = closest_users(lat, lng, N, is_mock)
+    for distance, user_location in sorted_users_locations:
+        print(f"{distance:10d}m {user_location._user}")
 
 
 def train(is_mock=False):
@@ -120,6 +134,12 @@ if __name__ == "__main__":  # pragma: no cover
         help="use mock data/db instead of real wenet data",
         action="store_true",
     )
+    parser.add_argument(
+        "--closest",
+        help="get N closest users from lat, lng",
+        nargs=3,
+        metavar=("lat", "lng", "N"),
+    )
     args = parser.parse_args()
     if args.clean_db:
         clean_db_cmd(args.mock)
@@ -133,5 +153,10 @@ if __name__ == "__main__":  # pragma: no cover
         show_profile(args.show, args.mock)
     if args.show_models:
         show_models()
+    if args.closest:
+        lat = float(args.closest[0])
+        lng = float(args.closest[1])
+        N = int(args.closest[2])
+        closest(lat, lng, N, args.mock)
     if args.app_run:
         run_app()
