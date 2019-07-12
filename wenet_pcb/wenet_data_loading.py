@@ -3,14 +3,36 @@ Module that load locations/labels data
 """
 
 from typing import List
+from uuid import uuid4
 from abc import ABC, abstractmethod
 from datetime import timedelta
 from datetime import datetime
 from random import random
 from collections import defaultdict
 import hashlib
-from wenet_pcb.wenet_models import UserLocationPoint, UserPlace
+from wenet_pcb.wenet_models import UserLocationPoint, UserPlace, GPSPoint
 from wenet_pcb import config
+from wenet_pcb.wenet_realtime_user_db import (
+    DatabaseRealtimeLocationsHandlerMock,
+    DatabaseRealtimeLocationsHandler,
+)
+from wenet_pcb.wenet_algo import closest_locations
+
+
+def closest_users(lat, lng, N, is_mock=False):
+    point = GPSPoint(lat, lng)
+    if is_mock:
+        db = DatabaseRealtimeLocationsHandlerMock.get_instance()
+        fake_locations = [
+            MockWenetSourceLocations._create_fake_locations(str(uuid4()), nb=1)[0]
+            for _ in range(3000)
+        ]
+        db.update(fake_locations)
+    else:
+        db = DatabaseRealtimeLocationsHandler.get_instance()
+    users_locations = db.get_all_users().values()
+    sorted_users_locations = closest_locations(point, users_locations, N=N)
+    return sorted_users_locations
 
 
 class BaseSourceLocations(ABC):
