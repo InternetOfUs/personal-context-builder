@@ -34,6 +34,9 @@ DEFAULT_VIRTUAL_HOST_LOCATION = ""
 DEFAULT_REDIS_HOST = "localhost"
 DEFAULT_REDIS_PORT = 6379
 
+DEFAULT_REALTIME_REDIS_HOST = "localhost"
+DEFAULT_REALTIME_REDIS_PORT = 6379
+
 # up to 16 (0-15) locations in default Redis settings
 # Format {ModelClassName}:{PipelineClassName}
 DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"
