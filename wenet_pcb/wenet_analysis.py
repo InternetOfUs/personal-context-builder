@@ -143,3 +143,52 @@ class BagOfWordsVectorizer(object):
             instance = BagOfWordsVectorizer(None, None)
             instance.__dict__ = load_fct(f)
             return instance
+
+
+class BagOfWordsCorpuzer(BagOfWordsVectorizer):
+    def __init__(
+        self,
+        labelled_stay_regions,
+        stay_regions,
+        regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+    ):
+        super().__init__(
+            labelled_stay_regions,
+            stay_regions,
+            regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+        )
+
+    def vectorize(self, locations):
+        """ Create a bag of words corpus
+        Args:
+            locations: list of LocationPoint
+
+        Return:
+            list of list of "word"
+        """
+        big_vector = []
+        for location in locations:
+            inner_vector = []
+            if location is None or np.isnan(location._lat):
+                inner_vector.append(str(self._regions_mapping["no_data"]))
+            else:
+                is_in_region = False
+                for region in self._labelled_stay_regions:
+                    if location in region:
+                        if region._label in self._regions_mapping:
+                            label = self._regions_mapping[region._label]
+                        else:
+                            label = self._regions_mapping["unknow_labelled_region"]
+                        inner_vector.append(str(label))
+                        is_in_region = True
+                        break
+                for region in self._stay_regions:
+                    if location in region:
+                        inner_vector.append(str(self._regions_mapping["unknow_region"]))
+                        is_in_region = True
+                        break
+                if not is_in_region:
+                    inner_vector.append(str(self._regions_mapping["unknow"]))
+            big_vector.append(inner_vector)
+        return big_vector
+

@@ -8,6 +8,8 @@ from os.path import join
 
 import numpy as np
 from sklearn.decomposition import LatentDirichletAllocation
+from gensim.sklearn_api import HdpTransformer
+from gensim.corpora import Dictionary
 
 
 class BaseModel(object):
@@ -105,3 +107,25 @@ class SimpleBOW(BaseModelWrapper):
 
     def fit(self, *args, **kwargs):
         pass
+
+
+class SimpleHDP(BaseModelWrapper):
+    """ Bag-of-words approach, compute the mean of all days
+    """
+
+    def __init__(self, name="simple_hdp"):
+        super().__init__(None, name)
+        self._gensim_dict = None
+
+    def to_bow_format(self, X):
+        return [self._gensim_dict.doc2bow(x) for x in X]
+
+    def predict(self, X, *args, **kwargs):
+        bow_format = self.to_bow_format(X)
+        return super().transform(bow_format, *args, **kwargs)
+
+    def fit(self, X, *args, **kwargs):
+        self._gensim_dict = Dictionary(X)
+        self._model_instance = HdpTransformer(id2word=self._gensim_dict)
+        bow_format = self.to_bow_format(X)
+        super().fit(bow_format, *args, **kwargs)

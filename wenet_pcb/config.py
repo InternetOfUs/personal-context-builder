@@ -38,6 +38,7 @@ DEFAULT_REDIS_PORT = 6379
 # Format {ModelClassName}:{PipelineClassName}
 DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"
 DEFAULT_REDIS_DATABASE_MODEL_1 = "SimpleBOW:PipelineBOW"
+DEFAULT_REDIS_DATABASE_MODEL_2 = "SimpleHDP:PipelineWithCorpus"
 
 DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
 
