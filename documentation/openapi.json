@@ -252,13 +252,10 @@
         }
       },
       "ModelDescriptions": {
-        "description": "list of models with their description",
+        "description": "all models with their description",
         "additionalProperties": {
-          "type": "object",
-          "description": "model docstring",
-          "items": {
-            "type": "string"
-          }
+          "type": "string",
+          "description": "model docstring"
         }
       },
       "UsersDistances": {

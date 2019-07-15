@@ -152,12 +152,10 @@ components:
           
         
     ModelDescriptions:
-      description: "list of models with their description"
+      description: "all models with their description"
       additionalProperties:
-        type: object
+        type: string
         description: "model docstring"
-        items:
-          type: string
 
     UsersDistances:
       description: "users with distances"
