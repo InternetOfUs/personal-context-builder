@@ -1,0 +1,274 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://lab.idiap.ch/devel/wenet/",
+      "description": "Idiap production server"
+    }
+  ],
+  "info": {
+    "description": "Component that handle the personal context of the users",
+    "version": "0.0.1b",
+    "title": "WeNet - personal_context_builder",
+    "contact": {
+      "email": "william.droz@idiap.ch"
+    }
+  },
+  "paths": {
+    "/routines/": {
+      "get": {
+        "summary": "get the list all routines for all users with all models",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "models",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required": false,
+            "description": "filter models base on name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user routines",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Model"
+                },
+                "example": {
+                  "SimpleLDA": {
+                    "mock_user_1": [
+                      0,
+                      1,
+                      0,
+                      0.5,
+                      1
+                    ],
+                    "mock_user_2": [
+                      0,
+                      1,
+                      1,
+                      0.5,
+                      1
+                    ],
+                    "mock_user_3": [
+                      0,
+                      1,
+                      0,
+                      0.5,
+                      0
+                    ]
+                  },
+                  "SimpleBOW": {
+                    "mock_user_1": [
+                      1,
+                      1,
+                      0,
+                      0.5,
+                      1
+                    ],
+                    "mock_user_2": [
+                      1,
+                      1,
+                      1,
+                      0.5,
+                      1
+                    ],
+                    "mock_user_3": [
+                      1,
+                      1,
+                      0,
+                      0.5,
+                      0
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/closest/{lat}/{lng}/{N}/": {
+      "get": {
+        "summary": "get closest N users from a given point",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "path",
+            "description": "latitude of the given point",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "lng",
+            "in": "path",
+            "description": "longitude of the given point",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          },
+          {
+            "name": "N",
+            "in": "path",
+            "description": "number of closest users to receive",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "closest N users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersDistances"
+                },
+                "example": {
+                  "mock_user_1": 330,
+                  "mock_user_2": 340,
+                  "mock_user_3": 350
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/routines/{user_id}/": {
+      "get": {
+        "summary": "get specific user routine",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "models",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required": false,
+            "description": "filter models base on name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "specific user's routine",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Model"
+                },
+                "example": {
+                  "SimpleLDA": {
+                    "mock_user_1": [
+                      0,
+                      1,
+                      0,
+                      0.5,
+                      1
+                    ]
+                  },
+                  "SimpleBOW": {
+                    "mock_user_1": [
+                      1,
+                      1,
+                      0,
+                      0.5,
+                      1
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/models/": {
+      "get": {
+        "summary": "get the list of all available models",
+        "responses": {
+          "200": {
+            "description": "available models",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelDescriptions"
+                },
+                "example": {
+                  "SimpleLDA": "Simple LDA over all the users, with 15 topics",
+                  "SimpleBOW": "Bag-of-words approach, compute the mean of all days"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserRoutine": {
+        "type": "object",
+        "description": "user_id",
+        "additionalProperties": {
+          "type": "array",
+          "description": "vector that represent user routine",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "Model": {
+        "type": "object",
+        "description": "model name",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/UserRoutine"
+        }
+      },
+      "ModelDescriptions": {
+        "description": "list of models with their description",
+        "additionalProperties": {
+          "type": "object",
+          "description": "model docstring",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "UsersDistances": {
+        "description": "users with distances",
+        "type": "object",
+        "additionalProperties": {
+          "type": "number",
+          "description": "distances from the given point"
+        }
+      }
+    }
+  }
+}
