@@ -7,6 +7,8 @@ services:
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
      - wenet-redis-data:/data
+     - /etc/timezone:/etc/timezone:ro
+     - /etc/localtime:/etc/localtime:ro
   wenet-realtime-redis:
     restart: always
     container_name: wenet-realtime-redis
@@ -14,6 +16,8 @@ services:
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
      - wenet-realtime-redis-data:/data
+     - /etc/timezone:/etc/timezone:ro
+     - /etc/localtime:/etc/localtime:ro
   wenet-api:
     restart: always
     build: .
@@ -24,6 +28,8 @@ services:
      - "8081:80"
     volumes:
      - wenet-data:/data
+     - /etc/timezone:/etc/timezone:ro
+     - /etc/localtime:/etc/localtime:ro
     image:  'docker.idiap.ch/wenet/personal_context_builder:v0.0.5'
 networks:
   default:
