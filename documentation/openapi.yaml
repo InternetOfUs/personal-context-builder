@@ -29,7 +29,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Models"
+                $ref: "#/components/schemas/Model"
               example:
                 SimpleLDA:
                   {
@@ -109,7 +109,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Models"
+                $ref: "#/components/schemas/Model"
               example:
                 SimpleLDA:
                   {
@@ -129,6 +129,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelDescriptions"
+              example:
+                {
+                  "SimpleLDA" : "Simple LDA over all the users, with 15 topics",
+                  "SimpleBOW" : "Bag-of-words approach, compute the mean of all days"
+                }
 components:
   schemas:
     UserRoutine:
@@ -143,26 +148,16 @@ components:
       type: object
       description: "model name"
       additionalProperties:
-        type: array
-        items:
-          $ref: "#/components/schemas/UserRoutine"
+        $ref: "#/components/schemas/UserRoutine"
           
-    Models:
-      type: array
-      description: "list of model"
-      items:
-        $ref: "#/components/schemas/Model"
-      
-    ModelDescription:
-      type: object
-      additionalProperties:
-        type: string
-        description: "description of the model"
+        
     ModelDescriptions:
-      description: "list of model description"
-      type: array
-      items:
-        $ref: "#/components/schemas/ModelDescription"
+      description: "list of models with their description"
+      additionalProperties:
+        type: object
+        description: "model docstring"
+        items:
+          type: string
 
     UsersDistances:
       description: "users with distances"
