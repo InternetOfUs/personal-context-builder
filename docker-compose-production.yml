@@ -7,7 +7,7 @@ services:
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
      - wenet-redis-data:/data
-  wenet-redis:
+  wenet-realtime-redis:
     restart: always
     container_name: wenet-realtime-redis
     image: "redis:5.0-alpine"
