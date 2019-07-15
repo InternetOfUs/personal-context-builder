@@ -104,7 +104,9 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         my_dict = dict()
         for key in self._server.scan_iter():
             dict_user_location = json.loads(self._server.get(key))
-            dict_user_location["_pts_t"] = datetime.strptime(dict_user_location["_pts_t"], config.DEFAULT_DATETIME_FORMAT)
+            dict_user_location["_pts_t"] = datetime.strptime(
+                dict_user_location["_pts_t"], config.DEFAULT_DATETIME_FORMAT
+            )
             my_dict[key.decode("utf-8")] = UserLocationPoint.from_dict(
                 dict_user_location
             )
