@@ -45,6 +45,45 @@ paths:
                     "mock_user_2" : [1, 1, 1, 0.5, 1],
                     "mock_user_3" : [1, 1, 0, 0.5, 0]
                   }
+  /closest/{lat}/{lng}/{N}/:
+    get:
+      summary: get closest N users from a given point
+      parameters:
+        - name: lat
+          in: path
+          description: latitude of the given point
+          required: true
+          schema:
+            type: number
+            format: number
+        - name: lng
+          in: path
+          description: longitude of the given point
+          required: true
+          schema:
+            type: number
+            format: number
+        - name: N
+          in: path
+          description: number of closest users to receive
+          required: true
+          schema:
+            type: number
+            format: number
+      responses:
+        '200':
+          description: closest N users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersDistances"
+              example:
+                {
+                  "mock_user_1" : 330,
+                  "mock_user_2" : 340,
+                  "mock_user_3" : 350
+                }
+            
   /routines/{user_id}/:
     get:
       summary: get specific user routine
@@ -124,3 +163,11 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/ModelDescription"
+
+    UsersDistances:
+      description: "users with distances"
+      type: object
+      additionalProperties:
+        type: number
+        description: "distances from the given point"
+        
