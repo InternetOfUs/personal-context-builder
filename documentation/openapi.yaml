@@ -3,15 +3,28 @@ servers:
   - url: https://lab.idiap.ch/devel/wenet/
     description: Idiap production server
 info:
-  description: 'Component that handle the personal context of the users'
+  description: 'Component that handle the personal context of the users <br />
+  <img src="https://drive.google.com/uc?id=1oL92bUTr5oLwOs84oo9ycCJWcI4ARaXl" />
+  <br />Routines are a embedded representation of the user habits.'
   version: 0.0.1b
   title: WeNet - personal_context_builder
   contact:
     email: william.droz@idiap.ch
+    
+tags: 
+  - name: User's routines
+    description: "Everything about the routines of the users"
+    
+  - name: Real-time operations
+    description: "all requests that handle real-time informations"
+    
+  
 paths:
   /routines/:
     get:
       summary: get the list all routines for all users with all models
+      tags:
+        - User's routines
       parameters:
         - in: query
           name: models
@@ -48,6 +61,8 @@ paths:
   /closest/{lat}/{lng}/{N}/:
     get:
       summary: get closest N users from a given point
+      tags:
+        - Real-time operations
       parameters:
         - name: lat
           in: path
@@ -87,6 +102,8 @@ paths:
   /routines/{user_id}/:
     get:
       summary: get specific user routine
+      tags:
+        - User's routines
       parameters:
         - name: user_id
           in: path
@@ -122,6 +139,8 @@ paths:
   /models/:
     get:
       summary: get the list of all available models
+      tags:
+        - User's routines
       responses:
         '200':
           description: available models
@@ -138,7 +157,7 @@ components:
   schemas:
     UserRoutine:
       type: object
-      description: "user_id"
+      description: "Routines of the users, keys are user_ids and values are vectors that represent the routines"
       additionalProperties:
         type: array
         description: "vector that represent user routine"
@@ -146,21 +165,19 @@ components:
           type: number
     Model:
       type: object
-      description: "model name"
+      description: "There are several models (ML) that are used to modelize the routine of the users. Each model (key) are linked to the dict (users->vectors)"
       additionalProperties:
         $ref: "#/components/schemas/UserRoutine"
-          
         
     ModelDescriptions:
-      description: "all models with their description"
+      description: "all models with their description. Descriptions are extracted from docstring for the models."
       additionalProperties:
         type: string
         description: "model docstring"
 
     UsersDistances:
-      description: "users with distances"
+      description: "users with distances from the point given by the caller"
       type: object
       additionalProperties:
         type: number
         description: "distances from the given point"
-        
