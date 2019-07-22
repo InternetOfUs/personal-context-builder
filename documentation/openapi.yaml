@@ -4,9 +4,10 @@ servers:
     description: Idiap production server
 info:
   description: 'Component that handle the personal context of the users <br />
-  <img src="https://drive.google.com/uc?id=1oL92bUTr5oLwOs84oo9ycCJWcI4ARaXl" />
+  <img src="https://drive.google.com/uc?id=1oL92bUTr5oLwOs84oo9ycCJWcI4ARaXl" /> <br />
+  <img src="https://drive.google.com/uc?id=1iF39kFa5ZcYKadCzynHvRkt6ftj59aHc" />
   <br />Routines are a embedded representation of the user habits.'
-  version: 0.0.1b
+  version: 0.0.5
   title: WeNet - personal_context_builder
   contact:
     email: william.droz@idiap.ch
@@ -181,3 +182,4 @@ components:
       additionalProperties:
         type: number
         description: "distances from the given point"
+        
