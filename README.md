@@ -43,6 +43,9 @@ You can run the app with `python3 -m wenet_cli_entrypoint --app_run`
 
 ## Dev setup
 
+In addition to *requirements.txt*, we recommend the installation of *black==18.9b0* to keep the formating of the code consistent.
+
+
 ### Setup hook
 
 Just create a symlink with `ln -s ../../pre-commit.bash .git/hooks/pre-commit`
