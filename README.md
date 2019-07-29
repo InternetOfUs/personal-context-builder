@@ -52,7 +52,7 @@ Just create a symlink with `ln -s ../../pre-commit.bash .git/hooks/pre-commit`
 
 ### Database
 
-This project uses a Redis database. The database can be changed by editing `config.py` and modifing the line `DEFAULT_REDIS_HOST = "localhost"`. Be aware that this value is overrided in the `Dockerfile`
+This project uses a Redis database. The database can be changed by editing `config.py` and modifying the line `DEFAULT_REDIS_HOST = "localhost"`. Be aware that this value is overridden in the `Dockerfile`
 
 If you don't modify `config.py` the project expect a Redis database on localhost.
 
@@ -133,7 +133,7 @@ Routines are a dict with model as key, values are dict with user_id as key and l
 
 It's possible to filter models base on name with the parameters `models`. Example to get only `SimpleBOW:PipelineBOW` : `/routines/?models=SimpleBOW:PipelineBOW`. It's possible to add several time `models` parameter to get multiple models.
 
-List of available models can be retreive with the route `/models/`
+List of available models can be retrieved with the route `/models/`
 
 You can get the N closest users from a location with the route `/closest/<lat:number>/<lng:number>/<N:number>/`
 
