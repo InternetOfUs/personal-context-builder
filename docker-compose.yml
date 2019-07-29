@@ -1,21 +1,18 @@
 version: '3'
 services:
   wenet-redis:
-    restart: always
     container_name: wenet-redis
     image: "redis:alpine"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
      - wenet-redis-data:/data
   wenet-realtime-redis:
-    restart: always
     container_name: wenet-realtime-redis
     image: "redis:alpine"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
      - wenet-realtime-redis-data:/data
   wenet-api:
-    restart: always
     build: .
     container_name: wenet-api
     env_file:
