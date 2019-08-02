@@ -72,11 +72,11 @@ class PipelineBOW(BasePipeline):
 
     def update(self):
         if self._mock_datasources:
-            _LOGGER.info(f"updating profiles from mocked data sources")
+            _LOGGER.info("updating profiles from mocked data sources")
             source_locations = MockWenetSourceLocations()
             source_labels = MockWenetSourceLabels(source_locations)
         else:
-            _LOGGER.info(f"updating profiles from real data sources")
+            _LOGGER.info("updating profiles from real data sources")
             source_locations = MockWenetSourceLocations()
             source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = BaseBOWTrainer(source_locations, source_labels)
@@ -136,11 +136,11 @@ class PipelineWithCorpus(BasePipeline):
 
     def update(self):
         if self._mock_datasources:
-            _LOGGER.info(f"updating profiles from mocked data sources")
+            _LOGGER.info("updating profiles from mocked data sources")
             source_locations = MockWenetSourceLocations()
             source_labels = MockWenetSourceLabels(source_locations)
         else:
-            _LOGGER.info(f"updating profiles from real data sources")
+            _LOGGER.info("updating profiles from real data sources")
             source_locations = MockWenetSourceLocations()
             source_labels = MockWenetSourceLabels(source_locations)
         bow_trainer = HDPTrainer(source_locations, source_labels)
