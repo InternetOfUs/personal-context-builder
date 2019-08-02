@@ -19,6 +19,20 @@ from wenet_pcb.wenet_realtime_user_db import (
 from wenet_pcb.wenet_algo import closest_locations
 
 
+def compare_routines(source_user, users, model, function, is_mock=False):
+    """
+    compare routines of users
+    Args:
+        source_user: the user that will be compared to the users
+        users: list of users to compare to
+        model: on which model the comparison should be applied
+        function: the similarity function to use
+        is_mock: if true, use mocked data
+
+    """
+    pass
+
+
 def closest_users(lat, lng, N, is_mock=False):
     point = GPSPoint(lat, lng)
     if is_mock:
