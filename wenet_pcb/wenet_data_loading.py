@@ -28,12 +28,19 @@ def compare_routines(source_user, users, model, function, is_mock=False):
         model: on which model the comparison should be applied
         function: the similarity function to use
         is_mock: if true, use mocked data
-
     """
     pass
 
 
 def closest_users(lat, lng, N, is_mock=False):
+    """
+    give the N closest users to the point (lat, lng)
+    Args:
+        lat: the latitude
+        lng: the longitude
+        N: how many users in output
+        is_mock: if true, use mocked data
+    """
     point = GPSPoint(lat, lng)
     if is_mock:
         db = DatabaseRealtimeLocationsHandlerMock.get_instance()
