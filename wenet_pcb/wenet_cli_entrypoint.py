@@ -15,6 +15,7 @@ from wenet_pcb.wenet_data_loading import (
     MockWenetSourceLabels,
     MockWenetSourceLocations,
     closest_users,
+    compare_routines,
 )
 from wenet_pcb.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
 from wenet_pcb.wenet_user_profile_db import (
@@ -28,6 +29,8 @@ from wenet_pcb.wenet_realtime_user_db import (
 from wenet_pcb.sanic_app import WenetApp
 from wenet_pcb import config
 from wenet_pcb.wenet_logger import create_logger
+
+from scipy import spatial
 
 _LOGGER = create_logger(__name__)
 
@@ -127,6 +130,13 @@ def show_models():
         print(f"[{model_name}] \t{model_doc}")
 
 
+def compare_routines_cmd(
+    source_user, users, model, function=spatial.distance.cosine, is_mock=False
+):
+    res = compare_routines(source_user, users, model, function, is_mock=is_mock)
+    print(res)
+
+
 def run_app():
     wenet_app = WenetApp()
     wenet_app.run()
@@ -165,6 +175,9 @@ if __name__ == "__main__":  # pragma: no cover
         help="update the locations of the users",
         action="store_true",
     )
+    parser.add_argument(
+        "--compare_routines", help="compare users (should be seaparated by ':')"
+    )
     args = parser.parse_args()
     if args.clean_db:
         clean_db_cmd(args.mock)
@@ -185,5 +198,8 @@ if __name__ == "__main__":  # pragma: no cover
         lng = float(args.closest[1])
         N = int(args.closest[2])
         closest(lat, lng, N, args.mock)
+    if args.compare_routines:
+        source, *users = args.compare_routines.split(":")
+        compare_routines_cmd(source, users, "SimpleLDA:PipelineBOW", is_mock=args.mock)
     if args.app_run:
         run_app()

@@ -16,6 +16,10 @@ from wenet_pcb.wenet_realtime_user_db import (
     DatabaseRealtimeLocationsHandlerMock,
     DatabaseRealtimeLocationsHandler,
 )
+from wenet_pcb.wenet_user_profile_db import (
+    DatabaseProfileHandler,
+    DatabaseProfileHandlerMock,
+)
 from wenet_pcb.wenet_algo import closest_locations
 
 
@@ -29,7 +33,17 @@ def compare_routines(source_user, users, model, function, is_mock=False):
         function: the similarity function to use
         is_mock: if true, use mocked data
     """
-    pass
+    model_num = config.MAP_MODEL_TO_DB[model]
+    if is_mock:
+        db = DatabaseProfileHandlerMock.get_instance(model_num)
+    else:
+        db = DatabaseProfileHandler.get_instance(model_num)
+    source_routine = db.get_profile(source_user)
+    routines = [db.get_profile(u) for u in users]
+    routines_dist = [function(source_routine, r) for r in routines]
+    res = list(zip(users, routines_dist))
+    res = sorted(res, key=lambda x: -x[1])
+    return res
 
 
 def closest_users(lat, lng, N, is_mock=False):
