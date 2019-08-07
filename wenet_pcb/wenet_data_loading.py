@@ -22,8 +22,12 @@ from wenet_pcb.wenet_user_profile_db import (
 )
 from wenet_pcb.wenet_algo import closest_locations
 
+from scipy import spatial
 
-def compare_routines(source_user, users, model, function, is_mock=False):
+
+def compare_routines(
+    source_user, users, model, function=spatial.distance.cosine, is_mock=False
+):
     """
     compare routines of users
     Args:
