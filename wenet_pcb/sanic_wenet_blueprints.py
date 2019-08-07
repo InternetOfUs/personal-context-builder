@@ -8,7 +8,7 @@ from wenet_pcb.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
 )
 from wenet_pcb import wenet_analysis_models
-from wenet_pcb.wenet_data_loading import closest_users
+from wenet_pcb.wenet_data_loading import closest_users, compare_routines
 from wenet_pcb import config
 
 
@@ -168,4 +168,13 @@ class ClosestUsersMock(HTTPMethodView):
         distance_user_location = closest_users(lat, lng, N, is_mock=True)
         for distance, user_location in distance_user_location:
             res[user_location._user] = distance
+        return json(res)
+
+
+class CompareRoutinesMock(HTTPMethodView):
+    async def get(self, request, user, model):
+        res = dict()
+        if "users" in request.args:
+            users = request.args["users"]
+            res = compare_routines(user, users, model, is_mock=True)
         return json(res)
