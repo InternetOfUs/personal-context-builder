@@ -27,11 +27,17 @@ def create_routines_bp(virtual_host_location, is_mock=False):
         routines_bp.add_route(
             ClosestUsersMock.as_view(), "/closest/<lat:number>/<lng:number>/<N:number>/"
         )
+        routines_bp.add_route(
+            CompareRoutinesMock.as_view(), "/compare_routines/<user>/<model>/"
+        )
     else:
         routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
         routines_bp.add_route(UserProfiles.as_view(), "/routines/")
         routines_bp.add_route(
             ClosestUsers.as_view(), "/closest/<lat:number>/<lng:number>/<N:number>/"
+        )
+        routines_bp.add_route(
+            CompareRoutines.as_view(), "/compare_routines/<user>/<model>/"
         )
     return routines_bp
 
@@ -177,4 +183,13 @@ class CompareRoutinesMock(HTTPMethodView):
         if "users" in request.args:
             users = request.args["users"]
             res = compare_routines(user, users, model, is_mock=True)
+        return json(res)
+
+
+class CompareRoutines(HTTPMethodView):
+    async def get(self, request, user, model):
+        res = dict()
+        if "users" in request.args:
+            users = request.args["users"]
+            res = compare_routines(user, users, model, is_mock=False)
         return json(res)
