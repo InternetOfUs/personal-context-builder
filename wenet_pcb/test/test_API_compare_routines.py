@@ -1,0 +1,22 @@
+import unittest
+from wenet_pcb.sanic_app import WenetApp
+from wenet_pcb.wenet_cli_entrypoint import update, train
+from wenet_pcb import config
+
+train(is_mock=True)
+update(is_mock=True)
+
+
+class APICompareRoutinesTestCase(unittest.TestCase):
+    def setUp(self):
+        self._app = WenetApp("test wenet", is_mock=True)._app
+
+    def test_order(self):
+        _, response = self._app.test_client.get(
+            config.DEFAULT_VIRTUAL_HOST_LOCATION
+            + "/compare_routines/mock_user_1/SimpleLDA:PipelineBOW/?users=mock_user_2&users=mock_user_3"
+        )
+        res = response.json
+        res_list = list(res.items())
+        sorted_res = sorted(res_list, key=lambda x: -x[1])
+        self.assertTrue(res_list == sorted_res)
