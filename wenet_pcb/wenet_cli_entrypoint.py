@@ -176,7 +176,7 @@ if __name__ == "__main__":  # pragma: no cover
         action="store_true",
     )
     parser.add_argument(
-        "--compare_routines", help="compare users (should be seaparated by ':')"
+        "--compare_routines", help="compare users (should be separated by ':')"
     )
     args = parser.parse_args()
     if args.clean_db:

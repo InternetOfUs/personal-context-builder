@@ -35,7 +35,7 @@ optional arguments:
   --force_update_locations
                         update the locations of the users
   --compare_routines COMPARE_ROUTINES
-                        compare users (should be seaparated by ':')
+                        compare users (should be separated by ':')
 </pre>
 
 ## Run the app
