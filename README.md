@@ -17,6 +17,7 @@ usage: wenet_cli_entrypoint.py [-h] [--train] [--update] [--clean_db]
                                [--show SHOW] [--show_all] [--app_run]
                                [--show_models] [--mock] [--closest lat lng N]
                                [--force_update_locations]
+                               [--compare_routines COMPARE_ROUTINES]
 
 Wenet Command line interface
 
@@ -33,6 +34,8 @@ optional arguments:
   --closest lat lng N   get N closest users from lat, lng
   --force_update_locations
                         update the locations of the users
+  --compare_routines COMPARE_ROUTINES
+                        compare users (should be seaparated by ':')
 </pre>
 
 ## Run the app
@@ -136,6 +139,8 @@ It's possible to filter models base on name with the parameters `models`. Exampl
 List of available models can be retrieved with the route `/models/`
 
 You can get the N closest users from a location with the route `/closest/<lat:number>/<lng:number>/<N:number>/`
+
+You can compare the routines of users by using `/compare_routines/` (e.g `/compare_routines/mock_user_1/SimpleLDA:PipelineBOW/?users=mock_user_2&users=mock_user_3`)
 
 ## Architecture
 
