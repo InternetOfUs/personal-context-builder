@@ -47,7 +47,7 @@ def compare_routines(
     routines_dist = [function(source_routine, r) for r in routines]
     res = list(zip(users, routines_dist))
     res = sorted(res, key=lambda x: -x[1])
-    return res
+    return dict(res)
 
 
 def closest_users(lat, lng, N, is_mock=False):
