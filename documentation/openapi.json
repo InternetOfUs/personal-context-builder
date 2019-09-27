@@ -255,6 +255,57 @@
   },
   "components": {
     "schemas": {
+      "WeekDaySemanticRoutine": {
+        "type": "object",
+        "description": "Semantic routine of a user for a given week day",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "description": "id of the user"
+          },
+          "weekday": {
+            "type": "string",
+            "description": "day of the week"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "from when the user is to the label location (hh:mm)"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "when the user is leaving the label location (hh:mm)"
+          },
+          "label": {
+            "type": "string",
+            "description": "semantic label such a work, home, ..."
+          },
+          "lat": {
+            "type": "number",
+            "description": "latitude the label"
+          },
+          "lng": {
+            "type": "number",
+            "description": "longitude of the label"
+          }
+        }
+      },
+      "LabelStats": {
+        "type": "object",
+        "description": "(WIP) stats on the label for specific user",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "description": "id of the user"
+          },
+          "hours_on_label_per_week": {
+            "type": "array",
+            "description": "distribution of the number of hours that the user is on the label location per week",
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
       "UserRoutine": {
         "type": "object",
         "description": "Routines of the users, keys are user_ids and values are vectors that represent the routines",
