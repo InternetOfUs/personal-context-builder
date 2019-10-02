@@ -193,3 +193,10 @@ class CompareRoutines(HTTPMethodView):
             users = request.args["users"]
             res = compare_routines(user, users, model, is_mock=False)
         return json(res)
+
+
+class SemanticRoutine(HTTPMethodView):
+    async def get(self, request, user):
+        res = dict()
+        #  TODO get results
+        return json(res)
