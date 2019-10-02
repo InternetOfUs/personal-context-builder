@@ -22,6 +22,9 @@ def create_routines_bp(virtual_host_location, is_mock=False):
     """
     routines_bp = Blueprint("routines", url_prefix=virtual_host_location)
     if is_mock:
+        routines_bp.add_route(
+            SemanticRoutine.as_view(), "/semantic_routines/<user_id>/"
+        )
         routines_bp.add_route(UserProfileMock.as_view(), "/routines/<user_id>/")
         routines_bp.add_route(UserProfilesMock.as_view(), "/routines/")
         routines_bp.add_route(
@@ -31,6 +34,9 @@ def create_routines_bp(virtual_host_location, is_mock=False):
             CompareRoutinesMock.as_view(), "/compare_routines/<user>/<model>/"
         )
     else:
+        routines_bp.add_route(
+            SemanticRoutineMock.as_view(), "/semantic_routines/<user_id>/"
+        )
         routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
         routines_bp.add_route(UserProfiles.as_view(), "/routines/")
         routines_bp.add_route(
@@ -196,6 +202,13 @@ class CompareRoutines(HTTPMethodView):
 
 
 class SemanticRoutine(HTTPMethodView):
+    async def get(self, request, user):
+        res = dict()
+        #  TODO get results
+        return json(res)
+
+
+class SemanticRoutineMock(HTTPMethodView):
     async def get(self, request, user):
         res = dict()
         #  TODO get results
