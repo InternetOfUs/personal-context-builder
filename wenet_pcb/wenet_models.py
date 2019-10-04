@@ -77,6 +77,16 @@ class WeekDaySemanticRoutine(GPSPoint):
     """
 
     def __init__(self, user_id, weekday, start_time, end_time, label, lat, lng):
+        """ constructor
+        Args:
+            user_id: id of the user
+            weekday: day of the week
+            start_time: from when the user is to the label location
+            end_time: when the user is leaving the label location
+            label: semantic label such a work, home, ...
+            lat: latitude of the region/label
+            lng: longitude of the region/label
+        """
         super().__init__(lat, lng)
         self._user_id = user_id
         self._weekday = weekday
