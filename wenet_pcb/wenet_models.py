@@ -71,6 +71,23 @@ class GPSPoint(object):
         return self.__hash__() == other.__hash__()
 
 
+class WeekDaySemanticRoutine(GPSPoint):
+    """
+    class for Semantic routine over the day of the week
+    """
+
+    def __init__(self, user_id, weekday, start_time, end_time, label, lat, lng):
+        super().__init__(lat, lng)
+        self._user_id = user_id
+        self._weekday = weekday
+        self._start_time = start_time
+        self._end_time = end_time
+        self._label = label
+
+    def __str__(self):
+        return f"{self._user_id} - {self._weekday} - {self._label} - [{self._start_time} to {self._end_time}] at {super().__str__()}"
+
+
 class LocationPoint(GPSPoint):
     """
     class that handle timestamped gps points
