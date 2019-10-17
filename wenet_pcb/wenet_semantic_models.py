@@ -26,3 +26,13 @@ class SemanticModel(object):
         Return: Distribution of the labels for each day for each time slots
         """
         pass
+
+    def evaluate_user(self, user_id):
+        """ Score the models for user_id
+        """
+        pass
+
+    def evaluate_all(self):
+        """ Score the models for all users
+        """
+        pass
