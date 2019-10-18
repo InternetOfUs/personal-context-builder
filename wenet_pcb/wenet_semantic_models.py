@@ -70,6 +70,12 @@ class SemanticModel(object):
 
     @classmethod
     def index_per_weekday(cls, all_days_locations):
+        """ group all days by weekday and use weekday as index
+        Args:
+            all_days_locations: list of list of locations, sublist are full day
+        
+        Return: indexed days of locations
+        """
         res = defaultdict(list)
         for locations_day in all_days_locations:
             middle_location = locations_day[len(locations_day) // 2]
