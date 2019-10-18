@@ -105,6 +105,10 @@ class SemanticModelHist(SemanticModel):
         return labels_dist
 
     def _compute_labels_dist(self, labels_count):
+        """ compute the distribution of the labels for each timeslots grouped per weekday
+        Args:
+            labels_count: hierarchical labels count (dict of dict of dict)
+        """
         labels_dist = defaultdict(lambda: defaultdict(lambda: dict()))
         for weekday, time_labels_freq in labels_count.items():
             for time_slot, labels_freq in time_labels_freq.items():
