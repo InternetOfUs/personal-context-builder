@@ -94,8 +94,18 @@ class SemanticModelHist(SemanticModel):
                         labelled_stay_regions,
                         stay_regions,
                     )
+        labels_dist = self._compute_labels_dist(labels_count)
 
-        pprint(labels_count)
+        return labels_dist
+
+    def _compute_labels_dist(self, labels_count):
+        labels_dist = defaultdict(lambda: defaultdict(lambda: dict()))
+        for weekday, time_labels_freq in labels_count.items():
+            for time_slot, labels_freq in time_labels_freq.items():
+                nb_items = sum(labels_freq.values())
+                for label, nb in labels_freq.items():
+                    labels_dist[weekday][time_slot][label] = nb / nb_items
+        return labels_dist
 
     def _fill_with_labels_count(
         self, location, labels_count, weekday, labelled_stay_regions, stay_regions
