@@ -87,35 +87,38 @@ class SemanticModelHist(SemanticModel):
         for weekday, days_locations in indexed_weekday_locations.items():
             for day_locations in days_locations:
                 for location in day_locations:
-                    if location is None or np.isnan(location._lat):
-                        res[weekday][location._pts_t.strftime("%H:%M:%S")][
-                            self._regions_mapping["no_data"]
-                        ] += 1
-                    else:
-                        is_in_region = False
-                        for region in labelled_stay_regions:
-                            if location in region:
-                                if region._label in self._regions_mapping:
-                                    label = self._regions_mapping[region._label]
-                                else:
-                                    label = self._regions_mapping[
-                                        "unknow_labelled_region"
-                                    ]
-                                res[weekday][location._pts_t.strftime("%H:%M:%S")][
-                                    label
-                                ] += 1
-                                is_in_region = True
-                                break
-                        for region in stay_regions:
-                            if location in region:
-                                res[weekday][location._pts_t.strftime("%H:%M:%S")][
-                                    self._regions_mapping["unknow_region"]
-                                ] += 1
-                                is_in_region = True
-                                break
-                        if not is_in_region:
-                            res[weekday][location._pts_t.strftime("%H:%M:%S")][
-                                self._regions_mapping["unknow"]
-                            ] += 1
+                    self._fill_with_labels_count(
+                        location, res, weekday, labelled_stay_regions, stay_regions
+                    )
 
         pprint(res)
+
+    def _fill_with_labels_count(
+        self, location, res, weekday, labelled_stay_regions, stay_regions
+    ):
+        if location is None or np.isnan(location._lat):
+            res[weekday][location._pts_t.strftime("%H:%M:%S")][
+                self._regions_mapping["no_data"]
+            ] += 1
+        else:
+            is_in_region = False
+            for region in labelled_stay_regions:
+                if location in region:
+                    if region._label in self._regions_mapping:
+                        label = self._regions_mapping[region._label]
+                    else:
+                        label = self._regions_mapping["unknow_labelled_region"]
+                    res[weekday][location._pts_t.strftime("%H:%M:%S")][label] += 1
+                    is_in_region = True
+                    break
+            for region in stay_regions:
+                if location in region:
+                    res[weekday][location._pts_t.strftime("%H:%M:%S")][
+                        self._regions_mapping["unknow_region"]
+                    ] += 1
+                    is_in_region = True
+                    break
+            if not is_in_region:
+                res[weekday][location._pts_t.strftime("%H:%M:%S")][
+                    self._regions_mapping["unknow"]
+                ] += 1
