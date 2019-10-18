@@ -73,7 +73,7 @@ class SemanticModel(object):
         """ group all days by weekday and use weekday as index
         Args:
             all_days_locations: list of list of locations, sublist are full day
-        
+
         Return: indexed days of locations
         """
         res = defaultdict(list)
