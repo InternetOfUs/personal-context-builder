@@ -29,10 +29,19 @@ from wenet_pcb.wenet_realtime_user_db import (
 from wenet_pcb.sanic_app import WenetApp
 from wenet_pcb import config
 from wenet_pcb.wenet_logger import create_logger
+from wenet_pcb.wenet_semantic_models import SemanticModelHist
 
 from scipy import spatial
 
 _LOGGER = create_logger(__name__)
+
+
+def compute_semantic_routines(is_mock=False):
+    source_locations = MockWenetSourceLocations(4000)
+    semantic_model_hist = SemanticModelHist(
+        source_locations, MockWenetSourceLabels(source_locations)
+    )
+    semantic_model_hist.compute_weekdays("mock_user_1")
 
 
 def force_update_locations(is_mock=False):
@@ -150,6 +159,11 @@ if __name__ == "__main__":  # pragma: no cover
         "--update", help="update the profiles in the db", action="store_true"
     )
     parser.add_argument("--clean_db", help="clean the db", action="store_true")
+    parser.add_argument(
+        "--compute_semantic_routines",
+        help="compute the semantic routines",
+        action="store_true",
+    )
     parser.add_argument("--show", help="show a specific profile from the db")
     parser.add_argument(
         "--show_all", help="show all profiles from the db", action="store_true"
@@ -184,6 +198,8 @@ if __name__ == "__main__":  # pragma: no cover
         train(args.mock)
     if args.update:
         update(args.mock)
+    if args.compute_semantic_routines:
+        compute_semantic_routines(args.mock)
     if args.show_all:
         show_all_profiles(args.mock)
     if args.show:
