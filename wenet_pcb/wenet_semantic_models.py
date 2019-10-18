@@ -120,6 +120,15 @@ class SemanticModelHist(SemanticModel):
     def _fill_with_labels_count(
         self, location, labels_count, weekday, labelled_stay_regions, stay_regions
     ):
+        """ determine the labels and fill hierarchically labels_count with
+            the number of each labels per timeslot per weekday
+        Args:
+            location: location point to check
+            labels_count: hierarchical labels count (dict of dict of dict)
+            weekday: day of the week (number)
+            labelled_stay_regions: the labelled stay regions
+            stay_regions: the unlabelled stay regions
+        """
         if location is None or np.isnan(location._lat):
             labels_count[weekday][location._pts_t.strftime("%H:%M:%S")][
                 self._regions_mapping["no_data"]
