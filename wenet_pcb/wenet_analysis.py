@@ -43,7 +43,7 @@ class BagOfWordsVectorizer(object):
 
     @classmethod
     def group_by_days(
-        cls, locations, user="unknow", start_day="00:00:00", dt_hours=23.5, freq="30T"
+        cls, locations, user="unknown", start_day="00:00:00", dt_hours=23.5, freq="30T"
     ):
         """ class method to group the locations by days
         Args:
@@ -105,17 +105,17 @@ class BagOfWordsVectorizer(object):
                         if region._label in self._regions_mapping:
                             label = self._regions_mapping[region._label]
                         else:
-                            label = self._regions_mapping["unknow_labelled_region"]
+                            label = self._regions_mapping["unknown_labelled_region"]
                         current_vector[label] = 1
                         is_in_region = True
                         break
                 for region in self._stay_regions:
                     if location in region:
-                        current_vector[self._regions_mapping["unknow_region"]] = 1
+                        current_vector[self._regions_mapping["unknown_region"]] = 1
                         is_in_region = True
                         break
                 if not is_in_region:
-                    current_vector[self._regions_mapping["unknow"]] = 1
+                    current_vector[self._regions_mapping["unknown"]] = 1
             big_vector += current_vector
         return big_vector
 
@@ -178,17 +178,19 @@ class BagOfWordsCorpuzer(BagOfWordsVectorizer):
                         if region._label in self._regions_mapping:
                             label = self._regions_mapping[region._label]
                         else:
-                            label = self._regions_mapping["unknow_labelled_region"]
+                            label = self._regions_mapping["unknown_labelled_region"]
                         inner_vector.append(str(label))
                         is_in_region = True
                         break
                 for region in self._stay_regions:
                     if location in region:
-                        inner_vector.append(str(self._regions_mapping["unknow_region"]))
+                        inner_vector.append(
+                            str(self._regions_mapping["unknown_region"])
+                        )
                         is_in_region = True
                         break
                 if not is_in_region:
-                    inner_vector.append(str(self._regions_mapping["unknow"]))
+                    inner_vector.append(str(self._regions_mapping["unknown"]))
             big_vector.append(inner_vector)
         return big_vector
 

@@ -140,7 +140,7 @@ class SemanticModelHist(SemanticModel):
                     if region._label in self._regions_mapping:
                         label = self._regions_mapping[region._label]
                     else:
-                        label = self._regions_mapping["unknow_labelled_region"]
+                        label = self._regions_mapping["unknown_labelled_region"]
                     labels_count[weekday][location._pts_t.strftime("%H:%M:%S")][
                         label
                     ] += 1
@@ -149,11 +149,11 @@ class SemanticModelHist(SemanticModel):
             for region in stay_regions:
                 if location in region:
                     labels_count[weekday][location._pts_t.strftime("%H:%M:%S")][
-                        self._regions_mapping["unknow_region"]
+                        self._regions_mapping["unknown_region"]
                     ] += 1
                     is_in_region = True
                     break
             if not is_in_region:
                 labels_count[weekday][location._pts_t.strftime("%H:%M:%S")][
-                    self._regions_mapping["unknow"]
+                    self._regions_mapping["unknown"]
                 ] += 1
