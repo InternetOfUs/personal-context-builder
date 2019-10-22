@@ -156,9 +156,20 @@ paths:
                 }
 components:
   schemas:
+    ScoredLabel:
+      type: object
+      description: "Label with score"
+      properties:
+        label: 
+          type: string
+          description: "name of the label"
+        score:
+          type: number
+          description: "score of the label"
+          
     WeekDaySemanticRoutine:
       type: object
-      description: "Semantic routine of a user for a given week day"
+      description: "Labels distribution for a given user, time and weekday"
       properties:
         user_id:
           type: string
@@ -166,18 +177,74 @@ components:
         weekday:
           type: string
           description: "day of the week"
-        start_time:
+        closest_time_slot:
+          type: string
+          description: "Closest time slot in the database for the requested time (hh:mm)"
+        label_distribution:
+          description: "Distribution of the labels"
+          additionalProperties:
+            type: array
+            description: "label with score"
+          items: 
+            $ref: "#/components/schemas/ScoredLabel"
+        confidence:
+          type: number
+          description: "confidence of the result"
+        lat:
+          type: number
+          description: "latitude of the label"
+        lng:
+          type: number
+          description: "longitude of the label"
+          
+    WeekDaySemanticRoutineEntering:
+      type: object
+      description: "When the user is entering in a specific label for a given weekday"
+      properties:
+        user_id:
+          type: string
+          description: "id of the user"
+        weekday:
+          type: string
+          description: "day of the week"
+        entering_time:
           type: string
           description: "from when the user is to the label location (hh:mm)"
-        end_time:
-          type: string
-          description: "when the user is leaving the label location (hh:mm)"
         label:
           type: string
           description: "semantic label such a work, home, ..."
+        confidence:
+          type: number
+          description: "confidence of the result"
         lat:
           type: number
-          description: "latitude the label"
+          description: "latitude of the label"
+        lng:
+          type: number
+          description: "longitude of the label"
+          
+    WeekDaySemanticRoutineLeaving:
+      type: object
+      description: "When the user is leaving from a specific label for a given weekday"
+      properties:
+        user_id:
+          type: string
+          description: "id of the user"
+        weekday:
+          type: string
+          description: "day of the week"
+        leaving_time:
+          type: string
+          description: "from when the user is to the label location (hh:mm)"
+        label:
+          type: string
+          description: "semantic label such a work, home, ..."
+        confidence:
+          type: number
+          description: "confidence of the result"
+        lat:
+          type: number
+          description: "latitude of the label"
         lng:
           type: number
           description: "longitude of the label"
