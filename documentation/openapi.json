@@ -16,7 +16,11 @@
   },
   "tags": [
     {
-      "name": "User's routines",
+      "name": "Semantic routines",
+      "description": "Human readable routines"
+    },
+    {
+      "name": "User's embedded routines",
       "description": "Everything about the routines of the users"
     },
     {
@@ -29,7 +33,7 @@
       "get": {
         "summary": "get the list all routines for all users with all models",
         "tags": [
-          "User's routines"
+          "User's embedded routines"
         ],
         "parameters": [
           {
@@ -168,7 +172,7 @@
       "get": {
         "summary": "get specific user routine",
         "tags": [
-          "User's routines"
+          "User's embedded routines"
         ],
         "parameters": [
           {
@@ -232,7 +236,7 @@
       "get": {
         "summary": "get the list of all available models",
         "tags": [
-          "User's routines"
+          "User's embedded routines"
         ],
         "responses": {
           "200": {
@@ -245,6 +249,159 @@
                 "example": {
                   "SimpleLDA": "Simple LDA over all the users, with 15 topics",
                   "SimpleBOW": "Bag-of-words approach, compute the mean of all days"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/semantic_routines/{user_id}/{weekday}/{time}/": {
+      "get": {
+        "summary": "get the semantic routine for a given user, weekday and time",
+        "tags": [
+          "Semantic routines"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "weekday",
+            "in": "path",
+            "description": "at which day of the week",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "time",
+            "in": "path",
+            "description": "at which time",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "semantic routine of the user for the given weekday/time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeekDaySemanticRoutine"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/semantic_routines_leaving/{user_id}/{weekday}/{label}/": {
+      "get": {
+        "summary": "get the information about what when the user_id is leaving the label on the given weekday",
+        "tags": [
+          "Semantic routines"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "weekday",
+            "in": "path",
+            "description": "at which day of the week",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "label",
+            "in": "path",
+            "description": "which label",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "semantic routine of the user for the given weekday/time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeekDaySemanticRoutineTransition"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/semantic_routines_entering/{user_id}/{weekday}/{label}/": {
+      "get": {
+        "summary": "get the information about what when the user_id is entering the label on the given weekday",
+        "tags": [
+          "Semantic routines"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          {
+            "name": "weekday",
+            "in": "path",
+            "description": "at which day of the week",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "label",
+            "in": "path",
+            "description": "which label",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "semantic routine of the user for the given weekday/time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeekDaySemanticRoutineTransition"
                 }
               }
             }
@@ -298,20 +455,12 @@
           "confidence": {
             "type": "number",
             "description": "confidence of the result"
-          },
-          "lat": {
-            "type": "number",
-            "description": "latitude of the label"
-          },
-          "lng": {
-            "type": "number",
-            "description": "longitude of the label"
           }
         }
       },
-      "WeekDaySemanticRoutineEntering": {
+      "WeekDaySemanticRoutineTransition": {
         "type": "object",
-        "description": "When the user is entering in a specific label for a given weekday",
+        "description": "When the user is transitioning(in or out) from a specific label for a given weekday",
         "properties": {
           "user_id": {
             "type": "string",
@@ -321,7 +470,7 @@
             "type": "string",
             "description": "day of the week"
           },
-          "entering_time": {
+          "transition_time": {
             "type": "string",
             "description": "from when the user is to the label location (hh:mm)"
           },
@@ -332,65 +481,6 @@
           "confidence": {
             "type": "number",
             "description": "confidence of the result"
-          },
-          "lat": {
-            "type": "number",
-            "description": "latitude of the label"
-          },
-          "lng": {
-            "type": "number",
-            "description": "longitude of the label"
-          }
-        }
-      },
-      "WeekDaySemanticRoutineLeaving": {
-        "type": "object",
-        "description": "When the user is leaving from a specific label for a given weekday",
-        "properties": {
-          "user_id": {
-            "type": "string",
-            "description": "id of the user"
-          },
-          "weekday": {
-            "type": "string",
-            "description": "day of the week"
-          },
-          "leaving_time": {
-            "type": "string",
-            "description": "from when the user is to the label location (hh:mm)"
-          },
-          "label": {
-            "type": "string",
-            "description": "semantic label such a work, home, ..."
-          },
-          "confidence": {
-            "type": "number",
-            "description": "confidence of the result"
-          },
-          "lat": {
-            "type": "number",
-            "description": "latitude of the label"
-          },
-          "lng": {
-            "type": "number",
-            "description": "longitude of the label"
-          }
-        }
-      },
-      "LabelStats": {
-        "type": "object",
-        "description": "(WIP) stats on the label for specific user",
-        "properties": {
-          "user_id": {
-            "type": "string",
-            "description": "id of the user"
-          },
-          "hours_on_label_per_week": {
-            "type": "array",
-            "description": "distribution of the number of hours that the user is on the label location per week",
-            "items": {
-              "type": "number"
-            }
           }
         }
       },
