@@ -14,7 +14,6 @@ class Labels(_Base):
     __tablename__ = "labels"
 
     id = Column(Integer, primary_key=True)
-    num = Column(Integer)
     name = Column(String)
 
 
