@@ -18,8 +18,8 @@ class Labels(_Base):
     name = Column(String)
 
 
-class LabelsDistribution(_Base):
-    __tablename__ = "labels_distribution"
+class LabelsScore(_Base):
+    __tablename__ = "labels_score"
 
     id = Column(Integer, primary_key=True)
     semantic_routine_id = Column(Integer, ForeignKey("semantic_routines.id"))
@@ -34,7 +34,7 @@ class SemanticRoutine(_Base):
     user_id = Column(String)
     weekday = Column(Integer)
     time_slot = Column(String)
-    label_scores = relationship(LabelsDistribution)
+    label_scores = relationship(LabelsScore)
 
 
 class SemanticRoutineDB(object):
