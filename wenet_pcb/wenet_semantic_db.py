@@ -10,12 +10,20 @@ _LOGGER = create_logger(__name__)
 _Base = declarative_base()
 
 
+class Labels(_Base):
+    __tablename__ = "labels"
+
+    id = Column(Integer, primary_key=True)
+    num = Column(Integer)
+    name = Column(String)
+
+
 class LabelsDistribution(_Base):
     __tablename__ = "labels_distribution"
 
     id = Column(Integer, primary_key=True)
     semantic_routine_id = Column(Integer, ForeignKey("semantic_routines.id"))
-    label = Column(String)
+    label_id = Column(Integer, ForeignKey("labels.id"))
     score = Column(Float)
 
 
