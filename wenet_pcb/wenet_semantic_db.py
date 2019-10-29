@@ -59,6 +59,17 @@ class SemanticRoutineDB(object):
     def create_if_not_exist(self):
         _Base.metadata.create_all(self._engine, checkfirst=True)
 
+    def set_label(self, id, name):
+        label = Labels(id=id, name=name)
+        self._session.add(label)
+
+    def set_labels(self, labels_dict):
+        for id, name in labels_dict.items():
+            self.set_label(id, name)
+
+    def get_labels(self):
+        return self._session.query(Labels).all()
+
     @classmethod
     def get_instance(cls, is_mock=False):
         if cls._INSTANCE is None:
@@ -67,4 +78,7 @@ class SemanticRoutineDB(object):
 
 
 if __name__ == "__main__":
-    sematic_routine_db = SemanticRoutineDB.get_instance(is_mock=True)
+    semantic_routine_db = SemanticRoutineDB.get_instance(is_mock=True)
+    semantic_routine_db.set_labels({1: "HOME", 2: "WORK"})
+    for row in semantic_routine_db.get_labels():
+        print(f"{row.id} -> {row.name}")
