@@ -3,7 +3,7 @@
 
 from sqlalchemy import create_engine, Column, Integer, String, Time, ForeignKey, Float
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from wenet_pcb.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
@@ -71,6 +71,32 @@ class SemanticRoutineDB(object):
     def get_labels(self):
         return self._session.query(Labels).all()
 
+    def add_semantic_routine(self, user_id, weekday, time_slot, labels_scores_dict):
+        semantic_routine = SemanticRoutine(
+            user_id=user_id, weekday=weekday, time_slot=time_slot
+        )
+        for label_id, score in labels_scores_dict.items():
+            label_score = LabelsScore(label_id=label_id, score=score)
+            semantic_routine.label_scores.append(label_score)
+            self._session.add(label_score)
+        self._session.add(semantic_routine)
+        self._session.commit()
+
+    def get_semantic_routines(self, filter_exp=None):
+        if filter_exp is not None:
+            return (
+                self._session.query(SemanticRoutine)
+                .options(joinedload("label_scores"))
+                .filter(filter_exp())
+                .all()
+            )
+        else:
+            return (
+                self._session.query(SemanticRoutine)
+                .options(joinedload("label_scores"))
+                .all()
+            )
+
     @classmethod
     def get_instance(cls, is_mock=False):
         if cls._INSTANCE is None:
@@ -83,3 +109,7 @@ if __name__ == "__main__":
     semantic_routine_db.set_labels({1: "HOME", 2: "WORK"})
     for row in semantic_routine_db.get_labels():
         print(f"{row.id} -> {row.name}")
+
+    semantic_routine_db.add_semantic_routine("toto", 1, "11:00", {1: 0.3, 2: 0.7})
+    for row in semantic_routine_db.get_semantic_routines():
+        print(f"res : {row.__dict__}")
