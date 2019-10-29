@@ -60,6 +60,7 @@ class SemanticRoutineDB(object):
         _Base.metadata.create_all(self._engine, checkfirst=True)
 
     def set_label(self, id, name):
+        _LOGGER.debug(f"set label {id} -> {name}")
         label = Labels(id=id, name=name)
         self._session.add(label)
 
