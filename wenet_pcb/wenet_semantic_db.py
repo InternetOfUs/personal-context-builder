@@ -84,18 +84,20 @@ class SemanticRoutineDB(object):
 
     def get_semantic_routines(self, filter_exp=None):
         if filter_exp is not None:
-            return (
+            res = (
                 self._session.query(SemanticRoutine)
                 .options(joinedload("label_scores"))
                 .filter(filter_exp())
                 .all()
             )
         else:
-            return (
+            res = (
                 self._session.query(SemanticRoutine)
                 .options(joinedload("label_scores"))
                 .all()
             )
+        # TODO get subitem
+        return res
 
     @classmethod
     def get_instance(cls, is_mock=False):
