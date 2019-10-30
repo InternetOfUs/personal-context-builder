@@ -9,6 +9,13 @@ from wenet_pcb.wenet_logger import create_logger
 _LOGGER = create_logger(__name__)
 _Base = declarative_base()
 
+class LabelsLocation(_Base):
+    __tablename__ = "labels_locations"
+    id = Column(Integer, primary_key=True)
+    lat = Column(Float)
+    lng = Column(Float)
+    label_id = Column(Integer, ForeignKey("labels.id"))
+
 
 class Labels(_Base):
     __tablename__ = "labels"
@@ -22,7 +29,7 @@ class LabelsScore(_Base):
 
     id = Column(Integer, primary_key=True)
     semantic_routine_id = Column(Integer, ForeignKey("semantic_routines.id"))
-    label_id = Column(Integer, ForeignKey("labels.id"))
+    label_location_id = Column(Integer, ForeignKey("labels_locations.id"))
     score = Column(Float)
 
 
