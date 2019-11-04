@@ -171,11 +171,13 @@ if __name__ == "__main__":
             {"id": 2, "name": "WORK", "semantic_identifier": 2},
         ]
     )
+    print("List of labels")
     for row in semantic_routine_db.get_labels():
-        print(f"{row['id']} -> {row['name']}")
+        pprint(row)
 
     semantic_routine_db.add_label_location(30, 30, 1)
     semantic_routine_db.add_label_location(40, 40, 2)
     semantic_routine_db.add_semantic_routine("toto", 1, "11:00", {1: 0.3, 2: 0.7})
+    print("List of routine for user toto")
     for row in semantic_routine_db.get_semantic_routines_for_user("toto"):
         pprint(row)
