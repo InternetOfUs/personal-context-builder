@@ -145,6 +145,11 @@ class SemanticRoutineDB(object):
             )
         return [row.to_dict() for row in res]
 
+    def get_semantic_routines_for_user(self, user_id):
+        return self.get_semantic_routines(
+            filter_exp=lambda user_id=user_id: SemanticRoutine.user_id == user_id
+        )
+
     @classmethod
     def get_instance(cls, is_mock=False):
         if cls._INSTANCE is None:
@@ -163,5 +168,5 @@ if __name__ == "__main__":
     semantic_routine_db.add_label_location(30, 30, 1)
     semantic_routine_db.add_label_location(40, 40, 2)
     semantic_routine_db.add_semantic_routine("toto", 1, "11:00", {1: 0.3, 2: 0.7})
-    for row in semantic_routine_db.get_semantic_routines():
+    for row in semantic_routine_db.get_semantic_routines_for_user("toto"):
         pprint(row)
