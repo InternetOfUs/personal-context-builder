@@ -149,6 +149,8 @@ class SemanticRoutineDB(object):
 
 
 if __name__ == "__main__":
+    from pprint import pprint
+
     semantic_routine_db = SemanticRoutineDB.get_instance(is_mock=True)
     semantic_routine_db.set_labels({1: "HOME", 2: "WORK"})
     for row in semantic_routine_db.get_labels():
@@ -158,4 +160,4 @@ if __name__ == "__main__":
     semantic_routine_db.add_label_location(40, 40, 2)
     semantic_routine_db.add_semantic_routine("toto", 1, "11:00", {1: 0.3, 2: 0.7})
     for row in semantic_routine_db.get_semantic_routines():
-        print(f"res : {row}")
+        pprint(row)
