@@ -33,11 +33,13 @@ class Labels(_Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    semantic_identifier = Column(Integer)
 
     def to_dict(self):
         my_dict = dict()
         my_dict["id"] = self.id
         my_dict["name"] = self.name
+        my_dict["semantic_identifier"] = self.semantic_identifier
         return my_dict
 
 
@@ -104,14 +106,14 @@ class SemanticRoutineDB(object):
     def create_if_not_exist(self):
         _Base.metadata.create_all(self._engine, checkfirst=True)
 
-    def set_label(self, id, name):
+    def set_label(self, id, name, semantic_identifier):
         _LOGGER.debug(f"set label {id} -> {name}")
-        label = Labels(id=id, name=name)
+        label = Labels(id=id, name=name, semantic_identifier=semantic_identifier)
         self._session.add(label)
 
-    def set_labels(self, labels_dict):
-        for id, name in labels_dict.items():
-            self.set_label(id, name)
+    def set_labels(self, labels_records):
+        for label_record in labels_records:
+            self.set_label(**label_record)
 
     def add_label_location(self, lat, lng, label_id):
         location_label = LabelsLocation(lat=lat, lng=lng, label_id=label_id)
@@ -163,7 +165,12 @@ if __name__ == "__main__":
     from pprint import pprint
 
     semantic_routine_db = SemanticRoutineDB.get_instance(is_mock=True)
-    semantic_routine_db.set_labels({1: "HOME", 2: "WORK"})
+    semantic_routine_db.set_labels(
+        [
+            {"id": 1, "name": "HOME", "semantic_identifier": 1},
+            {"id": 2, "name": "WORK", "semantic_identifier": 2},
+        ]
+    )
     for row in semantic_routine_db.get_labels():
         print(f"{row['id']} -> {row['name']}")
 
