@@ -17,6 +17,7 @@ class DictViewable(object):
         for k, v in self.__dict__.items():
             if k is None or k[0] == "_":
                 continue
+            # Doesn't seem to work because __dict__ doesn't store 1-1 relationship
             if isinstance(v, (DictViewable,)):
                 my_dict[k] = v.to_dict()
             elif isinstance(v, list):
