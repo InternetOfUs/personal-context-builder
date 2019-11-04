@@ -45,6 +45,9 @@ class LabelsScore(_Base):
     id = Column(Integer, primary_key=True)
     semantic_routine_id = Column(Integer, ForeignKey("semantic_routines.id"))
     label_location_id = Column(Integer, ForeignKey("labels_locations.id"))
+    label_location = relationship(
+        "LabelsLocation", uselist=False, backref="label_scores"
+    )
     score = Column(Float)
 
     def to_dict(self):
@@ -52,6 +55,7 @@ class LabelsScore(_Base):
         my_dict["id"] = self.id
         my_dict["semantic_routine_id"] = self.semantic_routine_id
         my_dict["label_location_id"] = self.label_location_id
+        my_dict["label_location"] = self.label_location.to_dict()
         my_dict["score"] = self.score
         return my_dict
 
