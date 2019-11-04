@@ -16,6 +16,7 @@ class LabelsLocation(_Base):
     lat = Column(Float)
     lng = Column(Float)
     label_id = Column(Integer, ForeignKey("labels.id"))
+    label = relationship("Labels", uselist=False, backref="label_location")
 
     def to_dict(self):
         my_dict = dict()
@@ -23,6 +24,7 @@ class LabelsLocation(_Base):
         my_dict["lat"] = self.lat
         my_dict["lng"] = self.lng
         my_dict["label_id"] = self.label_id
+        my_dict["label"] = self.label.to_dict()
         return my_dict
 
 
