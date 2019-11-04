@@ -18,6 +18,7 @@ class DictViewable(object):
             if k is None or k[0] == "_":
                 continue
             # Doesn't seem to work because __dict__ doesn't store 1-1 relationship
+            # TODO use inspect for sqlachemy to solve that
             if isinstance(v, (DictViewable,)):
                 my_dict[k] = v.to_dict()
             elif isinstance(v, list):
