@@ -5,12 +5,41 @@ from sqlalchemy import create_engine, Column, Integer, String, Time, ForeignKey,
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from wenet_pcb.wenet_logger import create_logger
+from copy import deepcopy
 
 _LOGGER = create_logger(__name__)
 _Base = declarative_base()
 
 
-class LabelsLocation(_Base):
+class DictViewable(object):
+    def to_dict(self):
+        my_dict = dict()
+        for k, v in self.__dict__.items():
+            if k is None or k[0] == "_":
+                continue
+            if isinstance(v, (DictViewable,)):
+                my_dict[k] = v.to_dict()
+            elif isinstance(v, list):
+                my_dict[k] = self._to_dict_rec(v)
+            else:
+                my_dict[k] = deepcopy(v)
+        return my_dict
+
+    @classmethod
+    def _to_dict_rec(cls, iterable):
+        res = []
+        for item in iterable:
+            if isinstance(item, list):
+                elem = cls._to_dict_rec(item)
+            elif isinstance(item, (DictViewable,)):
+                elem = item.to_dict()
+            else:
+                elem = deepcopy(item)
+            res.append(elem)
+        return res
+
+
+class LabelsLocation(_Base, DictViewable):
     __tablename__ = "labels_locations"
     id = Column(Integer, primary_key=True)
     lat = Column(Float)
@@ -19,31 +48,20 @@ class LabelsLocation(_Base):
     label = relationship("Labels", uselist=False, backref="label_location")
 
     def to_dict(self):
-        my_dict = dict()
-        my_dict["id"] = self.id
-        my_dict["lat"] = self.lat
-        my_dict["lng"] = self.lng
-        my_dict["label_id"] = self.label_id
+        my_dict = super().to_dict()
         my_dict["label"] = self.label.to_dict()
         return my_dict
 
 
-class Labels(_Base):
+class Labels(_Base, DictViewable):
     __tablename__ = "labels"
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
     semantic_identifier = Column(Integer)
 
-    def to_dict(self):
-        my_dict = dict()
-        my_dict["id"] = self.id
-        my_dict["name"] = self.name
-        my_dict["semantic_identifier"] = self.semantic_identifier
-        return my_dict
 
-
-class LabelsScore(_Base):
+class LabelsScore(_Base, DictViewable):
     __tablename__ = "labels_score"
 
     id = Column(Integer, primary_key=True)
@@ -55,16 +73,12 @@ class LabelsScore(_Base):
     score = Column(Float)
 
     def to_dict(self):
-        my_dict = dict()
-        my_dict["id"] = self.id
-        my_dict["semantic_routine_id"] = self.semantic_routine_id
-        my_dict["label_location_id"] = self.label_location_id
+        my_dict = super().to_dict()
         my_dict["label_location"] = self.label_location.to_dict()
-        my_dict["score"] = self.score
         return my_dict
 
 
-class SemanticRoutine(_Base):
+class SemanticRoutine(_Base, DictViewable):
     __tablename__ = "semantic_routines"
 
     id = Column(Integer, primary_key=True)
@@ -72,15 +86,6 @@ class SemanticRoutine(_Base):
     weekday = Column(Integer)
     time_slot = Column(String)
     label_scores = relationship(LabelsScore)
-
-    def to_dict(self):
-        my_dict = dict()
-        my_dict["id"] = self.id
-        my_dict["user_id"] = self.user_id
-        my_dict["weekday"] = self.weekday
-        my_dict["time_slot"] = self.time_slot
-        my_dict["labels_scores"] = [row.to_dict() for row in self.label_scores]
-        return my_dict
 
 
 class SemanticRoutineDB(object):
