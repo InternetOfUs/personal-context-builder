@@ -55,5 +55,4 @@ class PostresqlCoordinator(object):
     @classmethod
     def get_new_session(cls, db_name, is_mock=False):
         instance = cls.get_instance(db_name, is_mock)
-        _LOGGER.info(f"Create new session to {db_name}")
         return instance._Session()
