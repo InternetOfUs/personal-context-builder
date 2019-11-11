@@ -5,6 +5,8 @@ from sqlalchemy import create_engine, Column, Integer, String, Time, ForeignKey,
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from wenet_pcb.wenet_logger import create_logger
+from wenet_pcb.wenet_postgres import PostresqlCoordinator
+from wenet_pcb import config
 from copy import deepcopy
 
 _LOGGER = create_logger(__name__)
@@ -96,18 +98,8 @@ class SemanticRoutineDB(object):
 
     def __init__(self, is_mock=False):
         self._is_mock = True
-        if is_mock:
-            #  In-memory db
-            self._engine = create_engine("sqlite://")
-            _LOGGER.info("mocked semantic database with in-memory db")
-        else:
-            #  TODO put postresql db with good strategy for credential
-            _LOGGER.warn(
-                "True semantic database not implemented yet, using in-memory db"
-            )
-            self._engine = create_engine("sqlite://")
-        Session = sessionmaker(bind=self._engine)
-        self._session = Session()
+        self._db_name = config.DEFAULT_SEMANTIC_DB_NAME
+        self._engine = PostresqlCoordinator.get_engine(self._db_name, self._is_mock)
         self.create_if_not_exist()
 
     def create_if_not_exist(self):
@@ -116,7 +108,10 @@ class SemanticRoutineDB(object):
     def set_label(self, id, name, semantic_identifier):
         _LOGGER.debug(f"set label {id} -> {name}")
         label = Labels(id=id, name=name, semantic_identifier=semantic_identifier)
-        self._session.add(label)
+        with PostresqlCoordinator.get_new_managed_session(
+            self._db_name, self._is_mock
+        ) as session:
+            session.add(label)
 
     def set_labels(self, labels_records):
         for label_record in labels_records:
@@ -124,37 +119,51 @@ class SemanticRoutineDB(object):
 
     def add_label_location(self, lat, lng, label_id):
         location_label = LabelsLocation(lat=lat, lng=lng, label_id=label_id)
-        self._session.add(location_label)
+        with PostresqlCoordinator.get_new_managed_session(
+            self._db_name, self._is_mock
+        ) as session:
+            session.add(location_label)
 
     def get_labels(self):
-        return [row.to_dict() for row in self._session.query(Labels).all()]
+        with PostresqlCoordinator.get_new_managed_session(
+            self._db_name, self._is_mock
+        ) as session:
+            session = PostresqlCoordinator.get_new_session(self._db_name, self._is_mock)
+            return [row.to_dict() for row in session.query(Labels).all()]
 
     def add_semantic_routine(self, user_id, weekday, time_slot, labels_scores_dict):
         semantic_routine = SemanticRoutine(
             user_id=user_id, weekday=weekday, time_slot=time_slot
         )
-        for label_location_id, score in labels_scores_dict.items():
-            label_score = LabelsScore(label_location_id=label_location_id, score=score)
-            semantic_routine.label_scores.append(label_score)
-            self._session.add(label_score)
-        self._session.add(semantic_routine)
-        self._session.commit()
+        with PostresqlCoordinator.get_new_managed_session(
+            self._db_name, self._is_mock
+        ) as session:
+            for label_location_id, score in labels_scores_dict.items():
+                label_score = LabelsScore(
+                    label_location_id=label_location_id, score=score
+                )
+                semantic_routine.label_scores.append(label_score)
+                session.add(label_score)
+            session.add(semantic_routine)
 
     def get_semantic_routines(self, filter_exp=None):
-        if filter_exp is not None:
-            res = (
-                self._session.query(SemanticRoutine)
-                .options(joinedload("label_scores"))
-                .filter(filter_exp())
-                .all()
-            )
-        else:
-            res = (
-                self._session.query(SemanticRoutine)
-                .options(joinedload("label_scores"))
-                .all()
-            )
-        return [row.to_dict() for row in res]
+        with PostresqlCoordinator.get_new_managed_session(
+            self._db_name, self._is_mock
+        ) as session:
+            if filter_exp is not None:
+                res = (
+                    session.query(SemanticRoutine)
+                    .options(joinedload("label_scores"))
+                    .filter(filter_exp())
+                    .all()
+                )
+            else:
+                res = (
+                    session.query(SemanticRoutine)
+                    .options(joinedload("label_scores"))
+                    .all()
+                )
+            return [row.to_dict() for row in res]
 
     def get_semantic_routines_for_user(self, user_id):
         return self.get_semantic_routines(
