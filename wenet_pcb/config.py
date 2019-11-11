@@ -10,6 +10,8 @@ MAINTENER = "william.droz@idiap.ch"
 DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 DEFAULT_LOG_FILE = "wenet.log"
 
+DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
+
 DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
 DEFAULT_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
 DEFAULT_LOGGER_LEVEL = 20  # info
