@@ -1,7 +1,7 @@
 """
 module that handle db connections to the sql databases
 """
-
+from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from wenet_pcb.wenet_logger import create_logger
@@ -26,6 +26,20 @@ class PostresqlCoordinator(object):
             )
             self._engine = create_engine("sqlite://")
         self._Session = sessionmaker(bind=self._engine)
+
+    @classmethod
+    @contextmanager
+    def get_new_managed_session(cls, db_name, is_mock=False):
+        session = cls.get_new_session(db_name, is_mock)
+        try:
+            yield session
+            session.commit()
+        except Exception as e:
+            _LOGGER.error(f"error when commiting postgresql instructions {e}")
+            _LOGGER.warn("Unable to commit postgresql instructions, rollback")
+            session.rollback()
+        finally:
+            session.close()
 
     @classmethod
     def get_instance(cls, db_name, is_mock=False):
