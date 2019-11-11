@@ -1,7 +1,16 @@
 """ module that handle db to access to semantic routine
 """
 
-from sqlalchemy import create_engine, Column, Integer, String, Time, ForeignKey, Float
+from sqlalchemy import (
+    create_engine,
+    Column,
+    Integer,
+    String,
+    Time,
+    ForeignKey,
+    Float,
+    event,
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
 from wenet_pcb.wenet_logger import create_logger
@@ -11,6 +20,13 @@ from copy import deepcopy
 
 _LOGGER = create_logger(__name__)
 _Base = declarative_base()
+
+
+@event.listens_for(_Base.metadata, "after_create")
+def receive_after_create(target, connection, tables, **kw):
+    "listen for the 'after_create' event"
+    if tables:
+        _LOGGER.warn(f"some postgresql has been created {tables}")
 
 
 class DictViewable(object):
