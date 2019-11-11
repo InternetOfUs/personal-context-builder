@@ -93,6 +93,8 @@ class SemanticRoutine(_Base, DictViewable):
 
 
 class SemanticRoutineDB(object):
+    """ class that handle semantic routines CRUD access.
+    """
 
     _INSTANCE = None
 
@@ -103,9 +105,13 @@ class SemanticRoutineDB(object):
         self.create_if_not_exist()
 
     def create_if_not_exist(self):
+        """ create the table if they don't exist yet
+        """
         _Base.metadata.create_all(self._engine, checkfirst=True)
 
     def set_label(self, id, name, semantic_identifier):
+        """ create/update a label
+        """
         _LOGGER.debug(f"set label {id} -> {name}")
         label = Labels(id=id, name=name, semantic_identifier=semantic_identifier)
         with PostresqlCoordinator.get_new_managed_session(
@@ -114,10 +120,16 @@ class SemanticRoutineDB(object):
             session.add(label)
 
     def set_labels(self, labels_records):
+        """ create/update list of labels
+
+            Current implementation does 1 session per label
+        """
         for label_record in labels_records:
             self.set_label(**label_record)
 
     def add_label_location(self, lat, lng, label_id):
+        """ create a new label location
+        """
         location_label = LabelsLocation(lat=lat, lng=lng, label_id=label_id)
         with PostresqlCoordinator.get_new_managed_session(
             self._db_name, self._is_mock
@@ -125,6 +137,8 @@ class SemanticRoutineDB(object):
             session.add(location_label)
 
     def get_labels(self):
+        """ get all existing labels
+        """
         with PostresqlCoordinator.get_new_managed_session(
             self._db_name, self._is_mock
         ) as session:
@@ -132,6 +146,8 @@ class SemanticRoutineDB(object):
             return [row.to_dict() for row in session.query(Labels).all()]
 
     def add_semantic_routine(self, user_id, weekday, time_slot, labels_scores_dict):
+        """ create new routine for a time_slot
+        """
         semantic_routine = SemanticRoutine(
             user_id=user_id, weekday=weekday, time_slot=time_slot
         )
@@ -147,6 +163,8 @@ class SemanticRoutineDB(object):
             session.add(semantic_routine)
 
     def get_semantic_routines(self, filter_exp=None):
+        """ get the list of routines given filter expression (all if None)
+        """
         with PostresqlCoordinator.get_new_managed_session(
             self._db_name, self._is_mock
         ) as session:
@@ -166,6 +184,8 @@ class SemanticRoutineDB(object):
             return [row.to_dict() for row in res]
 
     def get_semantic_routines_for_user(self, user_id):
+        """ get the semantic routines for a given user
+        """
         return self.get_semantic_routines(
             filter_exp=lambda user_id=user_id: SemanticRoutine.user_id == user_id
         )
