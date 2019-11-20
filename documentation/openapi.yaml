@@ -1,27 +1,25 @@
 openapi: 3.0.0
 servers:
-  - url: https://lab.idiap.ch/devel/wenet/
+  - url: 'https://lab.idiap.ch/devel/wenet/'
     description: Idiap production server
 info:
-  description: 'Component that handle the personal context of the users <br />
-  <img src="https://drive.google.com/uc?id=1oL92bUTr5oLwOs84oo9ycCJWcI4ARaXl" /> <br />
-  <img src="https://drive.google.com/uc?id=1iF39kFa5ZcYKadCzynHvRkt6ftj59aHc" />
-  <br />Routines are an embedded representation of the user habits.'
+  description: >-
+    Component that handle the personal context of the users <br /> <img
+    src="https://drive.google.com/uc?id=1oL92bUTr5oLwOs84oo9ycCJWcI4ARaXl" />
+    <br /> <img
+    src="https://drive.google.com/uc?id=1iF39kFa5ZcYKadCzynHvRkt6ftj59aHc" />
+    <br />Routines are an embedded representation of the user habits.
   version: 0.0.5
   title: WeNet - personal_context_builder
   contact:
     email: william.droz@idiap.ch
-    
 tags:
   - name: Semantic routines
-    description: "Human readable routines"
+    description: Human readable routines
   - name: User's embedded routines
-    description: "Everything about the routines of the users"
-    
+    description: Everything about the routines of the users
   - name: Real-time operations
-    description: "all requests that handle real-time informations"
-    
-  
+    description: all requests that handle real-time informations
 paths:
   /routines/:
     get:
@@ -37,30 +35,53 @@ paths:
               type: string
           required: false
           description: filter models base on name
-          
       responses:
         '200':
           description: user routines
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Model"
+                $ref: '#/components/schemas/Model'
               example:
                 SimpleLDA:
-                  {
-                  
-                    "mock_user_1" : [0, 1, 0, 0.5, 1],
-                    "mock_user_2" : [0, 1, 1, 0.5, 1],
-                    "mock_user_3" : [0, 1, 0, 0.5, 0]
-                  }
+                  mock_user_1:
+                    - 0
+                    - 1
+                    - 0
+                    - 0.5
+                    - 1
+                  mock_user_2:
+                    - 0
+                    - 1
+                    - 1
+                    - 0.5
+                    - 1
+                  mock_user_3:
+                    - 0
+                    - 1
+                    - 0
+                    - 0.5
+                    - 0
                 SimpleBOW:
-                  {
-                  
-                    "mock_user_1" : [1, 1, 0, 0.5, 1],
-                    "mock_user_2" : [1, 1, 1, 0.5, 1],
-                    "mock_user_3" : [1, 1, 0, 0.5, 0]
-                  }
-  /closest/{lat}/{lng}/{N}/:
+                  mock_user_1:
+                    - 1
+                    - 1
+                    - 0
+                    - 0.5
+                    - 1
+                  mock_user_2:
+                    - 1
+                    - 1
+                    - 1
+                    - 0.5
+                    - 1
+                  mock_user_3:
+                    - 1
+                    - 1
+                    - 0
+                    - 0.5
+                    - 0
+  '/closest/{lat}/{lng}/{N}/':
     get:
       summary: get closest N users from a given point
       tags:
@@ -80,7 +101,7 @@ paths:
           schema:
             type: number
             format: number
-        - name: N
+        - name: 'N'
           in: path
           description: number of closest users to receive
           required: true
@@ -93,15 +114,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UsersDistances"
+                $ref: '#/components/schemas/UsersDistances'
               example:
-                {
-                  "mock_user_1" : 330,
-                  "mock_user_2" : 340,
-                  "mock_user_3" : 350
-                }
-            
-  /routines/{user_id}/:
+                mock_user_1: 330
+                mock_user_2: 340
+                mock_user_3: 350
+  '/routines/{user_id}/':
     get:
       summary: get specific user routine
       tags:
@@ -128,16 +146,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Model"
+                $ref: '#/components/schemas/Model'
               example:
                 SimpleLDA:
-                  {
-                    "mock_user_1" : [0, 1, 0, 0.5, 1],
-                  }
+                  mock_user_1:
+                    - 0
+                    - 1
+                    - 0
+                    - 0.5
+                    - 1
                 SimpleBOW:
-                  {
-                    "mock_user_1" : [1, 1, 0, 0.5, 1],
-                  }
+                  mock_user_1:
+                    - 1
+                    - 1
+                    - 0
+                    - 0.5
+                    - 1
   /models/:
     get:
       summary: get the list of all available models
@@ -149,19 +173,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ModelDescriptions"
+                $ref: '#/components/schemas/ModelDescriptions'
               example:
-                {
-                  "SimpleLDA" : "Simple LDA over all the users, with 15 topics",
-                  "SimpleBOW" : "Bag-of-words approach, compute the mean of all days"
-                }
-                
-  /semantic_routines/{user_id}/{weekday}/{time}/:
+                SimpleLDA: 'Simple LDA over all the users, with 15 topics'
+                SimpleBOW: 'Bag-of-words approach, compute the mean of all days'
+  '/semantic_routines/{user_id}/{weekday}/{time}/':
     get:
-      summary: get the semantic routine for a given user, weekday and time
+      summary: 'get the semantic routine for a given user, weekday and time'
       tags:
         - Semantic routines
-      parameters: 
+      parameters:
         - name: user_id
           in: path
           description: ID of user to return
@@ -188,14 +209,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WeekDaySemanticRoutine"
-                
-  /semantic_routines_leaving/{user_id}/{weekday}/{label}/:
+                $ref: '#/components/schemas/WeekDaySemanticRoutine'
+  '/semantic_routines_transition/leaving/{user_id}/{weekday}/{label}/':
     get:
-      summary: get the information about what when the user_id is leaving the label on the given weekday
+      summary: >-
+        get the information about what when the user_id is leaving the label on
+        the given weekday
       tags:
         - Semantic routines
-      parameters: 
+      parameters:
         - name: user_id
           in: path
           description: ID of user to return
@@ -222,14 +244,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WeekDaySemanticRoutineTransition"
-
-  /semantic_routines_entering/{user_id}/{weekday}/{label}/:
+                $ref: '#/components/schemas/WeekDaySemanticRoutineTransition'
+  '/semantic_routines_transition/entering/{user_id}/{weekday}/{label}/':
     get:
-      summary: get the information about what when the user_id is entering the label on the given weekday
+      summary: >-
+        get the information about what when the user_id is entering the label on
+        the given weekday
       tags:
         - Semantic routines
-      parameters: 
+      parameters:
         - name: user_id
           in: path
           description: ID of user to return
@@ -256,89 +279,101 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WeekDaySemanticRoutineTransition"                
-
+                $ref: '#/components/schemas/WeekDaySemanticRoutineTransition'
 components:
   schemas:
+    Label:
+      type: object
+      description: label
+      properties:
+        name:
+          type: string
+          description: name of the label
+        semantic_class:
+          type: number
+          description: number that represent the category of the label
+        latitude:
+          type: number
+          description: latitude of the label for the user
+        longitude:
+          type: number
+          description: longitude of the label for the user
+        
     ScoredLabel:
       type: object
-      description: "Label with score"
+      description: Label with score
       properties:
-        label: 
-          type: string
-          description: "name of the label"
+        label:
+          $ref: '#/components/schemas/Label'
         score:
           type: number
-          description: "score of the label"
-          
+          description: score of the label
     WeekDaySemanticRoutine:
       type: object
-      description: "Labels distribution for a given user, time and weekday"
+      description: 'Labels distribution for a given user, time and weekday'
       properties:
         user_id:
           type: string
-          description: "id of the user"
+          description: id of the user
         weekday:
           type: string
-          description: "day of the week"
-        closest_time_slot:
-          type: string
-          description: "Closest time slot in the database for the requested time (hh:mm)"
+          description: day of the week
         label_distribution:
-          description: "Distribution of the labels"
+          description: Distribution of the labels
           additionalProperties:
             type: array
-            description: "label with score"
-          items: 
-            $ref: "#/components/schemas/ScoredLabel"
+            description: label with score
+          items:
+            $ref: '#/components/schemas/ScoredLabel'
         confidence:
           type: number
-          description: "confidence of the result"
-          
+          description: confidence of the result
     WeekDaySemanticRoutineTransition:
       type: object
-      description: "When the user is transitioning(in or out) from a specific label for a given weekday"
+      description: 'When the user is transitioning(in or out) from a specific label for a given weekday'
       properties:
         user_id:
           type: string
-          description: "id of the user"
+          description: id of the user
         weekday:
           type: string
-          description: "day of the week"
+          description: day of the week
         transition_time:
           type: string
-          description: "from when the user is to the label location (hh:mm)"
+          description: 'from when the user is to the label location (hh:mm)'
         label:
           type: string
-          description: "semantic label such a work, home, ..."
+          description: 'semantic label such a work, home, ...'
         confidence:
           type: number
-          description: "confidence of the result"
-    
+          description: confidence of the result
     UserRoutine:
       type: object
-      description: "Routines of the users, keys are user_ids and values are vectors that represent the routines"
+      description: >-
+        Routines of the users, keys are user_ids and values are vectors that
+        represent the routines
       additionalProperties:
         type: array
-        description: "vector that represent user routine"
+        description: vector that represent user routine
         items:
           type: number
     Model:
       type: object
-      description: "There are several models (ML) that are used to modelize the routine of the users. Each model (key) are linked to the dict (users->vectors)"
+      description: >-
+        There are several models (ML) that are used to modelize the routine of
+        the users. Each model (key) are linked to the dict (users->vectors)
       additionalProperties:
-        $ref: "#/components/schemas/UserRoutine"
-        
+        $ref: '#/components/schemas/UserRoutine'
     ModelDescriptions:
-      description: "all models with their description. Descriptions are extracted from docstring for the models."
+      description: >-
+        all models with their description. Descriptions are extracted from
+        docstring for the models.
       additionalProperties:
         type: string
-        description: "model docstring"
-
+        description: model docstring
     UsersDistances:
-      description: "users with distances from the point given by the caller"
+      description: users with distances from the point given by the caller
       type: object
       additionalProperties:
         type: number
-        description: "distances from the given point"
-        
+        description: distances from the given point

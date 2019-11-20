@@ -307,7 +307,7 @@
         }
       }
     },
-    "/semantic_routines_leaving/{user_id}/{weekday}/{label}/": {
+    "/semantic_routines_transition/leaving/{user_id}/{weekday}/{label}/": {
       "get": {
         "summary": "get the information about what when the user_id is leaving the label on the given weekday",
         "tags": [
@@ -358,7 +358,7 @@
         }
       }
     },
-    "/semantic_routines_entering/{user_id}/{weekday}/{label}/": {
+    "/semantic_routines_transition/entering/{user_id}/{weekday}/{label}/": {
       "get": {
         "summary": "get the information about what when the user_id is entering the label on the given weekday",
         "tags": [
@@ -412,13 +412,34 @@
   },
   "components": {
     "schemas": {
+      "Label": {
+        "type": "object",
+        "description": "label",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "name of the label"
+          },
+          "semantic_class": {
+            "type": "number",
+            "description": "number that represent the category of the label"
+          },
+          "latitude": {
+            "type": "number",
+            "description": "latitude of the label for the user"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "longitude of the label for the user"
+          }
+        }
+      },
       "ScoredLabel": {
         "type": "object",
         "description": "Label with score",
         "properties": {
           "label": {
-            "type": "string",
-            "description": "name of the label"
+            "$ref": "#/components/schemas/Label"
           },
           "score": {
             "type": "number",
@@ -437,10 +458,6 @@
           "weekday": {
             "type": "string",
             "description": "day of the week"
-          },
-          "closest_time_slot": {
-            "type": "string",
-            "description": "Closest time slot in the database for the requested time (hh:mm)"
           },
           "label_distribution": {
             "description": "Distribution of the labels",
