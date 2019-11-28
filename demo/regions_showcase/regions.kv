@@ -1,0 +1,24 @@
+#:kivy 1.0
+<StartScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: 'Load csv'
+            on_press:
+                root.manager.current = 'user_select'
+        Button:
+            text: 'Use Mocked API'
+        Button:
+            text: 'Use real API'
+
+
+<UserSelectScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            TextInput:
+            Button:
+                text: 'Go'
+        Label:
+            text: 'test'
