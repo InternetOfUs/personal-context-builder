@@ -10,8 +10,14 @@
                 root.manager.current = 'user_select'
         Button:
             text: 'Use Mocked API'
+            on_press:
+                root.load_from_mocked_api()
+                root.manager.current = 'user_select'
         Button:
             text: 'Use real API'
+            on_press:
+                root.load_from_real_api()
+                root.manager.current = 'user_select'
 
 
 <UserSelectScreen>:

@@ -18,6 +18,16 @@ class StartScreen(Screen):
             ["user from csv 1", "user from csv 2"]
         )
 
+    def load_from_mocked_api(self):
+        App.get_running_app().user_select_screen.update_user_list(
+            ["user from mocked api 1", "user from mocked api 2"]
+        )
+
+    def load_from_real_api(self):
+        App.get_running_app().user_select_screen.update_user_list(
+            ["user from real api 1", "user from real api 2"]
+        )
+
 
 class UserSelectScreen(Screen):
     pass
