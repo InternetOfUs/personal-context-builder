@@ -4,6 +4,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
+from kivy.config import Config
 from functools import partial
 
 Builder.load_file("regions.kv")
@@ -20,6 +21,9 @@ class UserSelectScreen(Screen):
 class MapsScreen(Screen):
     pass
 
+
+Config.set("graphics", "width", "1900")
+Config.set("graphics", "height", "1000")
 
 sm = ScreenManager()
 sm.add_widget(StartScreen(name="start"))
