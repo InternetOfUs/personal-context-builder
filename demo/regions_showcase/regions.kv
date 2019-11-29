@@ -25,18 +25,23 @@
         orientation: 'vertical'
         BoxLayout:
             orientation: 'horizontal'
+            Widget:
             TextInput:
-                size_hint: .2, None
+                size_hint: .3, None
                 height: 30
                 multiline: False
                 id: selected_user
-    
+                on_text_validate:
+                    root.show_user(self.text)
+                    root.manager.current = 'maps'
             Button:
                 text: 'Go'
-                size_hint: .2, None
+                size_hint: .3, None
                 height: 30
                 on_press:
+                    root.show_user(root.ids.selected_user.text)
                     root.manager.current = 'maps'
+            Widget:
         Label:
             text: 'list of users'
             size_hint: 1, None

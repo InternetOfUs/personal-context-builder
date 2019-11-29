@@ -35,6 +35,9 @@ class UserSelectScreen(Screen):
     def update_user_list(self, user_list):
         self.ids.user_list.text = "\n".join(user_list)
 
+    def show_user(self, user_txt):
+        print(user_txt)
+
 
 class MapsScreen(Screen):
     pass
@@ -44,15 +47,16 @@ Config.set("graphics", "width", "1900")
 Config.set("graphics", "height", "1000")
 
 user_select_screen = UserSelectScreen(name="user_select")
-
+maps_screen = MapsScreen(name="maps")
 sm = ScreenManager()
 sm.add_widget(StartScreen(name="start"))
 sm.add_widget(user_select_screen)
-sm.add_widget(MapsScreen(name="maps"))
+sm.add_widget(maps_screen)
 
 
 class TestApp(App):
     user_select_screen = user_select_screen
+    maps_screen = maps_screen
 
     def build(self):
         return sm
