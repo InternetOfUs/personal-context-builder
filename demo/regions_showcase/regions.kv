@@ -55,10 +55,12 @@
             Image:
                 source: 'media/maps_start.png'
                 size_hint: .95, .95
+                allow_stretch: True
+                keep_ratio: False
             BoxLayout:
                 orientation: 'vertical'
                 valign: 'top'
-                size_hint: .2, 1
+                size_hint: .2, .95
                 Button:
                     size_hint: 1, .5
                     text: 'Locations'
