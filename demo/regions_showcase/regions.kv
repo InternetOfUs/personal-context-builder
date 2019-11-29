@@ -74,12 +74,13 @@
                     size_hint: 1, 1
         BoxLayout:
             orientation: 'horizontal'
+            size_hint: 1, .2
             Button:
-                size_hint: .7, .2
+                size_hint: .7, 1
                 text: 'change user'
             Widget:
-                size_hint: 1, .2
+                size_hint: 1, 1
             Button:
-                size_hint: .7, .2
+                size_hint: .7, 1
                 text: 'exit'
                 on_press: App.get_running_app().stop()
