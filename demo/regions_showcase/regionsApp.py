@@ -13,9 +13,17 @@ Builder.load_file("regions.kv")
 class StartScreen(Screen):
     pass
 
+    def load_from_csv(self):
+        App.get_running_app().user_select_screen.update_user_list(
+            ["user from csv 1", "user from csv 2"]
+        )
+
 
 class UserSelectScreen(Screen):
     pass
+
+    def update_user_list(self, user_list):
+        self.ids.user_list.text = "\n".join(user_list)
 
 
 class MapsScreen(Screen):
@@ -25,13 +33,17 @@ class MapsScreen(Screen):
 Config.set("graphics", "width", "1900")
 Config.set("graphics", "height", "1000")
 
+user_select_screen = UserSelectScreen(name="user_select")
+
 sm = ScreenManager()
 sm.add_widget(StartScreen(name="start"))
-sm.add_widget(UserSelectScreen(name="user_select"))
+sm.add_widget(user_select_screen)
 sm.add_widget(MapsScreen(name="maps"))
 
 
 class TestApp(App):
+    user_select_screen = user_select_screen
+
     def build(self):
         return sm
 

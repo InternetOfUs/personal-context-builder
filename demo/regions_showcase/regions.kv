@@ -6,6 +6,7 @@
         Button:
             text: 'Load csv'
             on_press:
+                root.load_from_csv()
                 root.manager.current = 'user_select'
         Button:
             text: 'Use Mocked API'
@@ -22,6 +23,7 @@
                 size_hint: .2, None
                 height: 30
                 multiline: False
+                id: selected_user
     
             Button:
                 text: 'Go'
@@ -34,6 +36,7 @@
             size_hint: 1, None
             height: 30
         Label:
+            id: user_list
             text: 'user1\nuser2\nuser3'
             valign: "top"
 
