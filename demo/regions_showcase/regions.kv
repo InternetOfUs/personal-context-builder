@@ -18,7 +18,18 @@
         BoxLayout:
             orientation: 'horizontal'
             TextInput:
+                size_hint: .2, None
+                height: 30
+                multiline: False
+    
             Button:
                 text: 'Go'
+                size_hint: .2, None
+                height: 30
         Label:
-            text: 'test'
+            text: 'list of users'
+            size_hint: 1, None
+            height: 30
+        Label:
+            text: 'user1\nuser2\nuser3'
+            valign: "top"

@@ -7,7 +7,6 @@ from kivy.clock import Clock
 from functools import partial
 
 Builder.load_file("regions.kv")
-# Declare both screens
 
 
 class StartScreen(Screen):
@@ -18,7 +17,6 @@ class UserSelectScreen(Screen):
     pass
 
 
-# Create the screen manager
 sm = ScreenManager()
 sm.add_widget(StartScreen(name="start"))
 sm.add_widget(UserSelectScreen(name="user_select"))
