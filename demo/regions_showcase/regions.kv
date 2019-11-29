@@ -1,4 +1,5 @@
 #:kivy 1.0
+#:import App kivy.app.App
 <StartScreen>:
     BoxLayout:
         orientation: 'vertical'
@@ -66,3 +67,4 @@
                 text: 'change user'
             Button:
                 text: 'exit'
+                on_press: App.get_running_app().stop()
