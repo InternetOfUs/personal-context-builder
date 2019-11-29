@@ -45,6 +45,7 @@
             orientation: 'horizontal'
             Image:
                 source: 'media/maps_start.png'
+                size_hint: .95, .95
             BoxLayout:
                 orientation: 'vertical'
                 valign: 'top'
@@ -61,10 +62,13 @@
                 Widget:
                     size_hint: 1, 1
         BoxLayout:
-            size_hint: .7, .2
             orientation: 'horizontal'
             Button:
+                size_hint: .7, .2
                 text: 'change user'
+            Widget:
+                size_hint: 1, .2
             Button:
+                size_hint: .7, .2
                 text: 'exit'
                 on_press: App.get_running_app().stop()
