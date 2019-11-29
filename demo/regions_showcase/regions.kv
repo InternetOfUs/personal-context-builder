@@ -26,6 +26,8 @@
                 text: 'Go'
                 size_hint: .2, None
                 height: 30
+                on_press:
+                    root.manager.current = 'maps'
         Label:
             text: 'list of users'
             size_hint: 1, None
@@ -33,3 +35,34 @@
         Label:
             text: 'user1\nuser2\nuser3'
             valign: "top"
+
+
+<MapsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            Image:
+                source: 'media/maps_start.png'
+            BoxLayout:
+                orientation: 'vertical'
+                valign: 'top'
+                size_hint: .2, 1
+                Button:
+                    size_hint: 1, .5
+                    text: 'Locations'
+                Button:
+                    size_hint: 1, .5
+                    text: 'Stay points'
+                Button:
+                    size_hint: 1, .5
+                    text: 'Stay regions'
+                Widget:
+                    size_hint: 1, 1
+        BoxLayout:
+            size_hint: .7, .2
+            orientation: 'horizontal'
+            Button:
+                text: 'change user'
+            Button:
+                text: 'exit'

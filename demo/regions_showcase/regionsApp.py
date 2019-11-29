@@ -17,9 +17,14 @@ class UserSelectScreen(Screen):
     pass
 
 
+class MapsScreen(Screen):
+    pass
+
+
 sm = ScreenManager()
 sm.add_widget(StartScreen(name="start"))
 sm.add_widget(UserSelectScreen(name="user_select"))
+sm.add_widget(MapsScreen(name="maps"))
 
 
 class TestApp(App):
