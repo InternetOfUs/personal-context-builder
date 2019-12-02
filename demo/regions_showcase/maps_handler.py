@@ -3,10 +3,11 @@ module that handle maps
 """
 
 import requests
+from wenet_pcb import config
 
 
 class MapsHandler(object):
-    def __init__(self, key_file):
+    def __init__(self, key_file=config.DEFAULT_GOOGLE_API_KEY_FILE):
         with open(key_file, "r") as f:
             self._key = f.read()
         self._base_url = "https://maps.googleapis.com/maps/api/staticmap?size=600x600&"
