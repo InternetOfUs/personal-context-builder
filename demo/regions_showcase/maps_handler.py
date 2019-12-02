@@ -26,6 +26,7 @@ class MapsHandler(object):
             locations_str += (
                 "&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|" + path
             )
+        # [1:] to remove the first &
         url = f"{self._base_url}{locations_str[1:]}&{self._end_url}"
         r = requests.get(url)
         return r.content
