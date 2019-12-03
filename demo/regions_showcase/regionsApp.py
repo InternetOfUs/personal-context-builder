@@ -11,8 +11,6 @@ Builder.load_file("regions.kv")
 
 
 class StartScreen(Screen):
-    pass
-
     def load_from_csv(self):
         App.get_running_app().user_select_screen.update_user_list(
             ["user from csv 1", "user from csv 2"]
@@ -30,8 +28,6 @@ class StartScreen(Screen):
 
 
 class UserSelectScreen(Screen):
-    pass
-
     def update_user_list(self, user_list):
         self.ids.user_list.text = "\n".join(user_list)
 
