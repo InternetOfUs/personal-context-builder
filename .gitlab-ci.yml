@@ -25,7 +25,7 @@
   only:
      - master
   script:
-     - echo $CI_PUSH_TOKEN | docker login docker.idiap.ch -u wdroz --password-stdin
+     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
      - docker push docker.idiap.ch/wenet/personal_context_builder:latest
  push_version:
   stage: push_version
