@@ -7,7 +7,7 @@ import json
 from abc import ABC, abstractmethod
 from sanic.exceptions import ServerError
 from wenet_pcb.wenet_logger import create_logger
-from wenet_pcb.wenet_models import UserLocationPoint
+from regions_builder.models import UserLocationPoint
 
 _LOGGER = create_logger(__name__)
 

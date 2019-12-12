@@ -10,7 +10,7 @@ from functools import lru_cache
 import pickle
 import pandas as pd
 from datetime import datetime, timedelta
-from wenet_pcb.wenet_models import UserLocationPoint
+from regions_builder.models import UserLocationPoint
 
 
 @lru_cache(maxsize=None)

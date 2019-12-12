@@ -1,7 +1,7 @@
 import unittest
 import datetime
 
-from wenet_pcb.wenet_models import UserPlace
+from regions_builder.models import UserPlace
 
 
 class UserPlaceTestCase(unittest.TestCase):

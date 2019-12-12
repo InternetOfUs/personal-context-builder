@@ -2,7 +2,7 @@ import unittest
 import datetime
 from copy import deepcopy
 
-from wenet_pcb.wenet_models import LocationPoint
+from regions_builder.models import LocationPoint
 
 
 class LocationPointTestCase(unittest.TestCase):

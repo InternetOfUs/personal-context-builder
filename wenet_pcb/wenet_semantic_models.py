@@ -8,7 +8,7 @@
 from collections import defaultdict
 import numpy as np
 
-from wenet_pcb.wenet_algo import (
+from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,

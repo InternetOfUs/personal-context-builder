@@ -10,7 +10,7 @@ from datetime import datetime
 from random import random
 from collections import defaultdict
 import hashlib
-from wenet_pcb.wenet_models import UserLocationPoint, UserPlace, GPSPoint
+from regions_builder.models import UserLocationPoint, UserPlace, GPSPoint
 from wenet_pcb import config
 from wenet_pcb.wenet_realtime_user_db import (
     DatabaseRealtimeLocationsHandlerMock,
@@ -20,7 +20,7 @@ from wenet_pcb.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
 )
-from wenet_pcb.wenet_algo import closest_locations
+from regions_builder.algorithms import closest_locations
 
 from scipy import spatial
 
