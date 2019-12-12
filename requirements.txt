@@ -8,4 +8,4 @@ pandas>=0.24.1
 numpy>=1.16.4
 gensim>=3.7.3
 SQLAlchemy>=1.3.10
--e git+https://william.droz:fqJox3Tuqxp9oz_onuKX@gitlab.idiap.ch/wenet/regions_builder.git#egg=regions_builder
+-e git+git://william.droz:fqJox3Tuqxp9oz_onuKX@gitlab.idiap.ch/wenet/regions_builder.git#egg=regions_builder
