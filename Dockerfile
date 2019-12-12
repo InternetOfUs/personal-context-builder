@@ -6,10 +6,11 @@ WORKDIR /personal_context_builder
 RUN apt-get -y update && apt-get install -y \
     git \
     python3-pip \
-    /personal_context_builder/custom-certificates_2018.09.25a_all.deb \
     && rm -rf /var/lib/apt/lists/* \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
+
+RUN dpkg -i /personal_context_builder/custom-certificates_2018.09.25a_all.deb && apt-get install -f
 
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
