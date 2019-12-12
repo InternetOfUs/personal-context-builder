@@ -4,6 +4,7 @@ ENV TZ=Europe/Zurich
 
 WORKDIR /personal_context_builder
 RUN apt-get -y update && apt-get install -y \
+    git \
     python3-pip \
     && rm -rf /var/lib/apt/lists/* \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
