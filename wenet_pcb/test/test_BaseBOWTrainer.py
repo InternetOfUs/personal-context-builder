@@ -1,5 +1,5 @@
 import unittest
-from wenet_pcb.wenet_data_loading import MockWenetSourceLocations, MockWenetSourceLabels
+from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
 from wenet_pcb.wenet_analysis import BagOfWordsVectorizer, _loads_regions
 from wenet_pcb.wenet_trainer import BaseBOWTrainer
 from wenet_pcb import config

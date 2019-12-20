@@ -1,5 +1,5 @@
 from wenet_pcb.wenet_analysis import BagOfWordsVectorizer
-from wenet_pcb.wenet_data_loading import MockWenetSourceLocations, MockWenetSourceLabels
+from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
 from regions_builder.algorithms import (
     estimate_stay_regions,
     estimate_stay_points,

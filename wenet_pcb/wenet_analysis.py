@@ -22,7 +22,7 @@ from wenet_pcb.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
 )
 from regions_builder.models import GPSPoint
-from wenet_pcb.wenet_data_loading import MockWenetSourceLocations
+from regions_builder.data_loading import MockWenetSourceLocations
 from scipy import spatial
 
 
