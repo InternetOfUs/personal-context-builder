@@ -11,12 +11,8 @@ from uuid import uuid4
 from wenet_pcb.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from wenet_pcb import wenet_analysis_models, wenet_pipelines
 from wenet_pcb.wenet_analysis_models import SimpleLDA, SimpleBOW
-from wenet_pcb.wenet_data_loading import (
-    MockWenetSourceLabels,
-    MockWenetSourceLocations,
-    closest_users,
-    compare_routines,
-)
+from wenet_pcb.wenet_data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+from wenet_pcb.wenet_analysis import closest_users, compare_routines
 from wenet_pcb.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
 from wenet_pcb.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,

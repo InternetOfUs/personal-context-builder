@@ -3,6 +3,7 @@ module that analyse user's routines
 """
 from wenet_pcb import config
 import json
+from uuid import uuid4
 import numpy as np
 from copy import deepcopy
 from os.path import join
@@ -11,6 +12,67 @@ import pickle
 import pandas as pd
 from datetime import datetime, timedelta
 from regions_builder.models import UserLocationPoint
+from regions_builder.algorithms import closest_locations
+from wenet_pcb.wenet_realtime_user_db import (
+    DatabaseRealtimeLocationsHandlerMock,
+    DatabaseRealtimeLocationsHandler,
+)
+from wenet_pcb.wenet_user_profile_db import (
+    DatabaseProfileHandler,
+    DatabaseProfileHandlerMock,
+)
+from regions_builder.models import GPSPoint
+from wenet_pcb.wenet_data_loading import MockWenetSourceLocations
+from scipy import spatial
+
+
+def compare_routines(
+    source_user, users, model, function=spatial.distance.cosine, is_mock=False
+):
+    """
+    compare routines of users
+    Args:
+        source_user: the user that will be compared to the users
+        users: list of users to compare to
+        model: on which model the comparison should be applied
+        function: the similarity function to use
+        is_mock: if true, use mocked data
+    """
+    model_num = config.MAP_MODEL_TO_DB[model]
+    if is_mock:
+        db = DatabaseProfileHandlerMock.get_instance(model_num)
+    else:
+        db = DatabaseProfileHandler.get_instance(model_num)
+    source_routine = db.get_profile(source_user)
+    routines = [db.get_profile(u) for u in users]
+    routines_dist = [function(source_routine, r) for r in routines]
+    res = list(zip(users, routines_dist))
+    res = sorted(res, key=lambda x: -x[1])
+    return dict(res)
+
+
+def closest_users(lat, lng, N, is_mock=False):
+    """
+    give the N closest users to the point (lat, lng)
+    Args:
+        lat: the latitude
+        lng: the longitude
+        N: how many users in output
+        is_mock: if true, use mocked data
+    """
+    point = GPSPoint(lat, lng)
+    if is_mock:
+        db = DatabaseRealtimeLocationsHandlerMock.get_instance()
+        fake_locations = [
+            MockWenetSourceLocations._create_fake_locations(str(uuid4()), nb=1)[0]
+            for _ in range(3000)
+        ]
+        db.update(fake_locations)
+    else:
+        db = DatabaseRealtimeLocationsHandler.get_instance()
+    users_locations = db.get_all_users().values()
+    sorted_users_locations = closest_locations(point, users_locations, N=N)
+    return sorted_users_locations
 
 
 @lru_cache(maxsize=None)

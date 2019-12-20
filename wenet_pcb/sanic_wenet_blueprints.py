@@ -8,7 +8,7 @@ from wenet_pcb.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
 )
 from wenet_pcb import wenet_analysis_models
-from wenet_pcb.wenet_data_loading import closest_users, compare_routines
+from wenet_pcb.wenet_analysis import closest_users, compare_routines
 from wenet_pcb import config
 
 
