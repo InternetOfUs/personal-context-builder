@@ -13,15 +13,15 @@ from collections import defaultdict
 from progress.bar import Bar
 import pandas as pd
 import numpy as np
-from wenet_pcb.wenet_models import LocationPoint, UserPlaceTimeOnly
-from wenet_pcb.wenet_algo import (
+from personal_context_builder.wenet_models import LocationPoint, UserPlaceTimeOnly
+from personal_context_builder.wenet_algo import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
-from wenet_pcb.wenet_tools import time_difference_ms
-from wenet_pcb.wenet_analysis import BagOfWordsVectorizer
-from wenet_pcb.wenet_analysis_models import BaseModelWrapper
+from personal_context_builder.wenet_tools import time_difference_ms
+from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
+from personal_context_builder.wenet_analysis_models import BaseModelWrapper
 from sklearn.decomposition import LatentDirichletAllocation
 import pickle
 

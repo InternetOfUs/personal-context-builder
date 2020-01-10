@@ -17,4 +17,4 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 COPY . .
 EXPOSE 8000
-CMD ["python3", "-m", "wenet_pcb.wenet_cli_entrypoint", "--app_run"]
+CMD ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--app_run"]

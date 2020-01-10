@@ -7,7 +7,7 @@ with open("requirements.txt", "r") as f:
     requirements = f.read().split("\n")
 
 setuptools.setup(
-    name="wenet_pcb",
+    name="personal_context_builder",
     version="0.0.6",
     author="Idiap - William Droz",
     author_email="william.droz@idiap.ch",

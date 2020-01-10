@@ -8,7 +8,7 @@ from typing import List, Dict
 
 import pandas as pd
 
-from wenet_pcb.wenet_models import UserLocationPoint, UserPlaceTimeOnly, UserPlace
+from personal_context_builder.wenet_models import UserLocationPoint, UserPlaceTimeOnly, UserPlace
 from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations
 
 
