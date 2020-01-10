@@ -13,9 +13,9 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload
-from wenet_pcb.wenet_logger import create_logger
-from wenet_pcb.wenet_postgres import PostresqlCoordinator
-from wenet_pcb import config
+from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder.wenet_postgres import PostresqlCoordinator
+from personal_context_builder import config
 from copy import deepcopy
 
 _LOGGER = create_logger(__name__)

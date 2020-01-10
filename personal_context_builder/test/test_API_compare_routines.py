@@ -1,7 +1,7 @@
 import unittest
-from wenet_pcb.sanic_app import WenetApp
-from wenet_pcb.wenet_cli_entrypoint import update, train
-from wenet_pcb import config
+from personal_context_builder.sanic_app import WenetApp
+from personal_context_builder.wenet_cli_entrypoint import update, train
+from personal_context_builder import config
 
 train(is_mock=True)
 update(is_mock=True)

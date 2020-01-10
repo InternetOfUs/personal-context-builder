@@ -9,16 +9,16 @@ Two main methods:
 """
 
 from abc import ABC, abstractmethod
-from wenet_pcb.wenet_logger import create_logger
-from wenet_pcb.wenet_trainer import BaseBOWTrainer, BaseModelTrainer, HDPTrainer
-from wenet_pcb import wenet_analysis_models
+from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder.wenet_trainer import BaseBOWTrainer, BaseModelTrainer, HDPTrainer
+from personal_context_builder import wenet_analysis_models
 from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from wenet_pcb.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
-from wenet_pcb.wenet_user_profile_db import (
+from personal_context_builder.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
+from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
     DatabaseProfileHandler,
 )
-from wenet_pcb import config
+from personal_context_builder import config
 
 _LOGGER = create_logger(__name__)
 

@@ -8,24 +8,24 @@ CLI entrypoint for wenet
 
 import argparse
 from uuid import uuid4
-from wenet_pcb.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
-from wenet_pcb import wenet_analysis_models, wenet_pipelines
-from wenet_pcb.wenet_analysis_models import SimpleLDA, SimpleBOW
+from personal_context_builder.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
+from personal_context_builder import wenet_analysis_models, wenet_pipelines
+from personal_context_builder.wenet_analysis_models import SimpleLDA, SimpleBOW
 from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from wenet_pcb.wenet_analysis import closest_users, compare_routines
-from wenet_pcb.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
-from wenet_pcb.wenet_user_profile_db import (
+from personal_context_builder.wenet_analysis import closest_users, compare_routines
+from personal_context_builder.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
+from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
     DatabaseProfileHandler,
 )
-from wenet_pcb.wenet_realtime_user_db import (
+from personal_context_builder.wenet_realtime_user_db import (
     DatabaseRealtimeLocationsHandler,
     DatabaseRealtimeLocationsHandlerMock,
 )
-from wenet_pcb.sanic_app import WenetApp
-from wenet_pcb import config
-from wenet_pcb.wenet_logger import create_logger
-from wenet_pcb.wenet_semantic_models import SemanticModelHist
+from personal_context_builder.sanic_app import WenetApp
+from personal_context_builder import config
+from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder.wenet_semantic_models import SemanticModelHist
 
 from scipy import spatial
 

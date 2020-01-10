@@ -14,8 +14,8 @@ from regions_builder.algorithms import (
     labelize_stay_region,
 )
 
-from wenet_pcb.wenet_analysis import _loads_regions, BagOfWordsVectorizer
-from wenet_pcb import config
+from personal_context_builder.wenet_analysis import _loads_regions, BagOfWordsVectorizer
+from personal_context_builder import config
 from pprint import pprint
 
 

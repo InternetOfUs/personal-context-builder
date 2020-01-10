@@ -4,9 +4,9 @@ from os.path import join
 from sklearn.datasets import load_iris
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from wenet_pcb.wenet_analysis_models import BaseModelWrapper
+from personal_context_builder.wenet_analysis_models import BaseModelWrapper
 from functools import partial
-from wenet_pcb import config
+from personal_context_builder import config
 
 
 class UserProfileDBTestCase(unittest.TestCase):

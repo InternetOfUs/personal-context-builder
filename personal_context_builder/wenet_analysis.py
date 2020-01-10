@@ -1,7 +1,7 @@
 """
 module that analyse user's routines
 """
-from wenet_pcb import config
+from personal_context_builder import config
 import json
 from uuid import uuid4
 import numpy as np
@@ -13,11 +13,11 @@ import pandas as pd
 from datetime import datetime, timedelta
 from regions_builder.models import UserLocationPoint
 from regions_builder.algorithms import closest_locations
-from wenet_pcb.wenet_realtime_user_db import (
+from personal_context_builder.wenet_realtime_user_db import (
     DatabaseRealtimeLocationsHandlerMock,
     DatabaseRealtimeLocationsHandler,
 )
-from wenet_pcb.wenet_user_profile_db import (
+from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
 )

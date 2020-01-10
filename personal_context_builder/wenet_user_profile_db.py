@@ -3,12 +3,12 @@ Module that handle database access for user's profile
 
 TODO refactor to use class, for make it easier to mock and test
 """
-from wenet_pcb import config
+from personal_context_builder import config
 import redis
 import json
 from abc import ABC, abstractmethod
 from sanic.exceptions import ServerError
-from wenet_pcb.wenet_logger import create_logger
+from personal_context_builder.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
 

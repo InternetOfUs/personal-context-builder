@@ -1,12 +1,12 @@
 """ module that handle real-time
 """
 from datetime import datetime
-from wenet_pcb import config
+from personal_context_builder import config
 import redis
 import json
 from abc import ABC, abstractmethod
 from sanic.exceptions import ServerError
-from wenet_pcb.wenet_logger import create_logger
+from personal_context_builder.wenet_logger import create_logger
 from regions_builder.models import UserLocationPoint
 
 _LOGGER = create_logger(__name__)

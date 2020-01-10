@@ -1,13 +1,13 @@
 """ module to train models
 """
 
-from wenet_pcb.wenet_analysis import BagOfWordsVectorizer, BagOfWordsCorpuzer
+from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, BagOfWordsCorpuzer
 from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
-from wenet_pcb import config
+from personal_context_builder import config
 import numpy as np
 
 

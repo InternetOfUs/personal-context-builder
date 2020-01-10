@@ -1,4 +1,4 @@
-from wenet_pcb.wenet_analysis import BagOfWordsVectorizer
+from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
 from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
 from regions_builder.algorithms import (
     estimate_stay_regions,
@@ -8,7 +8,7 @@ from regions_builder.algorithms import (
 import unittest
 from os import remove
 from os.path import join
-from wenet_pcb import config
+from personal_context_builder import config
 
 
 class BagOfWordsVectorizerTestCase(unittest.TestCase):

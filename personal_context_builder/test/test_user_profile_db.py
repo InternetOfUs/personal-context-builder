@@ -1,5 +1,5 @@
 import unittest
-from wenet_pcb.wenet_user_profile_db import (
+from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandlerMock as DatabaseProfileHandler,
 )
 

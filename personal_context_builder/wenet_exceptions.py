@@ -1,8 +1,8 @@
 """ module with wenet exceptions
 """
 from sanic.response import text
-from wenet_pcb.wenet_logger import create_logger
-from wenet_pcb import config
+from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder import config
 
 _LOGGER = create_logger(__name__)
 

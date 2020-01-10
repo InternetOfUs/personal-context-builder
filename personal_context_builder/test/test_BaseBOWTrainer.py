@@ -1,8 +1,8 @@
 import unittest
 from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
-from wenet_pcb.wenet_analysis import BagOfWordsVectorizer, _loads_regions
-from wenet_pcb.wenet_trainer import BaseBOWTrainer
-from wenet_pcb import config
+from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions
+from personal_context_builder.wenet_trainer import BaseBOWTrainer
+from personal_context_builder import config
 
 
 class BagOfWordsVectorizerTestCase(unittest.TestCase):

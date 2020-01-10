@@ -2,11 +2,11 @@
 """
 import numpy as np
 
-from wenet_pcb.wenet_user_profile_db import DatabaseProfileHandlerMock
+from personal_context_builder.wenet_user_profile_db import DatabaseProfileHandlerMock
 from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from wenet_pcb.wenet_analysis_models import SimpleLDA
-from wenet_pcb.wenet_analysis import BagOfWordsVectorizer
-from wenet_pcb.wenet_trainer import BaseBOWTrainer
+from personal_context_builder.wenet_analysis_models import SimpleLDA
+from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
+from personal_context_builder.wenet_trainer import BaseBOWTrainer
 
 
 class ProfileWritter(object):

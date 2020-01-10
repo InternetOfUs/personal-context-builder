@@ -4,7 +4,7 @@ module that handle db connections to the sql databases
 from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from wenet_pcb.wenet_logger import create_logger
+from personal_context_builder.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
 
