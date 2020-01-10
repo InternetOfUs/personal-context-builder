@@ -4,7 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 with open("requirements.txt", "r") as f:
-    requirements = f.read().split("\n")
+    requirements = [line for line in f.read().split("\n") if '@' not in line]
+    requirements_git = [line for line in f.read().split("\n") if '@' in line]
 
 setuptools.setup(
     name="personal_context_builder",
@@ -17,4 +18,5 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=["Programming Language :: Python :: 3"],
     install_requires=requirements,
+    dependency_links=requirements_git
 )
