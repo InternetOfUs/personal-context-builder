@@ -220,42 +220,42 @@ class CompareRoutines(HTTPMethodView):
 
 
 class SemanticRoutine(HTTPMethodView):
-    async def get(self, request, user, weekday, time):
+    async def get(self, request, user_id, weekday, time):
         res = dict()
         #  TODO get results
         return json(res)
 
 
 class SemanticRoutineMock(HTTPMethodView):
-    async def get(sself, request, user, weekday, time):
+    async def get(sself, request, user_id, weekday, time):
         res = dict()
         #  TODO get results
         return json(res)
 
 
 class SemanticRoutineTransitionEntering(HTTPMethodView):
-    async def get(self, request, user, weekday, label):
+    async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
         return json(res)
 
 
 class SemanticRoutineTransitionEnteringMock(HTTPMethodView):
-    async def get(self, request, user, weekday, label):
+    async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
         return json(res)
 
 
 class SemanticRoutineTransitionLeaving(HTTPMethodView):
-    async def get(self, request, user, weekday, label):
+    async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
         return json(res)
 
 
 class SemanticRoutineTransitionLeavingMock(HTTPMethodView):
-    async def get(self, request, user, weekday, label):
+    async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
         return json(res)
