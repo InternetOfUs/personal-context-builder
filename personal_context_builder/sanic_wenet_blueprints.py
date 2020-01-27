@@ -223,6 +223,10 @@ class SemanticRoutine(HTTPMethodView):
     async def get(self, request, user_id, weekday, time):
         res = dict()
         #  TODO get results
+        res["user_id"] = user_id
+        res["weekday"] = weekday
+        res["label_distribution"] = {"HOME": 0.6, "WORK": 0.4}
+        res["confidence"] = 0.8
         return json(res)
 
 
@@ -230,6 +234,10 @@ class SemanticRoutineMock(HTTPMethodView):
     async def get(sself, request, user_id, weekday, time):
         res = dict()
         #  TODO get results
+        res["user_id"] = user_id
+        res["weekday"] = weekday
+        res["label_distribution"] = {"HOME": 0.6, "WORK": 0.4}
+        res["confidence"] = 0.8
         return json(res)
 
 
@@ -237,6 +245,11 @@ class SemanticRoutineTransitionEntering(HTTPMethodView):
     async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
+        res["user_id"] = user_id
+        res["weekday"] = weekday
+        res["transition_time"] = "07:10"
+        res["label"] = label
+        res["confidence"] = 0.7
         return json(res)
 
 
@@ -244,6 +257,11 @@ class SemanticRoutineTransitionEnteringMock(HTTPMethodView):
     async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
+        res["user_id"] = user_id
+        res["weekday"] = weekday
+        res["transition_time"] = "07:10"
+        res["label"] = label
+        res["confidence"] = 0.7
         return json(res)
 
 
@@ -251,6 +269,11 @@ class SemanticRoutineTransitionLeaving(HTTPMethodView):
     async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
+        res["user_id"] = user_id
+        res["weekday"] = weekday
+        res["transition_time"] = "17:00"
+        res["label"] = label
+        res["confidence"] = 0.8
         return json(res)
 
 
@@ -258,5 +281,9 @@ class SemanticRoutineTransitionLeavingMock(HTTPMethodView):
     async def get(self, request, user_id, weekday, label):
         res = dict()
         #  TODO get results
+        res["user_id"] = user_id
+        res["weekday"] = weekday
+        res["transition_time"] = "17:00"
+        res["label"] = label
+        res["confidence"] = 0.8
         return json(res)
-
