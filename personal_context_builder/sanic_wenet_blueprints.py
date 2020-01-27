@@ -23,7 +23,16 @@ def create_routines_bp(virtual_host_location, is_mock=False):
     routines_bp = Blueprint("routines", url_prefix=virtual_host_location)
     if is_mock:
         routines_bp.add_route(
-            SemanticRoutine.as_view(), "/semantic_routines/<user_id>/"
+            SemanticRoutine.as_view(),
+            "/semantic_routines/<user_id>/<weekday:number>/<time>/",
+        )
+        routines_bp.add_route(
+            SemanticRoutineTransitionEntering.as_view(),
+            "/semantic_routines_transition/entering/<user_id>/<weekday:number>/<label>/",
+        )
+        routines_bp.add_route(
+            SemanticRoutineTransitionLeaving.as_view(),
+            "/semantic_routines_transition/leaving/<user_id>/<weekday:number>/<label>/",
         )
         routines_bp.add_route(UserProfileMock.as_view(), "/routines/<user_id>/")
         routines_bp.add_route(UserProfilesMock.as_view(), "/routines/")
@@ -35,7 +44,16 @@ def create_routines_bp(virtual_host_location, is_mock=False):
         )
     else:
         routines_bp.add_route(
-            SemanticRoutineMock.as_view(), "/semantic_routines/<user_id>/"
+            SemanticRoutineMock.as_view(),
+            "/semantic_routines/<user_id>/<weekday:number>/<time>/",
+        )
+        routines_bp.add_route(
+            SemanticRoutineTransitionEnteringMock.as_view(),
+            "/semantic_routines_transition/entering/<user_id>/<weekday:number>/<label>/",
+        )
+        routines_bp.add_route(
+            SemanticRoutineTransitionLeavingMock.as_view(),
+            "/semantic_routines_transition/leaving/<user_id>/<weekday:number>/<label>/",
         )
         routines_bp.add_route(UserProfile.as_view(), "/routines/<user_id>/")
         routines_bp.add_route(UserProfiles.as_view(), "/routines/")
@@ -202,14 +220,43 @@ class CompareRoutines(HTTPMethodView):
 
 
 class SemanticRoutine(HTTPMethodView):
-    async def get(self, request, user):
+    async def get(self, request, user, weekday, time):
         res = dict()
         #  TODO get results
         return json(res)
 
 
 class SemanticRoutineMock(HTTPMethodView):
-    async def get(self, request, user):
+    async def get(sself, request, user, weekday, time):
         res = dict()
         #  TODO get results
         return json(res)
+
+
+class SemanticRoutineTransitionEntering(HTTPMethodView):
+    async def get(self, request, user, weekday, label):
+        res = dict()
+        #  TODO get results
+        return json(res)
+
+
+class SemanticRoutineTransitionEnteringMock(HTTPMethodView):
+    async def get(self, request, user, weekday, label):
+        res = dict()
+        #  TODO get results
+        return json(res)
+
+
+class SemanticRoutineTransitionLeaving(HTTPMethodView):
+    async def get(self, request, user, weekday, label):
+        res = dict()
+        #  TODO get results
+        return json(res)
+
+
+class SemanticRoutineTransitionLeavingMock(HTTPMethodView):
+    async def get(self, request, user, weekday, label):
+        res = dict()
+        #  TODO get results
+        return json(res)
+
