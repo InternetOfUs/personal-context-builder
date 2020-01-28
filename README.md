@@ -10,10 +10,20 @@ The WeNet project: diversity-aware, machine-mediated paradigm of social relation
 
 Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
 
-The API provides user's routine with two routes:
+**Embedded routines**
 
 *  `/routines/` for all routines for all users
 *  `/routines/<user_id>/` routine for specific user
+
+**Semantic routines**
+
+*  `/semantic_routines/<user_id>/<weekday:number>/<time>/` routine for a given user, weekday and time period
+*  `/semantic_routines_transition/entering/<user_id>/<weekday:number>/<label>/` at what time of the weekday the user is entering the label
+*  `/semantic_routines_transition/leaving/<user_id>/<weekday:number>/<label>/` at what time of the weekday the user is leaving the label
+
+**Misc**
+
+*  `/closest/<lat:number>/<lng:number>/<N:number>/` get the closest users
 
 Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
 
