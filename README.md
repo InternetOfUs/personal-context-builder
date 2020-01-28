@@ -25,13 +25,11 @@ Full openapi documentation available [here](http://swagger.u-hopper.com/?url=htt
 
 *  `/closest/<lat:number>/<lng:number>/<N:number>/` get the closest users
 
-Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
+Embedded routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
 
 It's possible to filter models base on name with the parameters `models`. Example to get only `SimpleBOW:PipelineBOW` : `/routines/?models=SimpleBOW:PipelineBOW`. It's possible to add several time `models` parameter to get multiple models.
 
 List of available models can be retrieved with the route `/models/`
-
-You can get the N closest users from a location with the route `/closest/<lat:number>/<lng:number>/<N:number>/`
 
 You can compare the routines of users by using `/compare_routines/` (e.g `/compare_routines/mock_user_1/SimpleLDA:PipelineBOW/?users=mock_user_2&users=mock_user_3`)
 
