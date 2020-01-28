@@ -8,3 +8,4 @@ htmlcov/
 *.p
 *.log
 bitbucket.txt
+*egg*
