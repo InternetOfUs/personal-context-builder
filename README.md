@@ -6,6 +6,25 @@ The WeNet project: diversity-aware, machine-mediated paradigm of social relation
 ![map example middle level](./media/middle_level_map.png)
 ![map example low level](./media/low_level_map.png)
 
+# API Usage
+
+Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
+
+The API provides user's routine with two routes:
+
+*  `/routines/` for all routines for all users
+*  `/routines/<user_id>/` routine for specific user
+
+Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
+
+It's possible to filter models base on name with the parameters `models`. Example to get only `SimpleBOW:PipelineBOW` : `/routines/?models=SimpleBOW:PipelineBOW`. It's possible to add several time `models` parameter to get multiple models.
+
+List of available models can be retrieved with the route `/models/`
+
+You can get the N closest users from a location with the route `/closest/<lat:number>/<lng:number>/<N:number>/`
+
+You can compare the routines of users by using `/compare_routines/` (e.g `/compare_routines/mock_user_1/SimpleLDA:PipelineBOW/?users=mock_user_2&users=mock_user_3`)
+
 # Wenet entry points
 
 Wenet have a single entrypoint for all functionality. By typing `python3 -m wenet_cli_entrypoint --help`, you can have the help
@@ -120,25 +139,6 @@ Then you must register the class to a db index in **config.py**.
 `DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"` you can replace 0 by another number, up to 15.
 
 If you want to use a different pipleline (other data sources or/and other features), you can create them in `wenet_pipelines.py`
-
-# API Usage
-
-Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
-
-The API provides user's routine with two routes:
-
-*  `/routines/` for all routines for all users
-*  `/routines/<user_id>/` routine for specific user
-
-Routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
-
-It's possible to filter models base on name with the parameters `models`. Example to get only `SimpleBOW:PipelineBOW` : `/routines/?models=SimpleBOW:PipelineBOW`. It's possible to add several time `models` parameter to get multiple models.
-
-List of available models can be retrieved with the route `/models/`
-
-You can get the N closest users from a location with the route `/closest/<lat:number>/<lng:number>/<N:number>/`
-
-You can compare the routines of users by using `/compare_routines/` (e.g `/compare_routines/mock_user_1/SimpleLDA:PipelineBOW/?users=mock_user_2&users=mock_user_3`)
 
 ## Architecture
 
