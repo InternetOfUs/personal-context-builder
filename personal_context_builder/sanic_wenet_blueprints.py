@@ -225,7 +225,26 @@ class SemanticRoutine(HTTPMethodView):
         #  TODO get results
         res["user_id"] = user_id
         res["weekday"] = weekday
-        res["label_distribution"] = {"HOME": 0.6, "WORK": 0.4}
+        res["label_distribution"] = [
+            {
+                "label": {
+                    "name": "HOME",
+                    "semantic_class": 3,
+                    "latitude": 0,
+                    "longitude": 0,
+                },
+                "score": 0.6,
+            },
+            {
+                "label": {
+                    "name": "WORK",
+                    "semantic_class": 4,
+                    "latitude": 0,
+                    "longitude": 0,
+                },
+                "score": 0.4,
+            },
+        ]
         res["confidence"] = 0.8
         return json(res)
 
@@ -236,7 +255,26 @@ class SemanticRoutineMock(HTTPMethodView):
         #  TODO get results
         res["user_id"] = user_id
         res["weekday"] = weekday
-        res["label_distribution"] = {"HOME": 0.6, "WORK": 0.4}
+        res["label_distribution"] = [
+            {
+                "label": {
+                    "name": "HOME",
+                    "semantic_class": 3,
+                    "latitude": 0,
+                    "longitude": 0,
+                },
+                "score": 0.6,
+            },
+            {
+                "label": {
+                    "name": "WORK",
+                    "semantic_class": 4,
+                    "latitude": 0,
+                    "longitude": 0,
+                },
+                "score": 0.4,
+            },
+        ]
         res["confidence"] = 0.8
         return json(res)
 
