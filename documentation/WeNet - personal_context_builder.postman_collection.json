@@ -1,0 +1,561 @@
+{
+	"info": {
+		"_postman_id": "7f851708-9e07-41da-b0b5-26d8e8a7f133",
+		"name": "WeNet - personal_context_builder",
+		"description": "Component that handle the personal context of the users <br /> <img src=\"https://drive.google.com/uc?id=1oL92bUTr5oLwOs84oo9ycCJWcI4ARaXl\" /> <br /> <img src=\"https://drive.google.com/uc?id=1iF39kFa5ZcYKadCzynHvRkt6ftj59aHc\" /> <br />Routines are an embedded representation of the user habits.\n\nContact Support:\n Email: william.droz@idiap.ch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "routines",
+			"item": [
+				{
+					"name": "get the list all routines for all users with all models",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/routines/?models=<string>,<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"routines",
+								""
+							],
+							"query": [
+								{
+									"key": "models",
+									"value": "<string>,<string>",
+									"description": "filter models base on name"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user routines",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/routines/?models=<string>,<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"routines",
+										""
+									],
+									"query": [
+										{
+											"key": "models",
+											"value": "<string>,<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"SimpleLDA\": {\n  \"mock_user_1\": [\n   0,\n   1,\n   0,\n   0.5,\n   1\n  ],\n  \"mock_user_2\": [\n   0,\n   1,\n   1,\n   0.5,\n   1\n  ],\n  \"mock_user_3\": [\n   0,\n   1,\n   0,\n   0.5,\n   0\n  ]\n },\n \"SimpleBOW\": {\n  \"mock_user_1\": [\n   1,\n   1,\n   0,\n   0.5,\n   1\n  ],\n  \"mock_user_2\": [\n   1,\n   1,\n   1,\n   0.5,\n   1\n  ],\n  \"mock_user_3\": [\n   1,\n   1,\n   0,\n   0.5,\n   0\n  ]\n }\n}"
+						}
+					]
+				},
+				{
+					"name": "get specific user routine",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/routines/:user_id/?models=<string>,<string>",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"routines",
+								":user_id",
+								""
+							],
+							"query": [
+								{
+									"key": "models",
+									"value": "<string>,<string>",
+									"description": "filter models base on name"
+								}
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "<string>",
+									"description": "ID of user to return"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "specific user's routine",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/routines/:user_id/?models=<string>,<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"routines",
+										":user_id",
+										""
+									],
+									"query": [
+										{
+											"key": "models",
+											"value": "<string>,<string>"
+										}
+									],
+									"variable": [
+										{
+											"key": "user_id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"SimpleLDA\": {\n  \"mock_user_1\": [\n   0,\n   1,\n   0,\n   0.5,\n   1\n  ]\n },\n \"SimpleBOW\": {\n  \"mock_user_1\": [\n   1,\n   1,\n   0,\n   0.5,\n   1\n  ]\n }\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "semantic routines transition",
+			"item": [
+				{
+					"name": "get the information about what when the user_id is leaving the label on the given weekday",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/semantic_routines_transition/leaving/:user_id/:weekday/:label/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"semantic_routines_transition",
+								"leaving",
+								":user_id",
+								":weekday",
+								":label",
+								""
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "<string>",
+									"description": "ID of user to return"
+								},
+								{
+									"key": "weekday",
+									"value": "<number>",
+									"description": "at which day of the week"
+								},
+								{
+									"key": "label",
+									"value": "<string>",
+									"description": "which label"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "semantic routine of the user for the given weekday/time",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/semantic_routines_transition/leaving/:user_id/:weekday/:label/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"semantic_routines_transition",
+										"leaving",
+										":user_id",
+										":weekday",
+										":label",
+										""
+									],
+									"variable": [
+										{
+											"key": "user_id"
+										},
+										{
+											"key": "weekday"
+										},
+										{
+											"key": "label"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"user_id\": \"<string>\",\n \"weekday\": \"<string>\",\n \"transition_time\": \"<string>\",\n \"label\": \"<string>\",\n \"confidence\": \"<number>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get the information about what when the user_id is entering the label on the given weekday",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/semantic_routines_transition/entering/:user_id/:weekday/:label/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"semantic_routines_transition",
+								"entering",
+								":user_id",
+								":weekday",
+								":label",
+								""
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "<string>",
+									"description": "ID of user to return"
+								},
+								{
+									"key": "weekday",
+									"value": "<number>",
+									"description": "at which day of the week"
+								},
+								{
+									"key": "label",
+									"value": "<string>",
+									"description": "which label"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "semantic routine of the user for the given weekday/time",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/semantic_routines_transition/entering/:user_id/:weekday/:label/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"semantic_routines_transition",
+										"entering",
+										":user_id",
+										":weekday",
+										":label",
+										""
+									],
+									"variable": [
+										{
+											"key": "user_id"
+										},
+										{
+											"key": "weekday"
+										},
+										{
+											"key": "label"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"user_id\": \"<string>\",\n \"weekday\": \"<string>\",\n \"transition_time\": \"<string>\",\n \"label\": \"<string>\",\n \"confidence\": \"<number>\"\n}"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "get closest N users from a given point",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/closest/:lat/:lng/:N/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"closest",
+						":lat",
+						":lng",
+						":N",
+						""
+					],
+					"variable": [
+						{
+							"key": "lat",
+							"value": "<number>",
+							"description": "latitude of the given point"
+						},
+						{
+							"key": "lng",
+							"value": "<number>",
+							"description": "longitude of the given point"
+						},
+						{
+							"key": "N",
+							"value": "<number>",
+							"description": "number of closest users to receive"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "closest N users",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/closest/:lat/:lng/:N/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"closest",
+								":lat",
+								":lng",
+								":N",
+								""
+							],
+							"variable": [
+								{
+									"key": "lat"
+								},
+								{
+									"key": "lng"
+								},
+								{
+									"key": "N"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"mock_user_1\": 330,\n \"mock_user_2\": 340,\n \"mock_user_3\": 350\n}"
+				}
+			]
+		},
+		{
+			"name": "get the list of all available models",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/models/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"models",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "available models",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/models/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"models",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"SimpleLDA\": \"Simple LDA over all the users, with 15 topics\",\n \"SimpleBOW\": \"Bag-of-words approach, compute the mean of all days\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get the semantic routine for a given user, weekday and time",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/semantic_routines/:user_id/:weekday/:time/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"semantic_routines",
+						":user_id",
+						":weekday",
+						":time",
+						""
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": "<string>",
+							"description": "ID of user to return"
+						},
+						{
+							"key": "weekday",
+							"value": "<number>",
+							"description": "at which day of the week"
+						},
+						{
+							"key": "time",
+							"value": "<string>",
+							"description": "at which time"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "semantic routine of the user for the given weekday/time",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/semantic_routines/:user_id/:weekday/:time/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"semantic_routines",
+								":user_id",
+								":weekday",
+								":time",
+								""
+							],
+							"variable": [
+								{
+									"key": "user_id"
+								},
+								{
+									"key": "weekday"
+								},
+								{
+									"key": "time"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"user_id\": \"<string>\",\n \"weekday\": \"<string>\",\n \"label_distribution\": \"schema type not provided\",\n \"confidence\": \"<number>\"\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"id": "baseUrl",
+			"key": "baseUrl",
+			"value": "https://lab.idiap.ch/devel/wenet/",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
