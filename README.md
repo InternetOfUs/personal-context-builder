@@ -10,6 +10,8 @@ The WeNet project: diversity-aware, machine-mediated paradigm of social relation
 
 Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
 
+Postman collection generated from OpenAPI is [here](./documentation/postman_collection.json)
+
 **Embedded routines**
 
 *  `/routines/` for all routines for all users
