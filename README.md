@@ -6,6 +6,10 @@ The WeNet project: diversity-aware, machine-mediated paradigm of social relation
 ![map example middle level](./media/middle_level_map.png)
 ![map example low level](./media/low_level_map.png)
 
+## Maintainer
+
+William Droz <william.droz@idiap.ch>
+
 # API Usage
 
 Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
