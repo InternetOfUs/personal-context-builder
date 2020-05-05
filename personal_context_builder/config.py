@@ -12,6 +12,8 @@ DEFAULT_LOG_FILE = "wenet.log"
 
 DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
 
+DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/profile_manager"
+
 DEFAULT_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 
 DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
