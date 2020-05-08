@@ -1,6 +1,6 @@
-# Wenet project
+# Introduction
 
-The WeNet project: diversity-aware, machine-mediated paradigm of social relations.
+The *personal_context_builder* is responsible to build and update routines.
 
 ![map example top level](./media/top_level_map.png)
 ![map example middle level](./media/middle_level_map.png)
@@ -10,7 +10,7 @@ The WeNet project: diversity-aware, machine-mediated paradigm of social relation
 
 William Droz <william.droz@idiap.ch>
 
-# API Usage
+# Usage
 
 Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
 
@@ -39,7 +39,7 @@ List of available models can be retrieved with the route `/models/`
 
 You can compare the routines of users by using `/compare_routines/` (e.g `/compare_routines/mock_user_1/SimpleLDA:PipelineBOW/?users=mock_user_2&users=mock_user_3`)
 
-# Wenet entry points
+## Wenet entry points
 
 Wenet have a single entrypoint for all functionality. By typing `python3 -m wenet_cli_entrypoint --help`, you can have the help
 
@@ -72,6 +72,26 @@ optional arguments:
 ## Run the app
 
 You can run the app with `python3 -m wenet_cli_entrypoint --app_run`
+
+# Testing
+
+`run_tests.sh` will run the tests
+
+# Link to the documentation
+
+Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
+
+Postman collection generated from OpenAPI is [here](./documentation/postman_collection.json)
+
+# Docker support
+
+We use docker-compose.
+
+For master branch, we use **docker-compose.yml**. For release, we use **docker-compose-production.yml** with pinned version of components.
+
+# License
+
+TBD
 
 # Dev section
 
@@ -153,11 +173,3 @@ Then you must register the class to a db index in **config.py**.
 `DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"` you can replace 0 by another number, up to 15.
 
 If you want to use a different pipleline (other data sources or/and other features), you can create them in `wenet_pipelines.py`
-
-## Architecture
-
-![architecture](./media/architecture.png)
-
-### Idiap part in WeNet
-
-We provide the "Personal Context Builder".
