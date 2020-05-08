@@ -13,7 +13,10 @@ from personal_context_builder import wenet_analysis_models, wenet_pipelines
 from personal_context_builder.wenet_analysis_models import SimpleLDA, SimpleBOW
 from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
-from personal_context_builder.wenet_profiles_writer import ProfileWritterFromMock, ProfileWritter
+from personal_context_builder.wenet_profiles_writer import (
+    ProfileWritterFromMock,
+    ProfileWritter,
+)
 from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandlerMock,
     DatabaseProfileHandler,
@@ -32,12 +35,16 @@ from scipy import spatial
 _LOGGER = create_logger(__name__)
 
 
-def compute_semantic_routines(is_mock=False):
+def compute_semantic_routines(is_mock=False, update=False):
     source_locations = MockWenetSourceLocations(4000)
     semantic_model_hist = SemanticModelHist(
         source_locations, MockWenetSourceLabels(source_locations)
     )
     semantic_model_hist.compute_weekdays("mock_user_1")
+
+    if update:
+        pass
+        # TODO update profile in profile manager
 
 
 def force_update_locations(is_mock=False):
@@ -154,6 +161,11 @@ if __name__ == "__main__":  # pragma: no cover
     parser.add_argument(
         "--update", help="update the profiles in the db", action="store_true"
     )
+    parser.add_argument(
+        "--update_pm",
+        help="update the semantic profiles in profile manager",
+        action="store_true",
+    )
     parser.add_argument("--clean_db", help="clean the db", action="store_true")
     parser.add_argument(
         "--compute_semantic_routines",
@@ -195,7 +207,7 @@ if __name__ == "__main__":  # pragma: no cover
     if args.update:
         update(args.mock)
     if args.compute_semantic_routines:
-        compute_semantic_routines(args.mock)
+        compute_semantic_routines(args.mock, args.update_pm)
     if args.show_all:
         show_all_profiles(args.mock)
     if args.show:
