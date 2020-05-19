@@ -461,10 +461,7 @@
           },
           "label_distribution": {
             "description": "Distribution of the labels",
-            "additionalProperties": {
-              "type": "array",
-              "description": "label with score"
-            },
+            "type": "array",
             "items": {
               "$ref": "#/components/schemas/ScoredLabel"
             }
