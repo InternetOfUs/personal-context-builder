@@ -460,10 +460,14 @@
             "description": "day of the week"
           },
           "label_distribution": {
-            "description": "Distribution of the labels",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ScoredLabel"
+            "description": "Time slots",
+            "type": "object",
+            "additionalProperties": {
+              "description": "Distribution of the labels",
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ScoredLabel"
+              }
             }
           },
           "confidence": {
