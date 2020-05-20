@@ -173,7 +173,7 @@ if __name__ == "__main__":  # pragma: no cover
     )
     parser.add_argument(
         "--update_pm",
-        help="update the semantic profiles in profile manager",
+        help="update the semantic profiles in profile manager (blocking operations)",
         action="store_true",
     )
     parser.add_argument("--clean_db", help="clean the db", action="store_true")
