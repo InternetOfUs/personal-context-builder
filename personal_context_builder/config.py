@@ -13,6 +13,8 @@ DEFAULT_LOG_FILE = "wenet.log"
 DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
 
 DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/profile_manager"
+# How many hours before re-updating the profiles with the semantic routines
+DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
 
 DEFAULT_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 
