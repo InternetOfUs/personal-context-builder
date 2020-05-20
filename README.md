@@ -91,7 +91,7 @@ For master branch, we use **docker-compose.yml**. For release, we use **docker-c
 
 # License
 
-TBD
+TBD (but developers-friendly)
 
 # Dev section
 
