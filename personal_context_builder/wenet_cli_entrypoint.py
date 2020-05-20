@@ -216,8 +216,6 @@ if __name__ == "__main__":  # pragma: no cover
         train(args.mock)
     if args.update:
         update(args.mock)
-    if args.compute_semantic_routines:
-        compute_semantic_routines(args.mock, args.update_pm)
     if args.show_all:
         show_all_profiles(args.mock)
     if args.show:
@@ -234,5 +232,7 @@ if __name__ == "__main__":  # pragma: no cover
     if args.compare_routines:
         source, *users = args.compare_routines.split(":")
         compare_routines_cmd(source, users, "SimpleLDA:PipelineBOW", is_mock=args.mock)
+    if args.compute_semantic_routines:
+        compute_semantic_routines(args.mock, args.update_pm)
     if args.app_run:
         run_app()
