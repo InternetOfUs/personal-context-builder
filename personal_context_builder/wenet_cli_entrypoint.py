@@ -8,6 +8,7 @@ CLI entrypoint for wenet
 
 import argparse
 from uuid import uuid4
+import time
 from personal_context_builder.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from personal_context_builder import wenet_analysis_models, wenet_pipelines
 from personal_context_builder.wenet_analysis_models import SimpleLDA, SimpleBOW
@@ -29,6 +30,7 @@ from personal_context_builder.sanic_app import WenetApp
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_semantic_models import SemanticModelHist
+from personal_context_builder.wenet_profile_manager import update_profile
 
 from scipy import spatial
 
@@ -36,15 +38,23 @@ _LOGGER = create_logger(__name__)
 
 
 def compute_semantic_routines(is_mock=False, update=False):
-    source_locations = MockWenetSourceLocations(4000)
-    semantic_model_hist = SemanticModelHist(
-        source_locations, MockWenetSourceLabels(source_locations)
-    )
-    semantic_model_hist.compute_weekdays("mock_user_1")
-
-    if update:
-        pass
-        # TODO update profile in profile manager
+    while True:
+        _LOGGER.debug("get source locations")
+        source_locations = MockWenetSourceLocations(4000)
+        semantic_model_hist = SemanticModelHist(
+            source_locations, MockWenetSourceLabels(source_locations)
+        )
+        _LOGGER.info("Compute semantic routines")
+        semantic_model_hist.compute_weekdays("mock_user_1")
+        profile_ids = []
+        for profile_id in profile_ids:
+            routines = []
+            if update:
+                update_profile(routines, profile_id)
+        _LOGGER.debug(
+            f"next computation of semantic routines in {config.DEFAULT_PROFILE_MANAGER_UPDATE_CD_H} hours"
+        )
+        time.sleep(config.DEFAULT_PROFILE_MANAGER_UPDATE_CD_H * 60 * 60)
 
 
 def force_update_locations(is_mock=False):
