@@ -65,6 +65,94 @@ class PersonalBehavior(object):
         pass
 
 
+class StreamBaseLocationsLoader(BaseSourceLocations):
+    def __init__(self, name="Streambase locations loader", last_days=14):
+        super().__init__(name)
+
+        # TODO change me to get all users
+        users = [str(x) for x in range(1, 9)]
+        self._url = config.DEFAULT_STREAMBASE_BATCH_URL
+        self._users_locations = dict()
+        date_to = datetime.datetime.now()
+        date_from = date_to - datetime.timedelta(hours=24 * last_days)
+        date_to_str = date_to.strftime("%Y%m%d")
+        date_from_str = date_from.strftime("%Y%m%d")
+        gps_streambase = json.loads(GPS_STR_FAKE)
+        parameters = dict()
+        # TODO change me to get token from partner?
+        parameters["Authorization"] = "Authorization"
+        parameters["from"] = date_from_str
+        parameters["to"] = date_to_str
+        parameters["properties"] = "locationeventpertime"
+        for user in users:
+            user_url = self._url + user
+            try:
+                r = requests.get(user_url, data=parameters)
+                if r.code == 200:
+                    _LOGGER.debug(
+                        f"request to stream base success for user {user} -  {r.json()}"
+                    )
+                    self._users_locations[user] = None
+                else:
+                    _LOGGER.warn(
+                        f"request to stream base failed for user {user} with code {r.code}"
+                    )
+            except RequestException:
+                _LOGGER.warn(f"request to stream base failed for user {user}")
+
+            # TODO change me remove this once data is ok
+            _LOGGER.debug("USE FAKE DATA MIMICK STREAMBASE")
+            self._users_locations[user] = self._gps_streambase_to_user_locations(
+                gps_streambase, user
+            )
+        if len(self._users_locations) < 1:
+            raise wenet_exceptions.WenetStreamBaseLocationsError()
+        _LOGGER.info("StreamBase locations loaded")
+
+    @staticmethod
+    def _gps_streambase_to_user_locations(gps_streambase, user):
+        def _get_only_gps_locations(gps_streambase):
+            for _property in gps_streambase["properties"]:
+                for obj in _property["locationeventpertime"]:
+                    yield obj
+
+        locations = []
+        locationeventpertime_list = _get_only_gps_locations(gps_streambase)
+        for locationeventpertime in locationeventpertime_list:
+            lat = locationeventpertime["point"]["latitude"]
+            lng = locationeventpertime["point"]["longitude"]
+            timestamp = locationeventpertime["timestamp"]
+
+            try:
+                pts_t = datetime.datetime.fromtimestamp(timestamp)
+            except Exception as e:
+                #  They dont use unix timestamp...
+                # TODO change me when ppl respect unix timestamp...........
+                _LOGGER.warn(
+                    "invalid timestamp format from streambase - will try to use anyway"
+                )
+                pts_t = datetime.datetime.strptime(str(timestamp)[:-3], "%Y%m%d%H%M%S")
+
+            location = UserLocationPoint(pts_t, lat, lng, user=user)
+            locations.append(location)
+        return locations
+
+    def get_users(self):
+        return list(self._users_locations.keys())
+
+    def get_locations(self, user_id, max_n=None):
+        return self._users_locations[user_id][:max_n]
+
+    def get_locations_all_users(self, max_n=None):
+        return [
+            l for locations in self._users_locations.values() for l in locations[:max_n]
+        ]
+
+
+def update_profiles():
+    pass
+
+
 def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL):
     profile_url = url + f"/profiles/{profile_id}"
     personal_behaviors = []
