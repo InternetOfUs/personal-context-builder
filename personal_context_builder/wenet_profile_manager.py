@@ -11,6 +11,32 @@ import pandas as pd
 import requests
 from collections import defaultdict
 from pprint import pprint
+import json
+from requests.exceptions import RequestException
+
+_LOGGER = create_logger(__name__)
+
+# TODO change me remove this once data is ok
+GPS_STR_FAKE = """{
+  "userId": "1",
+  "experimentId": "Wenet",
+  "properties": [
+    {
+      "locationeventpertime": [
+        {
+          "experimentId": "Wenet",
+          "userId": "1",
+          "timestamp": 201908252359000,
+          "point": {
+            "latitude": 22.1492,
+            "longitude": -101.03609,
+            "altitude": 1845.29208
+          }
+        }
+      ]
+    }
+  ]
+}"""
 
 
 class Label(object):
