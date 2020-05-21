@@ -63,6 +63,7 @@ def compute_semantic_routines(is_mock=False, update=False):
             _LOGGER.warn(f"wenet exception while computing semantic routines {e}")
         except Exception as e:
             _LOGGER.error(f"UNEXPECTED ERROR while computing semantic routines {e}")
+            _LOGGER.exception(e)
         time.sleep(config.DEFAULT_PROFILE_MANAGER_UPDATE_CD_H * 60 * 60)
 
 
