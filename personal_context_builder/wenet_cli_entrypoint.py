@@ -30,7 +30,10 @@ from personal_context_builder.sanic_app import WenetApp
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_semantic_models import SemanticModelHist
-from personal_context_builder.wenet_profile_manager import update_profile
+from personal_context_builder.wenet_profile_manager import (
+    update_profile,
+    StreamBaseLocationsLoader,
+)
 from personal_context_builder import wenet_exceptions
 
 from scipy import spatial
@@ -42,7 +45,7 @@ def compute_semantic_routines(is_mock=False, update=False):
     while True:
         try:
             _LOGGER.debug("get source locations")
-            source_locations = MockWenetSourceLocations(4000)
+            source_locations = StreamBaseLocationsLoader()
             semantic_model_hist = SemanticModelHist(
                 source_locations, MockWenetSourceLabels(source_locations)
             )
