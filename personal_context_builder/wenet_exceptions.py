@@ -23,6 +23,22 @@ class WenetUpdateProfileManagerError(WenetError):
         super().__init__(message)
 
 
+class WenetStreamBaseLocationsError(WenetError):
+    """ Fail to retreive any locations from streambase
+    """
+
+    def __init__(self, message="Fail to retreive any locations from streambase"):
+        super().__init__(message)
+
+
+class WenetStreamBaseLocationsParsingError(WenetError):
+    """ Fail to parse locations json from streambase
+    """
+
+    def __init__(self, message="Fail to parse locations json from streambase"):
+        super().__init__(message)
+
+
 async def ignore_404s(request, exception):
     error_code = 404
     return text(f"{error_code} - no route to {format(request.url)}", status=error_code)
