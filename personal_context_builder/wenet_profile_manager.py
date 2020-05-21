@@ -86,13 +86,13 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         parameters["properties"] = "locationeventpertime"
         for user in users:
             user_url = self._url + user
+            self._users_locations[user] = None
             try:
                 r = requests.get(user_url, data=parameters)
                 if r.code == 200:
                     _LOGGER.debug(
                         f"request to stream base success for user {user} -  {r.json()}"
                     )
-                    self._users_locations[user] = None
                 else:
                     _LOGGER.warn(
                         f"request to stream base failed for user {user} with code {r.code}"
@@ -100,11 +100,12 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             except RequestException:
                 _LOGGER.warn(f"request to stream base failed for user {user}")
 
-            # TODO change me remove this once data is ok
-            _LOGGER.debug("USE FAKE DATA MIMICK STREAMBASE")
-            self._users_locations[user] = self._gps_streambase_to_user_locations(
-                gps_streambase, user
-            )
+            if self._users_locations[user] is None:
+                # TODO change me remove this once data is ok
+                _LOGGER.debug("USE FAKE DATA MIMICK STREAMBASE")
+                self._users_locations[user] = self._gps_streambase_to_user_locations(
+                    gps_streambase, user
+                )
         if len(self._users_locations) < 1:
             raise wenet_exceptions.WenetStreamBaseLocationsError()
         _LOGGER.info("StreamBase locations loaded")
