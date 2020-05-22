@@ -22,32 +22,6 @@ from requests.exceptions import RequestException
 _LOGGER = create_logger(__name__)
 
 
-class Label(object):
-    def __init__(self, name, semantic_class, latitude, longitude):
-        self.name = name
-        self.semantic_class = semantic_class
-        self.latitude = latitude
-        self.longitude = longitude
-
-
-class ScoredLabel(object):
-    def __init__(self, score, label):
-        self.label = label
-        self.score = score
-
-
-class PersonalBehavior(object):
-    def __init__(self, user_id, weekday, confidence):
-        self.user_id = user_id
-        self.weekday = weekday
-        self.confidence = confidence
-        self.label_distribution = defaultdict(list)
-
-    def fill(self, routines):
-        #  TODO something with routines
-        pass
-
-
 class StreamBaseLocationsLoader(BaseSourceLocations):
     def __init__(self, name="Streambase locations loader", last_days=14):
         super().__init__(name)
@@ -249,6 +223,53 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         ]
 
 
+class Label(object):
+    def __init__(self, name, semantic_class, latitude, longitude):
+        self.name = name
+        self.semantic_class = semantic_class
+        self.latitude = latitude
+        self.longitude = longitude
+
+    def to_dict(self):
+        return self.__dict__
+
+
+class ScoredLabel(object):
+    def __init__(self, score, label):
+        self.label = label
+        self.score = score
+
+    def to_dict(self):
+        return {"label": self.label, "score": self.score}
+
+
+class PersonalBehavior(object):
+    def __init__(self, user_id, weekday, confidence):
+        self.user_id = user_id
+        self.weekday = weekday
+        self.confidence = confidence
+        self.label_distribution = defaultdict(list)
+
+    def fill(self, routine, labels):
+        for timeslot, labels_distributions_dict in routine.items():
+            timeslot_dist = []
+            for label_id, score in labels_distributions_dict.items():
+                if label_id == 0:
+                    continue
+                timeslot_dist.append(
+                    ScoredLabel(score, labels[label_id].to_dict()).to_dict()
+                )
+            self.label_distribution[timeslot] = timeslot_dist
+
+    def to_dict(self):
+        my_dict = dict()
+        my_dict["user_id"] = self.user_id
+        my_dict["weekday"] = self.weekday
+        my_dict["confidence"] = self.confidence
+        my_dict["label_distribution"] = self.label_distribution
+        return my_dict
+
+
 def update_profiles():
     pass
 
@@ -257,9 +278,20 @@ def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL)
     profile_url = url + f"/profiles/{profile_id}"
     pprint(routines)
     personal_behaviors = []
-    #  r = requests.put(profile_url, data={"personalBehaviors": personal_behaviors})
-    print(f"send to {profile_url}: \n")
-    for p in personal_behaviors:
-        pprint(p)
+    labels = {1: Label("Working (Paid)", 1, 0, 0), 2: Label("House", 2, 0, 0)}
 
-    print()
+    for weekday, routine in routines.items():
+        current_pb = PersonalBehavior(profile_id, weekday, 1)
+        current_pb.fill(routine, labels)
+        personal_behaviors.append(current_pb.to_dict())
+    try:
+        r = requests.patch(profile_url, data={"personalBehaviors": personal_behaviors})
+        if r.status_code != 200:
+            _LOGGER.warn(
+                f"unable to update profile for user {profile_id} - status code {r.status_code}"
+            )
+        else:
+            _LOGGER.debug(f"update profile for user {profile_id} success")
+    except RequestException as e:
+        _LOGGER.warn(f"unable to update profile for user {profile_id} - {e}")
+        _LOGGER.exception(e)
