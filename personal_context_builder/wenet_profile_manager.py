@@ -314,20 +314,32 @@ class StreambaseLabelsLoader(BaseSourceLabels):
 
     @staticmethod
     def _load_user_places(user, surveys, staypoints):
-        ids_where_are_you = set([12])
+        def _get_answers(surveys, answers_valid):
+            properties = surveys["properties"]
+            for _property in properties:
+                for obj in _property["timediariesanswers"]:
+                    answers = obj["answer"]
+                    current_answer = ""
+                    for answer in answers:
+                        for a in answer:
+                            if a["cnt"] in answers_valid:
+                                current_answer = a["ctn"]
+                    if current_answer != "":
+                        yield current_answer, obj["answertimestamp"]
+
         answers_valid = set(["I am at home", "I am working", "I am studying"])
         user_places = []
-        for index, row in df.iterrows():
-            question_id = row["question_id"]
-            if question_id not in ids_where_are_you:
-                continue
-            #  place = row['answer_id']
-            place = row["answer_content"]
-            if place not in answers_valid:
-                continue
-            pts_t = datetime.datetime.strptime(
-                str(row["answertimestamp"])[:-3], "%Y%m%d%H%M%S"
-            )
+        for label, timestamp in _get_answers(surveys, answers_valid):
+            place = label
+            try:
+                pts_t = datetime.datetime.fromtimestamp(timestamp)
+            except Exception as e:
+                #  They dont use unix timestamp...
+                # TODO change me when ppl respect unix timestamp...........
+                _LOGGER.warn(
+                    "invalid timestamp format from streambase surveys - will try to use anyway"
+                )
+                pts_t = datetime.datetime.strptime(str(timestamp)[:-3], "%Y%m%d%H%M%S")
             user_place_time_only = UserPlaceTimeOnly(pts_t, place, user)
             user_place = user_place_time_only.to_user_place_from_stay_points(staypoints)
             if user_place is not None:
