@@ -39,6 +39,14 @@ class WenetStreamBaseLocationsParsingError(WenetError):
         super().__init__(message)
 
 
+class SemanticRoutinesComputationError(WenetError):
+    """ Fail to compute semantic routines
+    """
+
+    def __init__(self, message="Fail to compute semantic routines"):
+        super().__init__(message)
+
+
 async def ignore_404s(request, exception):
     error_code = 404
     return text(f"{error_code} - no route to {format(request.url)}", status=error_code)
