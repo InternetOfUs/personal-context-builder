@@ -33,6 +33,7 @@ from personal_context_builder.wenet_semantic_models import SemanticModelHist
 from personal_context_builder.wenet_profile_manager import (
     update_profile,
     StreamBaseLocationsLoader,
+    StreambaseLabelsLoader,
 )
 from personal_context_builder import wenet_exceptions
 
@@ -47,7 +48,7 @@ def compute_semantic_routines(is_mock=False, update=False):
             _LOGGER.debug("get source locations")
             source_locations = StreamBaseLocationsLoader()
             semantic_model_hist = SemanticModelHist(
-                source_locations, MockWenetSourceLabels(source_locations)
+                source_locations, StreambaseLabelsLoader(source_locations)
             )
             _LOGGER.info("Compute semantic routines")
             semantic_model_hist.compute_weekdays("mock_user_1")
