@@ -51,12 +51,16 @@ def compute_semantic_routines(is_mock=False, update=False):
                 source_locations, StreambaseLabelsLoader(source_locations)
             )
             _LOGGER.info("Compute semantic routines")
-            semantic_model_hist.compute_weekdays("mock_user_1")
-            profile_ids = []
-            for profile_id in profile_ids:
-                routines = []
-                if update:
-                    update_profile(routines, profile_id)
+            users = source_locations.get_users()
+            for user in users:
+                try:
+                    routines = semantic_model_hist.compute_weekdays(user)
+                    if update:
+                        update_profile(routines, user)
+                except wenet_exceptions.SemanticRoutinesComputationError as e:
+                    _LOGGER.debug(
+                        f"cannot create semantic routines for user {user} - {e}"
+                    )
             _LOGGER.debug(
                 f"next computation of semantic routines in {config.DEFAULT_PROFILE_MANAGER_UPDATE_CD_H} hours"
             )
