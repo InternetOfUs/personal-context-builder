@@ -184,7 +184,6 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         gps_streambase = json.loads(GPS_STR_FAKE)
         parameters = dict()
         # TODO change me to get token from partner?
-        parameters["Authorization"] = "Authorization"
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
@@ -192,7 +191,11 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             user_url = self._url + user
             self._users_locations[user] = None
             try:
-                r = requests.get(user_url, data=parameters, stream=False)
+                r = requests.get(
+                    user_url,
+                    data=parameters,
+                    headers={"Authorization": "Authorization"},
+                )
                 if r.code == 200:
                     _LOGGER.debug(
                         f"request to stream base success for user {user} -  {r.json()}"
@@ -203,6 +206,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                     )
             except RequestException as e:
                 _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
+                _LOGGER.exception(e)
 
             if self._users_locations[user] is None:
                 # TODO change me remove this once data is ok
@@ -291,12 +295,13 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         date_from_str = date_from.strftime("%Y%m%d")
         survey_streambase = json.loads(SURVEY_STR_FAKE)
         # TODO change me to get token from partner?
-        parameters["Authorization"] = "Authorization"
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "tasksanswers"
         try:
-            r = requests.get(url, data=parameters)
+            r = requests.get(
+                url, data=parameters, headers={"Authorization": "Authorization"}
+            )
             if r.code == 200:
                 _LOGGER.debug(
                     f"request to stream base success for user {user} -  {r.json()}"
