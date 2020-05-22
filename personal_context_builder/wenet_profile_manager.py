@@ -192,7 +192,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             user_url = self._url + user
             self._users_locations[user] = None
             try:
-                r = requests.get(user_url, data=parameters)
+                r = requests.get(user_url, data=parameters, stream=False)
                 if r.code == 200:
                     _LOGGER.debug(
                         f"request to stream base success for user {user} -  {r.json()}"
@@ -201,8 +201,8 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                     _LOGGER.warn(
                         f"request to stream base failed for user {user} with code {r.code}"
                     )
-            except RequestException:
-                _LOGGER.warn(f"request to stream base failed for user {user}")
+            except RequestException as e:
+                _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
 
             if self._users_locations[user] is None:
                 # TODO change me remove this once data is ok
@@ -306,8 +306,8 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 _LOGGER.warn(
                     f"request to stream base failed for user {user} with code {r.code}"
                 )
-        except RequestException:
-            _LOGGER.warn(f"request to stream base failed for user {user}")
+        except RequestException as e:
+            _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
 
         # TODO change me when survey onlines
         return survey_streambase
