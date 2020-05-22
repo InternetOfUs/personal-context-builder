@@ -4,6 +4,11 @@
 from personal_context_builder import config
 from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels
 from regions_builder.models import LocationPoint, UserPlaceTimeOnly, UserLocationPoint
+from regions_builder.algorithms import (
+    estimate_stay_points,
+    estimate_stay_regions,
+    labelize_stay_region,
+)
 from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder import wenet_exceptions
 import datetime
@@ -201,7 +206,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 )
                 if r.status_code == 200:
                     _LOGGER.debug(
-                        f"request to stream base success for user {user} -  {r.json()}"
+                        f"request to stream base for locations success for user {user} -  {r.json()}"
                     )
                     self._users_locations[
                         user
@@ -279,11 +284,9 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         self._users_staypoints = dict()
         self._users_stayregions = dict()
         for user in self.get_users():
+            user_url = self._url + user
+            surveys = self._load_survey(user=user, url=user_url, last_days=last_days)
             try:
-                user_url = self._url + user
-                surveys = self._load_survey(
-                    user=user, url=user_url, last_days=last_days
-                )
                 locations = location_loader.get_locations(user)
                 stay_points = estimate_stay_points(locations)
                 stay_points = sorted(stay_points, key=lambda sp: sp._t_start)
@@ -295,8 +298,8 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 self._users_places[user] = self._load_user_places(
                     user, surveys, stay_regions
                 )
-            except:
-                pass
+            except ValueError as e:
+                _LOGGER.debug(f"Can't load labels for user {user}")
 
     @staticmethod
     def _load_survey(user, url, last_days):
@@ -309,7 +312,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         # TODO change me to get token from partner?
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
-        parameters["properties"] = "tasksanswers"
+        parameters["properties"] = "timediariesanswers"
         try:
             r = requests.get(
                 url,
@@ -318,7 +321,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             )
             if r.status_code == 200:
                 _LOGGER.debug(
-                    f"request to stream base success for user {user} -  {r.json()}"
+                    f"request to stream base for labels success for user {user} -  {r.json()}"
                 )
                 return r.json()
             else:
@@ -342,11 +345,11 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                     for answer in answers:
                         for a in answer:
                             if a["cnt"] in answers_valid:
-                                current_answer = a["ctn"]
+                                current_answer = a["cnt"]
                     if current_answer != "":
                         yield current_answer, obj["answertimestamp"]
 
-        answers_valid = set(["I am at home", "I am working", "I am studying"])
+        answers_valid = set(["Working (Paid)", "House"])
         user_places = []
         for label, timestamp in _get_answers(surveys, answers_valid):
             place = label
@@ -388,6 +391,7 @@ def update_profiles():
 
 def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL):
     profile_url = url + f"/profiles/{profile_id}"
+    pprint(routines)
     personal_behaviors = []
     #  r = requests.put(profile_url, data={"personalBehaviors": personal_behaviors})
     print(f"send to {profile_url}: \n")
