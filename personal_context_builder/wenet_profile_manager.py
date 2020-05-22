@@ -21,132 +21,6 @@ from requests.exceptions import RequestException
 
 _LOGGER = create_logger(__name__)
 
-# TODO change me remove this once data are ok
-GPS_STR_FAKE = """{
-  "userId": "1",
-  "experimentId": "Wenet",
-  "properties": [
-    {
-      "locationeventpertime": [
-        {
-          "experimentId": "Wenet",
-          "userId": "1",
-          "timestamp": 201908252359000,
-          "point": {
-            "latitude": 22.1492,
-            "longitude": -101.03609,
-            "altitude": 1845.29208
-          }
-        }
-      ]
-    }
-  ]
-}"""
-
-# TODO change me remove this once surveys are ok
-SURVEY_STR_FAKE = """{
-  "userId": "1",
-  "experimentId": "Wenet",
-  "properties": [
-    {
-      "timediariesanswers": [
-        {
-          "experimentId": "Wenet",
-          "userId": "1",
-          "instanceid": "f161dee2a122af926a9c4285275800942d128c34",
-          "answer": [
-            [
-              {
-                "cnt": "I am at home",
-                "qid": 2,
-                "aid": 3,
-                "cid": -1
-              }
-            ]
-          ],
-          "answerduration": 20142,
-          "answertimestamp": 20190909010129450,
-          "day": 20190910,
-          "instancetimestamp": 20190911201814344,
-          "notificationtimestamp": 20190911201816910,
-          "payload": [
-            {
-              "payload": {},
-              "qid": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "timediariesquestions": [
-        {
-          "experimentId": "Wenet",
-          "userId": "1",
-          "instanceid": "f161dee2a122af926a9c4285275800942d128c34",
-          "question": {
-            "q": {
-              "id": 1,
-              "c": [],
-              "t": "t",
-              "at": "s",
-              "p": [
-                {
-                  "l": "en_US",
-                  "t": "What are you doing?"
-                },
-                {
-                  "l": "it_IT",
-                  "t": "Cosa stai facendo?"
-                }
-              ]
-            },
-            "a": [
-              [
-                {
-                  "id": 1,
-                  "c": [],
-                  "c_id": -1,
-                  "p": [
-                    {
-                      "l": "en_US",
-                      "t": "I am working"
-                    },
-                    {
-                      "l": "it_IT",
-                      "t": "Sto lavorando"
-                    }
-                  ]
-                },
-                {
-                  "id": 2,
-                  "c": [],
-                  "c_id": -1,
-                  "p": [
-                    {
-                      "l": "en_US",
-                      "t": "I am studying"
-                    },
-                    {
-                      "l": "it_IT",
-                      "t": "Sto studiando"
-                    }
-                  ]
-                }
-              ]
-            ]
-          },
-          "day": 20190910,
-          "instancetimestamp": 20190911201814344,
-          "status": "success",
-          "title": "Question Title"
-        }
-      ]
-    }
-  ]
-}
-"""
-
 
 class Label(object):
     def __init__(self, name, semantic_class, latitude, longitude):
@@ -186,7 +60,6 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         date_from = date_to - datetime.timedelta(hours=24 * last_days)
         date_to_str = date_to.strftime("%Y%m%d")
         date_from_str = date_from.strftime("%Y%m%d")
-        gps_streambase = json.loads(GPS_STR_FAKE)
         parameters = dict()
         # TODO change me to get token from partner?
         parameters["from"] = date_from_str
@@ -194,7 +67,6 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         parameters["properties"] = "locationeventpertime"
         for user in users:
             user_url = self._url + user
-            self._users_locations[user] = None
             try:
                 r = requests.get(
                     user_url,
@@ -218,13 +90,6 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             except RequestException as e:
                 _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
                 _LOGGER.exception(e)
-
-            if self._users_locations[user] is None:
-                # TODO change me remove this once data is ok
-                _LOGGER.debug("USE FAKE DATA MIMICK STREAMBASE")
-                self._users_locations[user] = self._gps_streambase_to_user_locations(
-                    gps_streambase, user
-                )
         if len(self._users_locations) < 1:
             raise wenet_exceptions.WenetStreamBaseLocationsError()
         _LOGGER.info("StreamBase locations loaded")
@@ -286,6 +151,9 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         for user in self.get_users():
             user_url = self._url + user
             surveys = self._load_survey(user=user, url=user_url, last_days=last_days)
+            if surveys is None:
+                _LOGGER.debug(f"No surveys for user {user}")
+                continue
             try:
                 locations = location_loader.get_locations(user)
                 stay_points = estimate_stay_points(locations)
@@ -308,7 +176,6 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         date_from = date_to - datetime.timedelta(hours=24 * last_days)
         date_to_str = date_to.strftime("%Y%m%d")
         date_from_str = date_from.strftime("%Y%m%d")
-        survey_streambase = json.loads(SURVEY_STR_FAKE)
         # TODO change me to get token from partner?
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
@@ -330,9 +197,6 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
-
-        # TODO change me when survey onlines
-        return survey_streambase
 
     @staticmethod
     def _load_user_places(user, surveys, staypoints):
