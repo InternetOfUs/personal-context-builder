@@ -276,7 +276,6 @@ def update_profiles():
 
 def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL):
     profile_url = url + f"/profiles/{profile_id}"
-    pprint(routines)
     personal_behaviors = []
     labels = {1: Label("Working (Paid)", 1, 0, 0), 2: Label("House", 2, 0, 0)}
 
