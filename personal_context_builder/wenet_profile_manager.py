@@ -193,16 +193,22 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             try:
                 r = requests.get(
                     user_url,
-                    data=parameters,
-                    headers={"Authorization": "Authorization"},
+                    params=parameters,
+                    headers={
+                        "Authorization": "test:wenet",
+                        "Accept": "application/json",
+                    },
                 )
-                if r.code == 200:
+                if r.status_code == 200:
                     _LOGGER.debug(
                         f"request to stream base success for user {user} -  {r.json()}"
                     )
+                    self._users_locations[
+                        user
+                    ] = self._gps_streambase_to_user_locations(r.json(), user)
                 else:
                     _LOGGER.warn(
-                        f"request to stream base failed for user {user} with code {r.code}"
+                        f"request to stream base failed for user {user} with code {r.status_code}"
                     )
             except RequestException as e:
                 _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
@@ -222,8 +228,11 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     def _gps_streambase_to_user_locations(gps_streambase, user):
         def _get_only_gps_locations(gps_streambase):
             for _property in gps_streambase["properties"]:
-                for obj in _property["locationeventpertime"]:
-                    yield obj
+                try:
+                    for obj in _property["locationeventpertime"]:
+                        yield obj
+                except KeyError:
+                    continue
 
         locations = []
         locationeventpertime_list = _get_only_gps_locations(gps_streambase)
@@ -250,7 +259,10 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         return list(self._users_locations.keys())
 
     def get_locations(self, user_id, max_n=None):
-        return self._users_locations[user_id][:max_n]
+        try:
+            return self._users_locations[user_id][:max_n]
+        except KeyError:
+            return []
 
     def get_locations_all_users(self, max_n=None):
         return [
@@ -300,16 +312,18 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         parameters["properties"] = "tasksanswers"
         try:
             r = requests.get(
-                url, data=parameters, headers={"Authorization": "Authorization"}
+                url,
+                params=parameters,
+                headers={"Authorization": "test:wenet", "Accept": "application/json"},
             )
-            if r.code == 200:
+            if r.status_code == 200:
                 _LOGGER.debug(
                     f"request to stream base success for user {user} -  {r.json()}"
                 )
                 return r.json()
             else:
                 _LOGGER.warn(
-                    f"request to stream base failed for user {user} with code {r.code}"
+                    f"request to stream base failed for user {user} with code {r.status_code}"
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
@@ -355,7 +369,10 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         return self._location_loader.get_users()
 
     def get_labels(self, user_id, max_n=None):
-        return self._users_places[user_id][:max_n]
+        try:
+            return self._users_places[user_id][:max_n]
+        except KeyError:
+            return []
 
     def get_labels_all_users(self, max_n=None):
         return [
