@@ -89,6 +89,14 @@ We use docker-compose.
 
 For master branch, we use **docker-compose.yml**. For release, we use **docker-compose-production.yml** with pinned version of components.
 
+## For using only the updader
+
+`docker build . -t wpcb_updater`
+
+`docker run wpcb_updater python3 -m personal_context_builder.wenet_cli_entrypoint --update_pm --compute_semantic_routines`
+
+This will compute the routines and update the PM each 24 hours with the data for the last two weeks
+
 # License
 
 TBD (but developers-friendly)
