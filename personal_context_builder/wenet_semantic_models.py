@@ -14,9 +14,14 @@ from regions_builder.algorithms import (
     labelize_stay_region,
 )
 
+from personal_context_builder.wenet_exceptions import SemanticRoutinesComputationError
+from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_analysis import _loads_regions, BagOfWordsVectorizer
 from personal_context_builder import config
 from pprint import pprint
+
+
+_LOGGER = create_logger(__name__)
 
 
 class SemanticModel(object):
@@ -40,10 +45,24 @@ class SemanticModel(object):
 
     def _compute_indexed_weekday_locations(self, user_id):
         locations = self._locations_source.get_locations(user_id)
+        if len(locations) == 0:
+            raise SemanticRoutinesComputationError(f"no locations for user {user_id}")
         stay_points = estimate_stay_points(locations)
+        if len(stay_points) == 0:
+            raise SemanticRoutinesComputationError(f"no stay_points for user {user_id}")
         stay_regions = estimate_stay_regions(stay_points)
+        if len(stay_regions) == 0:
+            raise SemanticRoutinesComputationError(
+                f"no stay_regions for user {user_id}"
+            )
         user_places = self._labels_source.get_labels(user_id)
+        if len(user_places) == 0:
+            raise SemanticRoutinesComputationError(f"no user_places for user {user_id}")
         labelled_stay_regions = labelize_stay_region(stay_regions, user_places)
+        if len(labelled_stay_regions) == 0:
+            raise SemanticRoutinesComputationError(
+                f"no labelled_stay_regions for user {user_id}"
+            )
         stay_regions = list(set(stay_regions) - set(labelled_stay_regions))
         all_days_locations = BagOfWordsVectorizer.group_by_days(locations, user_id)
         indexed_weekday_locations = self.index_per_weekday(all_days_locations)
