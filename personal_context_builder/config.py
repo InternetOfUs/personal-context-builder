@@ -13,7 +13,7 @@ DEFAULT_LOG_FILE = "wenet.log"
 DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
 
 DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/profile_manager"
-DEFAULT_STREAMBASE_BATCH_URL = "http://streambase1.disi.unitn.it:8096/data/"
+DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/dev/streambase/data/"
 # How many hours before re-updating the profiles with the semantic routines
 DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
 
