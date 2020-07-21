@@ -284,7 +284,7 @@ def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL)
         current_pb.fill(routine, labels)
         personal_behaviors.append(current_pb.to_dict())
     try:
-        r = requests.put(profile_url, data={"personalBehaviors": personal_behaviors})
+        r = requests.patch(profile_url, data={"personalBehaviors": personal_behaviors})
         if r.status_code != 200:
             _LOGGER.warn(
                 f"unable to update profile for user {profile_id} - status code {r.status_code}"
