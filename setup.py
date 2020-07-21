@@ -15,7 +15,7 @@ with open("requirements.txt", "r") as f:
 
 setuptools.setup(
     name="personal_context_builder",
-    version="0.1.0",
+    version="0.1.1",
     author="Idiap - William Droz",
     author_email="william.droz@idiap.ch",
     description="Personal Context Builder for the Wenet project",
