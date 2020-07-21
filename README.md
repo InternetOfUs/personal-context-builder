@@ -104,7 +104,7 @@ This will compute the routines and update the PM each 24 hours with the data for
 
 # License
 
-TBD (but developers-friendly)
+ GPL-3.0-or-later
 
 # Dev section
 
