@@ -26,8 +26,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     def __init__(self, name="Streambase locations loader", last_days=14):
         super().__init__(name)
 
-        # TODO change me to get all users
-        users = [str(x) for x in range(1, 9)]
+        users = self.get_latest_users()
         self._url = config.DEFAULT_STREAMBASE_BATCH_URL
         self._users_locations = dict()
         date_to = datetime.datetime.now()
@@ -67,6 +66,16 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         if len(self._users_locations) < 1:
             raise wenet_exceptions.WenetStreamBaseLocationsError()
         _LOGGER.info("StreamBase locations loaded")
+
+    @staticmethod
+    def get_latest_users():
+        url = (
+            config.DEFAULT_PROFILE_MANAGER_URL
+            + "/userIdentifiers?offset=0&limit=1000000"
+        )
+        res = requests.get(url)
+        res_json = res.json()
+        return res_json["userIds"]
 
     @staticmethod
     def _gps_streambase_to_user_locations(gps_streambase, user):
