@@ -12,7 +12,7 @@ DEFAULT_LOG_FILE = "wenet.log"
 
 DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
 
-DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/profile_manager"
+DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/dev/profile_manager"
 DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/dev/streambase/data/"
 # How many hours before re-updating the profiles with the semantic routines
 DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
@@ -68,8 +68,7 @@ MAP_PIPELINE_TO_MAP_MODEL_TO_DB = defaultdict(dict)
 
 
 def _update_parameters_from_env():
-    """ update the config values from env
-    """
+    """update the config values from env"""
     for k, v in globals().items():
         if k.startswith("DEFAULT_"):
             if k in environ:
@@ -83,8 +82,7 @@ def _update_parameters_from_env():
 
 
 def _update_parameters_if_virtual_host():
-    """ Update parameter if virtual host is defined
-    """
+    """Update parameter if virtual host is defined"""
     if "VIRTUAL_HOST" in environ:
         globals()["DEFAULT_VIRTUAL_HOST"] = environ["VIRTUAL_HOST"]
         print("VIRTUAL_HOST set to {}".format(environ["VIRTUAL_HOST"]))
@@ -97,8 +95,7 @@ def _update_parameters_if_virtual_host():
 
 
 def _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB):
-    """ fill two dict to map Redis DB <--> model classes
-    """
+    """fill two dict to map Redis DB <--> model classes"""
     for k, v in globals().items():
         if k.startswith("DEFAULT_REDIS_DATABASE_MODEL_"):
             number = int(k.split("_")[-1])
