@@ -12,8 +12,12 @@ DEFAULT_LOG_FILE = "wenet.log"
 
 DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
 
-DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/dev/profile_manager"
-DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/dev/streambase/data/"
+# dev or prod
+DEFAULT_ENV = "dev"
+
+# will replace {} by DEFAULT_ENV at runtime
+DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
+DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data/"
 # How many hours before re-updating the profiles with the semantic routines
 DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
 
@@ -81,6 +85,12 @@ def _update_parameters_from_env():
                 globals()[k] = new_v
 
 
+def _update_env_for_partners_url():
+    urls = ["DEFAULT_PROFILE_MANAGER_URL", "DEFAULT_STREAMBASE_BATCH_URL"]
+    for url in urls:
+        globals()[url] = globals()[url].format(DEFAULT_ENV)
+
+
 def _update_parameters_if_virtual_host():
     """Update parameter if virtual host is defined"""
     if "VIRTUAL_HOST" in environ:
@@ -109,3 +119,4 @@ def _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB):
 _update_parameters_from_env()
 _update_parameters_if_virtual_host()
 _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB)
+_update_env_for_partners_url()
