@@ -23,7 +23,7 @@ _LOGGER = create_logger(__name__)
 
 
 class StreamBaseLocationsLoader(BaseSourceLocations):
-    def __init__(self, name="Streambase locations loader", last_days=14):
+    def __init__(self, name="Streambase locations loader", last_days=24):
         super().__init__(name)
 
         users = self.get_latest_users()
@@ -31,6 +31,18 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         self._users_locations = dict()
         date_to = datetime.datetime.now()
         date_from = date_to - datetime.timedelta(hours=24 * last_days)
+        self._users_locations = self.load_users_locations(users, date_from, date_to)
+
+    @staticmethod
+    def load_users_locations(
+        users,
+        date_from,
+        date_to=None,
+        url=config.DEFAULT_STREAMBASE_BATCH_URL,
+    ):
+        if date_to is None:
+            date_to = datetime.datetime.now()
+        users_locations = dict()
         date_to_str = date_to.strftime("%Y%m%d")
         date_from_str = date_from.strftime("%Y%m%d")
         parameters = dict()
@@ -39,7 +51,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
         for user in users:
-            user_url = self._url + user
+            user_url = url + user
             try:
                 r = requests.get(
                     user_url,
@@ -53,9 +65,11 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                     _LOGGER.debug(
                         f"request to stream base for locations success for user {user} -  {r.json()}"
                     )
-                    self._users_locations[
+                    users_locations[
                         user
-                    ] = self._gps_streambase_to_user_locations(r.json(), user)
+                    ] = StreamBaseLocationsLoader._gps_streambase_to_user_locations(
+                        r.json(), user
+                    )
                 else:
                     _LOGGER.warn(
                         f"request to stream base failed for user {user} with code {r.status_code}"
@@ -63,9 +77,10 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             except RequestException as e:
                 _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
                 _LOGGER.exception(e)
-        if len(self._users_locations) < 1:
+        if len(users_locations) < 1:
             raise wenet_exceptions.WenetStreamBaseLocationsError()
         _LOGGER.info("StreamBase locations loaded")
+        return users_locations
 
     @staticmethod
     def get_latest_users():
