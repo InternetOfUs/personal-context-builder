@@ -36,6 +36,7 @@ from personal_context_builder.wenet_profile_manager import (
     StreambaseLabelsLoader,
 )
 from personal_context_builder import wenet_exceptions
+from personal_context_builder.wenet_update_realtime import WenetRealTimeUpdateHandler
 
 from scipy import spatial
 
@@ -178,6 +179,13 @@ def run_app():
     wenet_app.run()
 
 
+def run_update_realtime():
+    while True:
+        updater = WenetRealTimeUpdateHandler()
+        updater.run_once()
+        time.sleep(5)
+
+
 if __name__ == "__main__":  # pragma: no cover
     parser = argparse.ArgumentParser(description="Wenet Command line interface")
     parser.add_argument(
@@ -202,6 +210,11 @@ if __name__ == "__main__":  # pragma: no cover
         "--show_all", help="show all profiles from the db", action="store_true"
     )
     parser.add_argument("--app_run", help="run the application", action="store_true")
+    parser.add_argument(
+        "--update_realtime",
+        help="update the realtime service continously",
+        action="store_true",
+    )
     parser.add_argument(
         "--show_models", help="show the list of models", action="store_true"
     )
@@ -251,3 +264,5 @@ if __name__ == "__main__":  # pragma: no cover
         compute_semantic_routines(args.mock, args.update_pm)
     if args.app_run:
         run_app()
+    if args.update_realtime:
+        run_update_realtime()
