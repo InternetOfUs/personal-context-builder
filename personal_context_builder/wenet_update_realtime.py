@@ -2,8 +2,10 @@
 
 """
 import concurrent.futures
+from datetime import datetime, timedelta
 from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
 from personal_context_builder import config
+import requests
 
 
 class WenetRealTimeUpdateHandler(object):
@@ -25,13 +27,34 @@ class WenetRealTimeUpdateHandler(object):
             "longitude": longitude,
             "accuracy": accuracy,
         }
+        requests.post(
+            f"http://{config.DEFAULT_REALTIME_HOST}:{config.DEFAULT_REALTIME_PORT}/users_locations/",
+            data=my_dict,
+        )
 
     def get_user_location(self, user_id):
-        date_to = datetime.datetime.now()
-        date_from = date_to - datetime.timedelta(minutes=5)
-        res = StreamBaseLocationsLoader.load_user_locations(user=user_id)
+        date_to = datetime.now()
+        date_from = date_to - timedelta(minutes=5)
+        res = StreamBaseLocationsLoader.load_user_locations(
+            user=user_id, date_from=date_from, date_to=date_to
+        )
         if res is not None:
             return res[-1]
 
     def get_all_users(self):
         return StreamBaseLocationsLoader.get_latest_users()
+
+    def run_once(self):
+        # TODO use async
+        # https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor-example
+        users = self.get_all_users()
+        for user in users:
+            location = self.get_user_location(user)
+            if location is not None:
+                timestamp = datetime.timestamp(location._pts_t)
+                self.update_user_location(
+                    user,
+                    timestamp=timestamp,
+                    latitude=location._lat,
+                    longitude=location._lng,
+                )
