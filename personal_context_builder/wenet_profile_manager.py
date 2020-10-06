@@ -40,9 +40,27 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         date_to=None,
         url=config.DEFAULT_STREAMBASE_BATCH_URL,
     ):
+        users_locations = dict()
+        for user in users:
+            locations = StreamBaseLocationsLoader.load_user_locations(
+                user, date_from, date_to, url
+            )
+            if locations is not None:
+                users_locations[user] = locations
+        if len(users_locations) < 1:
+            raise wenet_exceptions.WenetStreamBaseLocationsError()
+        _LOGGER.info("StreamBase locations loaded")
+        return users_locations
+
+    @staticmethod
+    def load_user_locations(
+        user,
+        date_from,
+        date_to=None,
+        url=config.DEFAULT_STREAMBASE_BATCH_URL,
+    ):
         if date_to is None:
             date_to = datetime.datetime.now()
-        users_locations = dict()
         date_to_str = date_to.strftime("%Y%m%d")
         date_from_str = date_from.strftime("%Y%m%d")
         parameters = dict()
@@ -50,37 +68,30 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
-        for user in users:
-            user_url = url + user
-            try:
-                r = requests.get(
-                    user_url,
-                    params=parameters,
-                    headers={
-                        "Authorization": "test:wenet",
-                        "Accept": "application/json",
-                    },
+        user_url = url + user
+        try:
+            r = requests.get(
+                user_url,
+                params=parameters,
+                headers={
+                    "Authorization": "test:wenet",
+                    "Accept": "application/json",
+                },
+            )
+            if r.status_code == 200:
+                _LOGGER.debug(
+                    f"request to stream base for locations success for user {user} -  {r.json()}"
                 )
-                if r.status_code == 200:
-                    _LOGGER.debug(
-                        f"request to stream base for locations success for user {user} -  {r.json()}"
-                    )
-                    users_locations[
-                        user
-                    ] = StreamBaseLocationsLoader._gps_streambase_to_user_locations(
-                        r.json(), user
-                    )
-                else:
-                    _LOGGER.warn(
-                        f"request to stream base failed for user {user} with code {r.status_code}"
-                    )
-            except RequestException as e:
-                _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
-                _LOGGER.exception(e)
-        if len(users_locations) < 1:
-            raise wenet_exceptions.WenetStreamBaseLocationsError()
-        _LOGGER.info("StreamBase locations loaded")
-        return users_locations
+                return StreamBaseLocationsLoader._gps_streambase_to_user_locations(
+                    r.json(), user
+                )
+            else:
+                _LOGGER.warn(
+                    f"request to stream base failed for user {user} with code {r.status_code}"
+                )
+        except RequestException as e:
+            _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
+            _LOGGER.exception(e)
 
     @staticmethod
     def get_latest_users():
