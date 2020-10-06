@@ -52,6 +52,9 @@ DEFAULT_REALTIME_REDIS_PORT = 6379
 
 DEFAULT_WENET_API_HOST = "wenet-api"
 
+DEFAULT_REALTIME_HOST = "wenet-realtime"
+DEFAULT_REALTIME_PORT = 8000
+
 # up to 16 (0-15) locations in default Redis settings
 # Format {ModelClassName}:{PipelineClassName}
 DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"
