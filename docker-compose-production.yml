@@ -9,15 +9,13 @@ services:
      - wenet-redis-data:/data
      - /etc/timezone:/etc/timezone:ro
      - /etc/localtime:/etc/localtime:ro
-  wenet-realtime-redis:
-    restart: always
-    container_name: wenet-realtime-redis
-    image: "redis:5.0-alpine"
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-     - wenet-realtime-redis-data:/data
-     - /etc/timezone:/etc/timezone:ro
-     - /etc/localtime:/etc/localtime:ro
+  wenet-realtime-api:
+    container_name: wenet-realtime-api
+    image: 'docker.idiap.ch/wenet/wenet-realtime:latest'
+  wenet-realtime-client:
+    container_name: wenet-realtime-client
+    image: 'docker.idiap.ch/wenet/personal_context_builder:v0.1.4'
+    entrypoint: ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
   wenet-api:
     restart: always
     build: .
@@ -30,7 +28,7 @@ services:
      - wenet-data:/data
      - /etc/timezone:/etc/timezone:ro
      - /etc/localtime:/etc/localtime:ro
-    image:  'docker.idiap.ch/wenet/personal_context_builder:v0.1.3'
+    image:  'docker.idiap.ch/wenet/personal_context_builder:v0.1.4'
 networks:
   default:
     external:
