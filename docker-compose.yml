@@ -6,12 +6,13 @@ services:
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
      - wenet-redis-data:/data
-  wenet-realtime-redis:
-    container_name: wenet-realtime-redis
-    image: "redis:alpine"
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-     - wenet-realtime-redis-data:/data
+  wenet-realtime-api:
+    container_name: wenet-realtime-api
+    image: 'docker.idiap.ch/wenet/wenet-realtime:latest'
+  wenet-realtime-client:
+    container_name: wenet-realtime-client
+    image: 'docker.idiap.ch/wenet/personal_context_builder:latest'
+    entrypoint: ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
   wenet-api:
     build: .
     container_name: wenet-api
