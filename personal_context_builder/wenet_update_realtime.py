@@ -38,7 +38,7 @@ class WenetRealTimeUpdateHandler(object):
         res = StreamBaseLocationsLoader.load_user_locations(
             user=user_id, date_from=date_from, date_to=date_to
         )
-        if res is not None:
+        if res is not None and len(res) > 0:
             return res[-1]
 
     def get_all_users(self):
