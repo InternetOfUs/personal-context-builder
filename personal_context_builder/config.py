@@ -23,7 +23,8 @@ DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
 
 DEFAULT_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 
-DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
+#  DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
+DEFAULT_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 DEFAULT_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
 DEFAULT_LOGGER_LEVEL = 20  # info
 
