@@ -5,7 +5,7 @@ from personal_context_builder import config
 
 class APIModelsTestCase(unittest.TestCase):
     def setUp(self):
-        self._app = WenetApp("test wenet")._app
+        self._app = WenetApp("test wenet API models")._app
 
     def test_simple_lda_exist(self):
         _, response = self._app.test_client.get(

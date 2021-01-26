@@ -9,7 +9,7 @@ update(is_mock=True)
 
 class APICompareRoutinesTestCase(unittest.TestCase):
     def setUp(self):
-        self._app = WenetApp("test wenet", is_mock=True)._app
+        self._app = WenetApp("test wenet compare routine", is_mock=True)._app
 
     def test_order(self):
         _, response = self._app.test_client.get(
