@@ -99,9 +99,13 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             config.DEFAULT_PROFILE_MANAGER_URL
             + "/userIdentifiers?offset=0&limit=1000000"
         )
-        res = requests.get(url)
-        res_json = res.json()
-        return res_json["userIds"]
+        try:
+            res = requests.get(url)
+            res_json = res.json()
+            return res_json["userIds"]
+        except:
+            _LOGGER.error(f"issue when requesting profile manager about IDs, code {res.status_code}, content {res.json()}")
+            return ["0"]
 
     @staticmethod
     def _gps_streambase_to_user_locations(gps_streambase, user):
