@@ -102,6 +102,10 @@ For master branch, we use **docker-compose.yml**. For release, we use **docker-c
 
 This will compute the routines and update the PM each 24 hours with the data for the last two weeks
 
+## For using only the real-time updader
+
+`DEFAULT_REALTIME_HOST=localhost COMP_AUTH_KEY=YOUR_API_KEY python3 -m personal_context_builder.wenet_cli_entrypoint --update_realtime`
+
 # License
 
  Apache-2.0
