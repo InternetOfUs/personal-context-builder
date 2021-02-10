@@ -69,6 +69,8 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
         user_url = url + user
+        if config.DEFAULT_WENET_API_KEY == "":
+            _LOGGER.warn(f"DEFAULT_WENET_API_KEY is empty")
         try:
             r = requests.get(
                 user_url,
@@ -76,6 +78,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 headers={
                     "Authorization": "test:wenet",
                     "Accept": "application/json",
+                    "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY,
                 },
             )
             if r.status_code == 200:
@@ -89,6 +92,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 _LOGGER.warn(
                     f"request to stream base failed for user {user} with code {r.status_code}"
                 )
+                print(r.content)
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
             _LOGGER.exception(e)
@@ -202,7 +206,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             r = requests.get(
                 url,
                 params=parameters,
-                headers={"Authorization": "test:wenet", "Accept": "application/json"},
+                headers={"Authorization": "test:wenet", "Accept": "application/json", "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY},
             )
             if r.status_code == 200:
                 _LOGGER.debug(
@@ -328,7 +332,7 @@ def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL)
         current_pb.fill(routine, labels)
         personal_behaviors.append(current_pb.to_dict())
     try:
-        r = requests.patch(profile_url, data={"personalBehaviors": personal_behaviors})
+        r = requests.patch(profile_url, data={"personalBehaviors": personal_behaviors}, headers={"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY})
         if r.status_code != 200:
             _LOGGER.warn(
                 f"unable to update profile for user {profile_id} - status code {r.status_code}"
