@@ -23,6 +23,9 @@ DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
 
 DEFAULT_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 
+# Should be provided at runtime using COMP_AUTH_KEY
+DEFAULT_WENET_API_KEY = ""
+
 #  DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
 DEFAULT_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 DEFAULT_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
@@ -96,6 +99,11 @@ def _update_env_for_partners_url():
     for url in urls:
         globals()[url] = globals()[url].format(DEFAULT_ENV)
 
+def _update_api_key():
+    """update the api key using env"""
+    if "COMP_AUTH_KEY" in environ:
+        globals()["DEFAULT_WENET_API_KEY"] = environ["COMP_AUTH_KEY"]
+        print("WENET API key setted")
 
 def _update_parameters_if_virtual_host():
     """Update parameter if virtual host is defined"""
@@ -125,4 +133,5 @@ def _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB):
 _update_parameters_from_env()
 _update_parameters_if_virtual_host()
 _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB)
+_update_api_key()
 _update_env_for_partners_url()

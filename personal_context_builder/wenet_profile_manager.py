@@ -100,7 +100,12 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             + "/userIdentifiers?offset=0&limit=1000000"
         )
         try:
-            res = requests.get(url)
+            if config.DEFAULT_WENET_API_KEY == "":
+                _LOGGER.warn(f"DEFAULT_WENET_API_KEY is empty")
+                res = requests.get(url)
+            else:
+                headers = {"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY}
+                res = requests.get(url, headers=headers)
             res_json = res.json()
             return res_json["userIds"]
         except:
