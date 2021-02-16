@@ -90,7 +90,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 )
             else:
                 _LOGGER.warn(
-                    f"request to stream base failed for user {user} with code {r.status_code}"
+                    f"request to stream base failed for user {user} with code {r.status_code} content : {r.content}"
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
