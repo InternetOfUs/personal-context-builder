@@ -118,6 +118,9 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     @staticmethod
     def _gps_streambase_to_user_locations(gps_streambase, user):
         def _get_only_gps_locations(gps_streambase):
+            if "properties" not in gps_streambase:
+                _LOGGER.warn(f"no properties for user {user} from streambase")
+                return None
             for _property in gps_streambase["properties"]:
                 try:
                     for obj in _property["locationeventpertime"]:
