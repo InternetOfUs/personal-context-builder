@@ -22,14 +22,14 @@ class WenetRealTimeUpdateHandler(object):
     ):
         my_dict = {
             "id": user_id,
-            "timestamp": timestamp,
+            "timestamp": int(timestamp),
             "latitude": latitude,
             "longitude": longitude,
-            "accuracy": accuracy,
+            "accuracy": int(accuracy),
         }
         requests.post(
             f"http://{config.DEFAULT_REALTIME_HOST}:{config.DEFAULT_REALTIME_PORT}/users_locations/",
-            data=my_dict,
+            json=my_dict,
         )
 
     def get_user_location(self, user_id):
