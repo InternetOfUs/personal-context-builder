@@ -61,14 +61,15 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     ):
         if date_to is None:
             date_to = datetime.datetime.now()
-        date_to_str = date_to.strftime("%Y%m%d")
-        date_from_str = date_from.strftime("%Y%m%d")
+        date_to_str = int(date_to.timestamp())
+        date_from_str = int(date_from.timestamp())
         parameters = dict()
         # TODO change me to get token from partner?
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
-        user_url = url + user
+        parameters["userId"] = user
+        user_url = url
         if config.DEFAULT_WENET_API_KEY == "":
             _LOGGER.warn(f"DEFAULT_WENET_API_KEY is empty")
         try:
@@ -90,7 +91,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 )
             else:
                 _LOGGER.warn(
-                    f"request to stream base failed for user {user} with code {r.status_code} content : {r.content}"
+                    f"request to stream base failed for user {user} with code {r.status_code} content : {r.content}, URL : {r.url}"
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
