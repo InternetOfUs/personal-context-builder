@@ -17,7 +17,7 @@ DEFAULT_ENV = "dev"
 
 # will replace {} by DEFAULT_ENV at runtime
 DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
-DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data/"
+DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
 #  DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
 # How many hours before re-updating the profiles with the semantic routines
 DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
