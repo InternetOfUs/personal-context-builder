@@ -61,8 +61,8 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     ):
         if date_to is None:
             date_to = datetime.datetime.now()
-        date_to_str = int(date_to.timestamp())
-        date_from_str = int(date_from.timestamp())
+        date_to_str = date_to.strftime("%Y%m%d")
+        date_from_str = date_from.strftime("%Y%m%d")
         parameters = dict()
         # TODO change me to get token from partner?
         parameters["from"] = date_from_str
@@ -120,7 +120,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     def _gps_streambase_to_user_locations(gps_streambase, user):
         def _get_only_gps_locations(gps_streambase):
             if "properties" not in gps_streambase:
-                _LOGGER.warn(f"no properties for user {user} from streambase")
+                _LOGGER.warn(f"no properties for user {user} from streambase {gps_streambase}")
                 return None
             for _property in gps_streambase["properties"]:
                 try:
