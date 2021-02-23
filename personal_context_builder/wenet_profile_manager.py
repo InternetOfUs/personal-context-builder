@@ -65,7 +65,8 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         date_from_str = date_from.strftime("%Y%m%d")
         parameters = dict()
         # TODO change me to get token from partner?
-        parameters["from"] = date_from_str
+        #  parameters["from"] = date_from_str
+        parameters["from"] = "20210201"
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
         parameters["userId"] = user
@@ -91,7 +92,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 )
             else:
                 _LOGGER.warn(
-                    f"request to stream base failed for user {user} with code {r.status_code} content : {r.content}, URL : {r.url}"
+                    f"request to stream base failed for user {user} with code {r.status_code} URL : {r.url}"
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
@@ -119,22 +120,22 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     @staticmethod
     def _gps_streambase_to_user_locations(gps_streambase, user):
         def _get_only_gps_locations(gps_streambase):
-            if "properties" not in gps_streambase:
-                _LOGGER.warn(f"no properties for user {user} from streambase {gps_streambase}")
+            gps_streambase = gps_streambase[0]
+            if "data" not in gps_streambase:
+                _LOGGER.warn(f"no data for user {user} from streambase {gps_streambase}")
                 return None
-            for _property in gps_streambase["properties"]:
-                try:
-                    for obj in _property["locationeventpertime"]:
-                        yield obj
-                except KeyError:
-                    continue
+            data = gps_streambase["data"]
+            locationeventpertime = data["locationeventpertime"]
+            for _property in locationeventpertime:
+                _property["payload"]["ts"] = _property["ts"]
+                yield _property["payload"]
 
         locations = []
         locationeventpertime_list = _get_only_gps_locations(gps_streambase)
         for locationeventpertime in locationeventpertime_list:
             lat = locationeventpertime["point"]["latitude"]
             lng = locationeventpertime["point"]["longitude"]
-            timestamp = locationeventpertime["timestamp"]
+            timestamp = locationeventpertime["ts"]
 
             try:
                 pts_t = datetime.datetime.fromtimestamp(timestamp)
