@@ -65,8 +65,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         date_from_str = date_from.strftime("%Y%m%d")
         parameters = dict()
         # TODO change me to get token from partner?
-        #  parameters["from"] = date_from_str
-        parameters["from"] = "20210201"
+        parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
         parameters["userId"] = user
