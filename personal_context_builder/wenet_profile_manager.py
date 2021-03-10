@@ -134,8 +134,8 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         for locationeventpertime in locationeventpertime_list:
             lat = locationeventpertime["point"]["latitude"]
             lng = locationeventpertime["point"]["longitude"]
-            timestamp = locationeventpertime["ts"]
-
+            #  // 1000 because their ts is in milisec
+            timestamp = locationeventpertime["ts"] // 1000
             try:
                 pts_t = datetime.datetime.fromtimestamp(timestamp)
             except Exception as e:
