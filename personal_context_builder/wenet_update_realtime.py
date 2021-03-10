@@ -35,6 +35,10 @@ class WenetRealTimeUpdateHandler(object):
     def get_user_location(self, user_id):
         date_to = datetime.now()
         date_from = date_to - timedelta(minutes=5)
+
+        #  TODO solve issue with time and localtime differences
+        date_to = date_to + timedelta(minutes=120)
+
         res = StreamBaseLocationsLoader.load_user_locations(
             user=user_id, date_from=date_from, date_to=date_to
         )
