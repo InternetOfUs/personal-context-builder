@@ -81,44 +81,93 @@ paths:
                     - 0
                     - 0.5
                     - 0
-  '/closest/{lat}/{lng}/{N}/':
-    get:
-      summary: get closest N users from a given point
-      tags:
+  /users_locations/:
+    post:
+      summary: Create User
+      tags: 
         - Real-time operations
-      parameters:
-        - name: lat
-          in: path
-          description: latitude of the given point
-          required: true
-          schema:
-            type: number
-            format: number
-        - name: lng
-          in: path
-          description: longitude of the given point
-          required: true
-          schema:
-            type: number
-            format: number
-        - name: 'N'
-          in: path
-          description: number of closest users to receive
-          required: true
-          schema:
-            type: number
-            format: number
+      operationId: create_user_users_locations__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLocation'
+        required: true
       responses:
         '200':
-          description: closest N users
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersDistances'
-              example:
-                mock_user_1: 330
-                mock_user_2: 340
-                mock_user_3: 350
+                $ref: '#/components/schemas/HTTPValidationError'
+  /locations/:
+    post:
+      summary: Get Locations
+      tags: 
+        - Real-time operations
+      operationId: get_locations_locations__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersList'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /closest/:
+    get:
+      summary: Closest Users
+      tags: 
+        - Real-time operations
+      operationId: closest_users_closest__get
+      parameters:
+        - required: true
+          schema:
+            title: Latitude
+            type: number
+          name: latitude
+          in: query
+        - required: true
+          schema:
+            title: Longitude
+            type: number
+          name: longitude
+          in: query
+        - required: false
+          schema:
+            title: Nb User Max
+            type: integer
+            default: 10
+          name: nb_user_max
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+                
   '/routines/{user_id}/':
     get:
       summary: get specific user routine
@@ -372,9 +421,67 @@ components:
       additionalProperties:
         type: string
         description: model docstring
-    UsersDistances:
-      description: users with distances from the point given by the caller
+    HTTPValidationError:
+      title: HTTPValidationError
       type: object
-      additionalProperties:
-        type: number
-        description: distances from the given point
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    UserLocation:
+      title: UserLocation
+      required:
+        - id
+        - latitude
+        - longitude
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        timestamp:
+          title: Timestamp
+          type: integer
+          default: 1616485840
+        latitude:
+          title: Latitude
+          type: number
+        longitude:
+          title: Longitude
+          type: number
+        accuracy:
+          title: Accuracy
+          type: integer
+          default: 0
+    UsersList:
+      title: UsersList
+      required:
+        - userids
+      type: object
+      properties:
+        userids:
+          title: Userids
+          type: array
+          items:
+            type: string
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
