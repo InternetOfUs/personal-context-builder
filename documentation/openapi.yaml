@@ -83,9 +83,9 @@ paths:
                     - 0
   /users_locations/:
     post:
-      summary: Create User
-      tags: 
+      tags:
         - Real-time operations
+      summary: Create User
       operationId: create_user_users_locations__post
       requestBody:
         content:
@@ -107,9 +107,9 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
   /locations/:
     post:
-      summary: Get Locations
-      tags: 
+      tags:
         - Real-time operations
+      summary: Get Locations
       operationId: get_locations_locations__post
       requestBody:
         content:
@@ -122,7 +122,8 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                $ref: '#/components/schemas/LocationsOut'
         '422':
           description: Validation Error
           content:
@@ -131,9 +132,9 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
   /closest/:
     get:
-      summary: Closest Users
-      tags: 
+      tags:
         - Real-time operations
+      summary: Closest Users
       operationId: closest_users_closest__get
       parameters:
         - required: true
@@ -160,14 +161,17 @@ paths:
           description: Successful Response
           content:
             application/json:
-              schema: {}
+              schema:
+                title: Response Closest Users Closest  Get
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClosestRecord'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-                
   '/routines/{user_id}/':
     get:
       summary: get specific user routine
@@ -421,6 +425,19 @@ components:
       additionalProperties:
         type: string
         description: model docstring
+    ClosestRecord:
+      title: ClosestRecord
+      required:
+        - userId
+        - distance
+      type: object
+      properties:
+        userId:
+          title: Userid
+          type: string
+        distance:
+          title: Distance
+          type: number
     HTTPValidationError:
       title: HTTPValidationError
       type: object
@@ -430,6 +447,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+    LocationsOut:
+      title: LocationsOut
+      type: object
+      properties:
+        locations:
+          title: Locations
+          type: array
+          items:
+            $ref: '#/components/schemas/UserLocationOut'
     UserLocation:
       title: UserLocation
       required:
@@ -444,7 +470,7 @@ components:
         timestamp:
           title: Timestamp
           type: integer
-          default: 1616485840
+          default: 1616506094
         latitude:
           title: Latitude
           type: number
@@ -455,6 +481,21 @@ components:
           title: Accuracy
           type: integer
           default: 0
+    UserLocationOut:
+      title: UserLocationOut
+      required:
+        - userId
+      type: object
+      properties:
+        userId:
+          title: Userid
+          type: string
+        longitude:
+          title: Longitude
+          type: number
+        latitude:
+          title: Latitude
+          type: number
     UsersList:
       title: UsersList
       required:
