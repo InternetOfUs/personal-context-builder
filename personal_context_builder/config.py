@@ -18,6 +18,7 @@ DEFAULT_ENV = "dev"
 # will replace {} by DEFAULT_ENV at runtime
 DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
 DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
+DEFAULT_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
 #  DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
 # How many hours before re-updating the profiles with the semantic routines
 DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
@@ -56,9 +57,6 @@ DEFAULT_REALTIME_REDIS_HOST = "wenet-realtime-redis"
 DEFAULT_REALTIME_REDIS_PORT = 6379
 
 DEFAULT_WENET_API_HOST = "wenet-api"
-
-DEFAULT_REALTIME_HOST = "wenet-realtime"
-DEFAULT_REALTIME_PORT = 8000
 
 # up to 16 (0-15) locations in default Redis settings
 # Format {ModelClassName}:{PipelineClassName}

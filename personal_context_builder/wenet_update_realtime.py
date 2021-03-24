@@ -28,7 +28,7 @@ class WenetRealTimeUpdateHandler(object):
             "accuracy": int(accuracy),
         }
         requests.post(
-            f"http://{config.DEFAULT_REALTIME_HOST}:{config.DEFAULT_REALTIME_PORT}/users_locations/",
+            f"{config.DEFAULT_USER_LOCATION_URL}",
             json=my_dict,
         )
 
