@@ -21,6 +21,10 @@ DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
 DEFAULT_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
 #  DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
 # How many hours before re-updating the profiles with the semantic routines
+
+DEFAULT_GENERATOR_START_URL = "http://streambase1.disi.unitn.it:8190/generator/start"
+DEFAULT_GENERATOR_STOP_URL = "http://streambase1.disi.unitn.it:8190/generator/stop"
+
 DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
 
 DEFAULT_GOOGLE_API_KEY_FILE = "google_api_key.txt"
