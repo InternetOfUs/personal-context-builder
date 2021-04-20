@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wenet-updater-deployment
+  labels:
+    app: wenet
+spec:
+  selector:
+    matchLabels:
+      app: wenet
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wenet
+    spec:
+      containers:
+      - env:
+          # Should use secret, but don't have time to dive into it
+        - name: DEFAULT_WENET_API_KEY
+          value: {INSERT_SECRET_HERE}
+        - name: DEFAULT_USER_LOCATION_URL
+          value: http://wenet/users_locations/
+        name: wenet-personal-context-builder
+        image: docker.idiap.ch/wenet/personal_context_builder:latest
+        command: ["conda"]
+        args: ["run", "-n", "wenet", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
+        resources:
+          limits:
+            memory: 10Gi
+            #cpu: "2"
+          requests:
+            memory: 10Gi
+            #cpu: "2"
+      imagePullSecrets:
+      - name: wenet-realtime-secret
