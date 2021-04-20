@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM continuumio/miniconda:4.7.12
 
 ENV TZ=Europe/Zurich
 
@@ -13,8 +13,8 @@ RUN apt-get -y update && apt-get install -y \
 COPY *.deb .
 RUN dpkg -i *.deb && apt-get install -f
 
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+COPY environment.yml environment.yml
+RUN conda env create -f environment.yml
 COPY . .
 EXPOSE 8000
-CMD ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--app_run"]
+CMD ["conda", "run", "-n", "wenet", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--app_run"]
