@@ -182,9 +182,12 @@ def run_app():
 
 def run_update_realtime():
     while True:
-        updater = WenetRealTimeUpdateHandler()
-        updater.run_once()
-        time.sleep(5)
+        try:
+            updater = WenetRealTimeUpdateHandler()
+            updater.run_once()
+            time.sleep(5)
+        except:
+            pass  # TODO catch all exceptions
 
 
 def generator_cmd(action):
