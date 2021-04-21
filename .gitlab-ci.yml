@@ -27,6 +27,9 @@
   script:
      - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
      - docker push docker.idiap.ch/wenet/personal_context_builder:latest
+     - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+     - docker tag docker.idiap.ch/wenet/personal_context_builder:latest internetofus/personal-context-builder:latest
+     - docker push internetofus/personal-context-builder:latest
  push_version:
   stage: push_version
   only:
@@ -35,3 +38,6 @@
      - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
      - docker tag  docker.idiap.ch/wenet/personal_context_builder:latest docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG
      - docker push docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG
+     - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+     - docker tag docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG internetofus/personal-context-builder:$CI_COMMIT_TAG
+     - docker push internetofus/personal-context-builder:$CI_COMMIT_TAG
