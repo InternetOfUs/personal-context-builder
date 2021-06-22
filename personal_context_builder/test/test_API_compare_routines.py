@@ -2,6 +2,7 @@ import unittest
 from personal_context_builder.sanic_app import WenetApp
 from personal_context_builder.wenet_cli_entrypoint import update, train
 from personal_context_builder import config
+from uuid import uuid4
 
 train(is_mock=True)
 update(is_mock=True)
@@ -9,7 +10,7 @@ update(is_mock=True)
 
 class APICompareRoutinesTestCase(unittest.TestCase):
     def setUp(self):
-        self._app = WenetApp("test wenet", is_mock=True)._app
+        self._app = WenetApp(uuid4(), is_mock=True)._app
 
     def test_order(self):
         _, response = self._app.test_client.get(
