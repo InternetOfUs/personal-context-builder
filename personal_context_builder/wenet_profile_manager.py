@@ -18,6 +18,7 @@ from collections import defaultdict
 from pprint import pprint
 import json
 from requests.exceptions import RequestException
+from json import JSONDecodeError
 
 _LOGGER = create_logger(__name__)
 
@@ -208,7 +209,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
     def _load_survey(user, url, last_days):
         parameters = dict()
         date_to = datetime.datetime.now()
-        date_from = date_to - datetime.timedelta(hours=24 * last_days)
+        date_from = date_to - datetime.timedelta(hours=24 * last_days * 100)
         date_to_str = date_to.strftime("%Y%m%d")
         date_from_str = date_from.strftime("%Y%m%d")
         # TODO change me to get token from partner?
@@ -227,10 +228,15 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 },
             )
             if r.status_code == 200:
-                _LOGGER.debug(
-                    f"request to stream base for labels success for user {user} -  {r.json()}"
-                )
-                return r.json()
+                try:
+                    _LOGGER.debug(
+                        f"request to stream base for labels success for user {user} -  {r.json()}"
+                    )
+                    return r.json()
+                except JSONDecodeError:
+                    _LOGGER.warn(
+                        f"labels json from stream base is not json {r.content}"
+                    )
             else:
                 _LOGGER.warn(
                     f"request to stream base labels failed for user {user} with code {r.status_code} url {r.url}"
