@@ -84,12 +84,17 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 },
             )
             if r.status_code == 200:
-                _LOGGER.debug(
-                    f"request to stream base for locations success for user {user} -  {r.json()}"
-                )
-                return StreamBaseLocationsLoader._gps_streambase_to_user_locations(
-                    r.json(), user
-                )
+                try:
+                    _LOGGER.debug(
+                        f"request to stream base for locations success for user {user} -  {r.json()}"
+                    )
+                    return StreamBaseLocationsLoader._gps_streambase_to_user_locations(
+                        r.json(), user
+                    )
+                except JSONDecodeError:
+                    _LOGGER.warn(
+                        f"locations json from stream base is not json {r.content}"
+                    )
             else:
                 _LOGGER.warn(
                     f"request to stream base failed for user {user} with code {r.status_code} URL : {r.url}"
