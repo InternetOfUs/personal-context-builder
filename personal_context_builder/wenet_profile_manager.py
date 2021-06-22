@@ -233,7 +233,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 return r.json()
             else:
                 _LOGGER.warn(
-                    f"request to stream base labels failed for user {user} with code {r.status_code}"
+                    f"request to stream base labels failed for user {user} with code {r.status_code} url {r.url}"
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base labels failed for user {user} - {e}")
