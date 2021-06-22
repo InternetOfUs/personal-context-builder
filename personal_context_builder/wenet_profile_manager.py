@@ -68,7 +68,10 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
-        user_url = url + user
+        parameters["userId"] = user
+        user_url = url
+        if config.DEFAULT_WENET_API_KEY == "":
+            _LOGGER.warn(f"DEFAULT_WENET_API_KEY is empty")
         try:
             r = requests.get(
                 user_url,
@@ -76,6 +79,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 headers={
                     "Authorization": "test:wenet",
                     "Accept": "application/json",
+                    "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY,
                 },
             )
             if r.status_code == 200:
@@ -87,7 +91,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 )
             else:
                 _LOGGER.warn(
-                    f"request to stream base failed for user {user} with code {r.status_code}"
+                    f"request to stream base failed for user {user} with code {r.status_code} URL : {r.url}"
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
@@ -99,27 +103,39 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             config.DEFAULT_PROFILE_MANAGER_URL
             + "/userIdentifiers?offset=0&limit=1000000"
         )
-        res = requests.get(url)
-        res_json = res.json()
-        return res_json["userIds"]
+        try:
+            if config.DEFAULT_WENET_API_KEY == "":
+                _LOGGER.warn(f"DEFAULT_WENET_API_KEY is empty")
+                res = requests.get(url)
+            else:
+                headers = {"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY}
+                res = requests.get(url, headers=headers)
+            res_json = res.json()
+            return res_json["userIds"]
+        except:
+            _LOGGER.error(f"issue when requesting profile manager about IDs, code {res.status_code}, content {res.json()}")
+            return ["0"]
 
     @staticmethod
     def _gps_streambase_to_user_locations(gps_streambase, user):
         def _get_only_gps_locations(gps_streambase):
-            for _property in gps_streambase["properties"]:
-                try:
-                    for obj in _property["locationeventpertime"]:
-                        yield obj
-                except KeyError:
-                    continue
+            gps_streambase = gps_streambase[0]
+            if "data" not in gps_streambase:
+                _LOGGER.warn(f"no data for user {user} from streambase {gps_streambase}")
+                return None
+            data = gps_streambase["data"]
+            locationeventpertime = data["locationeventpertime"]
+            for _property in locationeventpertime:
+                _property["payload"]["ts"] = _property["ts"]
+                yield _property["payload"]
 
         locations = []
         locationeventpertime_list = _get_only_gps_locations(gps_streambase)
         for locationeventpertime in locationeventpertime_list:
             lat = locationeventpertime["point"]["latitude"]
             lng = locationeventpertime["point"]["longitude"]
-            timestamp = locationeventpertime["timestamp"]
-
+            #  // 1000 because their ts is in milisec
+            timestamp = locationeventpertime["ts"] // 1000
             try:
                 pts_t = datetime.datetime.fromtimestamp(timestamp)
             except Exception as e:
@@ -132,6 +148,11 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
 
             location = UserLocationPoint(pts_t, lat, lng, user=user)
             locations.append(location)
+        if len(locations) > 0:
+            locations = sorted(locations, key=lambda x: x._pts_t)
+            latest_location = locations[-1]
+            latest_location._pts_t = datetime.datetime.now()
+            locations = [latest_location]
         return locations
 
     def get_users(self):
@@ -193,7 +214,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             r = requests.get(
                 url,
                 params=parameters,
-                headers={"Authorization": "test:wenet", "Accept": "application/json"},
+                headers={"Authorization": "test:wenet", "Accept": "application/json", "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY},
             )
             if r.status_code == 200:
                 _LOGGER.debug(
@@ -319,7 +340,7 @@ def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL)
         current_pb.fill(routine, labels)
         personal_behaviors.append(current_pb.to_dict())
     try:
-        r = requests.patch(profile_url, data={"personalBehaviors": personal_behaviors})
+        r = requests.patch(profile_url, data={"personalBehaviors": personal_behaviors}, headers={"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY})
         if r.status_code != 200:
             _LOGGER.warn(
                 f"unable to update profile for user {profile_id} - status code {r.status_code}"

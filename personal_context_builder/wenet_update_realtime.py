@@ -22,19 +22,23 @@ class WenetRealTimeUpdateHandler(object):
     ):
         my_dict = {
             "id": user_id,
-            "timestamp": timestamp,
+            "timestamp": int(timestamp),
             "latitude": latitude,
             "longitude": longitude,
-            "accuracy": accuracy,
+            "accuracy": int(accuracy),
         }
         requests.post(
-            f"http://{config.DEFAULT_REALTIME_HOST}:{config.DEFAULT_REALTIME_PORT}/users_locations/",
-            data=my_dict,
+            f"{config.DEFAULT_USER_LOCATION_URL}",
+            json=my_dict,
         )
 
     def get_user_location(self, user_id):
         date_to = datetime.now()
         date_from = date_to - timedelta(minutes=5)
+
+        #  TODO solve issue with time and localtime differences
+        date_to = date_to + timedelta(minutes=120)
+
         res = StreamBaseLocationsLoader.load_user_locations(
             user=user_id, date_from=date_from, date_to=date_to
         )

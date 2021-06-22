@@ -10,7 +10,11 @@ update(is_mock=True)
 
 class APICompareRoutinesTestCase(unittest.TestCase):
     def setUp(self):
+<<<<<<< HEAD
         self._app = WenetApp(uuid4(), is_mock=True)._app
+=======
+        self._app = WenetApp(f"test wenet compare routine {uuid4()}", is_mock=True)._app
+>>>>>>> dee8273acc4b3913aa5d293865cda09656ccf7f7
 
     def test_order(self):
         _, response = self._app.test_client.get(

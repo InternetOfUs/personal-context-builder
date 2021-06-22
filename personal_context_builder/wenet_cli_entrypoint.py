@@ -39,6 +39,7 @@ from personal_context_builder import wenet_exceptions
 from personal_context_builder.wenet_update_realtime import WenetRealTimeUpdateHandler
 
 from scipy import spatial
+import requests
 
 _LOGGER = create_logger(__name__)
 
@@ -181,9 +182,24 @@ def run_app():
 
 def run_update_realtime():
     while True:
-        updater = WenetRealTimeUpdateHandler()
-        updater.run_once()
-        time.sleep(5)
+        try:
+            updater = WenetRealTimeUpdateHandler()
+            updater.run_once()
+            time.sleep(5)
+        except:
+            pass  # TODO catch all exceptions
+
+
+def generator_cmd(action):
+    if action == "start":
+        res = requests.post(config.DEFAULT_GENERATOR_START_URL)
+    else:
+        res = requests.post(config.DEFAULT_GENERATOR_STOP_URL)
+    code = res.status_code
+    if code != 200:
+        _LOGGER.warn(f"generator_cmd issue, return code {code}")
+    else:
+        _LOGGER.info(f"succesfully called {action} on the data generator")
 
 
 if __name__ == "__main__":  # pragma: no cover
@@ -237,6 +253,9 @@ if __name__ == "__main__":  # pragma: no cover
     parser.add_argument(
         "--compare_routines", help="compare users (should be separated by ':')"
     )
+    parser.add_argument(
+        "--generator", help="action on the generator", choices=["start", "stop"]
+    )
     args = parser.parse_args()
     if args.clean_db:
         clean_db_cmd(args.mock)
@@ -266,3 +285,5 @@ if __name__ == "__main__":  # pragma: no cover
         run_app()
     if args.update_realtime:
         run_update_realtime()
+    if args.generator:
+        generator_cmd(args.generator)
