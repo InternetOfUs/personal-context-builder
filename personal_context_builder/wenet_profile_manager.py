@@ -183,7 +183,8 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         self._users_staypoints = dict()
         self._users_stayregions = dict()
         for user in self.get_users():
-            user_url = self._url + user
+            #  user_url = self._url + user
+            user_url = self._url
             surveys = self._load_survey(user=user, url=user_url, last_days=last_days)
             if surveys is None:
                 _LOGGER.debug(f"No surveys for user {user}")
