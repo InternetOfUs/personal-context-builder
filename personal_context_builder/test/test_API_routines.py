@@ -10,11 +10,7 @@ update(is_mock=True)
 
 class APIRoutinesTestCase(unittest.TestCase):
     def setUp(self):
-<<<<<<< HEAD
         self._app = WenetApp(uuid4(), is_mock=True)._app
-=======
-        self._app = WenetApp(f"test wenet API routines {uuid4()}", is_mock=True)._app
->>>>>>> dee8273acc4b3913aa5d293865cda09656ccf7f7
 
     # def test_simple_lda_exist(self):
     #     _, response = self._app.test_client.get(
