@@ -193,6 +193,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             _LOGGER.info(f"Loaded {len(surveys)} surveys for user {user}")
             try:
                 locations = location_loader.get_locations(user)
+                _LOGGER.info(f"{len(locations)} locations for user {user}")
                 stay_points = estimate_stay_points(locations)
                 _LOGGER.info(f"{len(stay_points)} staypoints for user {user}")
                 stay_points = sorted(stay_points, key=lambda sp: sp._t_start)
