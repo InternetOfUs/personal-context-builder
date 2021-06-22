@@ -215,6 +215,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "timediariesanswers"
+        parameters["userId"] = user
         try:
             r = requests.get(
                 url,
