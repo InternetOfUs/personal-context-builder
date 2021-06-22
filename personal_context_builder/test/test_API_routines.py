@@ -10,7 +10,7 @@ update(is_mock=True)
 
 class APIRoutinesTestCase(unittest.TestCase):
     def setUp(self):
-        self._app = WenetApp(uuid4(), is_mock=True)._app
+        self._app = WenetApp(str(uuid4()), is_mock=True)._app
 
     # def test_simple_lda_exist(self):
     #     _, response = self._app.test_client.get(
