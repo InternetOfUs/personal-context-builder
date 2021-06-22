@@ -187,6 +187,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             #  user_url = self._url + user
             user_url = self._url
             surveys = self._load_survey(user=user, url=user_url, last_days=last_days)
+            _LOGGER.info(f"Loaded {len(surveys)} surveys for user {user}")
             if surveys is None:
                 _LOGGER.debug(f"No surveys for user {user}")
                 continue
