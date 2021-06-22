@@ -113,7 +113,9 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             res_json = res.json()
             return res_json["userIds"]
         except:
-            _LOGGER.error(f"issue when requesting profile manager about IDs, code {res.status_code}, content {res.json()}")
+            _LOGGER.error(
+                f"issue when requesting profile manager about IDs, code {res.status_code}, content {res.json()}"
+            )
             return ["0"]
 
     @staticmethod
@@ -121,7 +123,9 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         def _get_only_gps_locations(gps_streambase):
             gps_streambase = gps_streambase[0]
             if "data" not in gps_streambase:
-                _LOGGER.warn(f"no data for user {user} from streambase {gps_streambase}")
+                _LOGGER.warn(
+                    f"no data for user {user} from streambase {gps_streambase}"
+                )
                 return None
             data = gps_streambase["data"]
             locationeventpertime = data["locationeventpertime"]
@@ -214,7 +218,11 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             r = requests.get(
                 url,
                 params=parameters,
-                headers={"Authorization": "test:wenet", "Accept": "application/json", "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY},
+                headers={
+                    "Authorization": "test:wenet",
+                    "Accept": "application/json",
+                    "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY,
+                },
             )
             if r.status_code == 200:
                 _LOGGER.debug(
@@ -223,10 +231,10 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 return r.json()
             else:
                 _LOGGER.warn(
-                    f"request to stream base failed for user {user} with code {r.status_code}"
+                    f"request to stream base labels failed for user {user} with code {r.status_code}"
                 )
         except RequestException as e:
-            _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
+            _LOGGER.warn(f"request to stream base labels failed for user {user} - {e}")
 
     @staticmethod
     def _load_user_places(user, surveys, staypoints):
@@ -340,7 +348,11 @@ def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL)
         current_pb.fill(routine, labels)
         personal_behaviors.append(current_pb.to_dict())
     try:
-        r = requests.patch(profile_url, data={"personalBehaviors": personal_behaviors}, headers={"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY})
+        r = requests.patch(
+            profile_url,
+            data={"personalBehaviors": personal_behaviors},
+            headers={"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY},
+        )
         if r.status_code != 200:
             _LOGGER.warn(
                 f"unable to update profile for user {profile_id} - status code {r.status_code}"
