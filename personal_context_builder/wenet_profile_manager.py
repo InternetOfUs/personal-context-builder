@@ -194,10 +194,12 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             try:
                 locations = location_loader.get_locations(user)
                 stay_points = estimate_stay_points(locations)
+                _LOGGER.info(f"{len(stay_points)} staypoints for user {user}")
                 stay_points = sorted(stay_points, key=lambda sp: sp._t_start)
                 stay_regions = estimate_stay_regions(
-                    stay_points, distance_threshold_m=20
+                    stay_points, distance_threshold_m=50
                 )
+                _LOGGER.info(f"{len(stay_regions)} stay_regions for user {user}")
                 self._users_staypoints[user] = stay_points
                 self._users_stayregions[user] = stay_regions
                 self._users_places[user] = self._load_user_places(
