@@ -160,9 +160,6 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             locations.append(location)
         if len(locations) > 0:
             locations = sorted(locations, key=lambda x: x._pts_t)
-            latest_location = locations[-1]
-            latest_location._pts_t = datetime.datetime.now()
-            locations = [latest_location]
         return locations
 
     def get_users(self):
