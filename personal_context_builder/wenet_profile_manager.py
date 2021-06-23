@@ -189,6 +189,8 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             #  user_url = self._url + user
             user_url = self._url
             surveys = self._load_survey(user=user, url=user_url, last_days=last_days)
+            if "timediariesanswers" not in str(surveys):
+                surveys = None
             if surveys is None:
                 _LOGGER.debug(f"No surveys for user {user}")
                 continue
