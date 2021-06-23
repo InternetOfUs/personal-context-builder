@@ -254,22 +254,19 @@ class StreambaseLabelsLoader(BaseSourceLabels):
 
     @staticmethod
     def _load_user_places(user, surveys, staypoints):
-        def _get_answers(surveys, answers_valid):
-            properties = surveys["properties"]
-            for _property in properties:
-                for obj in _property["timediariesanswers"]:
-                    answers = obj["answer"]
-                    current_answer = ""
-                    for answer in answers:
-                        for a in answer:
-                            if a["cnt"] in answers_valid:
-                                current_answer = a["cnt"]
-                    if current_answer != "":
-                        yield current_answer, obj["answertimestamp"]
+        def _get_answers(surveys):
+            data = surveys["data"]
+            taskanswers = data["timediariesanswers"]
+            for taskanswer in taskanswers:
+                payload = taskanswer["payload"]
+                answer = payload["answer"]
+                timestamp = payload["answertimestamp"]
+                if answer is not None:
+                    yield answer[0][0]["cnt"], timestamp
 
-        answers_valid = set(["Working (Paid)", "House"])
         user_places = []
-        for label, timestamp in _get_answers(surveys, answers_valid):
+        surveys = surveys[0]
+        for label, timestamp in _get_answers(surveys):
             place = label
             try:
                 pts_t = datetime.datetime.fromtimestamp(timestamp)
