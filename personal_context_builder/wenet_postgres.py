@@ -1,5 +1,9 @@
 """
 module that handle db connections to the sql databases
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 from contextlib import contextmanager
 from sqlalchemy import create_engine

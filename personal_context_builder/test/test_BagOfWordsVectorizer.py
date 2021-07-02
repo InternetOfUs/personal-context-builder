@@ -1,3 +1,9 @@
+""" Test Bag of word vectorizer
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+"""
+
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
 from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
 from regions_builder.algorithms import (

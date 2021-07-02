@@ -3,6 +3,10 @@
 -  Train on history of the user days with locations and labels
 -  Should be able to predict labels probabilities for each time slot for each weekday
 -  Should be able to give scores/metrics for validation
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 
 from collections import defaultdict

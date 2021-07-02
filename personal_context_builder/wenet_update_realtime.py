@@ -1,5 +1,9 @@
 """ module that update the real-time service
 
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
+
 """
 import concurrent.futures
 from datetime import datetime, timedelta

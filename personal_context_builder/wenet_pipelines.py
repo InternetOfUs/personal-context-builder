@@ -6,6 +6,10 @@ The purpose of pipeline is to get the data and preprocesses them to fit models
 Two main methods:
     - train -- train the models with the latests data available, then save them
     - update -- update the database by using prediction of the models on the latests data availables
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 
 from abc import ABC, abstractmethod

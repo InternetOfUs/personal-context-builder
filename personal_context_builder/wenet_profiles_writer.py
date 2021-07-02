@@ -1,4 +1,8 @@
 """ Module to write profiles to db
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 import numpy as np
 

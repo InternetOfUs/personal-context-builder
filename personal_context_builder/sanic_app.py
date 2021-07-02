@@ -1,3 +1,9 @@
+""" sanic main app
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
+"""
 from sanic import Sanic
 from sanic import Blueprint
 from sanic.exceptions import NotFound, ServerError

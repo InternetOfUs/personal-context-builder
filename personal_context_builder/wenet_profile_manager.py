@@ -1,5 +1,9 @@
 """ Module responsibles to communicate with Wenet profile manager, to fill the profiles with
     the routines
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 from personal_context_builder import config
 from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels

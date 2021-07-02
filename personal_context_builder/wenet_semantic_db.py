@@ -1,4 +1,8 @@
 """ module that handle db to access to semantic routine
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 
 from sqlalchemy import (

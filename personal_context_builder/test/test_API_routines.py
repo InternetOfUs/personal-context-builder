@@ -1,3 +1,8 @@
+""" Test for the API that touch the routines
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+"""
 import unittest
 from personal_context_builder.sanic_app import WenetApp
 from personal_context_builder.wenet_cli_entrypoint import update, train

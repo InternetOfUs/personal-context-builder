@@ -1,5 +1,9 @@
 """
 module that analyse user's routines
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 from personal_context_builder import config
 import json

@@ -1,4 +1,8 @@
 """ module with wenet exceptions
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 from sanic.response import text
 from personal_context_builder.wenet_logger import create_logger

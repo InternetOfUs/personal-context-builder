@@ -2,6 +2,10 @@
 
 use syslog
 
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
+
 """
 import logging
 import logging.handlers

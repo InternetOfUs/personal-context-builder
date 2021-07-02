@@ -1,9 +1,9 @@
 """
 CLI entrypoint for wenet
-  - app_run
-  - train
-  - update
-  - mock
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 
 import argparse

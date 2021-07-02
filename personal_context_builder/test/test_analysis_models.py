@@ -1,3 +1,8 @@
+""" Test for the analysis models module
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+"""
 import unittest
 from os import remove
 from os.path import join

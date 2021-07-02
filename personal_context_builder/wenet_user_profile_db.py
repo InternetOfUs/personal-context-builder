@@ -1,7 +1,9 @@
 """
 Module that handle database access for user's profile
 
-TODO refactor to use class, for make it easier to mock and test
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+
 """
 from personal_context_builder import config
 import redis

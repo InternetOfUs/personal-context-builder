@@ -1,3 +1,9 @@
+""" Test for the bag of words trainer
+
+Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
+Written by William Droz <william.droz@idiap.ch>,
+"""
+
 import unittest
 from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions
