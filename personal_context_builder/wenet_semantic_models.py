@@ -32,7 +32,7 @@ class SemanticModel(object):
         name="unknown_semantic_model",
         regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
     ):
-        """ Constructor
+        """Constructor
         Args:
             locations_source: source of the locations
             labels_sources: source of the labels
@@ -69,7 +69,7 @@ class SemanticModel(object):
         return indexed_weekday_locations, labelled_stay_regions, stay_regions
 
     def compute_weekdays(self, user_id):
-        """ Compute the all weekday distributions for the given user
+        """Compute the all weekday distributions for the given user
         Args:
             user_id: for which user the weekday are computed
 
@@ -78,18 +78,16 @@ class SemanticModel(object):
         raise NotImplementedError("not implemented")
 
     def evaluate_user(self, user_id):
-        """ Score the models for user_id
-        """
+        """Score the models for user_id"""
         pass
 
     def evaluate_all(self):
-        """ Score the models for all users
-        """
+        """Score the models for all users"""
         pass
 
     @classmethod
     def index_per_weekday(cls, all_days_locations):
-        """ group all days by weekday and use weekday as index
+        """group all days by weekday and use weekday as index
         Args:
             all_days_locations: list of list of locations, sublist are full day
 
@@ -105,9 +103,11 @@ class SemanticModel(object):
 
 class SemanticModelHist(SemanticModel):
     def compute_weekdays(self, user_id):
-        indexed_weekday_locations, labelled_stay_regions, stay_regions = self._compute_indexed_weekday_locations(
-            user_id
-        )
+        (
+            indexed_weekday_locations,
+            labelled_stay_regions,
+            stay_regions,
+        ) = self._compute_indexed_weekday_locations(user_id)
         labels_count = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: 0)))
         for weekday, days_locations in indexed_weekday_locations.items():
             for day_locations in days_locations:
@@ -124,7 +124,7 @@ class SemanticModelHist(SemanticModel):
         return labels_dist
 
     def _compute_labels_dist(self, labels_count):
-        """ compute the distribution of the labels for each timeslots grouped per weekday
+        """compute the distribution of the labels for each timeslots grouped per weekday
         Args:
             labels_count: hierarchical labels count (dict of dict of dict)
         """
@@ -139,7 +139,7 @@ class SemanticModelHist(SemanticModel):
     def _fill_with_labels_count(
         self, location, labels_count, weekday, labelled_stay_regions, stay_regions
     ):
-        """ determine the labels and fill hierarchically labels_count with
+        """determine the labels and fill hierarchically labels_count with
             the number of each labels per timeslot per weekday
         Args:
             location: location point to check

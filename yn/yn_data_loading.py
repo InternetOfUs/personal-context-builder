@@ -8,7 +8,11 @@ from typing import List, Dict
 
 import pandas as pd
 
-from personal_context_builder.wenet_models import UserLocationPoint, UserPlaceTimeOnly, UserPlace
+from personal_context_builder.wenet_models import (
+    UserLocationPoint,
+    UserPlaceTimeOnly,
+    UserPlace,
+)
 from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations
 
 
@@ -17,8 +21,7 @@ class YNSourceLocations(BaseSourceLocations):
         super().__init__(name)
 
     def get_users(self) -> List[str]:
-        """ get the YN users
-        """
+        """get the YN users"""
         users = []
         locations_glob_expr = "/idiap/temp/wdroz/locations/*.csv"
         all_location_files = glob(locations_glob_expr)
@@ -29,7 +32,7 @@ class YNSourceLocations(BaseSourceLocations):
         return users
 
     def get_locations(self, user_id, max_n=None) -> List[UserLocationPoint]:
-        """ get all the YN locations for this user_id.
+        """get all the YN locations for this user_id.
         Limit the number of locations by max_n if not None
         Args:
             user_id: the user_id used to retreive the locations
@@ -56,7 +59,7 @@ class YNSourceLocations(BaseSourceLocations):
         return locations[:max_n]
 
     def get_locations_all_users(self, max_n=None) -> Dict[str, List[UserLocationPoint]]:
-        """ get all the locations for all users
+        """get all the locations for all users
         Args:
             max_n: limit of number of locations for each user
         Return:
@@ -79,12 +82,11 @@ class YNSourceLabels(BaseSourceLabels):
         self._yn_source_locations = YNSourceLocations("yn locations")
 
     def get_users(self) -> List[str]:
-        """ get the list of the YN users in the surveys
-        """
+        """get the list of the YN users in the surveys"""
         return list(set(self._df_ambiance["user"].tolist()))
 
     def get_labels(self, user_id, max_n=None) -> List[UserPlace]:
-        """ get the list of UserPlace for the specific user_id
+        """get the list of UserPlace for the specific user_id
         Args:
             user_id: user_id of the wanted list of UserPlace
             max_n: maximum number of elements if not None
@@ -109,7 +111,7 @@ class YNSourceLabels(BaseSourceLabels):
         return user_places
 
     def get_labels_all_users(self, max_n=None) -> Dict[str, List[UserPlace]]:
-        """ get all the Userplace for all users
+        """get all the Userplace for all users
         Args:
             max_n: limit of the number of UserPlace for each user
         Return:

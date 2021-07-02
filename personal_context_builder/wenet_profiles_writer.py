@@ -18,7 +18,7 @@ class ProfileWritter(object):
         bow_trainer,
         database_instance,
     ):
-        """ Handle the writting in the db of the profiles
+        """Handle the writting in the db of the profiles
         Args:
             locations_source: data source for location
             labels_source: data source for the labels
@@ -32,8 +32,7 @@ class ProfileWritter(object):
         self._database_instance = database_instance
 
     def update_profiles(self):
-        """ update all profiles
-        """
+        """update all profiles"""
         users_locations = self._locations_source.get_locations_all_users()
         for user, locations in users_locations.items():
             X = []
@@ -50,7 +49,7 @@ class ProfileWritter(object):
             self.update_profile(user, profile.tolist())
 
     def update_profile(self, user, profile):
-        """ update a single profile
+        """update a single profile
         Args:
             user: user to update
             profile: profile to use

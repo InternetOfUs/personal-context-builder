@@ -8,40 +8,35 @@ _LOGGER = create_logger(__name__)
 
 
 class WenetError(Exception):
-    """ Generic winet exception
-    """
+    """Generic winet exception"""
 
     def __init__(self, message="Generic Wenet Error"):
         super().__init__(message)
 
 
 class WenetUpdateProfileManagerError(WenetError):
-    """ Can't update the profile manager
-    """
+    """Can't update the profile manager"""
 
     def __init__(self, message="Fail to update profile manager"):
         super().__init__(message)
 
 
 class WenetStreamBaseLocationsError(WenetError):
-    """ Fail to retreive any locations from streambase
-    """
+    """Fail to retreive any locations from streambase"""
 
     def __init__(self, message="Fail to retreive any locations from streambase"):
         super().__init__(message)
 
 
 class WenetStreamBaseLocationsParsingError(WenetError):
-    """ Fail to parse locations json from streambase
-    """
+    """Fail to parse locations json from streambase"""
 
     def __init__(self, message="Fail to parse locations json from streambase"):
         super().__init__(message)
 
 
 class SemanticRoutinesComputationError(WenetError):
-    """ Fail to compute semantic routines
-    """
+    """Fail to compute semantic routines"""
 
     def __init__(self, message="Fail to compute semantic routines"):
         super().__init__(message)

@@ -10,14 +10,16 @@ from personal_context_builder.sanic_wenet_blueprints import (
 from personal_context_builder import config
 
 from personal_context_builder import wenet_exceptions
-from personal_context_builder.wenet_logger import create_web_logger_config, create_logger
+from personal_context_builder.wenet_logger import (
+    create_web_logger_config,
+    create_logger,
+)
 
 _LOGGER_CONFIG = create_web_logger_config()
 
 
 class WenetApp(object):
-    """ class that create the Sanic web service
-    """
+    """class that create the Sanic web service"""
 
     def __init__(
         self,
@@ -26,7 +28,7 @@ class WenetApp(object):
         virtual_host_location=config.DEFAULT_VIRTUAL_HOST_LOCATION,
         is_mock=False,
     ):
-        """ constructor
+        """constructor
         Args:
         app_name -- name of the app
         virtual_host -- virtual host (can be provided by nginx) e. g. lab.idiap.ch
@@ -41,7 +43,7 @@ class WenetApp(object):
         self._app.blueprint([routines_bp, models_bp])
 
     def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
-        """ run the web service
+        """run the web service
         Args:
         host -- the host/interface to listen
         port -- which port to use

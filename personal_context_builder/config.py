@@ -102,11 +102,13 @@ def _update_env_for_partners_url():
     for url in urls:
         globals()[url] = globals()[url].format(DEFAULT_ENV)
 
+
 def _update_api_key():
     """update the api key using env"""
     if "COMP_AUTH_KEY" in environ:
         globals()["DEFAULT_WENET_API_KEY"] = environ["COMP_AUTH_KEY"]
         print("WENET API key setted")
+
 
 def _update_parameters_if_virtual_host():
     """Update parameter if virtual host is defined"""

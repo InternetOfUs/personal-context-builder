@@ -14,7 +14,7 @@ _LOGGER = create_logger(__name__)
 
 
 class DatabaseProfileHandlerBase(ABC):
-    """ Base interface for handling database access for the profiles
+    """Base interface for handling database access for the profiles
 
     is a dict of Singleton
     """
@@ -23,7 +23,7 @@ class DatabaseProfileHandlerBase(ABC):
 
     @classmethod
     def get_instance(cls, *args, db_index=0, **kwargs):
-        """ get the instance or create if doesn't exist
+        """get the instance or create if doesn't exist
 
         Can be have multiple instance when multiple db_index are used
         """
@@ -93,7 +93,7 @@ class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
 
 
 class DatabaseProfileHandler(DatabaseProfileHandlerBase):
-    """ Handle database to the redis server
+    """Handle database to the redis server
 
     Not thread safe
 
@@ -109,14 +109,13 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
             raise ServerError("Unable to access the Redis DB")
 
     def clean_db(self):
-        """ clean the db (delete all entries)
-        """
+        """clean the db (delete all entries)"""
         _LOGGER.info("clean db called")
         for key in self._server.scan_iter():
             self._server.delete(key)
 
     def delete_profile(self, user_id):
-        """ delete a profile
+        """delete a profile
         Args:
             user_id: user_id of the profile
         """
@@ -124,7 +123,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         self._server.delete(user_id)
 
     def get_all_profiles(self, match=None):
-        """ get all profiles
+        """get all profiles
         Args:
             match: pattern to retreive the profiles (not regex)
         Return:
@@ -137,7 +136,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         return my_dict
 
     def get_profile(self, user_id):
-        """ get a specific profile
+        """get a specific profile
         Args:
             user_id: user_id of the profile
         Return:
@@ -150,7 +149,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         return json.loads(res)
 
     def set_profile(self, user_id, vector):
-        """ create or modify a profile
+        """create or modify a profile
         Args:
             user_id: user_id of the profile
             vector: list of float for that profile
@@ -160,7 +159,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         self._server.set(user_id, value)
 
     def set_profiles(self, user_ids, vectors):
-        """ create or modify multiple profiles at once
+        """create or modify multiple profiles at once
 
         The function use the pipeline object for better performance
 

@@ -16,7 +16,7 @@ from progress.bar import Bar
 
 
 def get_drink_places_trung(trung_file):
-    """ retreive the drink place from the json file from trung
+    """retreive the drink place from the json file from trung
     Args:
         trung_file: json file from Trung
     Return: dict of (user -> UserPlaceTimeOnly)
@@ -52,7 +52,7 @@ def get_drink_places_trung(trung_file):
 
 
 def get_ambiance_places(ambiance_file):
-    """ retreive the drink place from the surveys ambiance file
+    """retreive the drink place from the surveys ambiance file
     Args:
         ambiance_file: ambiance csv file
     Return: dict of (user -> UserPlaceTimeOnly)
@@ -72,8 +72,7 @@ def get_ambiance_places(ambiance_file):
 
 
 def _convert_to_places_if_needed(user, stay_points, ambiance_places, trung_places):
-    """ convert the places UserPlaceTimeOnly into UserPlace
-    """
+    """convert the places UserPlaceTimeOnly into UserPlace"""
     if user in ambiance_places:
         ambiance_places[user] = [
             p.to_user_place_from_stay_points(
@@ -91,8 +90,7 @@ def _convert_to_places_if_needed(user, stay_points, ambiance_places, trung_place
 
 
 def _labelize(user, stay_regions, ambiance_places, trung_places):
-    """ Labelize the region with both ambiance places and trung places
-    """
+    """Labelize the region with both ambiance places and trung places"""
     for stay_region in stay_regions:
         if user in ambiance_places:
             label = get_label_if_exist(stay_region, ambiance_places[user])
@@ -105,8 +103,7 @@ def _labelize(user, stay_regions, ambiance_places, trung_places):
 
 
 def _create_locations(df):
-    """ create locations list from the list of locations.
-    """
+    """create locations list from the list of locations."""
     locations = []
     for index, row in df.iterrows():
         accuracy = row["accuracy"]
@@ -126,7 +123,7 @@ def _create_locations(df):
 
 
 def write_to_json(json_output_file, gps_folder, ambiance_file=None, trung_file=None):
-    """ convert the data to a json file with StayPoints, StayRegion and LocationPoint.
+    """convert the data to a json file with StayPoints, StayRegion and LocationPoint.
     Args:
         json_output_file: file that will contain the data transformed
         gps_folder: folder that contain the gps records

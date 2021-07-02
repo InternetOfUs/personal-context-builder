@@ -77,7 +77,7 @@ def closest_users(lat, lng, N, is_mock=False):
 
 @lru_cache(maxsize=None)
 def _loads_regions(regions_mapping_file):
-    """ loads regions mapping file
+    """loads regions mapping file
 
     this function is cached to avoid unnecessary disk accesses
 
@@ -107,7 +107,7 @@ class BagOfWordsVectorizer(object):
     def group_by_days(
         cls, locations, user="unknown", start_day="00:00:00", dt_hours=23.5, freq="30T"
     ):
-        """ class method to group the locations by days
+        """class method to group the locations by days
         Args:
             locations: list of location to use
             user: user to use to create UserLocationPoint
@@ -147,7 +147,7 @@ class BagOfWordsVectorizer(object):
         return days_list
 
     def vectorize(self, locations):
-        """ Create a bag of words vector
+        """Create a bag of words vector
         Args:
             locations: list of LocationPoint
 
@@ -182,10 +182,10 @@ class BagOfWordsVectorizer(object):
         return big_vector
 
     def save(self, filename=config.DEFAULT_BOW_MODEL_FILE, dump_fct=pickle.dump):
-        """ save this current instance of BagOfWordsVectorizer
-            Args:
-                filename: file that will be used to store the instance
-                dump_fct: function to use to dump the instance into a file
+        """save this current instance of BagOfWordsVectorizer
+        Args:
+            filename: file that will be used to store the instance
+            dump_fct: function to use to dump the instance into a file
         """
         location = join(config.DEFAULT_DATA_FOLDER, filename)
         with open(location, "wb") as f:
@@ -193,12 +193,12 @@ class BagOfWordsVectorizer(object):
 
     @staticmethod
     def load(filename=config.DEFAULT_BOW_MODEL_FILE, load_fct=pickle.load):
-        """ Create a instance of BagOfWordsVectorizer from a previously saved file
-            Args:
-                filename: file that contain the saved BagOfWordsVectorizer instance
-                load_fct: function to use to load the instance from a file
-            Return:
-                An instance of BagOfWordsVectorizer
+        """Create a instance of BagOfWordsVectorizer from a previously saved file
+        Args:
+            filename: file that contain the saved BagOfWordsVectorizer instance
+            load_fct: function to use to load the instance from a file
+        Return:
+            An instance of BagOfWordsVectorizer
         """
         location = join(config.DEFAULT_DATA_FOLDER, filename)
         with open(location, "rb") as f:
@@ -221,7 +221,7 @@ class BagOfWordsCorpuzer(BagOfWordsVectorizer):
         )
 
     def vectorize(self, locations):
-        """ Create a bag of words corpus
+        """Create a bag of words corpus
         Args:
             locations: list of LocationPoint
 
@@ -255,4 +255,3 @@ class BagOfWordsCorpuzer(BagOfWordsVectorizer):
                     inner_vector.append(str(self._regions_mapping["unknown"]))
             big_vector.append(inner_vector)
         return big_vector
-

@@ -13,8 +13,7 @@ import numpy as np
 
 
 class YNUser(object):
-    """ Y@N user information
-    """
+    """Y@N user information"""
 
     def __init__(self, user_id="", stay_points=None, stay_regions=None):
         self._user_id = user_id
@@ -33,8 +32,7 @@ class YNUser(object):
 
 
 class YNLocationPoint(wm.LocationPoint):
-    """ Y@N Location Point
-    """
+    """Y@N Location Point"""
 
     def __init__(self, pts_t, lat, lng, accuracy_m=0, timezone="", night_id=None):
         super().__init__(pts_t, lat, lng, accuracy_m)
@@ -43,8 +41,7 @@ class YNLocationPoint(wm.LocationPoint):
 
 
 class YNStayPoint(wm.StayPoint):
-    """ Y@N Stay Point
-    """
+    """Y@N Stay Point"""
 
     def __init__(
         self, t_start, t_stop, lat, lng, accuracy_m=0, timezone="CET", night_id=None
@@ -77,8 +74,7 @@ class YNStayPoint(wm.StayPoint):
 
 
 class YNStayRegion(wm.StayRegion):
-    """ Y@N Stay Region
-    """
+    """Y@N Stay Region"""
 
     def __init__(
         self,

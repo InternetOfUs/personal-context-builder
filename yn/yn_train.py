@@ -53,8 +53,7 @@ def get_locations_from_df(df):
 
 
 def get_labelled_stay_regions(df, stay_regions, user, stay_points):
-    """ TODO use stay_regions_set instead of stay regions
-    """
+    """TODO use stay_regions_set instead of stay regions"""
     user_places = []
     for index, row in df.iterrows():
         pts_t = datetime.strptime(row["timestamp"], "%Y-%m-%d %H:%M:%S")

@@ -13,7 +13,7 @@ _LOGGER = create_logger(__name__)
 
 
 class DatabaseRealtimeLocationsHandlerBase(ABC):
-    """ Base interface for handling database access for the Realtime locations of the user
+    """Base interface for handling database access for the Realtime locations of the user
 
     is a dict of Singleton
     """
@@ -22,7 +22,7 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
 
     @classmethod
     def get_instance(cls, *args, db_index=0, **kwargs):
-        """ get the instance or create if doesn't exist
+        """get the instance or create if doesn't exist
 
         Can be have multiple instance when multiple db_index are used
         """
@@ -65,7 +65,7 @@ class DatabaseRealtimeLocationsHandlerMock(DatabaseRealtimeLocationsHandlerBase)
 
 
 class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
-    """ Handle database to the redis server for real-time data
+    """Handle database to the redis server for real-time data
 
     Not thread safe
 
@@ -84,8 +84,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
             raise ServerError("Unable to access the Redis DB")
 
     def update(self, userplaces):
-        """ update the db with userplaces
-        """
+        """update the db with userplaces"""
         _LOGGER.info("update real-time user locations")
         pipeline = self._server.pipeline()
         for userplace in userplaces:
@@ -95,7 +94,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         pipeline.execute()
 
     def get_all_users(self):
-        """ get all users locations
+        """get all users locations
 
         Return:
             dict with user_id -> UserLocationPoint
@@ -113,7 +112,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         return my_dict
 
     def get_users(self, users_id):
-        """ get some users locations
+        """get some users locations
         Args:
             users_id -> list of user_id
 

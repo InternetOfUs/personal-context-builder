@@ -13,7 +13,7 @@ from personal_context_builder import config
 
 
 def create_routines_bp(virtual_host_location, is_mock=False):
-    """ create blueprint that handle /routines/ and /routines/<user_id>/ paths
+    """create blueprint that handle /routines/ and /routines/<user_id>/ paths
     Args:
     virtual_host_location -- virtual host location (can be provided by nginx) e. g. /devel/wenet/
     is_mock -- if true, use mocked components
@@ -67,7 +67,7 @@ def create_routines_bp(virtual_host_location, is_mock=False):
 
 
 def create_available_models_bp(virtual_host_location):
-    """ create blueprint that handle /models/ path
+    """create blueprint that handle /models/ path
     Args:
     virtual_host_location -- virtual host location (can be provided by nginx) e. g. /devel/wenet/
     Return:

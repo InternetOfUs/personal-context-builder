@@ -46,10 +46,10 @@ class BaseModelWrapper(BaseModel):
         self._model_instance.fit(*args, **kwargs)
 
     def save(self, filename=config.DEFAULT_GENERIC_MODEL_NAME, dump_fct=pickle.dump):
-        """ save this current instance of BaseModelWrapper
-            Args:
-                filename: file that will be used to store the instance
-                dump_fct: function to use to dump the instance into a file
+        """save this current instance of BaseModelWrapper
+        Args:
+            filename: file that will be used to store the instance
+            dump_fct: function to use to dump the instance into a file
         """
         location = join(config.DEFAULT_DATA_FOLDER, filename)
         with open(location, "wb") as f:
@@ -57,12 +57,12 @@ class BaseModelWrapper(BaseModel):
 
     @classmethod
     def load(cls, filename=config.DEFAULT_GENERIC_MODEL_NAME, load_fct=pickle.load):
-        """ Create a instance of BaseModelWrapper from a previously saved file
-            Args:
-                filename: file that contain the saved BaseModelWrapper instance
-                load_fct: function to use to load the instance from a file
-            Return:
-                An instance of BaseModelWrapper
+        """Create a instance of BaseModelWrapper from a previously saved file
+        Args:
+            filename: file that contain the saved BaseModelWrapper instance
+            load_fct: function to use to load the instance from a file
+        Return:
+            An instance of BaseModelWrapper
         """
         location = join(config.DEFAULT_DATA_FOLDER, filename)
         with open(location, "rb") as f:
@@ -72,8 +72,7 @@ class BaseModelWrapper(BaseModel):
 
 
 class SimpleLDA(BaseModelWrapper):
-    """ Simple LDA over all the users, with 15 topics
-    """
+    """Simple LDA over all the users, with 15 topics"""
 
     def __init__(
         self, name="simple_lda", n_components=15, random_state=0, n_jobs=-1, **kwargs
@@ -92,8 +91,7 @@ class SimpleLDA(BaseModelWrapper):
 
 
 class SimpleBOW(BaseModelWrapper):
-    """ Bag-of-words approach, compute the mean of all days
-    """
+    """Bag-of-words approach, compute the mean of all days"""
 
     def __init__(self, name="simple_bow"):
         super().__init__(None, name)
@@ -110,8 +108,7 @@ class SimpleBOW(BaseModelWrapper):
 
 
 class SimpleHDP(BaseModelWrapper):
-    """ Bag-of-words approach, compute the mean of all days
-    """
+    """Bag-of-words approach, compute the mean of all days"""
 
     def __init__(self, name="simple_hdp"):
         super().__init__(None, name)

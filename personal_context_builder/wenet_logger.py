@@ -10,8 +10,7 @@ import sys
 
 
 def create_logger(name="wenet-undefined"):
-    """ create a logger with the correct configuration
-    """
+    """create a logger with the correct configuration"""
 
     logger = logging.getLogger(name)
     logger.setLevel(config.DEFAULT_LOGGER_LEVEL)
@@ -29,8 +28,7 @@ def create_logger(name="wenet-undefined"):
 
 
 def create_web_logger_config():
-    """ create a logger for the sanic app
-    """
+    """create a logger for the sanic app"""
     return dict(
         version=1,
         disable_existing_loggers=False,

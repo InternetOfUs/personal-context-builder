@@ -1,7 +1,10 @@
 """ module to train models
 """
 
-from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, BagOfWordsCorpuzer
+from personal_context_builder.wenet_analysis import (
+    BagOfWordsVectorizer,
+    BagOfWordsCorpuzer,
+)
 from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
@@ -15,7 +18,7 @@ class BaseModelTrainer(object):
     def __init__(
         self, locations_source, labels_source, bow_trainer, untrained_model_instance
     ):
-        """ Handle the training of models
+        """Handle the training of models
         Args:
             locations_source: source of data of locations
             labels_source: source of data for the labels
@@ -28,7 +31,7 @@ class BaseModelTrainer(object):
         self._untrained_model_instance = untrained_model_instance
 
     def train(self):
-        """ Train to untrained_model_instance using bow_trainer
+        """Train to untrained_model_instance using bow_trainer
         Return:
             trained instance of the model
         """
@@ -44,7 +47,7 @@ class BaseBOWTrainer(object):
         labels_source,
         regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
     ):
-        """ Handle the trainer of the Bag-Of-Words
+        """Handle the trainer of the Bag-Of-Words
         Args:
             locations_source: source of data of locations
             labels_source: source of data for the labels
@@ -55,7 +58,7 @@ class BaseBOWTrainer(object):
         self._regions_mapping_file = regions_mapping_file
 
     def train(self, user_id):
-        """ train by using this user_id
+        """train by using this user_id
         Args:
             user_id: user to use to train
         Return:
@@ -74,7 +77,7 @@ class BaseBOWTrainer(object):
         return bow_vectorizer
 
     def vectorize(self):
-        """ Vectorize the data for all users, for all days
+        """Vectorize the data for all users, for all days
         Return:
             2D array with data or None if zero data
         """
@@ -102,7 +105,7 @@ class HDPTrainer(BaseBOWTrainer):
         labels_source,
         regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
     ):
-        """ Handle the trainer of the HDP
+        """Handle the trainer of the HDP
         Args:
             locations_source: source of data of locations
             labels_source: source of data for the labels
@@ -115,7 +118,7 @@ class HDPTrainer(BaseBOWTrainer):
         )
 
     def train(self, user_id):
-        """ train by using this user_id
+        """train by using this user_id
         Args:
             user_id: user to use to train
         Return:
@@ -134,7 +137,7 @@ class HDPTrainer(BaseBOWTrainer):
         return bow_vectorizer
 
     def vectorize(self):
-        """ Vectorize the data for all users, for all days
+        """Vectorize the data for all users, for all days
         Return:
             2D array with data or None if zero data
         """
