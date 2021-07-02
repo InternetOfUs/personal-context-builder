@@ -10,3 +10,4 @@ htmlcov/
 bitbucket.txt
 *egg*
 personal_context_builder.yaml
+src/
