@@ -5,22 +5,24 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 
+from copy import deepcopy
+
 from sqlalchemy import (
-    create_engine,
     Column,
+    Float,
+    ForeignKey,
     Integer,
     String,
     Time,
-    ForeignKey,
-    Float,
+    create_engine,
     event,
 )
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker, joinedload
+from sqlalchemy.orm import joinedload, relationship, sessionmaker
+
+from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_postgres import PostresqlCoordinator
-from personal_context_builder import config
-from copy import deepcopy
 
 _LOGGER = create_logger(__name__)
 _Base = declarative_base()

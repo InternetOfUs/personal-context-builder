@@ -5,24 +5,25 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-from personal_context_builder import config
-from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels
-from regions_builder.models import LocationPoint, UserPlaceTimeOnly, UserLocationPoint
+import datetime
+import json
+from collections import defaultdict
+from json import JSONDecodeError
+from pprint import pprint
+
+import pandas as pd
+import requests
 from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
-from personal_context_builder.wenet_logger import create_logger
-from personal_context_builder import wenet_exceptions
-import datetime
-import pandas as pd
-import requests
-from collections import defaultdict
-from pprint import pprint
-import json
+from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations
+from regions_builder.models import LocationPoint, UserLocationPoint, UserPlaceTimeOnly
 from requests.exceptions import RequestException
-from json import JSONDecodeError
+
+from personal_context_builder import config, wenet_exceptions
+from personal_context_builder.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
 

@@ -13,23 +13,24 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 from abc import ABC, abstractmethod
+
+from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+
+from personal_context_builder import config, wenet_analysis_models
 from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder.wenet_profiles_writer import (
+    ProfileWritter,
+    ProfileWritterFromMock,
+)
 from personal_context_builder.wenet_trainer import (
     BaseBOWTrainer,
     BaseModelTrainer,
     HDPTrainer,
 )
-from personal_context_builder import wenet_analysis_models
-from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from personal_context_builder.wenet_profiles_writer import (
-    ProfileWritterFromMock,
-    ProfileWritter,
-)
 from personal_context_builder.wenet_user_profile_db import (
-    DatabaseProfileHandlerMock,
     DatabaseProfileHandler,
+    DatabaseProfileHandlerMock,
 )
-from personal_context_builder import config
 
 _LOGGER = create_logger(__name__)
 

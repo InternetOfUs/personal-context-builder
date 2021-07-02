@@ -4,17 +4,19 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 """
 
-from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
-from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
-from regions_builder.algorithms import (
-    estimate_stay_regions,
-    estimate_stay_points,
-    labelize_stay_region,
-)
 import unittest
 from os import remove
 from os.path import join
+
+from regions_builder.algorithms import (
+    estimate_stay_points,
+    estimate_stay_regions,
+    labelize_stay_region,
+)
+from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+
 from personal_context_builder import config
+from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
 
 
 class BagOfWordsVectorizerTestCase(unittest.TestCase):

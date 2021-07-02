@@ -5,17 +5,18 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 
-from personal_context_builder.wenet_analysis import (
-    BagOfWordsVectorizer,
-    BagOfWordsCorpuzer,
-)
+import numpy as np
 from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
+
 from personal_context_builder import config
-import numpy as np
+from personal_context_builder.wenet_analysis import (
+    BagOfWordsCorpuzer,
+    BagOfWordsVectorizer,
+)
 
 
 class BaseModelTrainer(object):

@@ -1,19 +1,19 @@
 """ Loading data from YN
 """
 
-from glob import glob
 import re
 from datetime import datetime
-from typing import List, Dict
+from glob import glob
+from typing import Dict, List
 
 import pandas as pd
+from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations
 
 from personal_context_builder.wenet_models import (
     UserLocationPoint,
-    UserPlaceTimeOnly,
     UserPlace,
+    UserPlaceTimeOnly,
 )
-from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations
 
 
 class YNSourceLocations(BaseSourceLocations):

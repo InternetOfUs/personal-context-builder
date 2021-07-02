@@ -5,15 +5,16 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-from personal_context_builder import config
 import pickle
 from functools import partial
 from os.path import join
 
 import numpy as np
-from sklearn.decomposition import LatentDirichletAllocation
-from gensim.sklearn_api import HdpTransformer
 from gensim.corpora import Dictionary
+from gensim.sklearn_api import HdpTransformer
+from sklearn.decomposition import LatentDirichletAllocation
+
+from personal_context_builder import config
 
 
 class BaseModel(object):

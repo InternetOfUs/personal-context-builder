@@ -7,9 +7,11 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 import concurrent.futures
 from datetime import datetime, timedelta
-from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
-from personal_context_builder import config
+
 import requests
+
+from personal_context_builder import config
+from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
 
 
 class WenetRealTimeUpdateHandler(object):

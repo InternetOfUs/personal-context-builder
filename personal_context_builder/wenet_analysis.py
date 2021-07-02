@@ -5,29 +5,30 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-from personal_context_builder import config
 import json
-from uuid import uuid4
-import numpy as np
-from copy import deepcopy
-from os.path import join
-from functools import lru_cache
 import pickle
-import pandas as pd
+from copy import deepcopy
 from datetime import datetime, timedelta
-from regions_builder.models import UserLocationPoint
+from functools import lru_cache
+from os.path import join
+from uuid import uuid4
+
+import numpy as np
+import pandas as pd
 from regions_builder.algorithms import closest_locations
+from regions_builder.data_loading import MockWenetSourceLocations
+from regions_builder.models import GPSPoint, UserLocationPoint
+from scipy import spatial
+
+from personal_context_builder import config
 from personal_context_builder.wenet_realtime_user_db import (
-    DatabaseRealtimeLocationsHandlerMock,
     DatabaseRealtimeLocationsHandler,
+    DatabaseRealtimeLocationsHandlerMock,
 )
 from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
 )
-from regions_builder.models import GPSPoint
-from regions_builder.data_loading import MockWenetSourceLocations
-from scipy import spatial
 
 
 def compare_routines(

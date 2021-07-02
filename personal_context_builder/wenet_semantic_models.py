@@ -10,20 +10,19 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 from collections import defaultdict
-import numpy as np
+from pprint import pprint
 
+import numpy as np
 from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
 
+from personal_context_builder import config
+from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions
 from personal_context_builder.wenet_exceptions import SemanticRoutinesComputationError
 from personal_context_builder.wenet_logger import create_logger
-from personal_context_builder.wenet_analysis import _loads_regions, BagOfWordsVectorizer
-from personal_context_builder import config
-from pprint import pprint
-
 
 _LOGGER = create_logger(__name__)
 

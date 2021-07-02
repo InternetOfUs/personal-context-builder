@@ -2,17 +2,19 @@
 module that work with Y@N data
 """
 import argparse
-from glob import glob
-from datetime import datetime
-from os.path import join
 import json
+from collections import defaultdict
+from datetime import datetime
+from glob import glob
+from os.path import join
+
 import pandas as pd
+from progress.bar import Bar
+
+from personal_context_builder.wenet_algo import get_label_if_exist
+from personal_context_builder.wenet_models import LocationPoint, UserPlaceTimeOnly
 from yn.yn_algo import yn_estimate_stay_points, yn_estimate_stay_regions
 from yn.yn_models import YNLocationPoint, YNUser
-from personal_context_builder.wenet_models import LocationPoint, UserPlaceTimeOnly
-from personal_context_builder.wenet_algo import get_label_if_exist
-from collections import defaultdict
-from progress.bar import Bar
 
 
 def get_drink_places_trung(trung_file):

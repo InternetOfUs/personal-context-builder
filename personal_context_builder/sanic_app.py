@@ -4,21 +4,20 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-from sanic import Sanic
-from sanic import Blueprint
+import logging
+
+from sanic import Blueprint, Sanic
 from sanic.exceptions import NotFound, ServerError
 from sanic.response import text
-import logging
+
+from personal_context_builder import config, wenet_exceptions
 from personal_context_builder.sanic_wenet_blueprints import (
     create_available_models_bp,
     create_routines_bp,
 )
-from personal_context_builder import config
-
-from personal_context_builder import wenet_exceptions
 from personal_context_builder.wenet_logger import (
-    create_web_logger_config,
     create_logger,
+    create_web_logger_config,
 )
 
 _LOGGER_CONFIG = create_web_logger_config()

@@ -4,26 +4,28 @@ Module to train a new models to create user's profiles
 This is a quick & dirty script for testing. The proper wenet data will be used by using proper API
 """
 
-from glob import glob
+import pickle
 import re
-from copy import deepcopy
-from functools import partial
-from datetime import datetime, timedelta
 from collections import defaultdict
-from progress.bar import Bar
-import pandas as pd
+from copy import deepcopy
+from datetime import datetime, timedelta
+from functools import partial
+from glob import glob
+
 import numpy as np
-from personal_context_builder.wenet_models import LocationPoint, UserPlaceTimeOnly
+import pandas as pd
+from progress.bar import Bar
+from sklearn.decomposition import LatentDirichletAllocation
+
 from personal_context_builder.wenet_algo import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
-from personal_context_builder.wenet_tools import time_difference_ms
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
 from personal_context_builder.wenet_analysis_models import BaseModelWrapper
-from sklearn.decomposition import LatentDirichletAllocation
-import pickle
+from personal_context_builder.wenet_models import LocationPoint, UserPlaceTimeOnly
+from personal_context_builder.wenet_tools import time_difference_ms
 
 
 def get_locations_from_df_without_time(df):

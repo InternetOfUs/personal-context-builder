@@ -4,14 +4,16 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 """
 import unittest
+from functools import partial
 from os import remove
 from os.path import join
+
 from sklearn.datasets import load_iris
-from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
-from personal_context_builder.wenet_analysis_models import BaseModelWrapper
-from functools import partial
+from sklearn.svm import SVC
+
 from personal_context_builder import config
+from personal_context_builder.wenet_analysis_models import BaseModelWrapper
 
 
 class UserProfileDBTestCase(unittest.TestCase):

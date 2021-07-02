@@ -7,39 +7,43 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 import argparse
-from uuid import uuid4
 import time
-from personal_context_builder.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
-from personal_context_builder import wenet_analysis_models, wenet_pipelines
-from personal_context_builder.wenet_analysis_models import SimpleLDA, SimpleBOW
+from uuid import uuid4
+
+import requests
 from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from personal_context_builder.wenet_analysis import closest_users, compare_routines
-from personal_context_builder.wenet_profiles_writer import (
-    ProfileWritterFromMock,
-    ProfileWritter,
+from scipy import spatial
+
+from personal_context_builder import (
+    config,
+    wenet_analysis_models,
+    wenet_exceptions,
+    wenet_pipelines,
 )
-from personal_context_builder.wenet_user_profile_db import (
-    DatabaseProfileHandlerMock,
-    DatabaseProfileHandler,
+from personal_context_builder.sanic_app import WenetApp
+from personal_context_builder.wenet_analysis import closest_users, compare_routines
+from personal_context_builder.wenet_analysis_models import SimpleBOW, SimpleLDA
+from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder.wenet_profile_manager import (
+    StreambaseLabelsLoader,
+    StreamBaseLocationsLoader,
+    update_profile,
+)
+from personal_context_builder.wenet_profiles_writer import (
+    ProfileWritter,
+    ProfileWritterFromMock,
 )
 from personal_context_builder.wenet_realtime_user_db import (
     DatabaseRealtimeLocationsHandler,
     DatabaseRealtimeLocationsHandlerMock,
 )
-from personal_context_builder.sanic_app import WenetApp
-from personal_context_builder import config
-from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_semantic_models import SemanticModelHist
-from personal_context_builder.wenet_profile_manager import (
-    update_profile,
-    StreamBaseLocationsLoader,
-    StreambaseLabelsLoader,
-)
-from personal_context_builder import wenet_exceptions
+from personal_context_builder.wenet_trainer import BaseBOWTrainer, BaseModelTrainer
 from personal_context_builder.wenet_update_realtime import WenetRealTimeUpdateHandler
-
-from scipy import spatial
-import requests
+from personal_context_builder.wenet_user_profile_db import (
+    DatabaseProfileHandler,
+    DatabaseProfileHandlerMock,
+)
 
 _LOGGER = create_logger(__name__)
 

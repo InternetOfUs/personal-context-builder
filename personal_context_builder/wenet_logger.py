@@ -9,8 +9,9 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 import logging
 import logging.handlers
-from personal_context_builder import config
 import sys
+
+from personal_context_builder import config
 
 
 def create_logger(name="wenet-undefined"):

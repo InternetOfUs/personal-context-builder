@@ -5,10 +5,12 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 import unittest
-from regions_builder.data_loading import MockWenetSourceLocations, MockWenetSourceLabels
+
+from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+
+from personal_context_builder import config
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions
 from personal_context_builder.wenet_trainer import BaseBOWTrainer
-from personal_context_builder import config
 
 
 class BagOfWordsVectorizerTestCase(unittest.TestCase):

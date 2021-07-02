@@ -6,8 +6,8 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 
-from os import environ
 from collections import defaultdict
+from os import environ
 
 MAINTENER = "william.droz@idiap.ch"
 

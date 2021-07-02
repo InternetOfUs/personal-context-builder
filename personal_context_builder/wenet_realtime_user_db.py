@@ -4,14 +4,16 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-from datetime import datetime
-from personal_context_builder import config
-import redis
 import json
 from abc import ABC, abstractmethod
-from sanic.exceptions import ServerError
-from personal_context_builder.wenet_logger import create_logger
+from datetime import datetime
+
+import redis
 from regions_builder.models import UserLocationPoint
+from sanic.exceptions import ServerError
+
+from personal_context_builder import config
+from personal_context_builder.wenet_logger import create_logger
 
 _LOGGER = create_logger(__name__)
 

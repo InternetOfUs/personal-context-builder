@@ -4,12 +4,14 @@ module for Y@N specific models
 Use wenet models as bases
 """
 
-import personal_context_builder.wenet_models as wm
-from personal_context_builder import config
+import hashlib
 import json
 from copy import deepcopy
-import hashlib
+
 import numpy as np
+
+import personal_context_builder.wenet_models as wm
+from personal_context_builder import config
 
 
 class YNUser(object):
