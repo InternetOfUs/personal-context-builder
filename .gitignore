@@ -9,3 +9,4 @@ htmlcov/
 *.log
 bitbucket.txt
 *egg*
+personal_context_builder.yaml
