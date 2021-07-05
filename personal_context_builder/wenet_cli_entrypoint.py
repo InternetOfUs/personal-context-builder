@@ -251,6 +251,11 @@ def run_update_realtime():
 
 
 def generator_cmd(action):
+    """Give an order to the StreamBase generator
+
+    Args:
+        action: "start" or "stop"
+    """
     if action == "start":
         res = requests.post(config.DEFAULT_GENERATOR_START_URL)
     else:
