@@ -49,6 +49,12 @@ _LOGGER = create_logger(__name__)
 
 
 def compute_semantic_routines(is_mock=False, update=False):
+    """Compute the semantic routines
+
+    Args:
+        is_mock: if true, mock the others components
+        update: if true, update the profile manager with the routines
+    """
     while True:
         try:
             _LOGGER.debug("get source locations")
