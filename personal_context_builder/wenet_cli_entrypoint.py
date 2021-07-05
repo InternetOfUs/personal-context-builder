@@ -240,6 +240,7 @@ def run_app():
 
 
 def run_update_realtime():
+    """update the realtime service"""
     while True:
         try:
             updater = WenetRealTimeUpdateHandler()
