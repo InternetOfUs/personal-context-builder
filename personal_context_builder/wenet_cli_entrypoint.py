@@ -48,11 +48,10 @@ from personal_context_builder.wenet_user_profile_db import (
 _LOGGER = create_logger(__name__)
 
 
-def compute_semantic_routines(is_mock=False, update=False):
+def compute_semantic_routines(update=False):
     """Compute the semantic routines
 
     Args:
-        is_mock: if true, mock the others components
         update: if true, update the profile manager with the routines
     """
     while True:
@@ -290,7 +289,7 @@ if __name__ == "__main__":  # pragma: no cover
         source, *users = args.compare_routines.split(":")
         compare_routines_cmd(source, users, "SimpleLDA:PipelineBOW", is_mock=args.mock)
     if args.compute_semantic_routines:
-        compute_semantic_routines(args.mock, args.update_pm)
+        compute_semantic_routines(args.update_pm)
     if args.app_run:
         run_app()
     if args.update_realtime:
