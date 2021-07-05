@@ -139,6 +139,11 @@ def train(is_mock=False):
 
 
 def update(is_mock=False):
+    """update the embedded profile using the pretrained models
+
+    Args:
+        is_mock: if true, will mock the data source (not  the db)
+    """
     for (
         pipeline_class_name,
         map_model_to_db,
