@@ -108,6 +108,13 @@ def force_update_locations(is_mock=False):
 
 
 def closest(lat, lng, N, is_mock=False):
+    """get the closests users from the given latitude and longitude
+    Args:
+        lat: latitude
+        lng: longitude
+        N: how many users (max)
+        is_mock: if true, will mock the users
+    """
     sorted_users_locations = closest_users(lat, lng, N, is_mock)
     for distance, user_location in sorted_users_locations:
         print(f"{distance:10d}m {user_location._user}")
