@@ -219,6 +219,16 @@ def show_models():
 def compare_routines_cmd(
     source_user, users, model, function=spatial.distance.cosine, is_mock=False
 ):
+    """compare the routines from source_user to all given users
+
+    Args:
+        source_user: user to use for the comparison
+        users: list of user to use to compare with source_user
+        model: which model to use
+        function: comparison function to compare routines
+                  default is cosine distance
+        is_mock: if true, will mock the content
+    """
     res = compare_routines(source_user, users, model, function, is_mock=is_mock)
     print(res)
 
