@@ -234,6 +234,7 @@ def compare_routines_cmd(
 
 
 def run_app():
+    """run the main Sanic Wenet application"""
     wenet_app = WenetApp()
     wenet_app.run()
 
