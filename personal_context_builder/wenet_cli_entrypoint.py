@@ -196,6 +196,11 @@ def show_all_profiles(is_mock=False):
 
 
 def clean_db_cmd(is_mock=False):
+    """clean the profiles DB
+
+    Args:
+        is_mock: if true, will clean the mocked database
+    """
     for db_index in config.MAP_DB_TO_MODEL.keys():
         if is_mock:
             DatabaseProfileHandlerMock.get_instance(db_index=db_index).clean_db()
