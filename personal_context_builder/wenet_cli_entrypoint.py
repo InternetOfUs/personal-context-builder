@@ -209,6 +209,7 @@ def clean_db_cmd(is_mock=False):
 
 
 def show_models():
+    """show the list of the models (embedded routines)"""
     models = [model_name.split(":")[0] for model_name in config.MAP_MODEL_TO_DB.keys()]
     for model_name in models:
         model_doc = getattr(wenet_analysis_models, model_name).__doc__
