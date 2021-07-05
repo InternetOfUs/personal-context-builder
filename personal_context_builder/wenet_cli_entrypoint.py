@@ -157,6 +157,12 @@ def update(is_mock=False):
 
 
 def show_profile(user_id, is_mock=False):
+    """show the profile of a given user
+
+    Args:
+        user_id: user identifier
+        is_mock: if true, will mock the profiles
+    """
     for db_index in config.MAP_DB_TO_MODEL.keys():
         if is_mock:
             profile = DatabaseProfileHandlerMock.get_instance(
