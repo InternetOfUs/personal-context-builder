@@ -121,6 +121,11 @@ def closest(lat, lng, N, is_mock=False):
 
 
 def train(is_mock=False):
+    """train the models (for embedded routines)
+
+    Args:
+        is_mock: if true, will mock the data source and DB
+    """
     for (
         pipeline_class_name,
         map_model_to_db,
