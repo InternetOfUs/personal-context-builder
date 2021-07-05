@@ -176,6 +176,11 @@ def show_profile(user_id, is_mock=False):
 
 
 def show_all_profiles(is_mock=False):
+    """show all profiles
+
+    Args:
+        is_mock: if true, will mock the profiles
+    """
     for db_index in config.MAP_DB_TO_MODEL.keys():
         if is_mock:
             users_profiles = DatabaseProfileHandlerMock.get_instance(
