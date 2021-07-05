@@ -190,3 +190,78 @@ Then you must register the class to a db index in **config.py**.
 `DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"` you can replace 0 by another number, up to 15.
 
 If you want to use a different pipleline (other data sources or/and other features), you can create them in `wenet_pipelines.py`
+
+# List of the parameters
+
+all parameter can be overwritten by the environnement
+
+```python
+DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
+DEFAULT_LOG_FILE = "wenet.log"
+
+DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
+
+# dev or prod
+DEFAULT_ENV = "dev"
+
+# will replace {} by DEFAULT_ENV at runtime
+DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
+DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
+DEFAULT_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
+#  DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
+# How many hours before re-updating the profiles with the semantic routines
+
+DEFAULT_GENERATOR_START_URL = "http://streambase1.disi.unitn.it:8190/generator/start"
+DEFAULT_GENERATOR_STOP_URL = "http://streambase1.disi.unitn.it:8190/generator/stop"
+
+DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
+
+DEFAULT_GOOGLE_API_KEY_FILE = "google_api_key.txt"
+
+# Should be provided at runtime using COMP_AUTH_KEY
+DEFAULT_WENET_API_KEY = ""
+
+#  DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
+DEFAULT_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+DEFAULT_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
+DEFAULT_LOGGER_LEVEL = 20  # info
+
+DEFAULT_STAYPOINTS_TIME_MIN_MS = 5 * 60 * 1000
+DEFAULT_STAYPOINTS_TIME_MAX_MS = 4 * 60 * 60 * 1000
+DEFAULT_STAYPOINTS_DISTANCE_MAX_M = 200
+
+DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M = 200
+DEFAULT_STAYREGION_INC_DELTA = 0.000001
+
+DEFAULT_USERPLACE_TIME_MAX_DELTA_MS = 5 * 60 * 1000
+DEFAULT_USERPLACE_STAY_POINT_SAMPLING = 5 * 60 * 1000
+
+DEFAULT_APP_NAME = "wenet_personal_context_builder"
+DEFAULT_APP_INTERFACE = "0.0.0.0"
+DEFAULT_APP_PORT = 80
+
+DEFAULT_VIRTUAL_HOST = ""
+DEFAULT_VIRTUAL_HOST_LOCATION = ""
+
+DEFAULT_REDIS_HOST = "wenet-redis"
+DEFAULT_REDIS_PORT = 6379
+
+DEFAULT_REALTIME_REDIS_HOST = "wenet-realtime-redis"
+DEFAULT_REALTIME_REDIS_PORT = 6379
+
+DEFAULT_WENET_API_HOST = "wenet-api"
+
+# up to 16 (0-15) locations in default Redis settings
+# Format {ModelClassName}:{PipelineClassName}
+DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"
+DEFAULT_REDIS_DATABASE_MODEL_1 = "SimpleBOW:PipelineBOW"
+DEFAULT_REDIS_DATABASE_MODEL_2 = "SimpleHDP:PipelineWithCorpus"
+
+DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
+
+DEFAULT_DATA_FOLDER = "."
+
+# Shouldn't be used
+DEFAULT_GENERIC_MODEL_NAME = "last_model.p"
+DEFAULT_BOW_MODEL_FILE = "last_bow_vectorizer.p"
+```
