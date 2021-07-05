@@ -84,6 +84,11 @@ def compute_semantic_routines(update=False):
 
 
 def force_update_locations(is_mock=False):
+    """Force the update of the locations to the DB
+
+    Args:
+        is_mock: if true, will mock the data source (not the database)
+    """
     if is_mock:
         db = DatabaseRealtimeLocationsHandlerMock.get_instance()
         newest_locations = [
