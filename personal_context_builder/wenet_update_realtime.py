@@ -15,6 +15,8 @@ from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLo
 
 
 class WenetRealTimeUpdateHandler(object):
+    """class that handle the updating of the realtime component"""
+
     def __init__(self):
         pass
 
@@ -26,6 +28,15 @@ class WenetRealTimeUpdateHandler(object):
         longitude,
         accuracy=0,
     ):
+        """update the user location
+
+        Args:
+            user_id: user to update
+            timestamp: timestamp of the recorded data
+            latitude: latitude
+            longitude: longitude
+            accuracy: accuracy
+        """
         my_dict = {
             "id": user_id,
             "timestamp": int(timestamp),
@@ -39,6 +50,13 @@ class WenetRealTimeUpdateHandler(object):
         )
 
     def get_user_location(self, user_id):
+        """Retreive the location of the given user
+
+        Args:
+            user_id: user to retrieve
+
+        Return: The latest location if available
+        """
         date_to = datetime.now()
         date_from = date_to - timedelta(minutes=5)
 
@@ -52,11 +70,16 @@ class WenetRealTimeUpdateHandler(object):
             return res[-1]
 
     def get_all_users(self):
+        """get all users"""
         return StreamBaseLocationsLoader.get_latest_users()
 
     def run_once(self):
-        # TODO use async
-        # https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor-example
+        """retreive and update the locations of all users
+
+
+        TODO It would be better to use async for this task
+        https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor-example
+        """
         users = self.get_all_users()
         for user in users:
             location = self.get_user_location(user)
