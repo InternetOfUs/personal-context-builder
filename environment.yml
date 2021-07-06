@@ -42,7 +42,7 @@ dependencies:
     - python-dateutil==2.8.1
     - pytz==2020.5
     - redis==3.5.3
-    - -e git+https://bot:GWBstuthaxfMscJHCoDK@gitlab.idiap.ch/wenet/regions_builder.git@ab7a430b9d5b2ab15778940ee55612979ea6eeb8#egg=regions_builder
+    - git+https://bot:GWBstuthaxfMscJHCoDK@gitlab.idiap.ch/wenet/regions_builder.git@3687c2d9591fcb4afc54b8be2972c248b79d1939#egg=regions_builder
     - requests==2.25.1
     - rfc3986==1.4.0
     - sanic==20.12.1
