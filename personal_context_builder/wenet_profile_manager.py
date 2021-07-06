@@ -361,7 +361,6 @@ def update_profiles():
 def update_profile(
     routines, profile_id, labels, url=config.DEFAULT_PROFILE_MANAGER_URL
 ):
-    pprint(routines)
     profile_url = url + f"/profiles/{profile_id}"
     personal_behaviors = []
 
@@ -370,7 +369,6 @@ def update_profile(
         current_pb.fill(routine, labels)
         personal_behaviors.append(current_pb.to_dict())
     try:
-        pprint(personal_behaviors)
         r = requests.patch(
             profile_url,
             json={"personalBehaviors": personal_behaviors},
