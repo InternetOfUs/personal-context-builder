@@ -346,9 +346,11 @@ class PersonalBehavior(object):
     def to_dict(self):
         my_dict = dict()
         my_dict["user_id"] = self.user_id
-        my_dict["weekday"] = self.weekday
+        my_dict["weekday"] = str(self.weekday)
         my_dict["confidence"] = self.confidence
-        my_dict["label_distribution"] = self.label_distribution
+        my_dict["label_distribution"] = dict(
+            [(ts, dist) for ts, dist in self.label_distribution.items() if dist != []]
+        )
         return my_dict
 
 
