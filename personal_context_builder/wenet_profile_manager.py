@@ -378,6 +378,9 @@ def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL)
             _LOGGER.warn(
                 f"unable to update profile for user {profile_id} - status code {r.status_code}"
             )
+            _LOGGER.debug(
+                f"content for {profile_id} is {r.content} from {r.request.body}"
+            )
         else:
             _LOGGER.debug(f"update profile for user {profile_id} success")
     except RequestException as e:
