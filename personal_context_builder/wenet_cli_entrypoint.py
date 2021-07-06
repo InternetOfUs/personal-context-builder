@@ -268,6 +268,17 @@ def generator_cmd(action):
         _LOGGER.info(f"succesfully called {action} on the data generator")
 
 
+def show_pm_profile(user):
+    from pprint import pprint
+
+    url = config.DEFAULT_PROFILE_MANAGER_URL
+    profile_url = url + f"/profiles/{user}"
+    r = requests.get(
+        profile_url, headers={"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY}
+    )
+    pprint(r.json())
+
+
 if __name__ == "__main__":  # pragma: no cover
     parser = argparse.ArgumentParser(description="Wenet Command line interface")
     parser.add_argument(
@@ -322,6 +333,9 @@ if __name__ == "__main__":  # pragma: no cover
     parser.add_argument(
         "--generator", help="action on the generator", choices=["start", "stop"]
     )
+    parser.add_argument(
+        "--show_pm_profile", help="show the user profile by asking the PM"
+    )
     args = parser.parse_args()
     if args.clean_db:
         clean_db_cmd(args.mock)
@@ -353,3 +367,5 @@ if __name__ == "__main__":  # pragma: no cover
         run_update_realtime()
     if args.generator:
         generator_cmd(args.generator)
+    if args.show_pm_profile:
+        show_pm_profile(args.show_pm_profile)
