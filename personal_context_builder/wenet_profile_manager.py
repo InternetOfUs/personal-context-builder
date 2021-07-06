@@ -356,16 +356,19 @@ def update_profiles():
     pass
 
 
-def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL):
+def update_profile(
+    routines, profile_id, labels, url=config.DEFAULT_PROFILE_MANAGER_URL
+):
+    pprint(routines)
     profile_url = url + f"/profiles/{profile_id}"
     personal_behaviors = []
-    labels = {1: Label("Working (Paid)", 1, 0, 0), 2: Label("House", 2, 0, 0)}
 
     for weekday, routine in routines.items():
         current_pb = PersonalBehavior(profile_id, weekday, 1)
         current_pb.fill(routine, labels)
         personal_behaviors.append(current_pb.to_dict())
     try:
+        pprint(personal_behaviors)
         r = requests.patch(
             profile_url,
             json={"personalBehaviors": personal_behaviors},
