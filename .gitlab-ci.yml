@@ -17,6 +17,7 @@
  coverage:
    stage: coverage
    script:
+     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
      - docker-compose up -d
      - ./docker_run_tests.sh
      - docker-compose down
