@@ -368,8 +368,11 @@ def update_profile(routines, profile_id, url=config.DEFAULT_PROFILE_MANAGER_URL)
     try:
         r = requests.patch(
             profile_url,
-            data={"personalBehaviors": personal_behaviors},
-            headers={"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY},
+            json={"personalBehaviors": personal_behaviors},
+            headers={
+                "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY,
+                "Content-Type": "application/json",
+            },
         )
         if r.status_code != 200:
             _LOGGER.warn(
