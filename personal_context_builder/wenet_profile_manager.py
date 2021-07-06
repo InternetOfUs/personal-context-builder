@@ -243,7 +243,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             if r.status_code == 200:
                 try:
                     _LOGGER.debug(
-                        f"request to stream base for labels success for user {user} -  {r.json()}"
+                        f"request to stream base for labels success for user {user}"
                     )
                     return r.json()
                 except JSONDecodeError:
