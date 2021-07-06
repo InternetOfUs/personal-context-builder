@@ -44,12 +44,8 @@ You can compare the routines of users by using `/compare_routines/` (e.g `/compa
 Wenet have a single entrypoint for all functionality. By typing `python3 -m wenet_cli_entrypoint --help`, you can have the help
 
 <pre>
-usage: wenet_cli_entrypoint.py [-h] [--train] [--update] [--update_pm]
-                               [--clean_db] [--compute_semantic_routines]
-                               [--show SHOW] [--show_all] [--app_run]
-                               [--show_models] [--mock] [--closest lat lng N]
-                               [--force_update_locations]
-                               [--compare_routines COMPARE_ROUTINES]
+usage: wenet_cli_entrypoint.py [-h] [--train] [--update] [--update_pm] [--clean_db] [--compute_semantic_routines] [--show SHOW] [--show_all] [--app_run] [--update_realtime]
+                               [--show_models] [--mock] [--closest lat lng N] [--force_update_locations] [--compare_routines COMPARE_ROUTINES] [--generator {start,stop}]
 
 Wenet Command line interface
 
@@ -57,14 +53,14 @@ optional arguments:
   -h, --help            show this help message and exit
   --train               train the model from the latest data
   --update              update the profiles in the db
-  --update_pm           update the semantic profiles in profile manager
-                        (blocking operations)
+  --update_pm           update the semantic profiles in profile manager (blocking operations)
   --clean_db            clean the db
   --compute_semantic_routines
                         compute the semantic routines
   --show SHOW           show a specific profile from the db
   --show_all            show all profiles from the db
   --app_run             run the application
+  --update_realtime     update the realtime service continously
   --show_models         show the list of models
   --mock                use mock data/db instead of real wenet data
   --closest lat lng N   get N closest users from lat, lng
@@ -72,6 +68,9 @@ optional arguments:
                         update the locations of the users
   --compare_routines COMPARE_ROUTINES
                         compare users (should be separated by ':')
+  --generator {start,stop}
+                        action on the generator
+
 </pre>
 
 ## Run the app
