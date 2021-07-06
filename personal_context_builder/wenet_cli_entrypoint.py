@@ -67,7 +67,7 @@ def compute_semantic_routines(update=False):
                 try:
                     routines = semantic_model_hist.compute_weekdays(user)
                     if update:
-                        _LOGGER.info(f"sending the routines for user {user}...")
+                        _LOGGER.debug(f"sending the routines for user {user}...")
                         update_profile(routines, user)
                 except wenet_exceptions.SemanticRoutinesComputationError as e:
                     _LOGGER.debug(
