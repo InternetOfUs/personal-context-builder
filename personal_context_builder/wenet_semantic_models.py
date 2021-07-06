@@ -23,6 +23,7 @@ from personal_context_builder import config
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions
 from personal_context_builder.wenet_exceptions import SemanticRoutinesComputationError
 from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder.wenet_profile_manager import Label
 
 _LOGGER = create_logger(__name__)
 
@@ -70,6 +71,23 @@ class SemanticModel(object):
         all_days_locations = BagOfWordsVectorizer.group_by_days(locations, user_id)
         indexed_weekday_locations = self.index_per_weekday(all_days_locations)
         return indexed_weekday_locations, labelled_stay_regions, stay_regions
+
+    def compute_labels_for_user(self, user_id):
+        """Compute the labels for a given user
+        Args:
+            user_id: for which user
+
+        TODO user specific location for labels
+
+        Returns: dict of semantic labels with Label
+        """
+        res = dict(
+            [
+                (semantic_id, Label(label_name, semantic_id, 0, 0))
+                for label_name, semantic_id in self._regions_mapping.items()
+            ]
+        )
+        return res
 
     def compute_weekdays(self, user_id):
         """Compute the all weekday distributions for the given user
