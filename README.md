@@ -83,7 +83,7 @@ You can run the app with `python3 -m wenet_cli_entrypoint --app_run`
 
 # Link to the documentation
 
-Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
+Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder-openapi.json)
 
 Postman collection generated from OpenAPI is [here](./documentation/postman_collection.json)
 
