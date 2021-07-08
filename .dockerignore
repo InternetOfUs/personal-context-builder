@@ -1,1 +1,12 @@
-.git*
+__pycache__/
+code_ada/
+.vscode/
+.coverage
+google_api_key.txt
+.ipynb_checkpoints/
+*.p
+*.log
+bitbucket.txt
+*egg*
+personal_context_builder.yaml
+src/
