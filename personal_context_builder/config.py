@@ -55,6 +55,7 @@ DEFAULT_APP_NAME = "wenet_personal_context_builder"
 DEFAULT_APP_INTERFACE = "0.0.0.0"
 DEFAULT_APP_PORT = 80
 
+# Virtualhost, can be overwritten vy .venv
 DEFAULT_VIRTUAL_HOST = ""
 DEFAULT_VIRTUAL_HOST_LOCATION = ""
 
