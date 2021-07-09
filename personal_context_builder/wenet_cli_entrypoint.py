@@ -250,7 +250,8 @@ def run_update_realtime():
             updater = WenetRealTimeUpdateHandler()
             updater.run_once()
             time.sleep(5)
-        except:
+        except Exception as e:
+            _LOGGER.error(f"ERROR {e}")
             pass  # TODO catch all exceptions
 
 
