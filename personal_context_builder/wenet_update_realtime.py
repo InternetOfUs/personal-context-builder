@@ -7,11 +7,17 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 import concurrent.futures
 from datetime import datetime, timedelta
-
+import urllib3
+from functools import partial
 import requests
-
+from multiprocessing.pool import ThreadPool
 from personal_context_builder import config
 from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
+from personal_context_builder.wenet_logger import create_logger
+
+_LOGGER = create_logger(__name__)
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class WenetRealTimeUpdateHandler(object):
@@ -20,8 +26,8 @@ class WenetRealTimeUpdateHandler(object):
     def __init__(self):
         pass
 
+    @staticmethod
     def update_user_location(
-        self,
         user_id,
         timestamp,
         latitude,
@@ -44,12 +50,10 @@ class WenetRealTimeUpdateHandler(object):
             "longitude": longitude,
             "accuracy": int(accuracy),
         }
-        requests.post(
-            f"{config.DEFAULT_USER_LOCATION_URL}",
-            json=my_dict,
-        )
+        requests.post(f"{config.DEFAULT_USER_LOCATION_URL}", json=my_dict, verify=False)
 
-    def get_user_location(self, user_id):
+    @staticmethod
+    def get_user_location(user_id):
         """Retreive the location of the given user
 
         Args:
@@ -73,21 +77,27 @@ class WenetRealTimeUpdateHandler(object):
         """get all users"""
         return StreamBaseLocationsLoader.get_latest_users()
 
+    @staticmethod
+    def run_one_user(user_location):
+        user, location = user_location
+        if location is not None:
+            timestamp = datetime.timestamp(location._pts_t)
+            WenetRealTimeUpdateHandler.update_user_location(
+                user,
+                timestamp=timestamp,
+                latitude=location._lat,
+                longitude=location._lng,
+            )
+
     def run_once(self):
-        """retreive and update the locations of all users
-
-
-        TODO It would be better to use async for this task
-        https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor-example
-        """
+        """retreive and update the locations of all users"""
         users = self.get_all_users()
-        for user in users:
-            location = self.get_user_location(user)
-            if location is not None:
-                timestamp = datetime.timestamp(location._pts_t)
-                self.update_user_location(
-                    user,
-                    timestamp=timestamp,
-                    latitude=location._lat,
-                    longitude=location._lng,
-                )
+        _LOGGER.info(f"start to update {len(users)} users")
+        with ThreadPool(min(150, len(users))) as pool:
+            locations = list(
+                pool.map(WenetRealTimeUpdateHandler.get_user_location, users)
+            )
+            users_location = zip(users, locations)
+            pool.map(WenetRealTimeUpdateHandler.run_one_user, users_location)
+        pool.join()
+        _LOGGER.info(f"{len(users)} users updated")
