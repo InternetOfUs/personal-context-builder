@@ -88,7 +88,7 @@ MAP_MODEL_TO_DB = dict()
 MAP_PIPELINE_TO_MAP_MODEL_TO_DB = defaultdict(dict)
 
 
-def _update_parameters_from_env():
+def _update_parameters_from_env():  # pragma: no cover
     """update the config values from env"""
     for k, v in globals().items():
         if k.startswith("DEFAULT_"):
@@ -102,20 +102,20 @@ def _update_parameters_from_env():
                 globals()[k] = new_v
 
 
-def _update_env_for_partners_url():
+def _update_env_for_partners_url():  # pragma: no cover
     urls = ["DEFAULT_PROFILE_MANAGER_URL", "DEFAULT_STREAMBASE_BATCH_URL"]
     for url in urls:
         globals()[url] = globals()[url].format(DEFAULT_ENV)
 
 
-def _update_api_key():
+def _update_api_key():  # pragma: no cover
     """update the api key using env"""
     if "COMP_AUTH_KEY" in environ:
         globals()["DEFAULT_WENET_API_KEY"] = environ["COMP_AUTH_KEY"]
         print("WENET API key setted")
 
 
-def _update_parameters_if_virtual_host():
+def _update_parameters_if_virtual_host():  # pragma: no cover
     """Update parameter if virtual host is defined"""
     if "VIRTUAL_HOST" in environ:
         globals()["DEFAULT_VIRTUAL_HOST"] = environ["VIRTUAL_HOST"]
@@ -128,7 +128,9 @@ def _update_parameters_if_virtual_host():
         )
 
 
-def _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB):
+def _update_redis_database_index_mapping(
+    MAP_DB_TO_MODEL, MAP_MODEL_TO_DB
+):  # pragma: no cover
     """fill two dict to map Redis DB <--> model classes"""
     for k, v in globals().items():
         if k.startswith("DEFAULT_REDIS_DATABASE_MODEL_"):
