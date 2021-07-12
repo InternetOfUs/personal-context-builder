@@ -37,27 +37,49 @@ class DatabaseProfileHandlerBase(ABC):
 
     @abstractmethod
     def clean_db(self):
-        pass
+        """clean the database"""
 
     @abstractmethod
     def delete_profile(self, user_id):
-        pass
+        """delete a given profile
+
+        Args:
+            user_id: user to delete
+        """
 
     @abstractmethod
     def get_all_profiles(self, match=None):
-        pass
+        """get all profiles that match a given expression
+
+        Args:
+            match: expression to use
+        """
 
     @abstractmethod
     def get_profile(self, user_id):
-        pass
+        """get a given profile
+
+        Args:
+            user_id: user to retreive
+        """
 
     @abstractmethod
     def set_profile(self, user_id, vector):
-        pass
+        """set profile to a given user_id to vector
+
+        Args:
+            user_id: user to update
+            vector: value as profile
+        """
 
     @abstractmethod
     def set_profiles(self, user_ids, vectors):
-        pass
+        """set multiple profiles at once
+
+        Args:
+            user_ids: list of users to update
+            vectors: list of vectors as values
+        """
 
 
 class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
