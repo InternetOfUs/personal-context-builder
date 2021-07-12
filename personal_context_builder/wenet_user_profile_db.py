@@ -10,6 +10,7 @@ from abc import ABC, abstractmethod
 
 import redis
 from sanic.exceptions import ServerError
+import fakeredis
 
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
@@ -126,9 +127,16 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
     """
 
     def __init__(
-        self, db_index=0, host=config.DEFAULT_REDIS_HOST, port=config.DEFAULT_REDIS_PORT
+        self,
+        db_index=0,
+        host=config.DEFAULT_REDIS_HOST,
+        port=config.DEFAULT_REDIS_PORT,
+        use_fake=config.DEFAULT_IS_UNITTESTING,
     ):
-        self._server = redis.Redis(host=host, port=port, db=db_index)
+        if not use_fake:
+            self._server = redis.Redis(host=host, port=port, db=db_index)
+        else:
+            self._server = fakeredis.FakeServer()
         try:
             self._server.ping()
         except:  # TODO catch specific exception
