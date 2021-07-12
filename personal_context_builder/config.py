@@ -16,7 +16,7 @@ DEFAULT_LOG_FILE = "wenet.log"
 
 DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
 
-# dev or prod
+# test, dev or prod
 DEFAULT_ENV = "dev"
 
 # will replace {} by DEFAULT_ENV at runtime
