@@ -16,8 +16,11 @@ DEFAULT_LOG_FILE = "wenet.log"
 
 DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
 
-# test, dev or prod
+# dev or prod
 DEFAULT_ENV = "dev"
+
+# Set to true for unittesting
+DEFAULT_IS_UNITTESTING = False
 
 # will replace {} by DEFAULT_ENV at runtime
 DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
