@@ -45,11 +45,11 @@ class BasePipeline(ABC):
 
     @abstractmethod
     def train(self):
-        pass
+        """train the pipeline"""
 
     @abstractmethod
     def update(self):
-        pass
+        """Update the pipeline"""
 
 
 class PipelineBOW(BasePipeline):

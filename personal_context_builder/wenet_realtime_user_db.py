@@ -38,15 +38,15 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
 
     @abstractmethod
     def update(self, userplaces):
-        pass
+        """Update the userplaces"""
 
     @abstractmethod
     def get_all_users(self):
-        pass
+        """get all users"""
 
     @abstractmethod
     def get_users(self, users_id):
-        pass
+        """get some users"""
 
 
 class DatabaseRealtimeLocationsHandlerMock(DatabaseRealtimeLocationsHandlerBase):
