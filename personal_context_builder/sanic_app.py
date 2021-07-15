@@ -28,9 +28,9 @@ class WenetApp(object):
 
     def __init__(
         self,
-        app_name=config.DEFAULT_APP_NAME,
-        virtual_host=config.DEFAULT_VIRTUAL_HOST,
-        virtual_host_location=config.DEFAULT_VIRTUAL_HOST_LOCATION,
+        app_name=config.PCB_APP_NAME,
+        virtual_host=config.PCB_VIRTUAL_HOST,
+        virtual_host_location=config.PCB_VIRTUAL_HOST_LOCATION,
         is_mock=False,
     ):
         """constructor
@@ -47,7 +47,7 @@ class WenetApp(object):
 
         self._app.blueprint([routines_bp, models_bp])
 
-    def run(self, host=config.DEFAULT_APP_INTERFACE, port=config.DEFAULT_APP_PORT):
+    def run(self, host=config.PCB_APP_INTERFACE, port=config.PCB_APP_PORT):
         """run the web service
         Args:
         host -- the host/interface to listen

@@ -31,9 +31,9 @@ def create_stay_point(locations):
 
 def yn_estimate_stay_points(
     locations: List[YNLocationPoint],
-    time_min_ms: int = config.DEFAULT_STAYPOINTS_TIME_MIN_MS,
-    time_max_ms: int = config.DEFAULT_STAYPOINTS_TIME_MAX_MS,
-    distance_max_m: int = config.DEFAULT_STAYPOINTS_DISTANCE_MAX_M,
+    time_min_ms: int = config.PCB_STAYPOINTS_TIME_MIN_MS,
+    time_max_ms: int = config.PCB_STAYPOINTS_TIME_MAX_MS,
+    distance_max_m: int = config.PCB_STAYPOINTS_DISTANCE_MAX_M,
 ) -> Set[YNStayPoint]:
     """
     Estimate stay points from a list of location points
@@ -84,7 +84,7 @@ def yn_estimate_stay_points(
 
 def yn_estimate_stay_regions(
     staypoints: List[YNStayPoint],
-    distance_threshold_m: int = config.DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M,
+    distance_threshold_m: int = config.PCB_STAYREGION_DISTANCE_THRESHOLD_M,
     accuracy_aware: bool = True,
 ) -> Set[YNStayRegion]:
     """

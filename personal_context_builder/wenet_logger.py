@@ -18,10 +18,10 @@ def create_logger(name="wenet-undefined"):
     """create a logger with the correct configuration"""
 
     logger = logging.getLogger(name)
-    logger.setLevel(config.DEFAULT_LOGGER_LEVEL)
-    formatter = logging.Formatter(config.DEFAULT_LOGGER_FORMAT)
+    logger.setLevel(config.PCB_LOGGER_LEVEL)
+    formatter = logging.Formatter(config.PCB_LOGGER_FORMAT)
 
-    log_file = logging.handlers.WatchedFileHandler(config.DEFAULT_LOG_FILE)
+    log_file = logging.handlers.WatchedFileHandler(config.PCB_LOG_FILE)
     ch = logging.StreamHandler()
 
     log_file.formatter = formatter
@@ -70,22 +70,22 @@ def create_web_logger_config():
             },
             "log_file_0": {
                 "class": "logging.handlers.WatchedFileHandler",
-                "filename": config.DEFAULT_LOG_FILE,
+                "filename": config.PCB_LOG_FILE,
                 "formatter": "access",
             },
             "log_file_1": {
                 "class": "logging.handlers.WatchedFileHandler",
-                "filename": config.DEFAULT_LOG_FILE,
+                "filename": config.PCB_LOG_FILE,
                 "formatter": "generic",
             },
         },
         formatters={
             "generic": {
-                "format": config.DEFAULT_LOGGER_FORMAT,
+                "format": config.PCB_LOGGER_FORMAT,
                 "class": "logging.Formatter",
             },
             "access": {
-                "format": config.DEFAULT_SANIC_LOGGER_FORMAT,
+                "format": config.PCB_SANIC_LOGGER_FORMAT,
                 "class": "logging.Formatter",
             },
         },

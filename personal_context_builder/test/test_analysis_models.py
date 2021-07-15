@@ -37,7 +37,7 @@ class UserProfileDBTestCase(unittest.TestCase):
         self.assertTrue((prediction_1 == prediction_2).all())
 
     def tearDown(self):
-        location = join(config.DEFAULT_DATA_FOLDER, self.model_1)
+        location = join(config.PCB_DATA_FOLDER, self.model_1)
         remove(location)
 
 

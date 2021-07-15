@@ -50,7 +50,7 @@ class WenetRealTimeUpdateHandler(object):
             "longitude": longitude,
             "accuracy": int(accuracy),
         }
-        requests.post(f"{config.DEFAULT_USER_LOCATION_URL}", json=my_dict, verify=False)
+        requests.post(f"{config.PCB_USER_LOCATION_URL}", json=my_dict, verify=False)
 
     @staticmethod
     def get_user_location(user_id):

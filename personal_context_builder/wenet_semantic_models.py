@@ -34,7 +34,7 @@ class SemanticModel(object):
         locations_source,
         labels_source,
         name="unknown_semantic_model",
-        regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
     ):
         """Constructor
         Args:

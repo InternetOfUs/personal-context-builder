@@ -129,9 +129,9 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
     def __init__(
         self,
         db_index=0,
-        host=config.DEFAULT_REDIS_HOST,
-        port=config.DEFAULT_REDIS_PORT,
-        use_fake=config.DEFAULT_IS_UNITTESTING,
+        host=config.PCB_REDIS_HOST,
+        port=config.PCB_REDIS_PORT,
+        use_fake=config.PCB_IS_UNITTESTING,
     ):
         if not use_fake:
             self._server = redis.Redis(host=host, port=port, db=db_index)

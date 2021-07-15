@@ -20,7 +20,7 @@ class APICompareRoutinesTestCase(unittest.TestCase):
 
     def test_order(self):
         _, response = self._app.test_client.get(
-            config.DEFAULT_VIRTUAL_HOST_LOCATION
+            config.PCB_VIRTUAL_HOST_LOCATION
             + "/compare_routines/mock_user_1/SimpleLDA:PipelineBOW/?users=mock_user_2&users=mock_user_3"
         )
         res = response.json

@@ -103,7 +103,7 @@ This will compute the routines and update the PM each 24 hours with the data for
 
 ## For using only the real-time updader
 
-`DEFAULT_REALTIME_HOST=localhost COMP_AUTH_KEY=YOUR_API_KEY python3 -m personal_context_builder.wenet_cli_entrypoint --update_realtime`
+`PCB_REALTIME_HOST=localhost COMP_AUTH_KEY=YOUR_API_KEY python3 -m personal_context_builder.wenet_cli_entrypoint --update_realtime`
 
 # License
 
@@ -122,7 +122,7 @@ Just create a symlink with `ln -s ../../pre-commit.bash .git/hooks/pre-commit`
 
 ### Database
 
-This project uses a Redis database. The database can be changed by editing `config.py` and modifying the line `DEFAULT_REDIS_HOST = "localhost"`. Be aware that this value is overridden in the `Dockerfile`
+This project uses a Redis database. The database can be changed by editing `config.py` and modifying the line `PCB_REDIS_HOST = "localhost"`. Be aware that this value is overridden in the `Dockerfile`
 
 If you don't modify `config.py` the project expect a Redis database on localhost.
 
@@ -186,7 +186,7 @@ class SimpleBOW(BaseModelWrapper):
 
 Then you must register the class to a db index in **config.py**.
 
-`DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"` you can replace 0 by another number, up to 15.
+`PCB_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"` you can replace 0 by another number, up to 15.
 
 If you want to use a different pipleline (other data sources or/and other features), you can create them in `wenet_pipelines.py`
 
@@ -195,72 +195,72 @@ If you want to use a different pipleline (other data sources or/and other featur
 all parameter can be overwritten by the environnement
 
 ```python
-DEFAULT_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
-DEFAULT_LOG_FILE = "wenet.log"
+PCB_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
+PCB_LOG_FILE = "wenet.log"
 
-DEFAULT_SEMANTIC_DB_NAME = "semantic_db"
+PCB_SEMANTIC_DB_NAME = "semantic_db"
 
 # dev or prod
-DEFAULT_ENV = "dev"
+PCB_ENV = "dev"
 
-# will replace {} by DEFAULT_ENV at runtime
-DEFAULT_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
-DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
-DEFAULT_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
-#  DEFAULT_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
+# will replace {} by PCB_ENV at runtime
+PCB_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
+PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
+PCB_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
+#  PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
 # How many hours before re-updating the profiles with the semantic routines
 
-DEFAULT_GENERATOR_START_URL = "http://streambase1.disi.unitn.it:8190/generator/start"
-DEFAULT_GENERATOR_STOP_URL = "http://streambase1.disi.unitn.it:8190/generator/stop"
+PCB_GENERATOR_START_URL = "http://streambase1.disi.unitn.it:8190/generator/start"
+PCB_GENERATOR_STOP_URL = "http://streambase1.disi.unitn.it:8190/generator/stop"
 
-DEFAULT_PROFILE_MANAGER_UPDATE_CD_H = 24
+PCB_PROFILE_MANAGER_UPDATE_CD_H = 24
 
-DEFAULT_GOOGLE_API_KEY_FILE = "google_api_key.txt"
+PCB_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 
 # Should be provided at runtime using COMP_AUTH_KEY
-DEFAULT_WENET_API_KEY = ""
+PCB_WENET_API_KEY = ""
 
-#  DEFAULT_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
-DEFAULT_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-DEFAULT_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
-DEFAULT_LOGGER_LEVEL = 20  # info
+#  PCB_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
+PCB_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+PCB_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
+PCB_LOGGER_LEVEL = 20  # info
 
-DEFAULT_STAYPOINTS_TIME_MIN_MS = 5 * 60 * 1000
-DEFAULT_STAYPOINTS_TIME_MAX_MS = 4 * 60 * 60 * 1000
-DEFAULT_STAYPOINTS_DISTANCE_MAX_M = 200
+PCB_STAYPOINTS_TIME_MIN_MS = 5 * 60 * 1000
+PCB_STAYPOINTS_TIME_MAX_MS = 4 * 60 * 60 * 1000
+PCB_STAYPOINTS_DISTANCE_MAX_M = 200
 
-DEFAULT_STAYREGION_DISTANCE_THRESHOLD_M = 200
-DEFAULT_STAYREGION_INC_DELTA = 0.000001
+PCB_STAYREGION_DISTANCE_THRESHOLD_M = 200
+PCB_STAYREGION_INC_DELTA = 0.000001
 
-DEFAULT_USERPLACE_TIME_MAX_DELTA_MS = 5 * 60 * 1000
-DEFAULT_USERPLACE_STAY_POINT_SAMPLING = 5 * 60 * 1000
+PCB_USERPLACE_TIME_MAX_DELTA_MS = 5 * 60 * 1000
+PCB_USERPLACE_STAY_POINT_SAMPLING = 5 * 60 * 1000
 
-DEFAULT_APP_NAME = "wenet_personal_context_builder"
-DEFAULT_APP_INTERFACE = "0.0.0.0"
-DEFAULT_APP_PORT = 80
+PCB_APP_NAME = "wenet_personal_context_builder"
+PCB_APP_INTERFACE = "0.0.0.0"
+PCB_APP_PORT = 80
 
-DEFAULT_VIRTUAL_HOST = ""
-DEFAULT_VIRTUAL_HOST_LOCATION = ""
+PCB_VIRTUAL_HOST = ""
+PCB_VIRTUAL_HOST_LOCATION = ""
 
-DEFAULT_REDIS_HOST = "wenet-redis"
-DEFAULT_REDIS_PORT = 6379
+PCB_REDIS_HOST = "wenet-redis"
+PCB_REDIS_PORT = 6379
 
-DEFAULT_REALTIME_REDIS_HOST = "wenet-realtime-redis"
-DEFAULT_REALTIME_REDIS_PORT = 6379
+PCB_REALTIME_REDIS_HOST = "wenet-realtime-redis"
+PCB_REALTIME_REDIS_PORT = 6379
 
-DEFAULT_WENET_API_HOST = "wenet-api"
+PCB_WENET_API_HOST = "wenet-api"
 
 # up to 16 (0-15) locations in default Redis settings
 # Format {ModelClassName}:{PipelineClassName}
-DEFAULT_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"
-DEFAULT_REDIS_DATABASE_MODEL_1 = "SimpleBOW:PipelineBOW"
-DEFAULT_REDIS_DATABASE_MODEL_2 = "SimpleHDP:PipelineWithCorpus"
+PCB_REDIS_DATABASE_MODEL_0 = "SimpleLDA:PipelineBOW"
+PCB_REDIS_DATABASE_MODEL_1 = "SimpleBOW:PipelineBOW"
+PCB_REDIS_DATABASE_MODEL_2 = "SimpleHDP:PipelineWithCorpus"
 
-DEFAULT_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
+PCB_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
 
-DEFAULT_DATA_FOLDER = "."
+PCB_DATA_FOLDER = "."
 
 # Shouldn't be used
-DEFAULT_GENERIC_MODEL_NAME = "last_model.p"
-DEFAULT_BOW_MODEL_FILE = "last_bow_vectorizer.p"
+PCB_GENERIC_MODEL_NAME = "last_model.p"
+PCB_BOW_MODEL_FILE = "last_bow_vectorizer.p"
 ```

@@ -50,7 +50,7 @@ class BaseBOWTrainer(object):
         self,
         locations_source,
         labels_source,
-        regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
     ):
         """Handle the trainer of the Bag-Of-Words
         Args:
@@ -108,7 +108,7 @@ class HDPTrainer(BaseBOWTrainer):
         self,
         locations_source,
         labels_source,
-        regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
     ):
         """Handle the trainer of the HDP
         Args:
@@ -119,7 +119,7 @@ class HDPTrainer(BaseBOWTrainer):
         super().__init__(
             locations_source,
             labels_source,
-            regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+            regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
         )
 
     def train(self, user_id):

@@ -28,7 +28,7 @@ class BagOfWordsVectorizerTestCase(unittest.TestCase):
         filename = "bow_delete_me.p"
         vectorizer.save(filename)
         vectorizer = BagOfWordsVectorizer.load(filename)
-        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        location = join(config.PCB_DATA_FOLDER, filename)
         remove(location)
         self.assertEqual(regions_size, vectorizer._inner_vector_size)
 

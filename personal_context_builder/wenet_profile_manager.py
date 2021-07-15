@@ -33,7 +33,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         super().__init__(name)
 
         users = self.get_latest_users()
-        self._url = config.DEFAULT_STREAMBASE_BATCH_URL
+        self._url = config.PCB_STREAMBASE_BATCH_URL
         self._users_locations = dict()
         date_to = datetime.datetime.now()
         date_from = date_to - datetime.timedelta(hours=24 * last_days)
@@ -44,7 +44,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         users,
         date_from,
         date_to=None,
-        url=config.DEFAULT_STREAMBASE_BATCH_URL,
+        url=config.PCB_STREAMBASE_BATCH_URL,
     ):
         users_locations = dict()
         for user in users:
@@ -63,7 +63,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         user,
         date_from,
         date_to=None,
-        url=config.DEFAULT_STREAMBASE_BATCH_URL,
+        url=config.PCB_STREAMBASE_BATCH_URL,
     ):
         if date_to is None:
             date_to = datetime.datetime.now()
@@ -76,8 +76,8 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         parameters["properties"] = "locationeventpertime"
         parameters["userId"] = user
         user_url = url
-        if config.DEFAULT_WENET_API_KEY == "":
-            _LOGGER.warn(f"DEFAULT_WENET_API_KEY is empty")
+        if config.PCB_WENET_API_KEY == "":
+            _LOGGER.warn(f"PCB_WENET_API_KEY is empty")
         try:
             r = requests.get(
                 user_url,
@@ -85,7 +85,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 headers={
                     "Authorization": "test:wenet",
                     "Accept": "application/json",
-                    "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY,
+                    "x-wenet-component-apikey": config.PCB_WENET_API_KEY,
                 },
             )
             if r.status_code == 200:
@@ -110,16 +110,13 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
 
     @staticmethod
     def get_latest_users():
-        url = (
-            config.DEFAULT_PROFILE_MANAGER_URL
-            + "/userIdentifiers?offset=0&limit=1000000"
-        )
+        url = config.PCB_PROFILE_MANAGER_URL + "/userIdentifiers?offset=0&limit=1000000"
         try:
-            if config.DEFAULT_WENET_API_KEY == "":
-                _LOGGER.warn(f"DEFAULT_WENET_API_KEY is empty")
+            if config.PCB_WENET_API_KEY == "":
+                _LOGGER.warn(f"PCB_WENET_API_KEY is empty")
                 res = requests.get(url)
             else:
-                headers = {"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY}
+                headers = {"x-wenet-component-apikey": config.PCB_WENET_API_KEY}
                 res = requests.get(url, headers=headers)
             res_json = res.json()
             return res_json["userIds"]
@@ -186,7 +183,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
     def __init__(self, location_loader, name="Streambase labels loader", last_days=14):
         super().__init__(name)
         self._location_loader = location_loader
-        self._url = config.DEFAULT_STREAMBASE_BATCH_URL
+        self._url = config.PCB_STREAMBASE_BATCH_URL
         self._users_places = dict()
         self._users_staypoints = dict()
         self._users_stayregions = dict()
@@ -237,7 +234,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 headers={
                     "Authorization": "test:wenet",
                     "Accept": "application/json",
-                    "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY,
+                    "x-wenet-component-apikey": config.PCB_WENET_API_KEY,
                 },
             )
             if r.status_code == 200:
@@ -358,9 +355,7 @@ def update_profiles():
     pass
 
 
-def update_profile(
-    routines, profile_id, labels, url=config.DEFAULT_PROFILE_MANAGER_URL
-):
+def update_profile(routines, profile_id, labels, url=config.PCB_PROFILE_MANAGER_URL):
     profile_url = url + f"/profiles/{profile_id}"
     personal_behaviors = []
 
@@ -373,7 +368,7 @@ def update_profile(
             profile_url,
             json={"personalBehaviors": personal_behaviors},
             headers={
-                "x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY,
+                "x-wenet-component-apikey": config.PCB_WENET_API_KEY,
                 "Content-Type": "application/json",
             },
         )

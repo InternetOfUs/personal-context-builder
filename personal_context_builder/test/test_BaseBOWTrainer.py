@@ -35,7 +35,7 @@ class BagOfWordsVectorizerTestCase(unittest.TestCase):
         nb_users = len(source_locations.get_users())
         vectors = bow_trainer.vectorize()
         vectors_size = (
-            max(list(_loads_regions(config.DEFAULT_REGION_MAPPING_FILE).values())) * 48
+            max(list(_loads_regions(config.PCB_REGION_MAPPING_FILE).values())) * 48
         )
         self.assertEqual(vectors.shape, (nb_users, vectors_size))
 

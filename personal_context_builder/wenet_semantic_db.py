@@ -121,7 +121,7 @@ class SemanticRoutineDB(object):
 
     def __init__(self, is_mock=False):
         self._is_mock = True
-        self._db_name = config.DEFAULT_SEMANTIC_DB_NAME
+        self._db_name = config.PCB_SEMANTIC_DB_NAME
         self._engine = PostresqlCoordinator.get_engine(self._db_name, self._is_mock)
         self.create_if_not_exist()
 

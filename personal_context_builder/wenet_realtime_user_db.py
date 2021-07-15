@@ -80,8 +80,8 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
     def __init__(
         self,
         db_index=0,
-        host=config.DEFAULT_REALTIME_REDIS_HOST,
-        port=config.DEFAULT_REALTIME_REDIS_PORT,
+        host=config.PCB_REALTIME_REDIS_HOST,
+        port=config.PCB_REALTIME_REDIS_PORT,
     ):
         self._server = redis.Redis(host=host, port=port, db=db_index)
         try:
@@ -94,7 +94,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         _LOGGER.info("update real-time user locations")
         pipeline = self._server.pipeline()
         for userplace in userplaces:
-            userplace._pts_t = userplace._pts_t.strftime(config.DEFAULT_DATETIME_FORMAT)
+            userplace._pts_t = userplace._pts_t.strftime(config.PCB_DATETIME_FORMAT)
             value = json.dumps(userplace.__dict__)
             pipeline.set(userplace._user, value)
         pipeline.execute()
@@ -110,7 +110,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         for key in self._server.scan_iter():
             dict_user_location = json.loads(self._server.get(key))
             dict_user_location["_pts_t"] = datetime.strptime(
-                dict_user_location["_pts_t"], config.DEFAULT_DATETIME_FORMAT
+                dict_user_location["_pts_t"], config.PCB_DATETIME_FORMAT
             )
             my_dict[key.decode("utf-8")] = UserLocationPoint.from_dict(
                 dict_user_location

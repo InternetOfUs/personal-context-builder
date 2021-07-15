@@ -77,14 +77,14 @@ def compute_semantic_routines(update=False):
                         f"cannot create semantic routines for user {user} - {e}"
                     )
             _LOGGER.debug(
-                f"next computation of semantic routines in {config.DEFAULT_PROFILE_MANAGER_UPDATE_CD_H} hours"
+                f"next computation of semantic routines in {config.PCB_PROFILE_MANAGER_UPDATE_CD_H} hours"
             )
         except wenet_exceptions.WenetError as e:
             _LOGGER.warn(f"wenet exception while computing semantic routines {e}")
         except Exception as e:
             _LOGGER.error(f"UNEXPECTED ERROR while computing semantic routines {e}")
             _LOGGER.exception(e)
-        time.sleep(config.DEFAULT_PROFILE_MANAGER_UPDATE_CD_H * 60 * 60)
+        time.sleep(config.PCB_PROFILE_MANAGER_UPDATE_CD_H * 60 * 60)
 
 
 def force_update_locations(is_mock=False):
@@ -262,9 +262,9 @@ def generator_cmd(action):
         action: "start" or "stop"
     """
     if action == "start":
-        res = requests.post(config.DEFAULT_GENERATOR_START_URL)
+        res = requests.post(config.PCB_GENERATOR_START_URL)
     else:
-        res = requests.post(config.DEFAULT_GENERATOR_STOP_URL)
+        res = requests.post(config.PCB_GENERATOR_STOP_URL)
     code = res.status_code
     if code != 200:
         _LOGGER.warn(f"generator_cmd issue, return code {code}")
@@ -275,10 +275,10 @@ def generator_cmd(action):
 def show_pm_profile(user):
     from pprint import pprint
 
-    url = config.DEFAULT_PROFILE_MANAGER_URL
+    url = config.PCB_PROFILE_MANAGER_URL
     profile_url = url + f"/profiles/{user}"
     r = requests.get(
-        profile_url, headers={"x-wenet-component-apikey": config.DEFAULT_WENET_API_KEY}
+        profile_url, headers={"x-wenet-component-apikey": config.PCB_WENET_API_KEY}
     )
     pprint(r.json())
 

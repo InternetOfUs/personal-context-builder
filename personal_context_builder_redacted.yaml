@@ -17,9 +17,9 @@ spec:
       containers:
       - env:
           # Should use secret, but don't have time to dive into it
-        - name: DEFAULT_WENET_API_KEY
+        - name: PCB_WENET_API_KEY
           value: {INSERT_SECRET_HERE}
-        - name: DEFAULT_USER_LOCATION_URL
+        - name: PCB_USER_LOCATION_URL
           value: http://wenet/users_locations/
         name: wenet-personal-context-builder
         image: docker.idiap.ch/wenet/personal_context_builder:latest

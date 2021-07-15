@@ -101,7 +101,7 @@ class BagOfWordsVectorizer(object):
         self,
         labelled_stay_regions,
         stay_regions,
-        regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
     ):
         self._labelled_stay_regions = labelled_stay_regions
         self._stay_regions = stay_regions
@@ -186,18 +186,18 @@ class BagOfWordsVectorizer(object):
             big_vector += current_vector
         return big_vector
 
-    def save(self, filename=config.DEFAULT_BOW_MODEL_FILE, dump_fct=pickle.dump):
+    def save(self, filename=config.PCB_BOW_MODEL_FILE, dump_fct=pickle.dump):
         """save this current instance of BagOfWordsVectorizer
         Args:
             filename: file that will be used to store the instance
             dump_fct: function to use to dump the instance into a file
         """
-        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        location = join(config.PCB_DATA_FOLDER, filename)
         with open(location, "wb") as f:
             dump_fct(self.__dict__, f)
 
     @staticmethod
-    def load(filename=config.DEFAULT_BOW_MODEL_FILE, load_fct=pickle.load):
+    def load(filename=config.PCB_BOW_MODEL_FILE, load_fct=pickle.load):
         """Create a instance of BagOfWordsVectorizer from a previously saved file
         Args:
             filename: file that contain the saved BagOfWordsVectorizer instance
@@ -205,7 +205,7 @@ class BagOfWordsVectorizer(object):
         Return:
             An instance of BagOfWordsVectorizer
         """
-        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        location = join(config.PCB_DATA_FOLDER, filename)
         with open(location, "rb") as f:
             instance = BagOfWordsVectorizer(None, None)
             instance.__dict__ = load_fct(f)
@@ -217,12 +217,12 @@ class BagOfWordsCorpuzer(BagOfWordsVectorizer):
         self,
         labelled_stay_regions,
         stay_regions,
-        regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
     ):
         super().__init__(
             labelled_stay_regions,
             stay_regions,
-            regions_mapping_file=config.DEFAULT_REGION_MAPPING_FILE,
+            regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
         )
 
     def vectorize(self, locations):

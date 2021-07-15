@@ -50,18 +50,18 @@ class BaseModelWrapper(BaseModel):
     def fit(self, *args, **kwargs):
         self._model_instance.fit(*args, **kwargs)
 
-    def save(self, filename=config.DEFAULT_GENERIC_MODEL_NAME, dump_fct=pickle.dump):
+    def save(self, filename=config.PCB_GENERIC_MODEL_NAME, dump_fct=pickle.dump):
         """save this current instance of BaseModelWrapper
         Args:
             filename: file that will be used to store the instance
             dump_fct: function to use to dump the instance into a file
         """
-        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        location = join(config.PCB_DATA_FOLDER, filename)
         with open(location, "wb") as f:
             dump_fct(self.__dict__, f)
 
     @classmethod
-    def load(cls, filename=config.DEFAULT_GENERIC_MODEL_NAME, load_fct=pickle.load):
+    def load(cls, filename=config.PCB_GENERIC_MODEL_NAME, load_fct=pickle.load):
         """Create a instance of BaseModelWrapper from a previously saved file
         Args:
             filename: file that contain the saved BaseModelWrapper instance
@@ -69,7 +69,7 @@ class BaseModelWrapper(BaseModel):
         Return:
             An instance of BaseModelWrapper
         """
-        location = join(config.DEFAULT_DATA_FOLDER, filename)
+        location = join(config.PCB_DATA_FOLDER, filename)
         with open(location, "rb") as f:
             wrapper = cls()
             wrapper.__dict__ = load_fct(f)

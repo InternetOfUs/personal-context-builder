@@ -68,8 +68,8 @@ class YNStayPoint(wm.StayPoint):
             "lng": self._lng,
             "acc": self._accuracy_m,
             "night_id": self._night_id,
-            "start_datetime": self._t_start.strftime(config.DEFAULT_DATETIME_FORMAT),
-            "end_datetime": self._t_stop.strftime(config.DEFAULT_DATETIME_FORMAT),
+            "start_datetime": self._t_start.strftime(config.PCB_DATETIME_FORMAT),
+            "end_datetime": self._t_stop.strftime(config.PCB_DATETIME_FORMAT),
             "timezone": self._timezone,
             "stay_point_id": self._id,
         }
@@ -118,10 +118,8 @@ class YNStayRegion(wm.StayRegion):
     def to_dict(self):
         my_dict = dict()
 
-        my_dict["start_datetime"] = self._t_start.strftime(
-            config.DEFAULT_DATETIME_FORMAT
-        )
-        my_dict["end_datetime"] = self._t_stop.strftime(config.DEFAULT_DATETIME_FORMAT)
+        my_dict["start_datetime"] = self._t_start.strftime(config.PCB_DATETIME_FORMAT)
+        my_dict["end_datetime"] = self._t_stop.strftime(config.PCB_DATETIME_FORMAT)
         if self._stay_points is not None and len(self._stay_points) > 0:
             my_dict["stay_points"] = [s._id for s in self._stay_points]
             my_dict["timezone"] = self._stay_points[0]._timezone
