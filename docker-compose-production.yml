@@ -14,7 +14,7 @@ services:
     image: 'docker.idiap.ch/wenet/wenet-realtime:v0.0.2'
   wenet-realtime-client:
     container_name: wenet-realtime-client
-    image: 'docker.idiap.ch/wenet/personal_context_builder:v0.1.6'
+    image: 'docker.idiap.ch/wenet/personal_context_builder:v1.0.0'
     entrypoint: ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
   wenet-api:
     restart: always
@@ -28,7 +28,7 @@ services:
      - wenet-data:/data
      - /etc/timezone:/etc/timezone:ro
      - /etc/localtime:/etc/localtime:ro
-    image:  'docker.idiap.ch/wenet/personal_context_builder:v0.1.6'
+    image:  'docker.idiap.ch/wenet/personal_context_builder:v1.0.0'
 networks:
   default:
     external:
