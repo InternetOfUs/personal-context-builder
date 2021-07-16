@@ -20,7 +20,6 @@ from personal_context_builder import (
     wenet_exceptions,
     wenet_pipelines,
 )
-from personal_context_builder.sanic_app import WenetApp
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
 from personal_context_builder.wenet_analysis_models import SimpleBOW, SimpleLDA
 from personal_context_builder.wenet_logger import create_logger
