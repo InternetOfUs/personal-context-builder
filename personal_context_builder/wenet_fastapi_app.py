@@ -14,6 +14,8 @@ from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
 )
+import uvicorn
+import personal_context_builder.config
 
 from typing import Optional, List
 
@@ -25,8 +27,10 @@ app = FastAPI()
     tags=["User's embedded routines"],
     response_model=Optional[EmbeddedRoutineOut],
 )
-def routines(models: Optional[List[str]]):
+def routines(models: Optional[List[str]] = None):
     res = dict()
+    if config.PCB_MOCK_DATABASEHANDLER:
+        DatabaseProfileHandler = DatabaseProfileHandlerMock
     if models is not None:
         models_set = set(models)
         db_dict = dict(
@@ -44,3 +48,12 @@ def routines(models: Optional[List[str]]):
         ).get_all_profiles()
         res[model_name] = routines
     return res
+
+
+def run(
+    app: FastAPI = app,
+    host: str = config.PCB_APP_INTERFACE,
+    port: int = config.PCB_APP_PORT,
+):
+
+    uvicorn.run(app, host=host, port=port)
