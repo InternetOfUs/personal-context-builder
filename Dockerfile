@@ -17,4 +17,4 @@ COPY environment.yml environment.yml
 RUN conda env create -f environment.yml
 COPY . .
 EXPOSE 8000
-CMD ["conda", "run", "-n", "wenet", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--app_run"]
+CMD ["conda", "run", "-n", "wenet_fastapi", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--app_run"]
