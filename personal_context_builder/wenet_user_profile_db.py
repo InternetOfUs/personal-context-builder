@@ -7,9 +7,9 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 import json
 from abc import ABC, abstractmethod
+from logging import error
 
 import redis
-from sanic.exceptions import ServerError
 import fakeredis
 
 from personal_context_builder import config
@@ -140,7 +140,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         try:
             self._server.ping()
         except:  # TODO catch specific exception
-            raise ServerError("Unable to access the Redis DB")
+            raise error("Unable to access the Redis DB")
 
     def clean_db(self):
         """clean the db (delete all entries)"""
