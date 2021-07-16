@@ -12,7 +12,7 @@ class EmbeddedModelName(str):
     """name of the model"""
 
 
-class EmbeddedRoutineOut(BaseModel, Dict[str, Dict[str, List[float]]]):
+class EmbeddedRoutineOut(Dict[str, Dict[str, List[float]]]):
     class Config:
         schema_extra = {
             "example": {
