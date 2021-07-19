@@ -92,3 +92,9 @@ class SemanticRoutine(BaseModel):
                 "confidence": 0.8,
             }
         }
+
+
+class EmbeddedRoutinesDist(BaseModel):
+    """Embedded routines distances from an users to some users"""
+
+    __root__: Dict[str, float]
