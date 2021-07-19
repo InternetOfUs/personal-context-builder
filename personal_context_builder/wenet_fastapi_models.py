@@ -8,11 +8,15 @@ from pydantic import BaseModel
 from typing import Dict, List
 
 
-class EmbeddedModelName(str):
+class EmbeddedModelName(BaseModel):
     """name of the model"""
 
+    __root__ = str
 
-class EmbeddedRoutineOut(Dict[str, Dict[str, List[float]]]):
+
+class EmbeddedRoutineOut(BaseModel):
+    __root__: Dict[str, Dict[str, List[float]]]
+
     class Config:
         schema_extra = {
             "example": {
@@ -22,7 +26,8 @@ class EmbeddedRoutineOut(Dict[str, Dict[str, List[float]]]):
         }
 
 
-class EmbeddedModels(Dict[str, str]):
+class EmbeddedModels(BaseModel):
+    __root__: Dict[str, str]
     """descriptions of the embedded models"""
 
     class Config:
