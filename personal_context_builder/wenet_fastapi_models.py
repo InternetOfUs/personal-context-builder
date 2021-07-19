@@ -38,3 +38,28 @@ class EmbeddedModels(BaseModel):
                 "SimpleHDP": "Bag-of-words approach, compute the mean of all days",
             }
         }
+
+
+class Label(BaseModel):
+    """Label"""
+
+    name: str
+    semantic_class: int
+    latitude: float
+    longitude: float
+
+
+class LabelScore(BaseModel):
+    """label with score"""
+
+    label: Label
+    score: float
+
+
+class SemanticRoutine(BaseModel):
+    """Semantic routine"""
+
+    user_id: str
+    weekday: int
+    label_distribution: List[LabelScore]
+    confidence: float
