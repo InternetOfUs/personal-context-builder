@@ -56,4 +56,5 @@ dependencies:
     - threadpoolctl==2.2.0
     - typing-extensions==3.10.0.0
     - urllib3==1.26.6
+    - uvicorn==0.14.0
     - git+https://bot:GWBstuthaxfMscJHCoDK@gitlab.idiap.ch/wenet/regions_builder.git@3687c2d9591fcb4afc54b8be2972c248b79d1939#egg=regions_builder
