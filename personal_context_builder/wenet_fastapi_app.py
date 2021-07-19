@@ -7,6 +7,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from personal_context_builder.wenet_fastapi_models import (
     EmbeddedModelName,
     EmbeddedRoutineOut,
+    EmbeddedModels,
 )
 from personal_context_builder import config, wenet_analysis_models
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
@@ -75,6 +76,19 @@ async def routines_for_user(user_id: str, models: Optional[List[str]] = None):
             user_id
         )
         res[model_name] = routines
+    return res
+
+
+@app.get(
+    "/models/",
+    tags=["User's embedded routines"],
+    response_model=Optional[EmbeddedModels],
+)
+async def get_available_models():
+    res = dict()
+    models = [model_name.split(":")[0] for model_name in config.MAP_MODEL_TO_DB.keys()]
+    for model_name in models:
+        res[model_name] = getattr(wenet_analysis_models, model_name).__doc__
     return res
 
 
