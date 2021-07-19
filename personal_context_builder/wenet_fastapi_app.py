@@ -8,6 +8,7 @@ from personal_context_builder.wenet_fastapi_models import (
     EmbeddedModelName,
     EmbeddedRoutineOut,
     EmbeddedModels,
+    SemanticRoutine,
 )
 from personal_context_builder import config, wenet_analysis_models
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
@@ -89,6 +90,40 @@ async def get_available_models():
     models = [model_name.split(":")[0] for model_name in config.MAP_MODEL_TO_DB.keys()]
     for model_name in models:
         res[model_name] = getattr(wenet_analysis_models, model_name).__doc__
+    return res
+
+
+@app.get(
+    "/semantic_routines/{user_id}/{weekday}/{time}/",
+    tags=["User's semantic routines"],
+    response_model=Optional[SemanticRoutine],
+)
+async def get_semantic_routines(user_id: str, weekday: int, time: str):
+    res = dict()
+    #  TODO get results
+    res["user_id"] = user_id
+    res["weekday"] = weekday
+    res["label_distribution"] = [
+        {
+            "label": {
+                "name": "HOME",
+                "semantic_class": 3,
+                "latitude": 0,
+                "longitude": 0,
+            },
+            "score": 0.6,
+        },
+        {
+            "label": {
+                "name": "WORK",
+                "semantic_class": 4,
+                "latitude": 0,
+                "longitude": 0,
+            },
+            "score": 0.4,
+        },
+    ]
+    res["confidence"] = 0.8
     return res
 
 
