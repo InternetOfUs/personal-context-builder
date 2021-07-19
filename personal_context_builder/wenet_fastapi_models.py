@@ -20,3 +20,16 @@ class EmbeddedRoutineOut(Dict[str, Dict[str, List[float]]]):
                 "SimpleBOW": {"mock_user_1": [1, 1, 0, 0.5, 1]},
             }
         }
+
+
+class EmbeddedModels(Dict[str, str]):
+    """descriptions of the embedded models"""
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "SimpleLDA": "Simple LDA over all the users, with 15 topics",
+                "SimpleBOW": "Bag-of-words approach, compute the mean of all days",
+                "SimpleHDP": "Bag-of-words approach, compute the mean of all days",
+            }
+        }
