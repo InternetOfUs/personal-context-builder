@@ -63,3 +63,32 @@ class SemanticRoutine(BaseModel):
     weekday: int
     label_distribution: List[LabelScore]
     confidence: float
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "user_id": "mock_user_1",
+                "weekday": 4,
+                "label_distribution": [
+                    {
+                        "label": {
+                            "name": "HOME",
+                            "semantic_class": 3,
+                            "latitude": 0,
+                            "longitude": 0,
+                        },
+                        "score": 0.6,
+                    },
+                    {
+                        "label": {
+                            "name": "WORK",
+                            "semantic_class": 4,
+                            "latitude": 0,
+                            "longitude": 0,
+                        },
+                        "score": 0.4,
+                    },
+                ],
+                "confidence": 0.8,
+            }
+        }
