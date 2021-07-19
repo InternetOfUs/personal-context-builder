@@ -21,7 +21,19 @@ import personal_context_builder.config
 
 from typing import Optional, List
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "User's embedded routines",
+        "description": "embedded routines of the user",
+    },
+    {
+        "name": "User's semantic routines",
+        "description": "(MOCKED) semantic routines of the user",
+    },
+]
+
+
+app = FastAPI(openapi_tags=tags_metadata)
 
 
 @app.get(
