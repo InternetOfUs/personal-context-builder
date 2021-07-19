@@ -44,7 +44,9 @@ app = FastAPI(openapi_tags=tags_metadata)
 async def routines(models: Optional[List[str]] = Query(None)):
     res = dict()
     if config.PCB_MOCK_DATABASEHANDLER:
-        DatabaseProfileHandler = DatabaseProfileHandlerMock
+        handler_to_use = DatabaseProfileHandlerMock
+    else:
+        handler_to_use = DatabaseProfileHandler
     if models is not None:
         models_set = set(models)
         db_dict = dict(
@@ -57,9 +59,7 @@ async def routines(models: Optional[List[str]] = Query(None)):
     else:
         db_dict = config.MAP_DB_TO_MODEL
     for db_index, model_name in db_dict.items():
-        routines = DatabaseProfileHandler.get_instance(
-            db_index=db_index
-        ).get_all_profiles()
+        routines = handler_to_use.get_instance(db_index=db_index).get_all_profiles()
         res[model_name] = routines
     return res
 
@@ -72,7 +72,9 @@ async def routines(models: Optional[List[str]] = Query(None)):
 async def routines_for_user(user_id: str, models: Optional[List[str]] = Query(None)):
     res = dict()
     if config.PCB_MOCK_DATABASEHANDLER:
-        DatabaseProfileHandler = DatabaseProfileHandlerMock
+        handler_to_use = DatabaseProfileHandlerMock
+    else:
+        handler_to_use = DatabaseProfileHandler
     if models is not None:
         models_set = set(models)
         db_dict = dict(
@@ -85,10 +87,8 @@ async def routines_for_user(user_id: str, models: Optional[List[str]] = Query(No
     else:
         db_dict = config.MAP_DB_TO_MODEL
     for db_index, model_name in db_dict.items():
-        routines = DatabaseProfileHandler.get_instance(db_index=db_index).get_profile(
-            user_id
-        )
-        res[model_name] = routines
+        routines = handler_to_use.get_instance(db_index=db_index).get_profile(user_id)
+        res[model_name] = {user_id: routines}
     return res
 
 
