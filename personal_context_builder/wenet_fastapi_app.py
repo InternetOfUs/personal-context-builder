@@ -27,7 +27,7 @@ app = FastAPI()
     tags=["User's embedded routines"],
     response_model=Optional[EmbeddedRoutineOut],
 )
-def routines(models: Optional[List[str]] = None):
+async def routines(models: Optional[List[str]] = None):
     res = dict()
     if config.PCB_MOCK_DATABASEHANDLER:
         DatabaseProfileHandler = DatabaseProfileHandlerMock
@@ -55,7 +55,7 @@ def routines(models: Optional[List[str]] = None):
     tags=["User's embedded routines"],
     response_model=Optional[EmbeddedRoutineOut],
 )
-def routines_for_user(user_id: str, models: Optional[List[str]] = None):
+async def routines_for_user(user_id: str, models: Optional[List[str]] = None):
     res = dict()
     if config.PCB_MOCK_DATABASEHANDLER:
         DatabaseProfileHandler = DatabaseProfileHandlerMock
