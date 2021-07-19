@@ -3,7 +3,7 @@
 Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 """
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Query
 from personal_context_builder.wenet_fastapi_models import (
     EmbeddedModelName,
     EmbeddedRoutineOut,
@@ -41,7 +41,7 @@ app = FastAPI(openapi_tags=tags_metadata)
     tags=["User's embedded routines"],
     response_model=Optional[EmbeddedRoutineOut],
 )
-async def routines(models: Optional[List[str]] = None):
+async def routines(models: Optional[List[str]] = Query(None)):
     res = dict()
     if config.PCB_MOCK_DATABASEHANDLER:
         DatabaseProfileHandler = DatabaseProfileHandlerMock
@@ -69,7 +69,7 @@ async def routines(models: Optional[List[str]] = None):
     tags=["User's embedded routines"],
     response_model=Optional[EmbeddedRoutineOut],
 )
-async def routines_for_user(user_id: str, models: Optional[List[str]] = None):
+async def routines_for_user(user_id: str, models: Optional[List[str]] = Query(None)):
     res = dict()
     if config.PCB_MOCK_DATABASEHANDLER:
         DatabaseProfileHandler = DatabaseProfileHandlerMock
