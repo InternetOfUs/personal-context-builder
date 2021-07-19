@@ -5,7 +5,7 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 from pydantic import BaseModel
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 class EmbeddedModelName(BaseModel):
@@ -15,7 +15,7 @@ class EmbeddedModelName(BaseModel):
 
 
 class EmbeddedRoutineOut(BaseModel):
-    __root__: Dict[str, Dict[str, List[float]]]
+    __root__: Dict[str, Optional[Dict[str, List[float]]]]
 
     class Config:
         schema_extra = {
