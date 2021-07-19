@@ -50,6 +50,34 @@ def routines(models: Optional[List[str]] = None):
     return res
 
 
+@app.get(
+    "/routines/{user_id}",
+    tags=["User's embedded routines"],
+    response_model=Optional[EmbeddedRoutineOut],
+)
+def routines_for_user(user_id: str, models: Optional[List[str]] = None):
+    res = dict()
+    if config.PCB_MOCK_DATABASEHANDLER:
+        DatabaseProfileHandler = DatabaseProfileHandlerMock
+    if models is not None:
+        models_set = set(models)
+        db_dict = dict(
+            [
+                (db_index, model_name)
+                for db_index, model_name in config.MAP_DB_TO_MODEL.items()
+                if model_name in models_set
+            ]
+        )
+    else:
+        db_dict = config.MAP_DB_TO_MODEL
+    for db_index, model_name in db_dict.items():
+        routines = DatabaseProfileHandler.get_instance(db_index=db_index).get_profile(
+            user_id
+        )
+        res[model_name] = routines
+    return res
+
+
 def run(
     app: FastAPI = app,
     host: str = config.PCB_APP_INTERFACE,
