@@ -9,6 +9,7 @@ from personal_context_builder.wenet_fastapi_models import (
     EmbeddedRoutineOut,
     EmbeddedModels,
     SemanticRoutine,
+    EmbeddedRoutinesDist,
 )
 from personal_context_builder import config, wenet_analysis_models
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
@@ -102,6 +103,20 @@ async def get_available_models():
     models = [model_name.split(":")[0] for model_name in config.MAP_MODEL_TO_DB.keys()]
     for model_name in models:
         res[model_name] = getattr(wenet_analysis_models, model_name).__doc__
+    return res
+
+
+@app.get(
+    "/compare_routines/{user_id}/{model}/",
+    tags=["User's embedded routines"],
+    response_model=Optional[EmbeddedRoutinesDist],
+)
+async def get_compare_routines(
+    user_id: str, model: str, users: List[str] = Query(None)
+):
+    res = compare_routines(
+        user_id, users, model, is_mock=config.PCB_MOCK_DATABASEHANDLER
+    )
     return res
 
 
