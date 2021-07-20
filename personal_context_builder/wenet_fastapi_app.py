@@ -38,7 +38,9 @@ description = """Component that handle the personal context of the users <br /> 
     <br />Routines are an embedded representation of the user habits.
 """
 
-app = FastAPI(openapi_tags=tags_metadata, description=description)
+title = "WeNet - personal_context_builder"
+
+app = FastAPI(openapi_tags=tags_metadata, description=description, title=title)
 
 
 @app.get(
