@@ -33,8 +33,12 @@ tags_metadata = [
     },
 ]
 
+description = """Component that handle the personal context of the users <br /> <img
+    src="https://drive.google.com/uc?id=1iF39kFa5ZcYKadCzynHvRkt6ftj59aHc" />
+    <br />Routines are an embedded representation of the user habits.
+"""
 
-app = FastAPI(openapi_tags=tags_metadata)
+app = FastAPI(openapi_tags=tags_metadata, description=description)
 
 
 @app.get(
