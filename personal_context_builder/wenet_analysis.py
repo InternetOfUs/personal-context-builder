@@ -45,11 +45,20 @@ def compare_routines(
     """
     model_num = config.MAP_MODEL_TO_DB[model]
     if is_mock:
-        db = DatabaseProfileHandlerMock.get_instance(model_num)
+        db = DatabaseProfileHandlerMock.get_instance(db_index=model_num)
     else:
-        db = DatabaseProfileHandler.get_instance(model_num)
+        db = DatabaseProfileHandler.get_instance(db_index=model_num)
     source_routine = db.get_profile(source_user)
+    if source_routine is None:
+        return dict()
     routines = [db.get_profile(u) for u in users]
+    users, routines = zip(
+        *[
+            (user, routine)
+            for (user, routine) in zip(users, routines)
+            if routines is not None
+        ]
+    )
     routines_dist = [function(source_routine, r) for r in routines]
     res = list(zip(users, routines_dist))
     res = sorted(res, key=lambda x: -x[1])

@@ -10,7 +10,6 @@ from datetime import datetime
 
 import redis
 from regions_builder.models import UserLocationPoint
-from sanic.exceptions import ServerError
 
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
@@ -87,7 +86,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         try:
             self._server.ping()
         except:  # TODO catch specific exception
-            raise ServerError("Unable to access the Redis DB")
+            raise error("Unable to access the Redis DB")
 
     def update(self, userplaces):
         """update the db with userplaces"""

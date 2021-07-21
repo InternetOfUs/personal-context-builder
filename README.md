@@ -77,6 +77,8 @@ optional arguments:
 
 You can run the app with `python3 -m wenet_cli_entrypoint --app_run`
 
+You can also specify some parameters `PCB_MOCK_DATABASEHANDLER=1 PCB_APP_PORT=8000 python3 -m personal_context_builder.wenet_cli_entrypoint --app_run`
+
 # Testing
 
 `run_tests.sh` will run the tests

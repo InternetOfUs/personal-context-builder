@@ -22,6 +22,9 @@ PCB_ENV = "dev"
 # Set to true for unittesting
 PCB_IS_UNITTESTING = False
 
+# Set to true to mock PCB_MOCK_DATABASEHANDLER
+PCB_MOCK_DATABASEHANDLER = False
+
 # will replace {} by PCB_ENV at runtime
 PCB_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
 PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"

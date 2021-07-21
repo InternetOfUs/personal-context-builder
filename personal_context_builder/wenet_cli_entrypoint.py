@@ -20,7 +20,6 @@ from personal_context_builder import (
     wenet_exceptions,
     wenet_pipelines,
 )
-from personal_context_builder.sanic_app import WenetApp
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
 from personal_context_builder.wenet_analysis_models import SimpleBOW, SimpleLDA
 from personal_context_builder.wenet_logger import create_logger
@@ -44,6 +43,8 @@ from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
 )
+
+from personal_context_builder.wenet_fastapi_app import run
 
 _LOGGER = create_logger(__name__)
 
@@ -238,9 +239,10 @@ def compare_routines_cmd(
 
 
 def run_app():
-    """run the main Sanic Wenet application"""
-    wenet_app = WenetApp()
-    wenet_app.run()
+    """run the main FastApi Wenet application"""
+    #  wenet_app = WenetApp()
+    #  wenet_app.run()
+    run()
 
 
 def run_update_realtime():

@@ -4,24 +4,21 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 """
 import unittest
-from uuid import uuid4
 
 from personal_context_builder import config
-from personal_context_builder.sanic_app import WenetApp
+from personal_context_builder.wenet_fastapi_app import app
+
+from fastapi.testclient import TestClient
 
 
 class APIModelsTestCase(unittest.TestCase):
     def setUp(self):
-        self._app = WenetApp(f"test wenet API models {uuid4()}")._app
+        self.client = TestClient(app)
 
     def test_simple_lda_exist(self):
-        _, response = self._app.test_client.get(
-            config.PCB_VIRTUAL_HOST_LOCATION + "/models/"
-        )
-        self.assertIn("SimpleLDA", response.json)
+        response = self.client.get(config.PCB_VIRTUAL_HOST_LOCATION + "/models/")
+        self.assertIn("SimpleLDA", response.json())
 
     def test_simple_bow_exist(self):
-        _, response = self._app.test_client.get(
-            config.PCB_VIRTUAL_HOST_LOCATION + "/models/"
-        )
-        self.assertIn("SimpleBOW", response.json)
+        response = self.client.get(config.PCB_VIRTUAL_HOST_LOCATION + "/models/")
+        self.assertIn("SimpleBOW", response.json())
