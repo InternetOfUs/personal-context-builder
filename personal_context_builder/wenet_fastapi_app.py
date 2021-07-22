@@ -164,6 +164,6 @@ def run(
     app: FastAPI = app,
     host: str = config.PCB_APP_INTERFACE,
     port: int = config.PCB_APP_PORT,
-):
+):  # pragma: no cover
 
     uvicorn.run(app, host=host, port=port)
