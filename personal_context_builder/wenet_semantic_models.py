@@ -11,14 +11,15 @@ Written by William Droz <william.droz@idiap.ch>,
 
 from collections import defaultdict
 from pprint import pprint
-
+from typing import Dict, List
 import numpy as np
 from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
-
+from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels
+from regions_builder.models import LocationPoint, LabelledStayRegion, StayRegion
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions
 from personal_context_builder.wenet_exceptions import SemanticRoutinesComputationError
@@ -31,10 +32,10 @@ _LOGGER = create_logger(__name__)
 class SemanticModel(object):
     def __init__(
         self,
-        locations_source,
-        labels_source,
-        name="unknown_semantic_model",
-        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
+        locations_source: BaseSourceLocations,
+        labels_source: BaseSourceLabels,
+        name: str = "unknown_semantic_model",
+        regions_mapping_file: str = config.PCB_REGION_MAPPING_FILE,
     ):
         """Constructor
         Args:
@@ -47,7 +48,7 @@ class SemanticModel(object):
         self._name = name
         self._regions_mapping = _loads_regions(regions_mapping_file)
 
-    def _compute_indexed_weekday_locations(self, user_id):
+    def _compute_indexed_weekday_locations(self, user_id: str):
         locations = self._locations_source.get_locations(user_id)
         if len(locations) == 0:
             raise SemanticRoutinesComputationError(f"no locations for user {user_id}")
@@ -72,7 +73,7 @@ class SemanticModel(object):
         indexed_weekday_locations = self.index_per_weekday(all_days_locations)
         return indexed_weekday_locations, labelled_stay_regions, stay_regions
 
-    def compute_labels_for_user(self, user_id):
+    def compute_labels_for_user(self, user_id: str):
         """Compute the labels for a given user
         Args:
             user_id: for which user
@@ -89,7 +90,7 @@ class SemanticModel(object):
         )
         return res
 
-    def compute_weekdays(self, user_id):
+    def compute_weekdays(self, user_id: str):
         """Compute the all weekday distributions for the given user
         Args:
             user_id: for which user the weekday are computed
@@ -98,14 +99,16 @@ class SemanticModel(object):
         """
         raise NotImplementedError("not implemented")
 
-    def evaluate_user(self, user_id):
+    def evaluate_user(self, user_id: str):
         """Score the models for user_id"""
 
     def evaluate_all(self):
         """Score the models for all users"""
 
     @classmethod
-    def index_per_weekday(cls, all_days_locations):
+    def index_per_weekday(
+        cls, all_days_locations: List[LocationPoint]
+    ) -> Dict[int, List[LocationPoint]]:
         """group all days by weekday and use weekday as index
         Args:
             all_days_locations: list of list of locations, sublist are full day
@@ -121,7 +124,7 @@ class SemanticModel(object):
 
 
 class SemanticModelHist(SemanticModel):
-    def compute_weekdays(self, user_id):
+    def compute_weekdays(self, user_id: str):
         (
             indexed_weekday_locations,
             labelled_stay_regions,
@@ -142,7 +145,9 @@ class SemanticModelHist(SemanticModel):
 
         return labels_dist
 
-    def _compute_labels_dist(self, labels_count):
+    def _compute_labels_dist(
+        self, labels_count: Dict[int, Dict[str, Dict[str, float]]]
+    ):
         """compute the distribution of the labels for each timeslots grouped per weekday
         Args:
             labels_count: hierarchical labels count (dict of dict of dict)
@@ -156,7 +161,12 @@ class SemanticModelHist(SemanticModel):
         return labels_dist
 
     def _fill_with_labels_count(
-        self, location, labels_count, weekday, labelled_stay_regions, stay_regions
+        self,
+        location: LocationPoint,
+        labels_count: Dict[int, Dict[str, Dict[str, float]]],
+        weekday: int,
+        labelled_stay_regions: List[LabelledStayRegion],
+        stay_regions: List[StayRegion],
     ):
         """determine the labels and fill hierarchically labels_count with
             the number of each labels per timeslot per weekday

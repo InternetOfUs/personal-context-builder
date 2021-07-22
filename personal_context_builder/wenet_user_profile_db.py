@@ -7,6 +7,7 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 import json
 from abc import ABC, abstractmethod
+from typing import List, Optional
 from logging import error
 
 import redis
@@ -27,7 +28,7 @@ class DatabaseProfileHandlerBase(ABC):
     _INSTANCES = dict()
 
     @classmethod
-    def get_instance(cls, *args, db_index=0, **kwargs):
+    def get_instance(cls, *args, db_index: int = 0, **kwargs):
         """get the instance or create if doesn't exist
 
         Can be have multiple instance when multiple db_index are used
@@ -41,7 +42,7 @@ class DatabaseProfileHandlerBase(ABC):
         """clean the database"""
 
     @abstractmethod
-    def delete_profile(self, user_id):
+    def delete_profile(self, user_id: str):
         """delete a given profile
 
         Args:
@@ -49,7 +50,7 @@ class DatabaseProfileHandlerBase(ABC):
         """
 
     @abstractmethod
-    def get_all_profiles(self, match=None):
+    def get_all_profiles(self, match: Optional[str] = None):
         """get all profiles that match a given expression
 
         Args:
@@ -57,7 +58,7 @@ class DatabaseProfileHandlerBase(ABC):
         """
 
     @abstractmethod
-    def get_profile(self, user_id):
+    def get_profile(self, user_id: str):
         """get a given profile
 
         Args:
@@ -65,7 +66,7 @@ class DatabaseProfileHandlerBase(ABC):
         """
 
     @abstractmethod
-    def set_profile(self, user_id, vector):
+    def set_profile(self, user_id: str, vector: List[float]):
         """set profile to a given user_id to vector
 
         Args:
@@ -74,7 +75,7 @@ class DatabaseProfileHandlerBase(ABC):
         """
 
     @abstractmethod
-    def set_profiles(self, user_ids, vectors):
+    def set_profiles(self, user_ids: List[str], vectors: List[List[float]]):
         """set multiple profiles at once
 
         Args:
@@ -84,25 +85,25 @@ class DatabaseProfileHandlerBase(ABC):
 
 
 class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
-    def __init__(self, db_index=0):
+    def __init__(self, db_index: int = 0):
         self._my_dict = dict()
 
     def clean_db(self):
         _LOGGER.info("mock clean db called")
         self._my_dict = dict()
 
-    def delete_profile(self, user_id):
+    def delete_profile(self, user_id: str):
         _LOGGER.info(f"mock delete profile {user_id}")
         try:
             del self._my_dict[user_id]
         except KeyError:
             pass
 
-    def get_all_profiles(self, match=None):
+    def get_all_profiles(self, match: Optional[str] = None):
         _LOGGER.info("mock get all profiles")
         return self._my_dict
 
-    def get_profile(self, user_id):
+    def get_profile(self, user_id: str):
         _LOGGER.info(f"mock get profile {user_id}")
         try:
             return self._my_dict[user_id]
@@ -110,7 +111,7 @@ class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
             _LOGGER.warn(f"\tmock unable to get profile {user_id} - doesn't exist")
             return None
 
-    def set_profile(self, user_id, vector):
+    def set_profile(self, user_id: str, vector: List[float]):
         _LOGGER.info(f"mock set profile {user_id} with {vector}")
         self._my_dict[user_id] = vector
 
@@ -128,10 +129,10 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
 
     def __init__(
         self,
-        db_index=0,
-        host=config.PCB_REDIS_HOST,
-        port=config.PCB_REDIS_PORT,
-        use_fake=config.PCB_IS_UNITTESTING,
+        db_index: int = 0,
+        host: str = config.PCB_REDIS_HOST,
+        port: int = config.PCB_REDIS_PORT,
+        use_fake: bool = config.PCB_IS_UNITTESTING,
     ):
         if not use_fake:
             self._server = redis.Redis(host=host, port=port, db=db_index)
@@ -148,7 +149,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         for key in self._server.scan_iter():
             self._server.delete(key)
 
-    def delete_profile(self, user_id):
+    def delete_profile(self, user_id: str):
         """delete a profile
         Args:
             user_id: user_id of the profile
@@ -156,7 +157,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         _LOGGER.info(f"delete profile {user_id}")
         self._server.delete(user_id)
 
-    def get_all_profiles(self, match=None):
+    def get_all_profiles(self, match: Optional[str] = None):
         """get all profiles
         Args:
             match: pattern to retreive the profiles (not regex)
@@ -169,7 +170,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
             my_dict[key.decode("utf-8")] = json.loads(self._server.get(key))
         return my_dict
 
-    def get_profile(self, user_id):
+    def get_profile(self, user_id: str):
         """get a specific profile
         Args:
             user_id: user_id of the profile
@@ -182,7 +183,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
             return res
         return json.loads(res)
 
-    def set_profile(self, user_id, vector):
+    def set_profile(self, user_id: str, vector: List[float]):
         """create or modify a profile
         Args:
             user_id: user_id of the profile
@@ -192,7 +193,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         value = json.dumps(vector)
         self._server.set(user_id, value)
 
-    def set_profiles(self, user_ids, vectors):
+    def set_profiles(self, user_ids: List[str], vectors: List[List[float]]):
         """create or modify multiple profiles at once
 
         The function use the pipeline object for better performance

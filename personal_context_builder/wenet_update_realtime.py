@@ -6,6 +6,7 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 import concurrent.futures
+from typing import Union, Tuple, Optional
 from datetime import datetime, timedelta
 import urllib3
 from functools import partial
@@ -14,6 +15,7 @@ from multiprocessing.pool import ThreadPool
 from personal_context_builder import config
 from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
 from personal_context_builder.wenet_logger import create_logger
+from regions_builder.models import LocationPoint
 
 _LOGGER = create_logger(__name__)
 
@@ -28,11 +30,11 @@ class WenetRealTimeUpdateHandler(object):
 
     @staticmethod
     def update_user_location(
-        user_id,
-        timestamp,
-        latitude,
-        longitude,
-        accuracy=0,
+        user_id: str,
+        timestamp: Union[int, str],
+        latitude: float,
+        longitude: float,
+        accuracy: int = 0,
     ):
         """update the user location
 
@@ -53,7 +55,7 @@ class WenetRealTimeUpdateHandler(object):
         requests.post(f"{config.PCB_USER_LOCATION_URL}", json=my_dict, verify=False)
 
     @staticmethod
-    def get_user_location(user_id):
+    def get_user_location(user_id: str):
         """Retreive the location of the given user
 
         Args:
@@ -78,7 +80,7 @@ class WenetRealTimeUpdateHandler(object):
         return StreamBaseLocationsLoader.get_latest_users()
 
     @staticmethod
-    def run_one_user(user_location):
+    def run_one_user(user_location: Tuple[str, Optional[LocationPoint]]):
         user, location = user_location
         if location is not None:
             timestamp = datetime.timestamp(location._pts_t)

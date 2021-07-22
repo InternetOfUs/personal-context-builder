@@ -4,24 +4,30 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-
+from __future__ import annotations
 import numpy as np
 from regions_builder.algorithms import (
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
+from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels
 
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import (
     BagOfWordsCorpuzer,
     BagOfWordsVectorizer,
 )
+from typing import Any
 
 
 class BaseModelTrainer(object):
     def __init__(
-        self, locations_source, labels_source, bow_trainer, untrained_model_instance
+        self,
+        locations_source: BaseSourceLocations,
+        labels_source: BaseSourceLabels,
+        bow_trainer: BaseBOWTrainer,
+        untrained_model_instance: Any,
     ):
         """Handle the training of models
         Args:
@@ -48,9 +54,9 @@ class BaseModelTrainer(object):
 class BaseBOWTrainer(object):
     def __init__(
         self,
-        locations_source,
-        labels_source,
-        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
+        locations_source: BaseSourceLocations,
+        labels_source: BaseSourceLabels,
+        regions_mapping_file: str = config.PCB_REGION_MAPPING_FILE,
     ):
         """Handle the trainer of the Bag-Of-Words
         Args:
@@ -62,7 +68,7 @@ class BaseBOWTrainer(object):
         self._labels_source = labels_source
         self._regions_mapping_file = regions_mapping_file
 
-    def train(self, user_id):
+    def train(self, user_id: str):
         """train by using this user_id
         Args:
             user_id: user to use to train
@@ -106,9 +112,9 @@ class BaseBOWTrainer(object):
 class HDPTrainer(BaseBOWTrainer):
     def __init__(
         self,
-        locations_source,
-        labels_source,
-        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
+        locations_source: BaseSourceLocations,
+        labels_source: BaseSourceLabels,
+        regions_mapping_file: str = config.PCB_REGION_MAPPING_FILE,
     ):
         """Handle the trainer of the HDP
         Args:
@@ -122,7 +128,7 @@ class HDPTrainer(BaseBOWTrainer):
             regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
         )
 
-    def train(self, user_id):
+    def train(self, user_id: str):
         """train by using this user_id
         Args:
             user_id: user to use to train
