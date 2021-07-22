@@ -9,7 +9,7 @@ Written by William Droz <william.droz@idiap.ch>,
 from collections import defaultdict
 from os import environ
 
-MAINTENER = "william.droz@idiap.ch"
+MAINTAINER = "william.droz@idiap.ch"
 
 PCB_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S.%f"
 PCB_LOG_FILE = "wenet.log"
