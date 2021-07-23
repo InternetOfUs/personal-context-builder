@@ -7,6 +7,7 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 from collections import defaultdict
+from typing import Dict
 from os import environ
 
 MAINTAINER = "william.droz@idiap.ch"
@@ -88,8 +89,8 @@ PCB_GENERIC_MODEL_NAME = "last_model.p"
 PCB_BOW_MODEL_FILE = "last_bow_vectorizer.p"
 
 # will contain mapping for models
-MAP_DB_TO_MODEL = dict()
-MAP_MODEL_TO_DB = dict()
+MAP_DB_TO_MODEL: Dict[int, str] = dict()
+MAP_MODEL_TO_DB: Dict[str, int] = dict()
 
 MAP_PIPELINE_TO_MAP_MODEL_TO_DB = defaultdict(dict)
 
@@ -135,7 +136,7 @@ def _update_parameters_if_virtual_host():  # pragma: no cover
 
 
 def _update_redis_database_index_mapping(
-    MAP_DB_TO_MODEL, MAP_MODEL_TO_DB
+    MAP_DB_TO_MODEL: Dict, MAP_MODEL_TO_DB: Dict
 ):  # pragma: no cover
     """fill two dict to map Redis DB <--> model classes"""
     for k, v in globals().items():
