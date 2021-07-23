@@ -7,9 +7,9 @@ Written by William Droz <william.droz@idiap.ch>,
 import json
 from abc import ABC, abstractmethod
 from datetime import datetime
-
+from typing import List
 import redis
-from regions_builder.models import UserLocationPoint
+from regions_builder.models import UserLocationPoint, UserPlace
 
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
@@ -26,7 +26,7 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
     _INSTANCES = dict()
 
     @classmethod
-    def get_instance(cls, *args, db_index=0, **kwargs):
+    def get_instance(cls, *args, db_index: int = 0, **kwargs):
         """get the instance or create if doesn't exist
 
         Can be have multiple instance when multiple db_index are used
@@ -36,7 +36,7 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
         return cls._INSTANCES[db_index]
 
     @abstractmethod
-    def update(self, userplaces):
+    def update(self, userplaces: List[UserPlace]):
         """Update the userplaces"""
 
     @abstractmethod
@@ -44,15 +44,15 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
         """get all users"""
 
     @abstractmethod
-    def get_users(self, users_id):
+    def get_users(self, users_id: str):
         """get some users"""
 
 
 class DatabaseRealtimeLocationsHandlerMock(DatabaseRealtimeLocationsHandlerBase):
-    def __init__(self, db_index=0):
+    def __init__(self, db_index: int = 0):
         self._my_dict = dict()
 
-    def update(self, userplaces):
+    def update(self, userplaces: List[UserPlace]):
         _LOGGER.info("mock update real-time user locations")
         for userplace in userplaces:
             self._my_dict[userplace._user] = userplace
@@ -61,7 +61,7 @@ class DatabaseRealtimeLocationsHandlerMock(DatabaseRealtimeLocationsHandlerBase)
         _LOGGER.info("mock get all real-time location of users")
         return self._my_dict
 
-    def get_users(self, users_id):
+    def get_users(self, users_id: str):
         _LOGGER.info("mock get real-time location of some users")
         new_dict = dict()
         for user_id in users_id:
@@ -78,9 +78,9 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
 
     def __init__(
         self,
-        db_index=0,
-        host=config.PCB_REALTIME_REDIS_HOST,
-        port=config.PCB_REALTIME_REDIS_PORT,
+        db_index: int = 0,
+        host: str = config.PCB_REALTIME_REDIS_HOST,
+        port: int = config.PCB_REALTIME_REDIS_PORT,
     ):
         self._server = redis.Redis(host=host, port=port, db=db_index)
         try:
@@ -88,7 +88,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         except:  # TODO catch specific exception
             raise error("Unable to access the Redis DB")
 
-    def update(self, userplaces):
+    def update(self, userplaces: List[UserPlace]):
         """update the db with userplaces"""
         _LOGGER.info("update real-time user locations")
         pipeline = self._server.pipeline()
@@ -116,7 +116,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
             )
         return my_dict
 
-    def get_users(self, users_id):
+    def get_users(self, users_id: str):
         """get some users locations
         Args:
             users_id -> list of user_id
