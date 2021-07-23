@@ -13,7 +13,7 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 from abc import ABC, abstractmethod
-
+from typing import List, Dict, Optional
 from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 
 from personal_context_builder import config, wenet_analysis_models
@@ -57,7 +57,12 @@ class PipelineBOW(BasePipeline):
     Pipeline that uses BOW as features
     """
 
-    def __init__(self, mock_db=False, mock_datasources=False, db_map=None):
+    def __init__(
+        self,
+        mock_db: bool = False,
+        mock_datasources: bool = False,
+        db_map: Optional[Dict[str, int]] = None,
+    ):
         super().__init__(mock_db, mock_datasources, db_map)
 
     def train(self):
@@ -121,7 +126,12 @@ class PipelineWithCorpus(BasePipeline):
     Pipeline that uses Corpus as features (list of list of "word")
     """
 
-    def __init__(self, mock_db=False, mock_datasources=False, db_map=None):
+    def __init__(
+        self,
+        mock_db: bool = False,
+        mock_datasources: bool = False,
+        db_map: Optional[Dict[str, int]] = None,
+    ):
         super().__init__(mock_db, mock_datasources, db_map)
 
     def train(self):
