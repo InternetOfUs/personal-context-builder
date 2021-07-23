@@ -13,6 +13,7 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.sklearn_api import HdpTransformer
 from sklearn.decomposition import LatentDirichletAllocation
+from typing import Optional, Callable, List
 
 from personal_context_builder import config
 
@@ -29,7 +30,7 @@ class BaseModel(object):
 
 
 class BaseModelWrapper(BaseModel):
-    def __init__(self, model_class=None, name="unamed"):
+    def __init__(self, model_class: Optional[Callable] = None, name: str = "unamed"):
         self._model_class = model_class
         self._name = name
         if model_class is not None:
@@ -50,7 +51,11 @@ class BaseModelWrapper(BaseModel):
     def fit(self, *args, **kwargs):
         self._model_instance.fit(*args, **kwargs)
 
-    def save(self, filename=config.PCB_GENERIC_MODEL_NAME, dump_fct=pickle.dump):
+    def save(
+        self,
+        filename: str = config.PCB_GENERIC_MODEL_NAME,
+        dump_fct: Callable = pickle.dump,
+    ):
         """save this current instance of BaseModelWrapper
         Args:
             filename: file that will be used to store the instance
@@ -61,7 +66,11 @@ class BaseModelWrapper(BaseModel):
             dump_fct(self.__dict__, f)
 
     @classmethod
-    def load(cls, filename=config.PCB_GENERIC_MODEL_NAME, load_fct=pickle.load):
+    def load(
+        cls,
+        filename: str = config.PCB_GENERIC_MODEL_NAME,
+        load_fct: Callable = pickle.load,
+    ):
         """Create a instance of BaseModelWrapper from a previously saved file
         Args:
             filename: file that contain the saved BaseModelWrapper instance
@@ -80,7 +89,12 @@ class SimpleLDA(BaseModelWrapper):
     """Simple LDA over all the users, with 15 topics"""
 
     def __init__(
-        self, name="simple_lda", n_components=15, random_state=0, n_jobs=-1, **kwargs
+        self,
+        name: str = "simple_lda",
+        n_components: int = 15,
+        random_state: int = 0,
+        n_jobs: int = -1,
+        **kwargs
     ):
         my_lda = partial(
             LatentDirichletAllocation,
@@ -98,7 +112,7 @@ class SimpleLDA(BaseModelWrapper):
 class SimpleBOW(BaseModelWrapper):
     """Bag-of-words approach, compute the mean of all days"""
 
-    def __init__(self, name="simple_bow"):
+    def __init__(self, name: str = "simple_bow"):
         super().__init__(None, name)
 
     def transform(self, *args, **kwargs):
@@ -115,11 +129,11 @@ class SimpleBOW(BaseModelWrapper):
 class SimpleHDP(BaseModelWrapper):
     """Bag-of-words approach, compute the mean of all days"""
 
-    def __init__(self, name="simple_hdp"):
+    def __init__(self, name: str = "simple_hdp"):
         super().__init__(None, name)
         self._gensim_dict = None
 
-    def to_bow_format(self, X):
+    def to_bow_format(self, X: List):
         return [self._gensim_dict.doc2bow(x) for x in X]
 
     def predict(self, X, *args, **kwargs):
