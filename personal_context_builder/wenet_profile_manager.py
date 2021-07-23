@@ -370,7 +370,7 @@ def update_profiles():
 
 
 def update_profile(
-    routines: List[Dict[str, Dict[int, float]]],
+    routines: Dict[int, Dict[str, Dict[int, float]]],
     profile_id: str,
     labels: Dict,
     url: str = config.PCB_PROFILE_MANAGER_URL,
