@@ -13,21 +13,21 @@ from pprint import pprint
 
 from typing import List, Optional, Dict
 
-import pandas as pd
-import requests
-from regions_builder.algorithms import (
+import pandas as pd  # type: ignore
+import requests  # type: ignore
+from regions_builder.algorithms import (  # type: ignore
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
-from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations
-from regions_builder.models import (
+from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations  # type: ignore
+from regions_builder.models import (  # type: ignore
     LocationPoint,
     UserLocationPoint,
     UserPlaceTimeOnly,
     StayPoint,
 )
-from requests.exceptions import RequestException
+from requests.exceptions import RequestException  # type: ignore
 
 from personal_context_builder import config, wenet_exceptions
 from personal_context_builder.wenet_logger import create_logger

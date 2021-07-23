@@ -9,8 +9,8 @@ from __future__ import annotations
 from typing import Dict
 from contextlib import contextmanager
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine  # type: ignore
+from sqlalchemy.orm import sessionmaker  # type: ignore
 
 from personal_context_builder.wenet_logger import create_logger
 

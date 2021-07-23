@@ -8,9 +8,9 @@ from functools import partial
 from os import remove
 from os.path import join
 
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVC
+from sklearn.datasets import load_iris  # type: ignore
+from sklearn.model_selection import train_test_split  # type: ignore
+from sklearn.svm import SVC  # type: ignore
 
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis_models import BaseModelWrapper

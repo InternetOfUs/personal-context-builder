@@ -9,8 +9,8 @@ import json
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List, Dict
-import redis
-from regions_builder.models import UserLocationPoint, UserPlace
+import redis  # type: ignore
+from regions_builder.models import UserLocationPoint, UserPlace  # type: ignore
 
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger

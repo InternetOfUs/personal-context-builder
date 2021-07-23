@@ -12,11 +12,11 @@ from uuid import uuid4
 
 from typing import Callable, List, Any
 
-import requests
-from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
-from scipy import spatial
+import requests # type: ignore
+from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations # type: ignore
+from scipy import spatial # type: ignore
 
-from personal_context_builder import (
+from personal_context_builder import ( # type: ignore
     config,
     wenet_analysis_models,
     wenet_exceptions,

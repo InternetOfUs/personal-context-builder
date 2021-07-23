@@ -3,7 +3,7 @@
 Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 """
-from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi import Depends, FastAPI, HTTPException, Query  # type: ignore
 from personal_context_builder.wenet_fastapi_models import (
     EmbeddedModelName,
     EmbeddedRoutineOut,
@@ -17,7 +17,7 @@ from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
 )
-import uvicorn
+import uvicorn  # type: ignore
 import personal_context_builder.config
 
 from typing import Optional, List

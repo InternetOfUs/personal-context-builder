@@ -9,10 +9,10 @@ import pickle
 from functools import partial
 from os.path import join
 
-import numpy as np
-from gensim.corpora import Dictionary
-from gensim.sklearn_api import HdpTransformer
-from sklearn.decomposition import LatentDirichletAllocation
+import numpy as np  # type: ignore
+from gensim.corpora import Dictionary  # type: ignore
+from gensim.sklearn_api import HdpTransformer  # type: ignore
+from sklearn.decomposition import LatentDirichletAllocation  # type: ignore
 from typing import Optional, Callable, List
 
 from personal_context_builder import config

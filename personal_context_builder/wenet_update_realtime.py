@@ -10,12 +10,12 @@ from typing import Union, Tuple, Optional
 from datetime import datetime, timedelta
 import urllib3
 from functools import partial
-import requests
+import requests  # type: ignore
 from multiprocessing.pool import ThreadPool
 from personal_context_builder import config
 from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
 from personal_context_builder.wenet_logger import create_logger
-from regions_builder.models import LocationPoint
+from regions_builder.models import LocationPoint  # type: ignore
 
 _LOGGER = create_logger(__name__)
 

@@ -8,7 +8,7 @@ import unittest
 from personal_context_builder import config
 from personal_context_builder.wenet_fastapi_app import app
 
-from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient  # type: ignore
 
 
 class APIModelsTestCase(unittest.TestCase):

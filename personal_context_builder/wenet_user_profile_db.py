@@ -11,8 +11,8 @@ from abc import ABC, abstractmethod
 from typing import List, Optional, Dict
 from logging import error
 
-import redis
-import fakeredis
+import redis  # type: ignore
+import fakeredis  # type: ignore
 
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger

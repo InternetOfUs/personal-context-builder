@@ -12,14 +12,14 @@ Written by William Droz <william.droz@idiap.ch>,
 from collections import defaultdict
 from pprint import pprint
 from typing import Dict, List
-import numpy as np
-from regions_builder.algorithms import (
+import numpy as np  # type: ignore
+from regions_builder.algorithms import (  # type: ignore
     estimate_stay_points,
     estimate_stay_regions,
     labelize_stay_region,
 )
-from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels
-from regions_builder.models import LocationPoint, LabelledStayRegion, StayRegion
+from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels  # type: ignore
+from regions_builder.models import LocationPoint, LabelledStayRegion, StayRegion  # type: ignore
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions
 from personal_context_builder.wenet_exceptions import SemanticRoutinesComputationError

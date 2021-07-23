@@ -10,7 +10,7 @@ from personal_context_builder import config
 from personal_context_builder.wenet_cli_entrypoint import train, update
 from personal_context_builder.wenet_fastapi_app import app
 
-from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient  # type: ignore
 
 
 class APISemanticRoutinesTestCase(unittest.TestCase):

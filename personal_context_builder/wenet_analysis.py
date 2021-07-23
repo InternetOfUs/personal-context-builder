@@ -13,18 +13,18 @@ from functools import lru_cache
 from os.path import join
 from uuid import uuid4
 
-import numpy as np
-import pandas as pd
-from regions_builder.algorithms import closest_locations
-from regions_builder.data_loading import MockWenetSourceLocations
-from regions_builder.models import (
+import numpy as np  # type: ignore
+import pandas as pd  # type: ignore
+from regions_builder.algorithms import closest_locations  # type: ignore
+from regions_builder.data_loading import MockWenetSourceLocations  # type: ignore
+from regions_builder.models import (  # type: ignore
     GPSPoint,
     LocationPoint,
     UserLocationPoint,
     LabelledStayRegion,
     StayRegion,
 )
-from scipy import spatial
+from scipy import spatial  # type: ignore
 from typing import Callable, Any, List
 
 from personal_context_builder import config

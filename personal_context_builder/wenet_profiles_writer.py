@@ -5,7 +5,7 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 import numpy as np
-from regions_builder.data_loading import (
+from regions_builder.data_loading import (  # type: ignore
     MockWenetSourceLabels,
     MockWenetSourceLocations,
     BaseSourceLabels,
