@@ -7,7 +7,7 @@ Written by William Droz <william.droz@idiap.ch>,
 
 from copy import deepcopy
 
-from sqlalchemy import (
+from sqlalchemy import (  # type: ignore
     Column,
     Float,
     ForeignKey,
@@ -17,8 +17,8 @@ from sqlalchemy import (
     create_engine,
     event,
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import joinedload, relationship, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base  # type: ignore
+from sqlalchemy.orm import joinedload, relationship, sessionmaker  # type: ignore
 from typing import Iterable, List, Dict, Optional, Callable
 
 from personal_context_builder import config
@@ -66,7 +66,7 @@ class DictViewable(object):
         return res
 
 
-class LabelsLocation(SqlExtBase, DictViewable):
+class LabelsLocation(SqlExtBase, DictViewable):  # type: ignore
     __tablename__ = "labels_locations"
     id = Column(Integer, primary_key=True)
     lat = Column(Float)
@@ -80,7 +80,7 @@ class LabelsLocation(SqlExtBase, DictViewable):
         return my_dict
 
 
-class Labels(SqlExtBase, DictViewable):
+class Labels(SqlExtBase, DictViewable):  # type: ignore
     __tablename__ = "labels"
 
     id = Column(Integer, primary_key=True)
@@ -88,7 +88,7 @@ class Labels(SqlExtBase, DictViewable):
     semantic_identifier = Column(Integer)
 
 
-class LabelsScore(SqlExtBase, DictViewable):
+class LabelsScore(SqlExtBase, DictViewable):  # type: ignore
     __tablename__ = "labels_score"
 
     id = Column(Integer, primary_key=True)
@@ -105,7 +105,7 @@ class LabelsScore(SqlExtBase, DictViewable):
         return my_dict
 
 
-class SemanticRoutine(SqlExtBase, DictViewable):
+class SemanticRoutine(SqlExtBase, DictViewable):  # type: ignore
     __tablename__ = "semantic_routines"
 
     id = Column(Integer, primary_key=True)
