@@ -11,6 +11,8 @@ from collections import defaultdict
 from json import JSONDecodeError
 from pprint import pprint
 
+from typing import List, Optional, Dict
+
 import pandas as pd
 import requests
 from regions_builder.algorithms import (
@@ -19,7 +21,12 @@ from regions_builder.algorithms import (
     labelize_stay_region,
 )
 from regions_builder.data_loading import BaseSourceLabels, BaseSourceLocations
-from regions_builder.models import LocationPoint, UserLocationPoint, UserPlaceTimeOnly
+from regions_builder.models import (
+    LocationPoint,
+    UserLocationPoint,
+    UserPlaceTimeOnly,
+    StayPoint,
+)
 from requests.exceptions import RequestException
 
 from personal_context_builder import config, wenet_exceptions
@@ -29,7 +36,7 @@ _LOGGER = create_logger(__name__)
 
 
 class StreamBaseLocationsLoader(BaseSourceLocations):
-    def __init__(self, name="Streambase locations loader", last_days=24):
+    def __init__(self, name: str = "Streambase locations loader", last_days: int = 24):
         super().__init__(name)
 
         users = self.get_latest_users()
@@ -41,10 +48,10 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
 
     @staticmethod
     def load_users_locations(
-        users,
-        date_from,
-        date_to=None,
-        url=config.PCB_STREAMBASE_BATCH_URL,
+        users: List[str],
+        date_from: datetime.datetime,
+        date_to: Optional[datetime.datetime] = None,
+        url: str = config.PCB_STREAMBASE_BATCH_URL,
     ):
         users_locations = dict()
         for user in users:
@@ -60,10 +67,10 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
 
     @staticmethod
     def load_user_locations(
-        user,
-        date_from,
-        date_to=None,
-        url=config.PCB_STREAMBASE_BATCH_URL,
+        user: str,
+        date_from: datetime.datetime,
+        date_to: Optional[datetime.datetime] = None,
+        url: str = config.PCB_STREAMBASE_BATCH_URL,
     ):
         if date_to is None:
             date_to = datetime.datetime.now()
@@ -127,7 +134,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             return ["0"]
 
     @staticmethod
-    def _gps_streambase_to_user_locations(gps_streambase, user):
+    def _gps_streambase_to_user_locations(gps_streambase: List[Dict], user: str):
         def _get_only_gps_locations(gps_streambase):
             gps_streambase = gps_streambase[0]
             if "data" not in gps_streambase:
@@ -167,20 +174,25 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     def get_users(self):
         return list(self._users_locations.keys())
 
-    def get_locations(self, user_id, max_n=None):
+    def get_locations(self, user_id: str, max_n: Optional[int] = None):
         try:
             return self._users_locations[user_id][:max_n]
         except KeyError:
             return []
 
-    def get_locations_all_users(self, max_n=None):
+    def get_locations_all_users(self, max_n: Optional[int] = None):
         return [
             l for locations in self._users_locations.values() for l in locations[:max_n]
         ]
 
 
 class StreambaseLabelsLoader(BaseSourceLabels):
-    def __init__(self, location_loader, name="Streambase labels loader", last_days=14):
+    def __init__(
+        self,
+        location_loader: BaseSourceLocations,
+        name: str = "Streambase labels loader",
+        last_days: int = 14,
+    ):
         super().__init__(name)
         self._location_loader = location_loader
         self._url = config.PCB_STREAMBASE_BATCH_URL
@@ -216,7 +228,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
                 _LOGGER.debug(f"Can't load labels for user {user}")
 
     @staticmethod
-    def _load_survey(user, url, last_days):
+    def _load_survey(user: str, url: str, last_days: int):
         parameters = dict()
         date_to = datetime.datetime.now()
         date_from = date_to - datetime.timedelta(hours=24 * last_days * 100)
@@ -255,7 +267,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             _LOGGER.warn(f"request to stream base labels failed for user {user} - {e}")
 
     @staticmethod
-    def _load_user_places(user, surveys, staypoints):
+    def _load_user_places(user: str, surveys: Dict, staypoints: List[StayPoint]):
         def _get_answers(surveys):
             data = surveys["data"]
             taskanswers = data["timediariesanswers"]
@@ -288,13 +300,13 @@ class StreambaseLabelsLoader(BaseSourceLabels):
     def get_users(self):
         return self._location_loader.get_users()
 
-    def get_labels(self, user_id, max_n=None):
+    def get_labels(self, user_id: str, max_n: Optional[int] = None):
         try:
             return self._users_places[user_id][:max_n]
         except KeyError:
             return []
 
-    def get_labels_all_users(self, max_n=None):
+    def get_labels_all_users(self, max_n: Optional[int] = None):
         return [
             user_place
             for sublist in self._users_places.values()
@@ -303,7 +315,9 @@ class StreambaseLabelsLoader(BaseSourceLabels):
 
 
 class Label(object):
-    def __init__(self, name, semantic_class, latitude, longitude):
+    def __init__(
+        self, name: str, semantic_class: int, latitude: float, longitude: float
+    ):
         self.name = name
         self.semantic_class = semantic_class
         self.latitude = latitude
@@ -323,13 +337,13 @@ class ScoredLabel(object):
 
 
 class PersonalBehavior(object):
-    def __init__(self, user_id, weekday, confidence):
+    def __init__(self, user_id: str, weekday: int, confidence: float):
         self.user_id = user_id
         self.weekday = weekday
         self.confidence = confidence
         self.label_distribution = defaultdict(list)
 
-    def fill(self, routine, labels):
+    def fill(self, routine: Dict[str, Dict[int, float]], labels: Dict):
         for timeslot, labels_distributions_dict in routine.items():
             timeslot_dist = []
             for label_id, score in labels_distributions_dict.items():
@@ -355,7 +369,12 @@ def update_profiles():
     pass
 
 
-def update_profile(routines, profile_id, labels, url=config.PCB_PROFILE_MANAGER_URL):
+def update_profile(
+    routines: List[Dict[str, Dict[int, float]]],
+    profile_id: str,
+    labels: Dict,
+    url: str = config.PCB_PROFILE_MANAGER_URL,
+):
     profile_url = url + f"/profiles/{profile_id}"
     personal_behaviors = []
 
