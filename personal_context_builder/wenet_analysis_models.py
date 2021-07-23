@@ -33,7 +33,7 @@ class BaseModelWrapper(BaseModel):
     def __init__(self, model_class: Optional[Callable] = None, name: str = "unamed"):
         self._model_class = model_class
         self._name = name
-        if model_class is not None:
+        if self._model_class is not None:
             self._model_instance = self._model_class()
         else:
             self._model_instance = None
