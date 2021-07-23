@@ -5,22 +5,32 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 import numpy as np
-from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
+from regions_builder.data_loading import (
+    MockWenetSourceLabels,
+    MockWenetSourceLocations,
+    BaseSourceLabels,
+    BaseSourceLocations,
+)
+
+from typing import Any, List, Optional
 
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer
 from personal_context_builder.wenet_analysis_models import SimpleLDA
 from personal_context_builder.wenet_trainer import BaseBOWTrainer
-from personal_context_builder.wenet_user_profile_db import DatabaseProfileHandlerMock
+from personal_context_builder.wenet_user_profile_db import (
+    DatabaseProfileHandlerMock,
+    DatabaseProfileHandlerBase,
+)
 
 
 class ProfileWritter(object):
     def __init__(
         self,
-        locations_source,
-        labels_source,
-        model_instance,
-        bow_trainer,
-        database_instance,
+        locations_source: BaseSourceLocations,
+        labels_source: BaseSourceLabels,
+        model_instance: Any,
+        bow_trainer: BaseBOWTrainer,
+        database_instance: DatabaseProfileHandlerBase,
     ):
         """Handle the writting in the db of the profiles
         Args:
@@ -52,7 +62,7 @@ class ProfileWritter(object):
                 profile = res.copy()
             self.update_profile(user, profile.tolist())
 
-    def update_profile(self, user, profile):
+    def update_profile(self, user: str, profile: List[float]):
         """update a single profile
         Args:
             user: user to update
@@ -64,11 +74,11 @@ class ProfileWritter(object):
 class ProfileWritterFromMock(ProfileWritter):
     def __init__(
         self,
-        source_locations=None,
-        source_labels=None,
-        model_instance=None,
-        bow_trainer=None,
-        database_instance=None,
+        source_locations: Optional[BaseSourceLocations] = None,
+        source_labels: Optional[BaseSourceLabels] = None,
+        model_instance: Optional[Any] = None,
+        bow_trainer: Optional[BaseBOWTrainer] = None,
+        database_instance: Optional[DatabaseProfileHandlerBase] = None,
     ):
         if source_locations is None:
             source_locations = MockWenetSourceLocations()
