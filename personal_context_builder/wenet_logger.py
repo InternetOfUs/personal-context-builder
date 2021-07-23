@@ -14,7 +14,7 @@ import sys
 from personal_context_builder import config
 
 
-def create_logger(name="wenet-undefined"):
+def create_logger(name: str = "wenet-undefined"):
     """create a logger with the correct configuration"""
 
     logger = logging.getLogger(name)
