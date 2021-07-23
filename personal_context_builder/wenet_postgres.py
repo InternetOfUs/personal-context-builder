@@ -5,6 +5,8 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
+from __future__ import annotations
+from typing import Dict
 from contextlib import contextmanager
 
 from sqlalchemy import create_engine
@@ -17,7 +19,7 @@ _LOGGER = create_logger(__name__)
 
 class PostresqlCoordinator(object):
 
-    _INSTANCES = dict()
+    _INSTANCES: Dict[str, PostresqlCoordinator] = dict()
 
     def __init__(self, db_name: str, is_mock: bool = False):
         self._is_mock = True
