@@ -92,7 +92,7 @@ PCB_BOW_MODEL_FILE = "last_bow_vectorizer.p"
 MAP_DB_TO_MODEL: Dict[int, str] = dict()
 MAP_MODEL_TO_DB: Dict[str, int] = dict()
 
-MAP_PIPELINE_TO_MAP_MODEL_TO_DB = defaultdict(dict)
+MAP_PIPELINE_TO_MAP_MODEL_TO_DB: Dict[str, Dict[str, int]] = defaultdict(dict)
 
 
 def _update_parameters_from_env():  # pragma: no cover
