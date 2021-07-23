@@ -10,6 +10,8 @@ import argparse
 import time
 from uuid import uuid4
 
+from typing import Callable, List, Any
+
 import requests
 from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations
 from scipy import spatial
@@ -49,7 +51,7 @@ from personal_context_builder.wenet_fastapi_app import run
 _LOGGER = create_logger(__name__)
 
 
-def compute_semantic_routines(update=False):
+def compute_semantic_routines(update: bool = False):
     """Compute the semantic routines
 
     Args:
@@ -88,7 +90,7 @@ def compute_semantic_routines(update=False):
         time.sleep(config.PCB_PROFILE_MANAGER_UPDATE_CD_H * 60 * 60)
 
 
-def force_update_locations(is_mock=False):
+def force_update_locations(is_mock: bool = False):
     """Force the update of the locations to the DB
 
     Args:
@@ -112,7 +114,7 @@ def force_update_locations(is_mock=False):
     db.update(newest_locations)
 
 
-def closest(lat, lng, N, is_mock=False):
+def closest(lat: float, lng: float, N: int, is_mock: bool = False):
     """get the closests users from the given latitude and longitude
     Args:
         lat: latitude
@@ -125,7 +127,7 @@ def closest(lat, lng, N, is_mock=False):
         print(f"{distance:10d}m {user_location._user}")
 
 
-def train(is_mock=False):
+def train(is_mock: bool = False):
     """train the models (for embedded routines)
 
     Args:
@@ -143,7 +145,7 @@ def train(is_mock=False):
         pipeline.train()
 
 
-def update(is_mock=False):
+def update(is_mock: bool = False):
     """update the embedded profile using the pretrained models
 
     Args:
@@ -161,7 +163,7 @@ def update(is_mock=False):
         pipeline.update()
 
 
-def show_profile(user_id, is_mock=False):
+def show_profile(user_id: str, is_mock: bool = False):
     """show the profile of a given user
 
     Args:
@@ -180,7 +182,7 @@ def show_profile(user_id, is_mock=False):
         print(f"DB_INDEX : {db_index:02d} - [{user_id}] {profile}")
 
 
-def show_all_profiles(is_mock=False):
+def show_all_profiles(is_mock: bool = False):
     """show all profiles
 
     Args:
@@ -200,7 +202,7 @@ def show_all_profiles(is_mock=False):
             print(f"\t[{user_id}] {profile}")
 
 
-def clean_db_cmd(is_mock=False):
+def clean_db_cmd(is_mock: bool = False):
     """clean the profiles DB
 
     Args:
@@ -222,7 +224,11 @@ def show_models():
 
 
 def compare_routines_cmd(
-    source_user, users, model, function=spatial.distance.cosine, is_mock=False
+    source_user: str,
+    users: List[str],
+    model: Any,
+    function: Callable = spatial.distance.cosine,
+    is_mock: bool = False,
 ):
     """compare the routines from source_user to all given users
 
@@ -257,7 +263,7 @@ def run_update_realtime():
             pass  # TODO catch all exceptions
 
 
-def generator_cmd(action):
+def generator_cmd(action: str):
     """Give an order to the StreamBase generator
 
     Args:
@@ -274,7 +280,7 @@ def generator_cmd(action):
         _LOGGER.info(f"succesfully called {action} on the data generator")
 
 
-def show_pm_profile(user):
+def show_pm_profile(use: str):
     from pprint import pprint
 
     url = config.PCB_PROFILE_MANAGER_URL
