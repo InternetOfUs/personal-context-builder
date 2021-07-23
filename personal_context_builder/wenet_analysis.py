@@ -17,8 +17,15 @@ import numpy as np
 import pandas as pd
 from regions_builder.algorithms import closest_locations
 from regions_builder.data_loading import MockWenetSourceLocations
-from regions_builder.models import GPSPoint, UserLocationPoint
+from regions_builder.models import (
+    GPSPoint,
+    LocationPoint,
+    UserLocationPoint,
+    LabelledStayRegion,
+    StayRegion,
+)
 from scipy import spatial
+from typing import Callable, Any, List
 
 from personal_context_builder import config
 from personal_context_builder.wenet_realtime_user_db import (
@@ -32,7 +39,11 @@ from personal_context_builder.wenet_user_profile_db import (
 
 
 def compare_routines(
-    source_user, users, model, function=spatial.distance.cosine, is_mock=False
+    source_user: str,
+    users: List[str],
+    model: Any,
+    function: Callable = spatial.distance.cosine,
+    is_mock: bool = False,
 ):
     """
     compare routines of users
@@ -65,7 +76,7 @@ def compare_routines(
     return dict(res)
 
 
-def closest_users(lat, lng, N, is_mock=False):
+def closest_users(lat: float, lng: float, N: int, is_mock: bool = False):
     """
     give the N closest users to the point (lat, lng)
     Args:
@@ -90,7 +101,7 @@ def closest_users(lat, lng, N, is_mock=False):
 
 
 @lru_cache(maxsize=None)
-def _loads_regions(regions_mapping_file):
+def _loads_regions(regions_mapping_file: str):
     """loads regions mapping file
 
     this function is cached to avoid unnecessary disk accesses
@@ -108,9 +119,9 @@ def _loads_regions(regions_mapping_file):
 class BagOfWordsVectorizer(object):
     def __init__(
         self,
-        labelled_stay_regions,
-        stay_regions,
-        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
+        labelled_stay_regions: List[LabelledStayRegion],
+        stay_regions: List[StayRegion],
+        regions_mapping_file: str = config.PCB_REGION_MAPPING_FILE,
     ):
         self._labelled_stay_regions = labelled_stay_regions
         self._stay_regions = stay_regions
@@ -119,7 +130,12 @@ class BagOfWordsVectorizer(object):
 
     @classmethod
     def group_by_days(
-        cls, locations, user="unknown", start_day="00:00:00", dt_hours=23.5, freq="30T"
+        cls,
+        locations: List[LocationPoint],
+        user: str = "unknown",
+        start_day: str = "00:00:00",
+        dt_hours: float = 23.5,
+        freq: str = "30T",
     ):
         """class method to group the locations by days
         Args:
@@ -160,7 +176,7 @@ class BagOfWordsVectorizer(object):
             days_list.append(current_day)
         return days_list
 
-    def vectorize(self, locations):
+    def vectorize(self, locations: List[LocationPoint]):
         """Create a bag of words vector
         Args:
             locations: list of LocationPoint
@@ -195,7 +211,11 @@ class BagOfWordsVectorizer(object):
             big_vector += current_vector
         return big_vector
 
-    def save(self, filename=config.PCB_BOW_MODEL_FILE, dump_fct=pickle.dump):
+    def save(
+        self,
+        filename: str = config.PCB_BOW_MODEL_FILE,
+        dump_fct: Callable = pickle.dump,
+    ):
         """save this current instance of BagOfWordsVectorizer
         Args:
             filename: file that will be used to store the instance
@@ -206,7 +226,9 @@ class BagOfWordsVectorizer(object):
             dump_fct(self.__dict__, f)
 
     @staticmethod
-    def load(filename=config.PCB_BOW_MODEL_FILE, load_fct=pickle.load):
+    def load(
+        filename: str = config.PCB_BOW_MODEL_FILE, load_fct: Callable = pickle.load
+    ):
         """Create a instance of BagOfWordsVectorizer from a previously saved file
         Args:
             filename: file that contain the saved BagOfWordsVectorizer instance
@@ -224,9 +246,9 @@ class BagOfWordsVectorizer(object):
 class BagOfWordsCorpuzer(BagOfWordsVectorizer):
     def __init__(
         self,
-        labelled_stay_regions,
-        stay_regions,
-        regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
+        labelled_stay_regions: List[LabelledStayRegion],
+        stay_regions: List[StayRegion],
+        regions_mapping_file: str = config.PCB_REGION_MAPPING_FILE,
     ):
         super().__init__(
             labelled_stay_regions,
@@ -234,7 +256,7 @@ class BagOfWordsCorpuzer(BagOfWordsVectorizer):
             regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
         )
 
-    def vectorize(self, locations):
+    def vectorize(self, locations: List[LocationPoint]):
         """Create a bag of words corpus
         Args:
             locations: list of LocationPoint
