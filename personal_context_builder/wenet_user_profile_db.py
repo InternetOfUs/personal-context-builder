@@ -5,9 +5,10 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
+from __future__ import annotations
 import json
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Dict
 from logging import error
 
 import redis
@@ -25,7 +26,7 @@ class DatabaseProfileHandlerBase(ABC):
     is a dict of Singleton
     """
 
-    _INSTANCES = dict()
+    _INSTANCES: Dict[int, DatabaseProfileHandlerBase] = dict()
 
     @classmethod
     def get_instance(cls, *args, db_index: int = 0, **kwargs):
