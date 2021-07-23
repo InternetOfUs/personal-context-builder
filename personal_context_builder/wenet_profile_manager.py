@@ -328,7 +328,7 @@ class Label(object):
 
 
 class ScoredLabel(object):
-    def __init__(self, score, label):
+    def __init__(self, score: float, label: str):
         self.label = label
         self.score = score
 
