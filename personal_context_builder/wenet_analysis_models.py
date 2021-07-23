@@ -134,7 +134,8 @@ class SimpleHDP(BaseModelWrapper):
         self._gensim_dict = None
 
     def to_bow_format(self, X: List):
-        return [self._gensim_dict.doc2bow(x) for x in X]
+        if self._gensim_dict is not None:
+            return [self._gensim_dict.doc2bow(x) for x in X]
 
     def predict(self, X, *args, **kwargs):
         bow_format = self.to_bow_format(X)
