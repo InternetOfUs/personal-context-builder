@@ -4,10 +4,11 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
+from __future__ import annotations
 import json
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import List
+from typing import List, Dict
 import redis
 from regions_builder.models import UserLocationPoint, UserPlace
 
@@ -23,7 +24,10 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
     is a dict of Singleton
     """
 
-    _INSTANCES = dict()
+    _INSTANCES: Dict[int, DatabaseRealtimeLocationsHandlerBase] = dict()
+
+    def __init__(self, db_index: int = 0):
+        pass
 
     @classmethod
     def get_instance(cls, *args, db_index: int = 0, **kwargs):
@@ -32,7 +36,7 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
         Can be have multiple instance when multiple db_index are used
         """
         if db_index not in cls._INSTANCES:
-            cls._INSTANCES[db_index] = cls(*args, db_index=db_index, **kwargs)
+            cls._INSTANCES[db_index] = cls(*args, **kwargs)
         return cls._INSTANCES[db_index]
 
     @abstractmethod
