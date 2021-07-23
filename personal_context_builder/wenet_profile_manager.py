@@ -341,7 +341,7 @@ class PersonalBehavior(object):
         self.user_id = user_id
         self.weekday = weekday
         self.confidence = confidence
-        self.label_distribution = defaultdict(list)
+        self.label_distribution: Dict[str, List[Dict[int, float]]] = defaultdict(list)
 
     def fill(self, routine: Dict[str, Dict[int, float]], labels: Dict):
         for timeslot, labels_distributions_dict in routine.items():
