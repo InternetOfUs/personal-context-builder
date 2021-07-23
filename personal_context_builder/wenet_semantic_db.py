@@ -26,10 +26,10 @@ from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_postgres import PostresqlCoordinator
 
 _LOGGER = create_logger(__name__)
-_Base = declarative_base()
+SqlExtBase = declarative_base()
 
 
-@event.listens_for(_Base.metadata, "after_create")
+@event.listens_for(SqlExtBase.metadata, "after_create")
 def receive_after_create(target, connection, tables, **kw):
     "listen for the 'after_create' event"
     if tables:
@@ -66,7 +66,7 @@ class DictViewable(object):
         return res
 
 
-class LabelsLocation(_Base, DictViewable):
+class LabelsLocation(SqlExtBase, DictViewable):
     __tablename__ = "labels_locations"
     id = Column(Integer, primary_key=True)
     lat = Column(Float)
@@ -80,7 +80,7 @@ class LabelsLocation(_Base, DictViewable):
         return my_dict
 
 
-class Labels(_Base, DictViewable):
+class Labels(SqlExtBase, DictViewable):
     __tablename__ = "labels"
 
     id = Column(Integer, primary_key=True)
@@ -88,7 +88,7 @@ class Labels(_Base, DictViewable):
     semantic_identifier = Column(Integer)
 
 
-class LabelsScore(_Base, DictViewable):
+class LabelsScore(SqlExtBase, DictViewable):
     __tablename__ = "labels_score"
 
     id = Column(Integer, primary_key=True)
@@ -105,7 +105,7 @@ class LabelsScore(_Base, DictViewable):
         return my_dict
 
 
-class SemanticRoutine(_Base, DictViewable):
+class SemanticRoutine(SqlExtBase, DictViewable):
     __tablename__ = "semantic_routines"
 
     id = Column(Integer, primary_key=True)
@@ -128,7 +128,7 @@ class SemanticRoutineDB(object):
 
     def create_if_not_exist(self):
         """create the table if they don't exist yet"""
-        _Base.metadata.create_all(self._engine, checkfirst=True)
+        SqlExtBase.metadata.create_all(self._engine, checkfirst=True)
 
     def set_label(self, id: int, name: str, semantic_identifier: int):
         """create/update a label"""
