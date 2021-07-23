@@ -19,7 +19,7 @@ class PostresqlCoordinator(object):
 
     _INSTANCES = dict()
 
-    def __init__(self, db_name, is_mock=False):
+    def __init__(self, db_name: str, is_mock: bool = False):
         self._is_mock = True
         if is_mock:
             #  In-memory db
@@ -35,7 +35,7 @@ class PostresqlCoordinator(object):
 
     @classmethod
     @contextmanager
-    def get_new_managed_session(cls, db_name, is_mock=False):
+    def get_new_managed_session(cls, db_name: str, is_mock: bool = False):
         session = cls.get_new_session(db_name, is_mock)
         try:
             yield session
@@ -48,17 +48,17 @@ class PostresqlCoordinator(object):
             session.close()
 
     @classmethod
-    def get_instance(cls, db_name, is_mock=False):
+    def get_instance(cls, db_name: str, is_mock: bool = False):
         if db_name not in cls._INSTANCES or cls._INSTANCES[db_name] is None:
             cls._INSTANCES[db_name] = cls(db_name, is_mock)
         return cls._INSTANCES[db_name]
 
     @classmethod
-    def get_engine(cls, db_name, is_mock=False):
+    def get_engine(cls, db_name: str, is_mock: bool = False):
         instance = cls.get_instance(db_name, is_mock)
         return instance._engine
 
     @classmethod
-    def get_new_session(cls, db_name, is_mock=False):
+    def get_new_session(cls, db_name: str, is_mock: bool = False):
         instance = cls.get_instance(db_name, is_mock)
         return instance._Session()
