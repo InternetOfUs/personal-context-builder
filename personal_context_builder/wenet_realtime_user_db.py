@@ -54,7 +54,7 @@ class DatabaseRealtimeLocationsHandlerBase(ABC):
 
 class DatabaseRealtimeLocationsHandlerMock(DatabaseRealtimeLocationsHandlerBase):
     def __init__(self, db_index: int = 0):
-        self._my_dict = dict()
+        self._my_dict: Dict[str, UserPlace] = dict()
 
     def update(self, userplaces: List[UserPlace]):
         _LOGGER.info("mock update real-time user locations")
