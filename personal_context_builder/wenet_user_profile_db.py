@@ -145,7 +145,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         try:
             self._server.ping()
         except:  # TODO catch specific exception
-            raise error("Unable to access the Redis DB")
+            raise Exception("Unable to access the Redis DB")
 
     def clean_db(self):
         """clean the db (delete all entries)"""
