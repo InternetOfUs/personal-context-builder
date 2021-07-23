@@ -90,7 +90,7 @@ class DatabaseRealtimeLocationsHandler(DatabaseRealtimeLocationsHandlerBase):
         try:
             self._server.ping()
         except:  # TODO catch specific exception
-            raise error("Unable to access the Redis DB")
+            raise Exception("Unable to access the Redis DB")
 
     def update(self, userplaces: List[UserPlace]):
         """update the db with userplaces"""
