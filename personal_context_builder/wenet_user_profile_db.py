@@ -90,7 +90,7 @@ class DatabaseProfileHandlerBase(ABC):
 
 class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
     def __init__(self, db_index: int = 0):
-        self._my_dict = dict()
+        self._my_dict: Dict[str, List[float]] = dict()
 
     def clean_db(self):
         _LOGGER.info("mock clean db called")
