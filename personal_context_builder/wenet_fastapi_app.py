@@ -16,11 +16,12 @@ from personal_context_builder.wenet_analysis import closest_users, compare_routi
 from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
+    DatabaseProfileHandlerBase,
 )
 import uvicorn  # type: ignore
 import personal_context_builder.config
 
-from typing import Optional, List
+from typing import Optional, List, Union, Type
 
 tags_metadata = [
     {
@@ -46,10 +47,11 @@ app = FastAPI(openapi_tags=tags_metadata, description=description, title=title)
 @app.get(
     "/routines/",
     tags=["User's embedded routines"],
-    response_model=Optional[EmbeddedRoutineOut],
+    response_model=EmbeddedRoutineOut,
 )
 async def routines(models: Optional[List[str]] = Query(None)):
     res = dict()
+    handler_to_use: Optional[Type[DatabaseProfileHandlerBase]]
     if config.PCB_MOCK_DATABASEHANDLER:
         handler_to_use = DatabaseProfileHandlerMock
     else:
@@ -74,10 +76,11 @@ async def routines(models: Optional[List[str]] = Query(None)):
 @app.get(
     "/routines/{user_id}",
     tags=["User's embedded routines"],
-    response_model=Optional[EmbeddedRoutineOut],
+    response_model=EmbeddedRoutineOut,
 )
 async def routines_for_user(user_id: str, models: Optional[List[str]] = Query(None)):
     res = dict()
+    handler_to_use: Optional[Type[DatabaseProfileHandlerBase]] = None
     if config.PCB_MOCK_DATABASEHANDLER:
         handler_to_use = DatabaseProfileHandlerMock
     else:
@@ -102,7 +105,7 @@ async def routines_for_user(user_id: str, models: Optional[List[str]] = Query(No
 @app.get(
     "/models/",
     tags=["User's embedded routines"],
-    response_model=Optional[EmbeddedModels],
+    response_model=EmbeddedModels,
 )
 async def get_available_models():
     res = dict()
@@ -115,7 +118,7 @@ async def get_available_models():
 @app.get(
     "/compare_routines/{user_id}/{model}/",
     tags=["User's embedded routines"],
-    response_model=Optional[EmbeddedRoutinesDist],
+    response_model=EmbeddedRoutinesDist,
 )
 async def get_compare_routines(
     user_id: str, model: str, users: List[str] = Query(None)
@@ -129,14 +132,10 @@ async def get_compare_routines(
 @app.get(
     "/semantic_routines/{user_id}/{weekday}/{time}/",
     tags=["User's semantic routines"],
-    response_model=Optional[SemanticRoutine],
+    response_model=SemanticRoutine,
 )
 async def get_semantic_routines(user_id: str, weekday: int, time: str):
-    res = dict()
-    #  TODO get results
-    res["user_id"] = user_id
-    res["weekday"] = weekday
-    res["label_distribution"] = [
+    label_distribution = [
         {
             "label": {
                 "name": "HOME",
@@ -156,8 +155,12 @@ async def get_semantic_routines(user_id: str, weekday: int, time: str):
             "score": 0.4,
         },
     ]
-    res["confidence"] = 0.8
-    return res
+    return SemanticRoutine(
+        user_id=user_id,
+        weekday=weekday,
+        label_distribution=label_distribution,
+        confidence=0.8,
+    )
 
 
 def run(

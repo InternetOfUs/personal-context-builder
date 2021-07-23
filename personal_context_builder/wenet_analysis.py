@@ -25,7 +25,7 @@ from regions_builder.models import (  # type: ignore
     StayRegion,
 )
 from scipy import spatial  # type: ignore
-from typing import Callable, Any, List
+from typing import Callable, Any, List, Optional
 
 from personal_context_builder import config
 from personal_context_builder.wenet_realtime_user_db import (
@@ -119,12 +119,18 @@ def _loads_regions(regions_mapping_file: str):
 class BagOfWordsVectorizer(object):
     def __init__(
         self,
-        labelled_stay_regions: List[LabelledStayRegion],
-        stay_regions: List[StayRegion],
+        labelled_stay_regions: Optional[List[LabelledStayRegion]],
+        stay_regions: Optional[List[StayRegion]],
         regions_mapping_file: str = config.PCB_REGION_MAPPING_FILE,
     ):
-        self._labelled_stay_regions = labelled_stay_regions
-        self._stay_regions = stay_regions
+        if labelled_stay_regions is not None:
+            self._labelled_stay_regions = labelled_stay_regions
+        else:
+            self._labelled_stay_regions = []
+        if stay_regions is not None:
+            self._stay_regions = stay_regions
+        else:
+            self._stay_regions = []
         self._regions_mapping = _loads_regions(regions_mapping_file)
         self._inner_vector_size = max(self._regions_mapping.values())
 

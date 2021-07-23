@@ -130,7 +130,9 @@ class SemanticModelHist(SemanticModel):
             labelled_stay_regions,
             stay_regions,
         ) = self._compute_indexed_weekday_locations(user_id)
-        labels_count = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: 0)))
+        labels_count: Dict[int, Dict[str, Dict[str, float]]] = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(lambda: 0))
+        )
         for weekday, days_locations in indexed_weekday_locations.items():
             for day_locations in days_locations:
                 for location in day_locations:
@@ -152,7 +154,9 @@ class SemanticModelHist(SemanticModel):
         Args:
             labels_count: hierarchical labels count (dict of dict of dict)
         """
-        labels_dist = defaultdict(lambda: defaultdict(lambda: dict()))
+        labels_dist: Dict[int, Dict[str, Dict[str, float]]] = defaultdict(
+            lambda: defaultdict(lambda: dict())
+        )
         for weekday, time_labels_freq in labels_count.items():
             for time_slot, labels_freq in time_labels_freq.items():
                 nb_items = sum(labels_freq.values())

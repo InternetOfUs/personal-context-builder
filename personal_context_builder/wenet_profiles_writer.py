@@ -4,7 +4,7 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-import numpy as np
+import numpy as np  # type: ignore
 from regions_builder.data_loading import (  # type: ignore
     MockWenetSourceLabels,
     MockWenetSourceLocations,

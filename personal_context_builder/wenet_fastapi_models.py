@@ -15,7 +15,7 @@ class EmbeddedModelName(BaseModel):
 
 
 class EmbeddedRoutineOut(BaseModel):
-    __root__: Dict[str, Optional[Dict[str, List[float]]]]
+    __root__: Optional[Dict[str, Optional[Dict[str, List[float]]]]]
 
     class Config:
         schema_extra = {
@@ -27,7 +27,7 @@ class EmbeddedRoutineOut(BaseModel):
 
 
 class EmbeddedModels(BaseModel):
-    __root__: Dict[str, str]
+    __root__: Optional[Dict[str, str]]
     """descriptions of the embedded models"""
 
     class Config:
@@ -97,4 +97,4 @@ class SemanticRoutine(BaseModel):
 class EmbeddedRoutinesDist(BaseModel):
     """Embedded routines distances from an users to some users"""
 
-    __root__: Dict[str, float]
+    __root__: Optional[Dict[str, float]]

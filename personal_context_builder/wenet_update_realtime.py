@@ -8,7 +8,7 @@ Written by William Droz <william.droz@idiap.ch>,
 import concurrent.futures
 from typing import Union, Tuple, Optional
 from datetime import datetime, timedelta
-import urllib3
+import urllib3  # type: ignore
 from functools import partial
 import requests  # type: ignore
 from multiprocessing.pool import ThreadPool
@@ -83,7 +83,7 @@ class WenetRealTimeUpdateHandler(object):
     def run_one_user(user_location: Tuple[str, Optional[LocationPoint]]):
         user, location = user_location
         if location is not None:
-            timestamp = datetime.timestamp(location._pts_t)
+            timestamp = int(datetime.timestamp(location._pts_t))
             WenetRealTimeUpdateHandler.update_user_location(
                 user,
                 timestamp=timestamp,
