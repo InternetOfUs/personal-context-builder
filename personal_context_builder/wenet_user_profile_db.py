@@ -28,6 +28,9 @@ class DatabaseProfileHandlerBase(ABC):
 
     _INSTANCES: Dict[int, DatabaseProfileHandlerBase] = dict()
 
+    def __init__(self, db_index: int = 0):
+        pass
+
     @classmethod
     def get_instance(cls, *args, db_index: int = 0, **kwargs):
         """get the instance or create if doesn't exist
@@ -35,7 +38,7 @@ class DatabaseProfileHandlerBase(ABC):
         Can be have multiple instance when multiple db_index are used
         """
         if db_index not in cls._INSTANCES:
-            cls._INSTANCES[db_index] = cls(*args, db_index=db_index, **kwargs)
+            cls._INSTANCES[db_index] = cls(*args, **kwargs)
         return cls._INSTANCES[db_index]
 
     @abstractmethod
