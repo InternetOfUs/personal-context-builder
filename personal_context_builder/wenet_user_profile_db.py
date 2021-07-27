@@ -32,7 +32,9 @@ class DatabaseProfileHandlerBase(ABC):
         pass
 
     @classmethod
-    def get_instance(cls, *args, db_index: int = 0, **kwargs):
+    def get_instance(
+        cls, *args, db_index: int = 0, **kwargs
+    ) -> DatabaseProfileHandlerBase:
         """get the instance or create if doesn't exist
 
         Can be have multiple instance when multiple db_index are used
