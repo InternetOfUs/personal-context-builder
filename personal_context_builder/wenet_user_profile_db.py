@@ -109,7 +109,7 @@ class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
         _LOGGER.info("mock get all profiles")
         return self._my_dict
 
-    def get_profile(self, user_id: str):
+    def get_profile(self, user_id: str) -> Optional[List[float]]:
         _LOGGER.info(f"mock get profile {user_id}")
         try:
             return self._my_dict[user_id]
