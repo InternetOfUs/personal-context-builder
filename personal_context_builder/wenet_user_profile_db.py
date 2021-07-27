@@ -105,7 +105,7 @@ class DatabaseProfileHandlerMock(DatabaseProfileHandlerBase):
         except KeyError:
             pass
 
-    def get_all_profiles(self, match: Optional[str] = None):
+    def get_all_profiles(self, match: Optional[str] = None) -> Dict[str, List[float]]:
         _LOGGER.info("mock get all profiles")
         return self._my_dict
 
