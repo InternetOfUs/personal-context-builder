@@ -163,7 +163,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
         _LOGGER.info(f"delete profile {user_id}")
         self._server.delete(user_id)
 
-    def get_all_profiles(self, match: Optional[str] = None):
+    def get_all_profiles(self, match: Optional[str] = None) -> Dict[str, List[float]]:
         """get all profiles
         Args:
             match: pattern to retreive the profiles (not regex)
@@ -176,7 +176,7 @@ class DatabaseProfileHandler(DatabaseProfileHandlerBase):
             my_dict[key.decode("utf-8")] = json.loads(self._server.get(key))
         return my_dict
 
-    def get_profile(self, user_id: str):
+    def get_profile(self, user_id: str) -> Optional[List[float]]:
         """get a specific profile
         Args:
             user_id: user_id of the profile
