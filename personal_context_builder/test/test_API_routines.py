@@ -6,12 +6,11 @@ Written by William Droz <william.droz@idiap.ch>,
 import unittest
 from uuid import uuid4
 
+from fastapi.testclient import TestClient  # type: ignore
+
 from personal_context_builder import config
 from personal_context_builder.wenet_cli_entrypoint import train, update
 from personal_context_builder.wenet_fastapi_app import app
-
-from fastapi.testclient import TestClient  # type: ignore
-
 
 train(is_mock=True)
 update(is_mock=True)

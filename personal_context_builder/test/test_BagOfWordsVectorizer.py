@@ -8,12 +8,15 @@ import unittest
 from os import remove
 from os.path import join
 
-from regions_builder.algorithms import (  # type: ignore
-    estimate_stay_points,
+from regions_builder.algorithms import (
+    estimate_stay_points,  # type: ignore
     estimate_stay_regions,
     labelize_stay_region,
 )
-from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations  # type: ignore
+from regions_builder.data_loading import (  # type: ignore
+    MockWenetSourceLabels,
+    MockWenetSourceLocations,
+)
 
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer

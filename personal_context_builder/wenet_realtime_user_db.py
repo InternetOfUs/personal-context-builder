@@ -5,10 +5,12 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 from __future__ import annotations
+
 import json
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import List, Dict
+from typing import Dict, List
+
 import redis  # type: ignore
 from regions_builder.models import UserLocationPoint, UserPlace  # type: ignore
 

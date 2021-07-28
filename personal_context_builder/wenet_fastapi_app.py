@@ -3,25 +3,26 @@
 Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 """
+from typing import List, Optional, Type, Union
+
+import uvicorn  # type: ignore
 from fastapi import Depends, FastAPI, HTTPException, Query  # type: ignore
-from personal_context_builder.wenet_fastapi_models import (
-    EmbeddedModelName,
-    EmbeddedRoutineOut,
-    EmbeddedModels,
-    SemanticRoutine,
-    EmbeddedRoutinesDist,
-)
+
+import personal_context_builder.config
 from personal_context_builder import config, wenet_analysis_models
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
+from personal_context_builder.wenet_fastapi_models import (
+    EmbeddedModelName,
+    EmbeddedModels,
+    EmbeddedRoutineOut,
+    EmbeddedRoutinesDist,
+    SemanticRoutine,
+)
 from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
-    DatabaseProfileHandlerMock,
     DatabaseProfileHandlerBase,
+    DatabaseProfileHandlerMock,
 )
-import uvicorn  # type: ignore
-import personal_context_builder.config
-
-from typing import Optional, List, Union, Type
 
 tags_metadata = [
     {

@@ -6,7 +6,10 @@ Written by William Droz <william.droz@idiap.ch>,
 
 import unittest
 
-from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations  # type: ignore
+from regions_builder.data_loading import (  # type: ignore
+    MockWenetSourceLabels,
+    MockWenetSourceLocations,
+)
 
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions

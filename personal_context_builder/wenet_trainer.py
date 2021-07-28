@@ -5,20 +5,25 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 from __future__ import annotations
+
+from typing import Any
+
 import numpy as np  # type: ignore
-from regions_builder.algorithms import (  # type: ignore
-    estimate_stay_points,
+from regions_builder.algorithms import (
+    estimate_stay_points,  # type: ignore
     estimate_stay_regions,
     labelize_stay_region,
 )
-from regions_builder.data_loading import BaseSourceLocations, BaseSourceLabels  # type: ignore
+from regions_builder.data_loading import (
+    BaseSourceLabels,  # type: ignore
+    BaseSourceLocations,
+)
 
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import (
     BagOfWordsCorpuzer,
     BagOfWordsVectorizer,
 )
-from typing import Any
 
 
 class BaseModelTrainer(object):

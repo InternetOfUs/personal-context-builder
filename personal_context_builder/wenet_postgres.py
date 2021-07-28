@@ -6,8 +6,9 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 from __future__ import annotations
-from typing import Dict
+
 from contextlib import contextmanager
+from typing import Dict
 
 from sqlalchemy import create_engine  # type: ignore
 from sqlalchemy.orm import sessionmaker  # type: ignore

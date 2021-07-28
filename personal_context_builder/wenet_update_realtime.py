@@ -6,16 +6,18 @@ Written by William Droz <william.droz@idiap.ch>,
 
 """
 import concurrent.futures
-from typing import Union, Tuple, Optional
 from datetime import datetime, timedelta
-import urllib3  # type: ignore
 from functools import partial
-import requests  # type: ignore
 from multiprocessing.pool import ThreadPool
-from personal_context_builder import config
-from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
-from personal_context_builder.wenet_logger import create_logger
+from typing import Optional, Tuple, Union
+
+import requests  # type: ignore
+import urllib3  # type: ignore
 from regions_builder.models import LocationPoint  # type: ignore
+
+from personal_context_builder import config
+from personal_context_builder.wenet_logger import create_logger
+from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
 
 _LOGGER = create_logger(__name__)
 

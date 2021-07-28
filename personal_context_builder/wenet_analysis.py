@@ -11,21 +11,21 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from functools import lru_cache
 from os.path import join
+from typing import Any, Callable, List, Optional
 from uuid import uuid4
 
 import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from regions_builder.algorithms import closest_locations  # type: ignore
 from regions_builder.data_loading import MockWenetSourceLocations  # type: ignore
-from regions_builder.models import (  # type: ignore
-    GPSPoint,
-    LocationPoint,
-    UserLocationPoint,
+from regions_builder.models import (
+    GPSPoint,  # type: ignore
     LabelledStayRegion,
+    LocationPoint,
     StayRegion,
+    UserLocationPoint,
 )
 from scipy import spatial  # type: ignore
-from typing import Callable, Any, List, Optional
 
 from personal_context_builder import config
 from personal_context_builder.wenet_realtime_user_db import (

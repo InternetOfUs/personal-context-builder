@@ -8,22 +8,25 @@ Written by William Droz <william.droz@idiap.ch>,
 
 import argparse
 import time
+from typing import Any, Callable, List
 from uuid import uuid4
 
-from typing import Callable, List, Any
-
 import requests  # type: ignore
-from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations  # type: ignore
+from regions_builder.data_loading import (  # type: ignore
+    MockWenetSourceLabels,
+    MockWenetSourceLocations,
+)
 from scipy import spatial  # type: ignore
 
-from personal_context_builder import (  # type: ignore
-    config,
+from personal_context_builder import (
+    config,  # type: ignore
     wenet_analysis_models,
     wenet_exceptions,
     wenet_pipelines,
 )
 from personal_context_builder.wenet_analysis import closest_users, compare_routines
 from personal_context_builder.wenet_analysis_models import SimpleBOW, SimpleLDA
+from personal_context_builder.wenet_fastapi_app import run
 from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_profile_manager import (
     StreambaseLabelsLoader,
@@ -45,8 +48,6 @@ from personal_context_builder.wenet_user_profile_db import (
     DatabaseProfileHandler,
     DatabaseProfileHandlerMock,
 )
-
-from personal_context_builder.wenet_fastapi_app import run
 
 _LOGGER = create_logger(__name__)
 

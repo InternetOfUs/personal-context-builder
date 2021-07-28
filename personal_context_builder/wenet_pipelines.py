@@ -13,8 +13,12 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Dict, Optional
-from regions_builder.data_loading import MockWenetSourceLabels, MockWenetSourceLocations  # type: ignore
+from typing import Dict, List, Optional
+
+from regions_builder.data_loading import (  # type: ignore
+    MockWenetSourceLabels,
+    MockWenetSourceLocations,
+)
 
 from personal_context_builder import config, wenet_analysis_models
 from personal_context_builder.wenet_logger import create_logger

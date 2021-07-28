@@ -8,12 +8,12 @@ Written by William Droz <william.droz@idiap.ch>,
 import pickle
 from functools import partial
 from os.path import join
+from typing import Callable, List, Optional
 
 import numpy as np  # type: ignore
 from gensim.corpora import Dictionary  # type: ignore
 from gensim.sklearn_api import HdpTransformer  # type: ignore
 from sklearn.decomposition import LatentDirichletAllocation  # type: ignore
-from typing import Optional, Callable, List
 
 from personal_context_builder import config
 

@@ -4,8 +4,9 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-from pydantic import BaseModel  # type: ignore
 from typing import Dict, List, Optional
+
+from pydantic import BaseModel  # type: ignore
 
 
 class EmbeddedModelName(BaseModel):

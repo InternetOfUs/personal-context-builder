@@ -7,8 +7,8 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 
 from collections import defaultdict
-from typing import Dict
 from os import environ
+from typing import Dict
 
 MAINTAINER = "william.droz@idiap.ch"
 
