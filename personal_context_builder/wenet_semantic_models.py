@@ -14,20 +14,12 @@ from pprint import pprint
 from typing import Dict, List
 
 import numpy as np  # type: ignore
-from regions_builder.algorithms import (
-    estimate_stay_points,  # type: ignore
-    estimate_stay_regions,
-    labelize_stay_region,
-)
-from regions_builder.data_loading import (
-    BaseSourceLabels,  # type: ignore
-    BaseSourceLocations,
-)
-from regions_builder.models import (
-    LabelledStayRegion,  # type: ignore
-    LocationPoint,
-    StayRegion,
-)
+from regions_builder.algorithms import estimate_stay_points  # type: ignore
+from regions_builder.algorithms import estimate_stay_regions, labelize_stay_region
+from regions_builder.data_loading import BaseSourceLabels  # type: ignore
+from regions_builder.data_loading import BaseSourceLocations
+from regions_builder.models import LabelledStayRegion  # type: ignore
+from regions_builder.models import LocationPoint, StayRegion
 
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import BagOfWordsVectorizer, _loads_regions

@@ -7,8 +7,8 @@ Written by William Droz <william.droz@idiap.ch>,
 from typing import Any, List, Optional
 
 import numpy as np  # type: ignore
+from regions_builder.data_loading import BaseSourceLabels  # type: ignore
 from regions_builder.data_loading import (
-    BaseSourceLabels,  # type: ignore
     BaseSourceLocations,
     MockWenetSourceLabels,
     MockWenetSourceLocations,

@@ -18,8 +18,8 @@ import numpy as np  # type: ignore
 import pandas as pd  # type: ignore
 from regions_builder.algorithms import closest_locations  # type: ignore
 from regions_builder.data_loading import MockWenetSourceLocations  # type: ignore
+from regions_builder.models import GPSPoint  # type: ignore
 from regions_builder.models import (
-    GPSPoint,  # type: ignore
     LabelledStayRegion,
     LocationPoint,
     StayRegion,

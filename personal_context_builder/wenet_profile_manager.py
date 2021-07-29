@@ -14,21 +14,12 @@ from typing import Dict, List, Optional
 
 import pandas as pd  # type: ignore
 import requests  # type: ignore
-from regions_builder.algorithms import (
-    estimate_stay_points,  # type: ignore
-    estimate_stay_regions,
-    labelize_stay_region,
-)
-from regions_builder.data_loading import (
-    BaseSourceLabels,  # type: ignore
-    BaseSourceLocations,
-)
-from regions_builder.models import (
-    LocationPoint,
-    StayPoint,  # type: ignore
-    UserLocationPoint,
-    UserPlaceTimeOnly,
-)
+from regions_builder.algorithms import estimate_stay_points  # type: ignore
+from regions_builder.algorithms import estimate_stay_regions, labelize_stay_region
+from regions_builder.data_loading import BaseSourceLabels  # type: ignore
+from regions_builder.data_loading import BaseSourceLocations
+from regions_builder.models import StayPoint  # type: ignore
+from regions_builder.models import LocationPoint, UserLocationPoint, UserPlaceTimeOnly
 from requests.exceptions import RequestException  # type: ignore
 
 from personal_context_builder import config, wenet_exceptions

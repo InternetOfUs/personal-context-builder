@@ -8,11 +8,8 @@ import unittest
 from os import remove
 from os.path import join
 
-from regions_builder.algorithms import (
-    estimate_stay_points,  # type: ignore
-    estimate_stay_regions,
-    labelize_stay_region,
-)
+from regions_builder.algorithms import estimate_stay_points  # type: ignore
+from regions_builder.algorithms import estimate_stay_regions, labelize_stay_region
 from regions_builder.data_loading import (  # type: ignore
     MockWenetSourceLabels,
     MockWenetSourceLocations,

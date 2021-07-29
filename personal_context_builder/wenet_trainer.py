@@ -9,15 +9,10 @@ from __future__ import annotations
 from typing import Any
 
 import numpy as np  # type: ignore
-from regions_builder.algorithms import (
-    estimate_stay_points,  # type: ignore
-    estimate_stay_regions,
-    labelize_stay_region,
-)
-from regions_builder.data_loading import (
-    BaseSourceLabels,  # type: ignore
-    BaseSourceLocations,
-)
+from regions_builder.algorithms import estimate_stay_points  # type: ignore
+from regions_builder.algorithms import estimate_stay_regions, labelize_stay_region
+from regions_builder.data_loading import BaseSourceLabels  # type: ignore
+from regions_builder.data_loading import BaseSourceLocations
 
 from personal_context_builder import config
 from personal_context_builder.wenet_analysis import (

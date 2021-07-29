@@ -18,8 +18,8 @@ from regions_builder.data_loading import (  # type: ignore
 )
 from scipy import spatial  # type: ignore
 
+from personal_context_builder import config  # type: ignore
 from personal_context_builder import (
-    config,  # type: ignore
     wenet_analysis_models,
     wenet_exceptions,
     wenet_pipelines,

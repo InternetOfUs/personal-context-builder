@@ -8,16 +8,8 @@ Written by William Droz <william.droz@idiap.ch>,
 from copy import deepcopy
 from typing import Callable, Dict, Iterable, List, Optional
 
-from sqlalchemy import (
-    Column,
-    Float,
-    ForeignKey,
-    Integer,  # type: ignore
-    String,
-    Time,
-    create_engine,
-    event,
-)
+from sqlalchemy import Integer  # type: ignore
+from sqlalchemy import Column, Float, ForeignKey, String, Time, create_engine, event
 from sqlalchemy.ext.declarative import declarative_base  # type: ignore
 from sqlalchemy.orm import joinedload, relationship, sessionmaker  # type: ignore
 
