@@ -9,11 +9,11 @@ import concurrent.futures
 from datetime import datetime, timedelta
 from functools import partial
 from multiprocessing.pool import ThreadPool
-from typing import Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 import requests  # type: ignore
 import urllib3  # type: ignore
-from regions_builder.models import LocationPoint  # type: ignore
+from regions_builder.models import LocationPoint, UserLocationPoint  # type: ignore
 
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
@@ -57,7 +57,7 @@ class WenetRealTimeUpdateHandler(object):
         requests.post(f"{config.PCB_USER_LOCATION_URL}", json=my_dict, verify=False)
 
     @staticmethod
-    def get_user_location(user_id: str):
+    def get_user_location(user_id: str) -> Optional[UserLocationPoint]:
         """Retreive the location of the given user
 
         Args:
@@ -76,8 +76,10 @@ class WenetRealTimeUpdateHandler(object):
         )
         if res is not None and len(res) > 0:
             return res[-1]
+        else:
+            return None
 
-    def get_all_users(self):
+    def get_all_users(self) -> List[UserLocationPoint]:
         """get all users"""
         return StreamBaseLocationsLoader.get_latest_users()
 
