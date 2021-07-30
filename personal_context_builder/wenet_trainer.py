@@ -6,7 +6,7 @@ Written by William Droz <william.droz@idiap.ch>,
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np  # type: ignore
 from regions_builder.algorithms import estimate_stay_points  # type: ignore
@@ -68,7 +68,7 @@ class BaseBOWTrainer(object):
         self._labels_source = labels_source
         self._regions_mapping_file = regions_mapping_file
 
-    def train(self, user_id: str):
+    def train(self, user_id: str) -> BagOfWordsVectorizer:
         """train by using this user_id
         Args:
             user_id: user to use to train
@@ -87,7 +87,7 @@ class BaseBOWTrainer(object):
         )
         return bow_vectorizer
 
-    def vectorize(self):
+    def vectorize(self) -> Optional[np.array]:
         """Vectorize the data for all users, for all days
         Return:
             2D array with data or None if zero data
@@ -128,7 +128,7 @@ class HDPTrainer(BaseBOWTrainer):
             regions_mapping_file=config.PCB_REGION_MAPPING_FILE,
         )
 
-    def train(self, user_id: str):
+    def train(self, user_id: str) -> BagOfWordsCorpuzer:
         """train by using this user_id
         Args:
             user_id: user to use to train
@@ -147,7 +147,7 @@ class HDPTrainer(BaseBOWTrainer):
         )
         return bow_vectorizer
 
-    def vectorize(self):
+    def vectorize(self) -> Optional[np.array]:
         """Vectorize the data for all users, for all days
         Return:
             2D array with data or None if zero data
