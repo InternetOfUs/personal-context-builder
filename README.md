@@ -46,6 +46,7 @@ Wenet have a single entrypoint for all functionality. By typing `python3 -m wene
 <pre>
 usage: wenet_cli_entrypoint.py [-h] [--train] [--update] [--update_pm] [--clean_db] [--compute_semantic_routines] [--show SHOW] [--show_all] [--app_run] [--update_realtime]
                                [--show_models] [--mock] [--closest lat lng N] [--force_update_locations] [--compare_routines COMPARE_ROUTINES] [--generator {start,stop}]
+                               [--show_pm_profile SHOW_PM_PROFILE]
 
 Wenet Command line interface
 
@@ -70,6 +71,9 @@ optional arguments:
                         compare users (should be separated by ':')
   --generator {start,stop}
                         action on the generator
+  --show_pm_profile SHOW_PM_PROFILE
+                        show the user profile by asking the PM
+
 
 </pre>
 
