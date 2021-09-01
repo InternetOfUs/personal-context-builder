@@ -12,11 +12,11 @@ services:
   wenet-realtime-client:
     container_name: wenet-realtime-client
     image: 'docker.idiap.ch/wenet/personal_context_builder:latest'
-    entrypoint: ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
+    entrypoint: ["conda", "run", "-n", "wenet_fastapi", "python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
   wenet-build-routine:
     container_name: wenet-build-routine
     image: 'docker.idiap.ch/wenet/personal_context_builder:latest'
-    entrypoint: ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--compute_semantic_routines", "--update_pm"]
+    entrypoint: ["conda", "run", "-n", "wenet_fastapi", "python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--compute_semantic_routines", "--update_pm"]
   wenet-api:
     build: .
     container_name: wenet-api
