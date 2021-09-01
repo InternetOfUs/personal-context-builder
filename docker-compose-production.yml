@@ -32,7 +32,7 @@ services:
 networks:
   default:
     external:
-      name: docker0
+      name: docker1
 
 volumes:
   wenet-redis-data:
