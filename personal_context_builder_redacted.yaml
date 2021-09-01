@@ -24,7 +24,7 @@ spec:
         name: wenet-personal-context-builder
         image: docker.idiap.ch/wenet/personal_context_builder:latest
         command: ["conda"]
-        args: ["run", "-n", "wenet", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
+        args: ["run", "-n", "wenet_fastapi", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
         resources:
           limits:
             memory: 10Gi
