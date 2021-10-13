@@ -99,6 +99,10 @@ We use docker-compose.
 
 For master branch, we use **docker-compose.yml**. For release, we use **docker-compose-production.yml** with pinned version of components.
 
+## Size of the images (compressed)
+
+v2.0.0 : 700 MB
+
 ## For using only the updader
 
 `docker build . -t wpcb_updater`
