@@ -1,44 +1,54 @@
- stages:
-   - check_docker_exist
-   - build_image
-   - coverage
-   - push
-   - push_version
+stages:
+  - check_docker_exist
+  - build_image
+  - coverage
+  - push
+  - push_version
 
- check_docker_exist:
-   stage: check_docker_exist
-   script:
-     - docker info
+check_docker_exist:
+  tags:
+    - docker-build
+  stage: check_docker_exist
+  script:
+    - docker info
 
- build_image:
-   stage: build_image
-   script:
-     - docker-compose build
- coverage:
-   stage: coverage
-   script:
-     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
-     - docker-compose up -d
-     - ./docker_run_tests.sh
-     - docker-compose down
- push:
+build_image:
+  tags:
+    - docker-build
+  stage: build_image
+  script:
+    - docker-compose build
+coverage:
+  tags:
+    - docker-build
+  stage: coverage
+  script:
+    - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
+    - docker-compose up -d
+    - ./docker_run_tests.sh
+    - docker-compose down
+push:
+  tags:
+    - docker-build
   stage: push
   only:
-     - master
+    - master
   script:
-     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
-     - docker push docker.idiap.ch/wenet/personal_context_builder:latest
-     - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-     - docker tag docker.idiap.ch/wenet/personal_context_builder:latest internetofus/personal-context-builder:latest
-     - docker push internetofus/personal-context-builder:latest
- push_version:
+    - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
+    - docker push docker.idiap.ch/wenet/personal_context_builder:latest
+    - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+    - docker tag docker.idiap.ch/wenet/personal_context_builder:latest internetofus/personal-context-builder:latest
+    - docker push internetofus/personal-context-builder:latest
+push_version:
+  tags:
+    - docker-build
   stage: push_version
   only:
-     - tags
+    - tags
   script:
-     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
-     - docker tag  docker.idiap.ch/wenet/personal_context_builder:latest docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG
-     - docker push docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG
-     - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
-     - docker tag docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG internetofus/personal-context-builder:$CI_COMMIT_TAG
-     - docker push internetofus/personal-context-builder:$CI_COMMIT_TAG
+    - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
+    - docker tag  docker.idiap.ch/wenet/personal_context_builder:latest docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG
+    - docker push docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG
+    - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
+    - docker tag docker.idiap.ch/wenet/personal_context_builder:$CI_COMMIT_TAG internetofus/personal-context-builder:$CI_COMMIT_TAG
+    - docker push internetofus/personal-context-builder:$CI_COMMIT_TAG
