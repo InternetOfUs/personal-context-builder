@@ -34,11 +34,9 @@ build_image:
     - docker-compose build
 coverage:
   tags:
-    - idiap
     - linux
     - docker
-    - todo
-    - not-for-bob
+    - no-bob
   stage: coverage
   script:
     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
@@ -47,11 +45,9 @@ coverage:
     - docker-compose down
 push:
   tags:
-    - idiap
     - linux
     - docker
-    - todo
-    - not-for-bob
+    - no-bob
   stage: push
   only:
     - master
@@ -63,11 +59,9 @@ push:
     - docker push internetofus/personal-context-builder:latest
 push_version:
   tags:
-    - idiap
     - linux
     - docker
-    - todo
-    - not-for-bob
+    - no-bob
   stage: push_version
   only:
     - tags
