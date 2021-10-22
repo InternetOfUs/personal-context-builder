@@ -13,22 +13,18 @@ variables:
 
 check_docker_exist:
   tags:
-    - idiap
     - linux
     - docker
-    - todo
-    - not-for-bob
+    - no-bob
   stage: check_docker_exist
   script:
     - docker info
 
 build_image:
   tags:
-    - idiap
     - linux
     - docker
-    - todo
-    - not-for-bob
+    - no-bob
   stage: build_image
   script:
     - docker-compose build
