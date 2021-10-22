@@ -17,6 +17,7 @@ check_docker_exist:
     - linux
     - docker
     - todo
+    - not-for-bob
   stage: check_docker_exist
   script:
     - docker info
@@ -27,6 +28,7 @@ build_image:
     - linux
     - docker
     - todo
+    - not-for-bob
   stage: build_image
   script:
     - docker-compose build
@@ -36,6 +38,7 @@ coverage:
     - linux
     - docker
     - todo
+    - not-for-bob
   stage: coverage
   script:
     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
@@ -48,6 +51,7 @@ push:
     - linux
     - docker
     - todo
+    - not-for-bob
   stage: push
   only:
     - master
@@ -63,6 +67,7 @@ push_version:
     - linux
     - docker
     - todo
+    - not-for-bob
   stage: push_version
   only:
     - tags
