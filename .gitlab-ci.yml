@@ -13,8 +13,6 @@ variables:
 
 check_docker_exist:
   tags:
-    - linux
-    - docker
     - no-bob
   stage: check_docker_exist
   script:
@@ -22,16 +20,12 @@ check_docker_exist:
 
 build_image:
   tags:
-    - linux
-    - docker
     - no-bob
   stage: build_image
   script:
     - docker-compose build
 coverage:
   tags:
-    - linux
-    - docker
     - no-bob
   stage: coverage
   script:
@@ -41,8 +35,6 @@ coverage:
     - docker-compose down
 push:
   tags:
-    - linux
-    - docker
     - no-bob
   stage: push
   only:
@@ -55,8 +47,6 @@ push:
     - docker push internetofus/personal-context-builder:latest
 push_version:
   tags:
-    - linux
-    - docker
     - no-bob
   stage: push_version
   only:
