@@ -7,6 +7,10 @@ stages:
   - push
   - push_version
 
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
 check_docker_exist:
   tags:
     - idiap
