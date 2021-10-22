@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   wenet-redis:
     restart: always
@@ -6,16 +6,22 @@ services:
     image: "redis:5.0-alpine"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
-     - wenet-redis-data:/data
-     - /etc/timezone:/etc/timezone:ro
-     - /etc/localtime:/etc/localtime:ro
+      - wenet-redis-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
   wenet-realtime-api:
     container_name: wenet-realtime-api
-    image: 'docker.idiap.ch/wenet/wenet-realtime:v0.0.2'
+    image: "docker.idiap.ch/wenet/wenet-realtime:v0.0.2"
   wenet-realtime-client:
     container_name: wenet-realtime-client
-    image: 'docker.idiap.ch/wenet/personal_context_builder:v1.0.0'
-    entrypoint: ["python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
+    image: "docker.idiap.ch/wenet/personal_context_builder:v1.0.0"
+    entrypoint:
+      [
+        "python3",
+        "-m",
+        "personal_context_builder.wenet_cli_entrypoint",
+        "--update_realtime",
+      ]
   wenet-api:
     restart: always
     build: .
@@ -23,16 +29,12 @@ services:
     env_file:
       - wenet.env
     ports:
-     - "8081:80"
+      - "8081:80"
     volumes:
-     - wenet-data:/data
-     - /etc/timezone:/etc/timezone:ro
-     - /etc/localtime:/etc/localtime:ro
-    image:  'docker.idiap.ch/wenet/personal_context_builder:v2.0.0'
-networks:
-  default:
-    external:
-      name: docker1
+      - wenet-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    image: "docker.idiap.ch/wenet/personal_context_builder:v2.0.0"
 
 volumes:
   wenet-redis-data:

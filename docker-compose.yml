@@ -1,36 +1,53 @@
-version: '3'
+version: "3"
 services:
   wenet-redis:
     container_name: wenet-redis
     image: "redis:alpine"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
-     - wenet-redis-data:/data
+      - wenet-redis-data:/data
   wenet-realtime-api:
     container_name: wenet-realtime-api
-    image: 'docker.idiap.ch/wenet/wenet-realtime:latest'
+    image: "docker.idiap.ch/wenet/wenet-realtime:latest"
   wenet-realtime-client:
     container_name: wenet-realtime-client
-    image: 'docker.idiap.ch/wenet/personal_context_builder:latest'
-    entrypoint: ["conda", "run", "-n", "wenet_fastapi", "python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
+    image: "docker.idiap.ch/wenet/personal_context_builder:latest"
+    entrypoint:
+      [
+        "conda",
+        "run",
+        "-n",
+        "wenet_fastapi",
+        "python3",
+        "-m",
+        "personal_context_builder.wenet_cli_entrypoint",
+        "--update_realtime",
+      ]
   wenet-build-routine:
     container_name: wenet-build-routine
-    image: 'docker.idiap.ch/wenet/personal_context_builder:latest'
-    entrypoint: ["conda", "run", "-n", "wenet_fastapi", "python3", "-m", "personal_context_builder.wenet_cli_entrypoint", "--compute_semantic_routines", "--update_pm"]
+    image: "docker.idiap.ch/wenet/personal_context_builder:latest"
+    entrypoint:
+      [
+        "conda",
+        "run",
+        "-n",
+        "wenet_fastapi",
+        "python3",
+        "-m",
+        "personal_context_builder.wenet_cli_entrypoint",
+        "--compute_semantic_routines",
+        "--update_pm",
+      ]
   wenet-api:
     build: .
     container_name: wenet-api
     env_file:
       - wenet.env
     ports:
-     - "8081:80"
+      - "8081:80"
     volumes:
-     - wenet-data:/data
-    image:  'docker.idiap.ch/wenet/personal_context_builder:latest'
-networks:
-  default:
-    external:
-      name: docker1
+      - wenet-data:/data
+    image: "docker.idiap.ch/wenet/personal_context_builder:latest"
 
 volumes:
   wenet-redis-data:
