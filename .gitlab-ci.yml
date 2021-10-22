@@ -9,26 +9,29 @@ stages:
 
 check_docker_exist:
   tags:
-    - beta
-    - deployer
+    - idiap
+    - linux
     - docker
+    - todo
   stage: check_docker_exist
   script:
     - docker info
 
 build_image:
   tags:
-    - beta
-    - deployer
+    - idiap
+    - linux
     - docker
+    - todo
   stage: build_image
   script:
     - docker-compose build
 coverage:
   tags:
-    - beta
-    - deployer
+    - idiap
+    - linux
     - docker
+    - todo
   stage: coverage
   script:
     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
@@ -37,9 +40,10 @@ coverage:
     - docker-compose down
 push:
   tags:
-    - beta
-    - deployer
+    - idiap
+    - linux
     - docker
+    - todo
   stage: push
   only:
     - master
@@ -51,9 +55,10 @@ push:
     - docker push internetofus/personal-context-builder:latest
 push_version:
   tags:
-    - beta
-    - deployer
+    - idiap
+    - linux
     - docker
+    - todo
   stage: push_version
   only:
     - tags
