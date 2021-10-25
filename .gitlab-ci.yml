@@ -13,20 +13,23 @@ variables:
 
 check_docker_exist:
   tags:
-    - no-bob
+    - docker
+    - linux
   stage: check_docker_exist
   script:
     - docker info
 
 build_image:
   tags:
-    - no-bob
+    - docker
+    - linux
   stage: build_image
   script:
     - docker-compose build
 coverage:
   tags:
-    - no-bob
+    - docker
+    - linux
   stage: coverage
   script:
     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
@@ -35,7 +38,8 @@ coverage:
     - docker-compose down
 push:
   tags:
-    - no-bob
+    - docker
+    - linux
   stage: push
   only:
     - master
@@ -47,7 +51,8 @@ push:
     - docker push internetofus/personal-context-builder:latest
 push_version:
   tags:
-    - no-bob
+    - docker
+    - linux
   stage: push_version
   only:
     - tags
