@@ -331,6 +331,11 @@ if __name__ == "__main__":  # pragma: no cover
         action="store_true",
     )
     parser.add_argument(
+        "--update_has_locations",
+        help="Update the profile manager on the presence of locations",
+        action="store_true",
+    )
+    parser.add_argument(
         "--closest",
         help="get N closest users from lat, lng",
         nargs=3,
