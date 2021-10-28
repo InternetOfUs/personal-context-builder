@@ -61,9 +61,10 @@ def compute_semantic_routines(update: bool = False):
     while True:
         try:
             _LOGGER.debug("get source locations")
-            source_locations = StreamBaseLocationsLoader()
+            source_locations = StreamBaseLocationsLoader(last_days=200)
             semantic_model_hist = SemanticModelHist(
-                source_locations, StreambaseLabelsLoader(source_locations)
+                source_locations,
+                StreambaseLabelsLoader(source_locations, last_days=400),
             )
             _LOGGER.info("Compute semantic routines")
             users = source_locations.get_users()
