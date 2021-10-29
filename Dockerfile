@@ -16,5 +16,6 @@ RUN dpkg -i *.deb && apt-get install -f
 COPY environment.yml environment.yml
 RUN conda env create -f environment.yml
 COPY . .
+SHELL ["conda", "run", "-n", "wenet_fastapi", "/bin/bash", "-c"]
 EXPOSE 8000
-CMD ["conda", "run", "-n", "wenet_fastapi", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--app_run"]
+CMD ["python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--app_run"]
