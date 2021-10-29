@@ -396,3 +396,35 @@ def update_profile(
     except RequestException as e:
         _LOGGER.warn(f"unable to update profile for user {profile_id} - {e}")
         _LOGGER.exception(e)
+
+
+def update_profile_has_locations(
+    profile_id: str,
+    url: str = config.PCB_PROFILE_MANAGER_URL,
+):
+    profile_url = url + f"/profiles/{profile_id}"
+    try:
+        r = requests.patch(
+            profile_url,
+            json={"has_locations": True},
+            headers={
+                "x-wenet-component-apikey": config.PCB_WENET_API_KEY,
+                "Content-Type": "application/json",
+            },
+        )
+        if r.status_code != 200:
+            _LOGGER.warn(
+                f"unable to update profile (has_locations) for user {profile_id} - status code {r.status_code}"
+            )
+            _LOGGER.debug(
+                f"content for {profile_id} is {r.content} from {r.request.body}"
+            )
+        else:
+            _LOGGER.debug(
+                f"update profile (has_locations) for user {profile_id} success"
+            )
+    except RequestException as e:
+        _LOGGER.warn(
+            f"unable to update profile (has_locations) for user {profile_id} - {e}"
+        )
+        _LOGGER.exception(e)
