@@ -73,4 +73,4 @@ update_k8s:
   script:
     - mkdir -p $HOME/.kube
     - echo -n $KUBE_CONFIG | base64 -d > $HOME/.kube/config
-    - kubectl rollout restart deployment.apps/wenet-realtime-deployment
+    - kubectl rollout restart deployment.apps/wenet-updater-deployment
