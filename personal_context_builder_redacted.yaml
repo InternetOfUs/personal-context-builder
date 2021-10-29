@@ -15,22 +15,33 @@ spec:
         app: wenet
     spec:
       containers:
-      - env:
-          # Should use secret, but don't have time to dive into it
-        - name: PCB_WENET_API_KEY
-          value: {INSERT_SECRET_HERE}
-        - name: PCB_USER_LOCATION_URL
-          value: http://wenet/users_locations/
-        name: wenet-personal-context-builder
-        image: docker.idiap.ch/wenet/personal_context_builder:latest
-        command: ["conda"]
-        args: ["run", "-n", "wenet_fastapi", "python", "-m", "personal_context_builder.wenet_cli_entrypoint", "--update_realtime"]
-        resources:
-          limits:
-            memory: 10Gi
-            #cpu: "2"
-          requests:
-            memory: 10Gi
-            #cpu: "2"
+        - env:
+            # Should use secret, but don't have time to dive into it
+            - name: PCB_WENET_API_KEY
+              value: { INSERT_SECRET_HERE }
+            - name: PCB_USER_LOCATION_URL
+              value: http://wenet/users_locations/
+            - name: PYTHONUNBUFFERED
+              value: "0"
+          name: wenet-personal-context-builder
+          image: docker.idiap.ch/wenet/personal_context_builder:latest
+          command: ["conda"]
+          args:
+            [
+              "run",
+              "-n",
+              "wenet_fastapi",
+              "python",
+              "-m",
+              "personal_context_builder.wenet_cli_entrypoint",
+              "--update_realtime",
+            ]
+          resources:
+            limits:
+              memory: 10Gi
+              #cpu: "2"
+            requests:
+              memory: 10Gi
+              #cpu: "2"
       imagePullSecrets:
-      - name: wenet-realtime-secret
+        - name: wenet-realtime-secret
