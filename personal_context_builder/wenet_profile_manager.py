@@ -11,6 +11,7 @@ from collections import defaultdict
 from json import JSONDecodeError
 from pprint import pprint
 from typing import Dict, List, Optional
+from cachetools import cached, LRUCache, TTLCache
 
 import pandas as pd  # type: ignore
 import requests  # type: ignore
@@ -398,6 +399,7 @@ def update_profile(
         _LOGGER.exception(e)
 
 
+@cached(cache=TTLCache(maxsize=None, ttl=600))
 def update_profile_has_locations(
     profile_id: str,
     url: str = config.PCB_PROFILE_MANAGER_URL,
