@@ -97,6 +97,8 @@ class WenetRealTimeUpdateHandler(object):
                 latitude=location._lat,
                 longitude=location._lng,
             )
+            if config.PCB_PROFILE_MANAGER_UPDATE_HAS_LOCATIONS:
+                update_profile_has_locations(user)
 
     def run_once(self):
         """retreive and update the locations of all users"""
