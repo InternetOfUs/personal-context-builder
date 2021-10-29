@@ -25,13 +25,9 @@ spec:
               value: "0"
           name: wenet-personal-context-builder
           image: docker.idiap.ch/wenet/personal_context_builder:latest
-          command: ["conda"]
+          command: ["python"]
           args:
             [
-              "run",
-              "-n",
-              "wenet_fastapi",
-              "python",
               "-m",
               "personal_context_builder.wenet_cli_entrypoint",
               "--update_realtime",
