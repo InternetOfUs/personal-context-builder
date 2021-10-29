@@ -17,7 +17,10 @@ from regions_builder.models import LocationPoint, UserLocationPoint  # type: ign
 
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
-from personal_context_builder.wenet_profile_manager import StreamBaseLocationsLoader
+from personal_context_builder.wenet_profile_manager import (
+    StreamBaseLocationsLoader,
+    update_profile_has_locations,
+)
 
 _LOGGER = create_logger(__name__)
 
