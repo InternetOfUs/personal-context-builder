@@ -111,6 +111,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
 
     @staticmethod
     def get_latest_users():
+
         url = config.PCB_PROFILE_MANAGER_URL + "/userIdentifiers?offset=0&limit=1000000"
         try:
             if config.PCB_WENET_API_KEY == "":
@@ -121,9 +122,9 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 res = requests.get(url, headers=headers)
             res_json = res.json()
             return res_json["userIds"]
-        except:
+        except Exception as e:
             _LOGGER.error(
-                f"issue when requesting profile manager about IDs, code {res.status_code}, content {res.json()}"
+                f"issue when requesting profile manager about IDs, code {res.status_code}, content {res.text}"
             )
             return ["0"]
 
