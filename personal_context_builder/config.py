@@ -37,6 +37,7 @@ PCB_GENERATOR_START_URL = "http://streambase1.disi.unitn.it:8190/generator/start
 PCB_GENERATOR_STOP_URL = "http://streambase1.disi.unitn.it:8190/generator/stop"
 
 PCB_PROFILE_MANAGER_UPDATE_CD_H = 24
+PCB_PROFILE_MANAGER_UPDATE_HAS_LOCATIONS = False
 
 PCB_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 
