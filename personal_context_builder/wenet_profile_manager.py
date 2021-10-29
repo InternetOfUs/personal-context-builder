@@ -408,7 +408,7 @@ def update_profile_has_locations(
     try:
         r = requests.patch(
             profile_url,
-            json={"has_locations": True},
+            json={"hasLocations": True},
             headers={
                 "x-wenet-component-apikey": config.PCB_WENET_API_KEY,
                 "Content-Type": "application/json",
