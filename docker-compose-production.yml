@@ -34,7 +34,7 @@ services:
       - wenet-data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    image: "docker.idiap.ch/wenet/personal_context_builder:v2.0.0"
+    image: "docker.idiap.ch/wenet/personal_context_builder:v2.1.0"
 
 volumes:
   wenet-redis-data:
