@@ -14,10 +14,6 @@ services:
     image: "docker.idiap.ch/wenet/personal_context_builder:latest"
     entrypoint:
       [
-        "conda",
-        "run",
-        "-n",
-        "wenet_fastapi",
         "python3",
         "-m",
         "personal_context_builder.wenet_cli_entrypoint",
@@ -28,10 +24,6 @@ services:
     image: "docker.idiap.ch/wenet/personal_context_builder:latest"
     entrypoint:
       [
-        "conda",
-        "run",
-        "-n",
-        "wenet_fastapi",
         "python3",
         "-m",
         "personal_context_builder.wenet_cli_entrypoint",
