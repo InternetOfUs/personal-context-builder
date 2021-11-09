@@ -18,13 +18,16 @@ spec:
         - env:
             # Should use secret, but don't have time to dive into it
             - name: PCB_WENET_API_KEY
-              value: { INSERT_SECRET_HERE }
+              value: { { REDACTED } }
             - name: PCB_USER_LOCATION_URL
               value: http://wenet/users_locations/
             - name: PYTHONUNBUFFERED
               value: "0"
           name: wenet-personal-context-builder
           image: docker.idiap.ch/wenet/personal_context_builder:latest
+          volumeMounts:
+            - name: tz-zurich
+              mountPath: /etc/localtime
           command: ["python"]
           args:
             [
@@ -41,3 +44,7 @@ spec:
               #cpu: "2"
       imagePullSecrets:
         - name: wenet-realtime-secret
+      volumes:
+        - name: tz-zurich
+          hostPath:
+            path: /usr/share/zoneinfo/Europe/Zurich
