@@ -103,16 +103,6 @@ class WenetRealTimeUpdateHandler(object):
     def run_once(self):
         """retreive and update the locations of all users"""
         users = self.get_all_users()
-        users_hack = []
-        #  HACK, TODO remove me after the tests
-        for user in users:
-            try:
-                toto = int(user)
-                if toto < 100:
-                    users_hack.append(user)
-            except Exception:
-                pass
-        users = users_hack
         _LOGGER.info(f"start to update {len(users)} users")
         with ThreadPool(min(150, len(users))) as pool:
             locations = list(
