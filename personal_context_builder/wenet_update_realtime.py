@@ -9,7 +9,7 @@ import concurrent.futures
 from datetime import datetime, timedelta
 from functools import partial
 from multiprocessing.pool import ThreadPool
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union, Iterable
 
 import requests  # type: ignore
 import urllib3  # type: ignore
@@ -25,6 +25,12 @@ from personal_context_builder.wenet_profile_manager import (
 _LOGGER = create_logger(__name__)
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
+def batch(my_list: List[str], n: int = 1) -> Iterable[List[str]]:
+    my_len = len(my_list)
+    for ndx in range(0, my_len, n):
+        yield my_list[ndx : ndx + n]
 
 
 class WenetRealTimeUpdateHandler(object):
@@ -104,11 +110,14 @@ class WenetRealTimeUpdateHandler(object):
         """retreive and update the locations of all users"""
         users = self.get_all_users()
         _LOGGER.info(f"start to update {len(users)} users")
-        with ThreadPool(min(50, len(users))) as pool:
-            locations = list(
-                pool.map(WenetRealTimeUpdateHandler.get_user_location, users)
-            )
-            users_location = zip(users, locations)
-            pool.map(WenetRealTimeUpdateHandler.run_one_user, users_location)
-        pool.join()
+        for users_batch in batch(users, 500):
+            _LOGGER.info(f"start to update batch of {len(users_batch)} users")
+            with ThreadPool(min(50, len(users_batch))) as pool:
+                locations = list(
+                    pool.map(WenetRealTimeUpdateHandler.get_user_location, users_batch)
+                )
+                users_location = zip(users_batch, locations)
+                pool.map(WenetRealTimeUpdateHandler.run_one_user, users_location)
+            pool.join()
+            _LOGGER.info(f"{len(users_batch)} users updated")
         _LOGGER.info(f"{len(users)} users updated")
