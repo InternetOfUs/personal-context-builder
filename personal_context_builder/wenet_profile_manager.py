@@ -120,6 +120,11 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 return StreamBaseLocationsLoader.load_user_locations(
                     user, date_from, date_to, url, max_retry - 1
                 )
+        except Exception as e:
+            _LOGGER.warn(
+                f"request to stream base failed for user {user} - {e} unhandle exception"
+            )
+            _LOGGER.exception(e)
 
     @staticmethod
     def get_latest_users():
