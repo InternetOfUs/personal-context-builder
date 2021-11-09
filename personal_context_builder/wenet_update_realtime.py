@@ -125,7 +125,7 @@ class WenetRealTimeUpdateHandler(object):
                 if config.PCB_PROFILE_MANAGER_UPDATE_HAS_LOCATIONS:
                     update_profile_has_locations(user)
         except Exception as e:
-            f"known error run_one_user - {e} unhandle exception"
+            f"unknown error run_one_user - {e} unhandle exception"
 
     def run_once(self):
         """retreive and update the locations of all users"""
