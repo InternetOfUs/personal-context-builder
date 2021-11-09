@@ -22,8 +22,9 @@ from personal_context_builder.wenet_profile_manager import (
     update_profile_has_locations,
 )
 
-_LOGGER = create_logger(__name__)
+from random import shuffle
 
+_LOGGER = create_logger(__name__)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
@@ -129,6 +130,7 @@ class WenetRealTimeUpdateHandler(object):
     def run_once(self):
         """retreive and update the locations of all users"""
         users = self.get_all_users()
+        shuffle(users)
         _LOGGER.info(f"start to update {len(users)} users")
         for users_batch in batch(users, 500):
             _LOGGER.info(f"start to update batch of {len(users_batch)} users")
