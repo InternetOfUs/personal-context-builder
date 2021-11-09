@@ -129,7 +129,10 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     @staticmethod
     def get_latest_users():
 
-        url = config.PCB_PROFILE_MANAGER_URL + "/userIdentifiers?offset=0&limit=1000000"
+        url = (
+            config.PCB_PROFILE_MANAGER_URL
+            + f"/userIdentifiers?offset={config.PCB_PROFILE_MANAGER_OFFSET}&limit={config.PCB_PROFILE_MANAGER_LIMIT}"
+        )
         try:
             if config.PCB_WENET_API_KEY == "":
                 _LOGGER.warn(f"PCB_WENET_API_KEY is empty")
