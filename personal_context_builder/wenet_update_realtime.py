@@ -104,7 +104,7 @@ class WenetRealTimeUpdateHandler(object):
         """retreive and update the locations of all users"""
         users = self.get_all_users()
         _LOGGER.info(f"start to update {len(users)} users")
-        with ThreadPool(min(10, len(users))) as pool:
+        with ThreadPool(min(50, len(users))) as pool:
             locations = list(
                 pool.map(WenetRealTimeUpdateHandler.get_user_location, users)
             )
