@@ -449,3 +449,7 @@ def update_profile_has_locations(
         _LOGGER.warn(
             f"unable to update profile (has_locations) for user {profile_id} - {e}"
         )
+    except Exception as e:
+        _LOGGER.warn(
+            f"unable to update profile (has_locations) for user {profile_id} - {e}"
+        )

@@ -69,12 +69,10 @@ class WenetRealTimeUpdateHandler(object):
             requests.post(f"{config.PCB_USER_LOCATION_URL}", json=my_dict, verify=False)
         except RequestException as e:
             _LOGGER.warn(f"request to update realtime for user {user_id} - {e}")
-            _LOGGER.exception(e)
         except TimeoutError as e:
             _LOGGER.warn(
                 f"request to update realtime for use {user_id} - {e} remaining retry {max_retry}"
             )
-            _LOGGER.exception(e)
             if max_retry > 0:
                 sleep(5)
                 return WenetRealTimeUpdateHandler.update_user_location(
@@ -84,7 +82,6 @@ class WenetRealTimeUpdateHandler(object):
             _LOGGER.warn(
                 f"request to update realtime for use {user_id} - {e} unhandle exception"
             )
-            _LOGGER.exception(e)
 
     @staticmethod
     def get_user_location(user_id: str) -> Optional[UserLocationPoint]:
