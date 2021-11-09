@@ -10,24 +10,13 @@ x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
 ### get specific user
 
-GET https://wenet.u-hopper.com/dev/profile_manager/profiles/1 HTTP/1.1
+GET https://wenet.u-hopper.com/dev/profile_manager/profiles/35 HTTP/1.1
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
 
 # Streambase
-
-### get specific user data
-
-GET https://wenet.u-hopper.com/dev/streambase/data HTTP/1.1
-    ?from=20211109
-    &to=20211109
-    &properties=locationeventpertime
-    &userId=12
-Authorization: test:wenet
-Accept: application/json
-x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
 
 ### get user 12
