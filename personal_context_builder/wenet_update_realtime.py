@@ -112,17 +112,20 @@ class WenetRealTimeUpdateHandler(object):
 
     @staticmethod
     def run_one_user(user_location: Tuple[str, Optional[LocationPoint]]):
-        user, location = user_location
-        if location is not None:
-            timestamp = int(datetime.timestamp(location._pts_t))
-            WenetRealTimeUpdateHandler.update_user_location(
-                user,
-                timestamp=timestamp,
-                latitude=location._lat,
-                longitude=location._lng,
-            )
-            if config.PCB_PROFILE_MANAGER_UPDATE_HAS_LOCATIONS:
-                update_profile_has_locations(user)
+        try:
+            user, location = user_location
+            if location is not None:
+                timestamp = int(datetime.timestamp(location._pts_t))
+                WenetRealTimeUpdateHandler.update_user_location(
+                    user,
+                    timestamp=timestamp,
+                    latitude=location._lat,
+                    longitude=location._lng,
+                )
+                if config.PCB_PROFILE_MANAGER_UPDATE_HAS_LOCATIONS:
+                    update_profile_has_locations(user)
+        except Exception as e:
+            f"known error run_one_user - {e} unhandle exception"
 
     def run_once(self):
         """retreive and update the locations of all users"""
