@@ -28,6 +28,8 @@ PCB_MOCK_DATABASEHANDLER = False
 
 # will replace {} by PCB_ENV at runtime
 PCB_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
+PCB_PROFILE_MANAGER_OFFSET = 0
+PCB_PROFILE_MANAGER_LIMIT = 1000000
 PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
 PCB_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
 #  PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
