@@ -12,3 +12,4 @@ bitbucket.txt
 personal_context_builder.yaml
 src/
 target-install/
+.env
