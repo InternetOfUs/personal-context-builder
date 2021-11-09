@@ -417,7 +417,6 @@ def update_profile(
             _LOGGER.debug(f"update profile for user {profile_id} success")
     except RequestException as e:
         _LOGGER.warn(f"unable to update profile for user {profile_id} - {e}")
-        _LOGGER.exception(e)
 
 
 @cached(cache=TTLCache(maxsize=None, ttl=600))
@@ -450,4 +449,3 @@ def update_profile_has_locations(
         _LOGGER.warn(
             f"unable to update profile (has_locations) for user {profile_id} - {e}"
         )
-        _LOGGER.exception(e)
