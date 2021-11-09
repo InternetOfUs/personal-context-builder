@@ -1,0 +1,5 @@
+## Profile manager get users
+GET https://wenet.u-hopper.com/dev/profile_manager/userIdentifiers?offset=0&limit=100 HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
