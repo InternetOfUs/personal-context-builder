@@ -11,6 +11,7 @@ from collections import defaultdict
 from json import JSONDecodeError
 from pprint import pprint
 from typing import Dict, List, Optional
+from time import sleep
 
 import pandas as pd  # type: ignore
 import requests  # type: ignore
@@ -65,6 +66,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         date_from: datetime.datetime,
         date_to: Optional[datetime.datetime] = None,
         url: str = config.PCB_STREAMBASE_BATCH_URL,
+        max_retry: int = 3,
     ):
         if date_to is None:
             date_to = datetime.datetime.now()
@@ -108,6 +110,16 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
             _LOGGER.exception(e)
+        except TimeoutError as e:
+            _LOGGER.warn(
+                f"request to stream base failed for user {user} - {e} remaining retry {max_retry}"
+            )
+            _LOGGER.exception(e)
+            if max_retry > 0:
+                sleep(5)
+                return StreamBaseLocationsLoader.load_user_locations(
+                    user, date_from, date_to, url, max_retry - 1
+                )
 
     @staticmethod
     def get_latest_users():
