@@ -10,11 +10,11 @@ from datetime import datetime, timedelta
 from functools import partial
 from multiprocessing.pool import ThreadPool
 from typing import List, Optional, Tuple, Union, Iterable
-
+from time import sleep
 import requests  # type: ignore
 import urllib3  # type: ignore
 from regions_builder.models import LocationPoint, UserLocationPoint  # type: ignore
-
+from requests.exceptions import RequestException  # type: ignore
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_profile_manager import (
@@ -46,6 +46,7 @@ class WenetRealTimeUpdateHandler(object):
         latitude: float,
         longitude: float,
         accuracy: int = 0,
+        max_retry: int = 5,
     ):
         """update the user location
 
@@ -63,7 +64,26 @@ class WenetRealTimeUpdateHandler(object):
             "longitude": longitude,
             "accuracy": int(accuracy),
         }
-        requests.post(f"{config.PCB_USER_LOCATION_URL}", json=my_dict, verify=False)
+        try:
+            requests.post(f"{config.PCB_USER_LOCATION_URL}", json=my_dict, verify=False)
+        except RequestException as e:
+            _LOGGER.warn(f"request to update realtime for user {user_id} - {e}")
+            _LOGGER.exception(e)
+        except TimeoutError as e:
+            _LOGGER.warn(
+                f"request to update realtime for use {user_id} - {e} remaining retry {max_retry}"
+            )
+            _LOGGER.exception(e)
+            if max_retry > 0:
+                sleep(5)
+                return WenetRealTimeUpdateHandler.update_user_location(
+                    user_id, timestamp, latitude, longitude, accuracy, max_retry - 1
+                )
+        except Exception as e:
+            _LOGGER.warn(
+                f"request to update realtime for use {user_id} - {e} unhandle exception"
+            )
+            _LOGGER.exception(e)
 
     @staticmethod
     def get_user_location(user_id: str) -> Optional[UserLocationPoint]:
