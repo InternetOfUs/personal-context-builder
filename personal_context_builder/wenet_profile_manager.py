@@ -422,6 +422,10 @@ def update_profile_has_locations(
     profile_id: str,
     url: str = config.PCB_PROFILE_MANAGER_URL,
 ):
+    # don't patch empty users
+    if profile_id is None or profile_id == "":
+        _LOGGER.warn("update_profile_has_locations profile_id was empty")
+        return
     profile_url = url + f"/profiles/{profile_id}"
     try:
         r = requests.patch(
