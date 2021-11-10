@@ -11,7 +11,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
   wenet-realtime-api:
     container_name: wenet-realtime-api
-    image: "docker.idiap.ch/wenet/wenet-realtime:v0.0.5"
+    image: "docker.idiap.ch/wenet/wenet-realtime:v1.0.0"
   wenet-realtime-client:
     container_name: wenet-realtime-client
     image: "docker.idiap.ch/wenet/personal_context_builder:v2.2.0"
