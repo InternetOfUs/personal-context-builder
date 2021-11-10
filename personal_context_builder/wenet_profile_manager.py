@@ -143,9 +143,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             res_json = res.json()
             return res_json["userIds"]
         except Exception as e:
-            _LOGGER.error(
-                f"issue when requesting profile manager about IDs, code {res.status_code}, content {res.text}"
-            )
+            _LOGGER.error(f"issue when requesting profile manager users - {e}")
             return ["0"]
 
     @staticmethod
