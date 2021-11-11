@@ -32,3 +32,10 @@ GET http://streambase1.disi.unitn.it:8190/generator/start
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+### stop generator
+
+GET http://streambase1.disi.unitn.it:8190/generator/stop
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
