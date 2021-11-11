@@ -25,3 +25,10 @@ GET https://wenet.u-hopper.com/dev/streambase/data?from=20211109&to=20211109&pro
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+### start generator
+
+GET http://streambase1.disi.unitn.it:8190/generator/start
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
