@@ -1,3 +1,10 @@
+# Personal context builder
+
+GET https://lab.idiap.ch/devel/hub/wenet/closest/?latitude=1&longitude=1&nb_user_max=10 HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
 # Profile manager
 
 ### get users
