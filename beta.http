@@ -1,0 +1,34 @@
+# Personal context builder
+
+GET https://wenet.u-hopper.com/beta/realtime_api/closest/?latitude=1&longitude=1&nb_user_max=10 HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv BETASECRET}}
+
+# Profile manager
+
+### get users
+GET https://wenet.u-hopper.com/beta/profile_manager/userIdentifiers?offset=0&limit=100 HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv BETASECRET}}
+
+
+
+### get specific user
+
+GET https://wenet.u-hopper.com/beta/profile_manager/profiles/12 HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv BETASECRET}}
+
+
+# Streambase
+
+
+### get user 12
+
+GET https://wenet.u-hopper.com/beta/streambase/data?from=20211109&to=20211109&properties=locationeventpertime&userId=12
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv BETASECRET}}
