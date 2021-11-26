@@ -14,6 +14,7 @@ COPY *.deb .
 RUN dpkg -i *.deb && apt-get install -f
 
 COPY environment.yml environment.yml
+#  To use base instead of wenet_fastapi like in dev
 RUN sed -i 's/wenet_fastapi/base/g' environment.yml
 RUN conda env update --name base --file environment.yml
 COPY . .
