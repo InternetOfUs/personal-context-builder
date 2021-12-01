@@ -109,12 +109,12 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
                 )
         except RequestException as e:
             _LOGGER.warn(f"request to stream base failed for user {user} - {e}")
-            _LOGGER.exception(e)
+            #  _LOGGER.exception(e)
         except TimeoutError as e:
             _LOGGER.warn(
                 f"request to stream base failed for user {user} - {e} remaining retry {max_retry}"
             )
-            _LOGGER.exception(e)
+            #  _LOGGER.exception(e)
             if max_retry > 0:
                 sleep(5)
                 return StreamBaseLocationsLoader.load_user_locations(
@@ -124,7 +124,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             _LOGGER.warn(
                 f"request to stream base failed for user {user} - {e} unhandle exception"
             )
-            _LOGGER.exception(e)
+            #  _LOGGER.exception(e)
 
     @staticmethod
     def get_latest_users():

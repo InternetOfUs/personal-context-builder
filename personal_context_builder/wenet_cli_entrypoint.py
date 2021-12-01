@@ -88,7 +88,7 @@ def compute_semantic_routines(update: bool = False):
             _LOGGER.warn(f"wenet exception while computing semantic routines {e}")
         except Exception as e:
             _LOGGER.error(f"UNEXPECTED ERROR while computing semantic routines {e}")
-            _LOGGER.exception(e)
+            #  _LOGGER.exception(e)
         time.sleep(config.PCB_PROFILE_MANAGER_UPDATE_CD_H * 60 * 60)
 
 
