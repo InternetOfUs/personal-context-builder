@@ -49,7 +49,7 @@ PCB_WENET_API_KEY = ""
 #  PCB_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
 PCB_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 PCB_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
-PCB_LOGGER_LEVEL = 20  # info
+PCB_LOGGER_LEVEL = 40  # error
 
 PCB_STAYPOINTS_TIME_MIN_MS = 5 * 60 * 1000
 PCB_STAYPOINTS_TIME_MAX_MS = 4 * 60 * 60 * 1000
