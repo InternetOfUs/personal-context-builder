@@ -35,8 +35,8 @@ PCB_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
 #  PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
 # How many hours before re-updating the profiles with the semantic routines
 
-PCB_GENERATOR_START_URL = "http://streambase1.disi.unitn.it:8190/generator/start"
-PCB_GENERATOR_STOP_URL = "http://streambase1.disi.unitn.it:8190/generator/stop"
+PCB_GENERATOR_START_URL = "http://streambase4.disi.unitn.it:8190/generator/start"
+PCB_GENERATOR_STOP_URL = "http://streambase4.disi.unitn.it:8190/generator/stop"
 
 PCB_PROFILE_MANAGER_UPDATE_CD_H = 24
 PCB_PROFILE_MANAGER_UPDATE_HAS_LOCATIONS = True
