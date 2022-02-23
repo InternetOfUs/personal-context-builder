@@ -1,6 +1,6 @@
 # Introduction
 
-The *personal_context_builder* is responsible to build and update routines.
+The _personal_context_builder_ is responsible to build and update routines.
 
 ![map example top level](./media/top_level_map.png)
 ![map example middle level](./media/middle_level_map.png)
@@ -12,24 +12,24 @@ William Droz <william.droz@idiap.ch>
 
 # Usage
 
-Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder.json#/)
+Full documentation available [here](https://github.com/InternetOfUs/components-documentation)
 
 Postman collection generated from OpenAPI is [here](./documentation/postman_collection.json)
 
 **Embedded routines**
 
-*  `/routines/` for all routines for all users
-*  `/routines/<user_id>/` routine for specific user
+- `/routines/` for all routines for all users
+- `/routines/<user_id>/` routine for specific user
 
 **Semantic routines**
 
-*  `/semantic_routines/<user_id>/<weekday:number>/<time>/` routine for a given user, weekday and time period
-*  `/semantic_routines_transition/entering/<user_id>/<weekday:number>/<label>/` at what time of the weekday the user is entering the label
-*  `/semantic_routines_transition/leaving/<user_id>/<weekday:number>/<label>/` at what time of the weekday the user is leaving the label
+- `/semantic_routines/<user_id>/<weekday:number>/<time>/` routine for a given user, weekday and time period
+- `/semantic_routines_transition/entering/<user_id>/<weekday:number>/<label>/` at what time of the weekday the user is entering the label
+- `/semantic_routines_transition/leaving/<user_id>/<weekday:number>/<label>/` at what time of the weekday the user is leaving the label
 
 **Misc**
 
-*  `/closest/<lat:number>/<lng:number>/<N:number>/` get the closest users
+- `/closest/<lat:number>/<lng:number>/<N:number>/` get the closest users
 
 Embedded routines are a dict with model as key, values are dict with user_id as key and list of float as routine of the user.
 
@@ -89,7 +89,7 @@ You can also specify some parameters `PCB_MOCK_DATABASEHANDLER=1 PCB_APP_PORT=80
 
 # Link to the documentation
 
-Full openapi documentation available [here](http://swagger.u-hopper.com/?url=https://bitbucket.org/wenet/wenet-components-documentation/raw/master/sources/wenet-personal_context_builder-openapi.json)
+Full documentation available [here](https://github.com/InternetOfUs/components-documentation)
 
 Postman collection generated from OpenAPI is [here](./documentation/postman_collection.json)
 
@@ -117,14 +117,13 @@ This will compute the routines and update the PM each 24 hours with the data for
 
 # License
 
- Apache-2.0
+Apache-2.0
 
 # Dev section
 
 ## Dev setup
 
-In addition to *requirements.txt*, we recommend the installation of *black==18.9b0* to keep the formating of the code consistent.
-
+In addition to _requirements.txt_, we recommend the installation of _black==18.9b0_ to keep the formating of the code consistent.
 
 ### Setup hook
 
