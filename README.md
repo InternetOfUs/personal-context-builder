@@ -212,17 +212,26 @@ PCB_SEMANTIC_DB_NAME = "semantic_db"
 # dev or prod
 PCB_ENV = "dev"
 
+# Set to true for unittesting
+PCB_IS_UNITTESTING = False
+
+# Set to true to mock PCB_MOCK_DATABASEHANDLER
+PCB_MOCK_DATABASEHANDLER = False
+
 # will replace {} by PCB_ENV at runtime
 PCB_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
+PCB_PROFILE_MANAGER_OFFSET = 0
+PCB_PROFILE_MANAGER_LIMIT = 1000000
 PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/streambase/data"
 PCB_USER_LOCATION_URL = "https://lab.idiap.ch/devel/hub/wenet/users_locations/"
 #  PCB_STREAMBASE_BATCH_URL = "https://wenet.u-hopper.com/{}/api/common/data/"
 # How many hours before re-updating the profiles with the semantic routines
 
-PCB_GENERATOR_START_URL = "http://streambase1.disi.unitn.it:8190/generator/start"
-PCB_GENERATOR_STOP_URL = "http://streambase1.disi.unitn.it:8190/generator/stop"
+PCB_GENERATOR_START_URL = "http://streambase4.disi.unitn.it:8190/generator/start"
+PCB_GENERATOR_STOP_URL = "http://streambase4.disi.unitn.it:8190/generator/stop"
 
 PCB_PROFILE_MANAGER_UPDATE_CD_H = 24
+PCB_PROFILE_MANAGER_UPDATE_HAS_LOCATIONS = True
 
 PCB_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 
@@ -232,7 +241,7 @@ PCB_WENET_API_KEY = ""
 #  PCB_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
 PCB_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 PCB_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
-PCB_LOGGER_LEVEL = 20  # info
+PCB_LOGGER_LEVEL = 40  # error
 
 PCB_STAYPOINTS_TIME_MIN_MS = 5 * 60 * 1000
 PCB_STAYPOINTS_TIME_MAX_MS = 4 * 60 * 60 * 1000
@@ -248,6 +257,7 @@ PCB_APP_NAME = "wenet_personal_context_builder"
 PCB_APP_INTERFACE = "0.0.0.0"
 PCB_APP_PORT = 80
 
+# Virtualhost, can be overwritten vy .venv
 PCB_VIRTUAL_HOST = ""
 PCB_VIRTUAL_HOST_LOCATION = ""
 
@@ -268,6 +278,7 @@ PCB_REDIS_DATABASE_MODEL_2 = "SimpleHDP:PipelineWithCorpus"
 PCB_REGION_MAPPING_FILE = "wenet_regions_mapping.json"
 
 PCB_DATA_FOLDER = "."
+
 
 # Shouldn't be used
 PCB_GENERIC_MODEL_NAME = "last_model.p"
