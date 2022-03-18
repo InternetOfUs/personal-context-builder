@@ -23,6 +23,8 @@ spec:
               value: http://wenet/users_locations/
             - name: PYTHONUNBUFFERED
               value: "0"
+            - name: PCB_LOGGER_LEVEL
+              value: "20"
           name: wenet-personal-context-builder
           image: docker.idiap.ch/wenet/personal_context_builder:latest
           volumeMounts:
