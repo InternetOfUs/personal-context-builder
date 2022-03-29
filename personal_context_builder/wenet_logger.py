@@ -29,7 +29,7 @@ def create_logger(name: str = "wenet-undefined"):
     log_file.formatter = formatter
     ch.formatter = formatter
 
-    if config.PCE_WENET_SENTRY_KEY != "":
+    if config.PCB_WENET_SENTRY_KEY != "":
         sentry_handler = sentry_sdk.integrations.logging.EventHandler()
         sentry_handler.formatter = formatter
         logger.addHandler(sentry_handler)
