@@ -13,6 +13,8 @@ import sys
 
 from personal_context_builder import config
 
+import sentry_sdk
+
 
 def create_logger(name: str = "wenet-undefined"):
     """create a logger with the correct configuration"""
@@ -26,6 +28,11 @@ def create_logger(name: str = "wenet-undefined"):
 
     log_file.formatter = formatter
     ch.formatter = formatter
+
+    if config.PCE_WENET_SENTRY_KEY != "":
+        sentry_handler = sentry_sdk.integrations.logging.EventHandler()
+        sentry_handler.formatter = formatter
+        logger.addHandler(sentry_handler)
 
     logger.addHandler(log_file)
     logger.addHandler(ch)
