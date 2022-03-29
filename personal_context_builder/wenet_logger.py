@@ -14,6 +14,7 @@ import sys
 from personal_context_builder import config
 
 import sentry_sdk
+from sentry_sdk.integrations.logging import EventHandler
 
 
 def create_logger(name: str = "wenet-undefined"):
@@ -30,7 +31,8 @@ def create_logger(name: str = "wenet-undefined"):
     ch.formatter = formatter
 
     if config.PCB_WENET_SENTRY_KEY != "":
-        sentry_handler = sentry_sdk.integrations.logging.EventHandler()
+        sentry_sdk.init(config.PCB_WENET_SENTRY_KEY)
+        sentry_handler = EventHandler()
         sentry_handler.formatter = formatter
         logger.addHandler(sentry_handler)
 
