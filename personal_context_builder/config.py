@@ -46,6 +46,8 @@ PCB_GOOGLE_API_KEY_FILE = "google_api_key.txt"
 # Should be provided at runtime using COMP_AUTH_KEY
 PCB_WENET_API_KEY = ""
 
+PCE_WENET_SENTRY_KEY = ""
+
 #  PCB_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
 PCB_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 PCB_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
