@@ -108,10 +108,13 @@ class WenetRealTimeUpdateHandler(object):
         else:
             return None
 
-    @cachedmethod(lambda self: self.cache, key=partial(hashkey, "get_all_users"))
     def get_all_users(self) -> List[UserLocationPoint]:
         """get all users"""
-        return StreamBaseLocationsLoader.get_latest_users()
+        if "get_all_users" not in self.cache:
+            res = StreamBaseLocationsLoader.get_latest_users()
+            self.cache["get_all_users"] = res
+        else:
+            return self.cache["get_all_users"]
 
     @staticmethod
     def run_one_user(user_location: Tuple[str, Optional[LocationPoint]]):
