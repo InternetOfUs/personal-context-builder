@@ -126,6 +126,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             )
             #  _LOGGER.exception(e)
 
+    @cached(cache=TTLCache(maxsize=None, ttl=600))
     @staticmethod
     def get_latest_users():
 
