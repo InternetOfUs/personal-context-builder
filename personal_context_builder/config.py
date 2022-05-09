@@ -49,7 +49,7 @@ PCB_WENET_API_KEY = ""
 PCB_WENET_SENTRY_KEY = ""
 
 #  PCB_LOGGER_FORMAT = "%(asctime)s - Wenet %(name)s - %(levelname)s - %(message)s"
-PCB_LOGGER_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+PCB_LOGGER_FORMAT = "[{}] %(asctime)s - %(name)s - %(levelname)s - %(message)s"
 PCB_SANIC_LOGGER_FORMAT = "%(asctime)s - Wenet (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d"
 PCB_LOGGER_LEVEL = 40  # error
 
@@ -115,7 +115,7 @@ def _update_parameters_from_env():  # pragma: no cover
 
 
 def _update_env_for_partners_url():  # pragma: no cover
-    urls = ["PCB_PROFILE_MANAGER_URL", "PCB_STREAMBASE_BATCH_URL"]
+    urls = ["PCB_PROFILE_MANAGER_URL", "PCB_STREAMBASE_BATCH_URL", "PCB_LOGGER_FORMAT"]
     for url in urls:
         globals()[url] = globals()[url].format(PCB_ENV)
 
