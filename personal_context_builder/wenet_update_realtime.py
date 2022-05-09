@@ -11,8 +11,6 @@ from functools import partial
 from multiprocessing.pool import ThreadPool
 from typing import List, Optional, Tuple, Union, Iterable
 from time import sleep
-from cachetools import TTLCache, cachedmethod
-from cachetools.keys import hashkey
 import requests  # type: ignore
 import urllib3  # type: ignore
 from regions_builder.models import LocationPoint, UserLocationPoint  # type: ignore
@@ -40,7 +38,7 @@ class WenetRealTimeUpdateHandler(object):
     """class that handle the updating of the realtime component"""
 
     def __init__(self):
-        self.cache = TTLCache(maxsize=None, ttl=600)
+        pass
 
     @staticmethod
     def update_user_location(
@@ -110,11 +108,7 @@ class WenetRealTimeUpdateHandler(object):
 
     def get_all_users(self) -> List[UserLocationPoint]:
         """get all users"""
-        if "get_all_users" not in self.cache:
-            res = StreamBaseLocationsLoader.get_latest_users()
-            self.cache["get_all_users"] = tuple(res)
-        else:
-            return list(self.cache["get_all_users"])
+        return StreamBaseLocationsLoader.get_latest_users()
 
     @staticmethod
     def run_one_user(user_location: Tuple[str, Optional[LocationPoint]]):
