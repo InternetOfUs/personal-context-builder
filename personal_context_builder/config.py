@@ -114,10 +114,10 @@ def _update_parameters_from_env():  # pragma: no cover
                 globals()[k] = new_v
 
 
-def _update_env_for_partners_url():  # pragma: no cover
-    urls = ["PCB_PROFILE_MANAGER_URL", "PCB_STREAMBASE_BATCH_URL", "PCB_LOGGER_FORMAT"]
-    for url in urls:
-        globals()[url] = globals()[url].format(PCB_ENV)
+def _update_fill_env():  # pragma: no cover
+    envs = ["PCB_PROFILE_MANAGER_URL", "PCB_STREAMBASE_BATCH_URL", "PCB_LOGGER_FORMAT"]
+    for env in envs:
+        globals()[env] = globals()[env].format(PCB_ENV)
 
 
 def _update_api_key():  # pragma: no cover
@@ -158,4 +158,4 @@ _update_parameters_from_env()
 _update_parameters_if_virtual_host()
 _update_redis_database_index_mapping(MAP_DB_TO_MODEL, MAP_MODEL_TO_DB)
 _update_api_key()
-_update_env_for_partners_url()
+_update_fill_env()
