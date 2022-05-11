@@ -12,7 +12,7 @@ from typing import Callable, List, Optional
 
 import numpy as np  # type: ignore
 from gensim.corpora import Dictionary  # type: ignore
-from gensim.sklearn_api import HdpTransformer  # type: ignore
+from personal_context_builder.gensim_hdp import HdpTransformer  # type: ignore
 from sklearn.decomposition import LatentDirichletAllocation  # type: ignore
 
 from personal_context_builder import config
