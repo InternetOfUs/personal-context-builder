@@ -15,7 +15,7 @@ with open("requirements.txt", "r") as f:
 
 setuptools.setup(
     name="personal_context_builder",
-    version="2.3.0",
+    version="2.3.1",
     license="Apache-2.0",
     author="Idiap - William Droz",
     author_email="william.droz@idiap.ch",
