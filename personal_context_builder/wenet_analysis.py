@@ -176,8 +176,16 @@ class BagOfWordsVectorizer(object):
             )
             df_day_activity["_pts_t"] = df_day_activity.index
             df_day_activity["_user"] = [user for _ in range(len(df_day_activity))]
-            for index, row in df_day_activity.iterrows():
-                location = UserLocationPoint.from_dict(row)
+            for row in df_day_activity.rename(
+                columns={
+                    "_pts_t": "pts_t",
+                    "_user": "user",
+                    "_lat": "lat",
+                    "_lng": "lng",
+                    "_accuracy_m": "accuracy_m",
+                }
+            ).itertuples():
+                location = UserLocationPoint.from_namedtuple(row)
                 current_day.append(location)
             days_list.append(current_day)
         return days_list
