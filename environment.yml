@@ -67,4 +67,4 @@ dependencies:
       - tqdm==4.64.0
       - uvicorn==0.17.6
       - widgetsnbextension==3.6.0
-      - git+https://bot:GWBstuthaxfMscJHCoDK@gitlab.idiap.ch/wenet/regions_builder.git@v1.2.0#egg=regions_builder
+      - git+https://bot:GWBstuthaxfMscJHCoDK@gitlab.idiap.ch/wenet/regions_builder.git@v1.2.1#egg=regions_builder
