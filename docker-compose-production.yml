@@ -14,7 +14,7 @@ services:
     image: "docker.idiap.ch/wenet/wenet-realtime:v1.0.0"
   wenet-realtime-client:
     container_name: wenet-realtime-client
-    image: "docker.idiap.ch/wenet/personal_context_builder:v2.4.0"
+    image: "docker.idiap.ch/wenet/personal_context_builder:v2.5.0"
     entrypoint:
       [
         "python3",
