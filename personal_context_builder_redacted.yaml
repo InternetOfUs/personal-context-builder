@@ -32,11 +32,40 @@ spec:
             ]
           resources:
             limits:
+              memory: 5Gi
+              #cpu: "2"
+            requests:
+              memory: 5Gi
+              #cpu: "2"
+        - name: wenet-personal-context-builder-update-pm
+          image: docker.idiap.ch/wenet/personal_context_builder:latest
+          envFrom:
+            - configMapRef:
+                name: settings-wenet-env
+          volumeMounts:
+            - name: tz-zurich
+              mountPath: /etc/localtime
+          command: ["python"]
+          args:
+            [
+              "-m",
+              "personal_context_builder.wenet_cli_entrypoint",
+              "--compute_semantic_routines",
+              "--update_pm",
+            ]
+          resources:
+            limits:
               memory: 10Gi
               #cpu: "2"
             requests:
               memory: 10Gi
               #cpu: "2"
+      imagePullSecrets:
+        - name: wenet-realtime-secret
+      volumes:
+        - name: tz-zurich
+          hostPath:
+            path: /usr/share/zoneinfo/Europe/Zurich
       imagePullSecrets:
         - name: wenet-realtime-secret
       volumes:
