@@ -40,6 +40,14 @@ Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
+### get user 12 directly on old server
+
+GET http://streambase1.disi.unitn.it:8190/data?from=20211109&to=20211109&properties=locationeventpertime&userId=12
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+
 ### start generator
 
 POST http://streambase1.disi.unitn.it:8190/generator/start
