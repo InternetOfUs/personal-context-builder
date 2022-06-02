@@ -26,6 +26,9 @@ PCB_IS_UNITTESTING = False
 # Set to true to mock PCB_MOCK_DATABASEHANDLER
 PCB_MOCK_DATABASEHANDLER = False
 
+# If set to true, will use "unknown" label for unknown regions
+PCB_FILL_UNKNOWN = True
+
 # will replace {} by PCB_ENV at runtime
 PCB_PROFILE_MANAGER_URL = "https://wenet.u-hopper.com/{}/profile_manager"
 PCB_PROFILE_MANAGER_OFFSET = 0
