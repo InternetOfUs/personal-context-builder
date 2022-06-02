@@ -15,20 +15,11 @@ spec:
         app: wenet
     spec:
       containers:
-        - env:
-            # Should use secret, but don't have time to dive into it
-            - name: PCB_WENET_API_KEY
-              value: { { REDACTED } }
-            - name: PCB_USER_LOCATION_URL
-              value: http://wenet/users_locations/
-            - name: PYTHONUNBUFFERED
-              value: "0"
-            - name: PCB_LOGGER_LEVEL
-              value: "20"
-            - name: PCB_WENET_SENTRY_KEY
-              value: { { REDACTED } }
-          name: wenet-personal-context-builder
+        - name: wenet-personal-context-builder
           image: docker.idiap.ch/wenet/personal_context_builder:latest
+          envFrom:
+            - configMapRef:
+                name: settings-wenet-env
           volumeMounts:
             - name: tz-zurich
               mountPath: /etc/localtime
@@ -52,3 +43,15 @@ spec:
         - name: tz-zurich
           hostPath:
             path: /usr/share/zoneinfo/Europe/Zurich
+
+---
+apiVersion: v1
+data:
+  PCB_WENET_API_KEY: REDACTED
+  PCB_USER_LOCATION_URL: http://wenet/users_locations/
+  PYTHONUNBUFFERED: "0"
+  PCB_LOGGER_LEVEL: "20"
+  PCB_WENET_SENTRY_KEY: "REDACTED"
+kind: ConfigMap
+metadata:
+  name: settings-wenet-env
