@@ -16,7 +16,7 @@ Examples
     >>> model = HdpTransformer(id2word=common_dictionary)
     >>> distr = model.fit_transform(common_corpus)
 """
-import numpy as np  # type: ignore
+import numpy as np
 from scipy import sparse  # type: ignore
 from sklearn.base import TransformerMixin, BaseEstimator  # type: ignore
 from sklearn.exceptions import NotFittedError  # type: ignore

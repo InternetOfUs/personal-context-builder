@@ -13,7 +13,7 @@ from collections import defaultdict
 from pprint import pprint
 from typing import Dict, List
 
-import numpy as np  # type: ignore
+import numpy as np
 from regions_builder.algorithms import estimate_stay_points  # type: ignore
 from regions_builder.algorithms import estimate_stay_regions, labelize_stay_region
 from regions_builder.data_loading import BaseSourceLabels  # type: ignore

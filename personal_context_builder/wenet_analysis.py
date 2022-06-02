@@ -14,7 +14,7 @@ from os.path import join
 from typing import Any, Callable, List, Optional
 from uuid import uuid4
 
-import numpy as np  # type: ignore
+import numpy as np
 import pandas as pd  # type: ignore
 from regions_builder.algorithms import closest_locations  # type: ignore
 from regions_builder.data_loading import MockWenetSourceLocations  # type: ignore
