@@ -16,13 +16,13 @@ Examples
     >>> model = HdpTransformer(id2word=common_dictionary)
     >>> distr = model.fit_transform(common_corpus)
 """
-import numpy as np
-from scipy import sparse
-from sklearn.base import TransformerMixin, BaseEstimator
-from sklearn.exceptions import NotFittedError
+import numpy as np  # type: ignore
+from scipy import sparse  # type: ignore
+from sklearn.base import TransformerMixin, BaseEstimator  # type: ignore
+from sklearn.exceptions import NotFittedError  # type: ignore
 
-from gensim import models
-from gensim import matutils
+from gensim import models  # type: ignore
+from gensim import matutils  # type: ignore
 
 
 class HdpTransformer(TransformerMixin, BaseEstimator):

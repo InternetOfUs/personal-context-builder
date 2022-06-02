@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
-import numpy as np  # type: ignore
+import numpy as np
 from regions_builder.algorithms import estimate_stay_points  # type: ignore
 from regions_builder.algorithms import estimate_stay_regions, labelize_stay_region
 from regions_builder.data_loading import BaseSourceLabels  # type: ignore
@@ -87,7 +87,7 @@ class BaseBOWTrainer(object):
         )
         return bow_vectorizer
 
-    def vectorize(self) -> Optional[np.array]:
+    def vectorize(self) -> Optional[np.ndarray]:
         """Vectorize the data for all users, for all days
         Return:
             2D array with data or None if zero data
@@ -147,7 +147,7 @@ class HDPTrainer(BaseBOWTrainer):
         )
         return bow_vectorizer
 
-    def vectorize(self) -> Optional[np.array]:
+    def vectorize(self) -> Optional[np.ndarray]:
         """Vectorize the data for all users, for all days
         Return:
             2D array with data or None if zero data
