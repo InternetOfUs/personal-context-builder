@@ -428,6 +428,48 @@ def update_profile(
         _LOGGER.warn(f"unable to update profile for user {profile_id} - {e}")
 
 
+def update_profile_relevant_locations(
+    labelled_stayregions: List,
+    profile_id: str,
+    url: str = config.PCB_PROFILE_MANAGER_URL,
+):
+    profile_url = url + f"/profiles/{profile_id}"
+    relevant_locations = []
+
+    for labelled_stayregion in labelled_stayregions:
+        latitude = (
+            labelled_stayregion._topleft_lat + labelled_stayregion._bottomright_lat
+        ) / 2
+        longitude = (
+            labelled_stayregion._topleft_lng + labelled_stayregion._bottomright_lng
+        ) / 2
+        label = labelled_stayregion._label
+        current_rl = RelevantLocation(
+            label=label, latitude=latitude, longitude=longitude
+        )
+        relevant_locations.append(current_rl.asdict())
+    try:
+        r = requests.patch(
+            profile_url,
+            json={"RelevantLocations": relevant_locations},
+            headers={
+                "x-wenet-component-apikey": config.PCB_WENET_API_KEY,
+                "Content-Type": "application/json",
+            },
+        )
+        if r.status_code != 200:
+            _LOGGER.warn(
+                f"unable to update relevantLocations in profile for user {profile_id} - status code {r.status_code}"
+            )
+            _LOGGER.debug(
+                f"content for {profile_id} is {r.content} from {r.request.body}"
+            )
+        else:
+            _LOGGER.debug(f"update profile for user {profile_id} success")
+    except RequestException as e:
+        _LOGGER.warn(f"unable to update profile for user {profile_id} - {e}")
+
+
 @cached(cache=TTLCache(maxsize=None, ttl=600))
 def update_profile_has_locations(
     profile_id: str,
