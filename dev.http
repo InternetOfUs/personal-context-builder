@@ -68,3 +68,17 @@ POST http://streambase4.disi.unitn.it:8190/generator/stop
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+### start generator official URL
+
+POST https://wenet.u-hopper.com/dev/streambase/generator/start
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+### stop generator official URL
+
+POST https://wenet.u-hopper.com/dev/streambase/generator/stop
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
