@@ -57,14 +57,14 @@ x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
 ### start generator
 
-POST http://streambase1.disi.unitn.it:8190/generator/start
+POST http://streambase4.disi.unitn.it:8190/generator/start
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
 ### stop generator
 
-POST http://streambase1.disi.unitn.it:8190/generator/stop
+POST http://streambase4.disi.unitn.it:8190/generator/stop
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
