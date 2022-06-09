@@ -52,7 +52,7 @@ spec:
               "personal_context_builder.wenet_cli_entrypoint",
               "--compute_semantic_routines",
               "--update_pm",
-               "--update_relevant_locations",
+              "--update_relevant_locations",
             ]
           resources:
             limits:
