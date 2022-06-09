@@ -52,7 +52,9 @@ from personal_context_builder.wenet_user_profile_db import (
 _LOGGER = create_logger(__name__)
 
 
-def compute_semantic_routines(update: bool = False):
+def compute_semantic_routines(
+    update: bool = False, update_relevant_locations: bool = False
+):
     """Compute the semantic routines
 
     Args:
@@ -80,6 +82,9 @@ def compute_semantic_routines(update: bool = False):
                         )
                         _LOGGER.debug(f"sending the routines for user {user}...")
                         update_profile(routines, user, labels_current_user)
+                    if update_relevant_locations:
+                        pass
+                        #  TODO update relevant locations
                 except wenet_exceptions.SemanticRoutinesComputationError as e:
                     _LOGGER.debug(
                         f"cannot create semantic routines for user {user} - {e}"
