@@ -11,10 +11,10 @@ import logging
 import logging.handlers
 import sys
 
-from personal_context_builder import config
-
 import sentry_sdk
 from sentry_sdk.integrations.logging import EventHandler
+
+from personal_context_builder import config
 
 
 def create_logger(name: str = "wenet-undefined"):

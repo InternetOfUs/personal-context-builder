@@ -9,20 +9,21 @@ import concurrent.futures
 from datetime import datetime, timedelta
 from functools import partial
 from multiprocessing.pool import ThreadPool
-from typing import List, Optional, Tuple, Union, Iterable
+from random import shuffle
 from time import sleep
+from typing import Iterable, List, Optional, Tuple, Union
+
 import requests  # type: ignore
 import urllib3  # type: ignore
 from regions_builder.models import LocationPoint, UserLocationPoint  # type: ignore
 from requests.exceptions import RequestException  # type: ignore
+
 from personal_context_builder import config
 from personal_context_builder.wenet_logger import create_logger
 from personal_context_builder.wenet_profile_manager import (
     StreamBaseLocationsLoader,
     update_profile_has_locations,
 )
-
-from random import shuffle
 
 _LOGGER = create_logger(__name__)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)

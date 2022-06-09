@@ -12,10 +12,10 @@ from typing import Callable, List, Optional
 
 import numpy as np
 from gensim.corpora import Dictionary  # type: ignore
-from personal_context_builder.gensim_hdp import HdpTransformer  # type: ignore
 from sklearn.decomposition import LatentDirichletAllocation  # type: ignore
 
 from personal_context_builder import config
+from personal_context_builder.gensim_hdp import HdpTransformer  # type: ignore
 
 
 class BaseModel(object):

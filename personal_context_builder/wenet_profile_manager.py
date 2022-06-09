@@ -5,14 +5,14 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
-from dataclasses import dataclass
 import datetime
 import json
 from collections import defaultdict
+from dataclasses import dataclass
 from json import JSONDecodeError
 from pprint import pprint
-from typing import Dict, List, Optional
 from time import sleep
+from typing import Dict, List, Optional
 
 import pandas as pd  # type: ignore
 import requests  # type: ignore
