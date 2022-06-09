@@ -62,7 +62,7 @@ class SemanticModel(object):
                 f"no stay_regions for user {user_id}"
             )
         user_places = self._labels_source.get_labels(user_id)
-        if len(user_places) == 0:
+        if len(user_places) == 0 and not config.PCB_FILL_UNKNOWN:
             raise SemanticRoutinesComputationError(f"no user_places for user {user_id}")
         labelled_stay_regions = labelize_stay_region(
             stay_regions, user_places, fill_unknown=config.PCB_FILL_UNKNOWN
