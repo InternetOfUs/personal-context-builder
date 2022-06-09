@@ -148,7 +148,7 @@ class SemanticModelHist(SemanticModel):
                     )
         labels_dist = self._compute_labels_dist(labels_count)
 
-        return labels_dist
+        return labels_dist, labelled_stay_regions
 
     def _compute_labels_dist(
         self, labels_count: Dict[int, Dict[str, Dict[str, float]]]

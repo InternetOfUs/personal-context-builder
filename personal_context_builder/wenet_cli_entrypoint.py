@@ -70,7 +70,10 @@ def compute_semantic_routines(update: bool = False):
             users = source_locations.get_users()
             for user in users:
                 try:
-                    routines = semantic_model_hist.compute_weekdays(user)
+                    (
+                        routines,
+                        labelled_stay_regions,
+                    ) = semantic_model_hist.compute_weekdays(user)
                     if update:
                         labels_current_user = (
                             semantic_model_hist.compute_labels_for_user(user)
