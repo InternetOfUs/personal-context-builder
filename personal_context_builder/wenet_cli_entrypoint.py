@@ -314,6 +314,11 @@ if __name__ == "__main__":  # pragma: no cover
         help="update the semantic profiles in profile manager (blocking operations)",
         action="store_true",
     )
+    parser.add_argument(
+        "--update_relevant_locations",
+        help="update the RelevantLocation fields in the profiles in profile manager (blocking operations)",
+        action="store_true",
+    )
     parser.add_argument("--clean_db", help="clean the db", action="store_true")
     parser.add_argument(
         "--compute_semantic_routines",
@@ -382,7 +387,7 @@ if __name__ == "__main__":  # pragma: no cover
         source, *users = args.compare_routines.split(":")
         compare_routines_cmd(source, users, "SimpleLDA:PipelineBOW", is_mock=args.mock)
     if args.compute_semantic_routines:
-        compute_semantic_routines(args.update_pm)
+        compute_semantic_routines(args.update_pm, args.update_relevant_locations)
     if args.app_run:
         run_app()
     if args.update_realtime:
