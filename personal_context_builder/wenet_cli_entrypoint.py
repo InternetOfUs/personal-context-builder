@@ -32,6 +32,7 @@ from personal_context_builder.wenet_profile_manager import (
     StreambaseLabelsLoader,
     StreamBaseLocationsLoader,
     update_profile,
+    update_profile_relevant_locations,
 )
 from personal_context_builder.wenet_profiles_writer import (
     ProfileWritter,
@@ -83,8 +84,10 @@ def compute_semantic_routines(
                         _LOGGER.debug(f"sending the routines for user {user}...")
                         update_profile(routines, user, labels_current_user)
                     if update_relevant_locations:
-                        pass
-                        #  TODO update relevant locations
+                        _LOGGER.debug(
+                            f"sending the relevantLocations for user {user}..."
+                        )
+                        update_profile_relevant_locations(labelled_stay_regions, user)
                 except wenet_exceptions.SemanticRoutinesComputationError as e:
                     _LOGGER.debug(
                         f"cannot create semantic routines for user {user} - {e}"
