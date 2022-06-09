@@ -5,6 +5,7 @@ Copyright (c) 2021 Idiap Research Institute, https://www.idiap.ch/
 Written by William Droz <william.droz@idiap.ch>,
 
 """
+from dataclasses import dataclass
 import datetime
 import json
 from collections import defaultdict
@@ -379,6 +380,13 @@ class PersonalBehavior(object):
             [(ts, dist) for ts, dist in self.label_distribution.items() if dist != []]
         )
         return my_dict
+
+
+@dataclass
+class RelevantLocation(object):
+    label: str
+    latitude: float
+    longitude: float
 
 
 def update_profiles():
