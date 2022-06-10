@@ -8,7 +8,7 @@ Written by William Droz <william.droz@idiap.ch>,
 import datetime
 import json
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from json import JSONDecodeError
 from pprint import pprint
 from time import sleep
@@ -447,7 +447,7 @@ def update_profile_relevant_locations(
         current_rl = RelevantLocation(
             label=label, latitude=latitude, longitude=longitude
         )
-        relevant_locations.append(current_rl.asdict())
+        relevant_locations.append(asdict(current_rl))
     try:
         r = requests.patch(
             profile_url,
