@@ -451,7 +451,7 @@ def update_profile_relevant_locations(
     try:
         r = requests.patch(
             profile_url,
-            json={"RelevantLocations": relevant_locations},
+            json={"relevantLocations": relevant_locations},
             headers={
                 "x-wenet-component-apikey": config.PCB_WENET_API_KEY,
                 "Content-Type": "application/json",
