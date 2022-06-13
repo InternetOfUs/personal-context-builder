@@ -79,7 +79,9 @@ def compute_semantic_routines(
                     ) = semantic_model_hist.compute_weekdays(user)
                     if update:
                         labels_current_user = (
-                            semantic_model_hist.compute_labels_for_user(user)
+                            semantic_model_hist.compute_labels_for_user(
+                                user, labelled_stay_regions
+                            )
                         )
                         _LOGGER.debug(f"sending the routines for user {user}...")
                         update_profile(routines, user, labels_current_user)

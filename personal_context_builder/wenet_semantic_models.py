@@ -76,7 +76,7 @@ class SemanticModel(object):
         indexed_weekday_locations = self.index_per_weekday(all_days_locations)
         return indexed_weekday_locations, labelled_stay_regions, stay_regions
 
-    def compute_labels_for_user(self, user_id: str):
+    def compute_labels_for_user(self, user_id: str, labelled_stay_regions: List):
         """Compute the labels for a given user
         Args:
             user_id: for which user
@@ -85,9 +85,18 @@ class SemanticModel(object):
 
         Returns: dict of semantic labels with Label
         """
+        region_to_lat_lng = defaultdict(lambda: (0, 0))
+        for labelled_stay_region in labelled_stay_regions:
+            region_to_lat_lng[labelled_stay_region._label] = (
+                labelled_stay_region._lat,
+                labelled_stay_region._lng,
+            )
         res = dict(
             [
-                (semantic_id, Label(label_name, semantic_id, 0, 0))
+                (
+                    semantic_id,
+                    Label(label_name, semantic_id, *region_to_lat_lng[label_name]),
+                )
                 for label_name, semantic_id in self._regions_mapping.items()
             ]
         )
