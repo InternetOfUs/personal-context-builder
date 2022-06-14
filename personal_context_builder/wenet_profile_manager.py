@@ -177,7 +177,7 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
             except Exception as e:
                 #  They dont use unix timestamp...
                 # TODO change me when ppl respect unix timestamp...........
-                _LOGGER.warn(
+                _LOGGER.debug(
                     "invalid timestamp format from streambase - will try to use anyway"
                 )
                 pts_t = datetime.datetime.strptime(str(timestamp)[:-3], "%Y%m%d%H%M%S")
@@ -304,7 +304,7 @@ class StreambaseLabelsLoader(BaseSourceLabels):
             except Exception as e:
                 #  They dont use unix timestamp...
                 # TODO change me when ppl respect unix timestamp...........
-                _LOGGER.warn(
+                _LOGGER.debug(
                     "invalid timestamp format from streambase surveys - will try to use anyway"
                 )
                 pts_t = datetime.datetime.strptime(str(timestamp)[:-3], "%Y%m%d%H%M%S")
