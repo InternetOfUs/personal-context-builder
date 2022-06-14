@@ -17,7 +17,7 @@ x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
 ### get specific user
 
-GET https://wenet.u-hopper.com/dev/profile_manager/profiles/40 HTTP/1.1
+GET https://wenet.u-hopper.com/dev/profile_manager/profiles/57 HTTP/1.1
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
