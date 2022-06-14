@@ -87,18 +87,19 @@ class SemanticModel(object):
         """
         region_to_lat_lng = defaultdict(lambda: (0, 0))
         for labelled_stay_region in labelled_stay_regions:
-            region_to_lat_lng[labelled_stay_region._label] = (
-                (
-                    labelled_stay_region._topleft_lat
-                    + labelled_stay_region._bottomright_lat
+            if labelled_stay_region._topleft_lat != 0:
+                region_to_lat_lng[labelled_stay_region._label] = (
+                    (
+                        labelled_stay_region._topleft_lat
+                        + labelled_stay_region._bottomright_lat
+                    )
+                    / 2,
+                    (
+                        labelled_stay_region._topleft_lng
+                        + labelled_stay_region._bottomright_lng
+                    )
+                    / 2,
                 )
-                / 2,
-                (
-                    labelled_stay_region._topleft_lng
-                    + labelled_stay_region._bottomright_lng
-                )
-                / 2,
-            )
         res = dict(
             [
                 (
