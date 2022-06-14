@@ -67,12 +67,6 @@ spec:
         - name: tz-zurich
           hostPath:
             path: /usr/share/zoneinfo/Europe/Zurich
-      imagePullSecrets:
-        - name: wenet-realtime-secret
-      volumes:
-        - name: tz-zurich
-          hostPath:
-            path: /usr/share/zoneinfo/Europe/Zurich
 
 ---
 apiVersion: v1
