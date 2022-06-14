@@ -74,7 +74,6 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
         date_to_str = date_to.strftime("%Y%m%d")
         date_from_str = date_from.strftime("%Y%m%d")
         parameters = dict()
-        # TODO change me to get token from partner?
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "locationeventpertime"
@@ -251,7 +250,6 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         date_from = date_to - datetime.timedelta(hours=24 * last_days * 100)
         date_to_str = date_to.strftime("%Y%m%d")
         date_from_str = date_from.strftime("%Y%m%d")
-        # TODO change me to get token from partner?
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "timediariesanswers"
