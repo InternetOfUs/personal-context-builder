@@ -22,6 +22,35 @@ Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv DEVSECRET}}
 
+### overwrite norms
+
+PATCH https://wenet.u-hopper.com/dev/profile_manager/profiles/57 HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+Content-Type: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+{
+   "norms":[
+      {
+         "whenever":"is_now_between_times('8:00','10:00') and is_now_one_of_week_days([1])",
+         "thenceforth":"not(send_user_message(_,_))"
+      }
+   ]
+}
+
+### add new norm
+
+POST https://wenet.u-hopper.com/dev/profile_manager/profiles/57/norms HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+Content-Type: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+{
+    "whenever":"is_now_between_times('13:00','17:00') and is_now_one_of_week_days([1])",
+    "thenceforth":"not(send_user_message(_,_))"
+}
 
 # Streambase
 
