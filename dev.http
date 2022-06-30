@@ -52,6 +52,18 @@ x-wenet-component-apikey: {{$dotenv DEVSECRET}}
     "thenceforth":"not(send_user_message(_,_))"
 }
 
+### delete all norms
+
+PATCH https://wenet.u-hopper.com/dev/profile_manager/profiles/57 HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+Content-Type: application/json
+x-wenet-component-apikey: {{$dotenv DEVSECRET}}
+
+{
+   "norms": []
+}
+
 # Streambase
 
 
