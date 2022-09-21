@@ -272,10 +272,11 @@ def run_update_realtime():
         try:
             updater = WenetRealTimeUpdateHandler()
             updater.run_once()
-            time.sleep(5)
         except Exception as e:
             _LOGGER.error(f"ERROR {e}")
             pass  # TODO catch all exceptions
+        finally:
+            time.sleep(120)
 
 
 def generator_cmd(action: str):
