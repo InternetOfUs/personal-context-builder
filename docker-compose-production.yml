@@ -14,7 +14,7 @@ services:
     image: "docker.idiap.ch/wenet/wenet-realtime:v1.0.0"
   wenet-realtime-client:
     container_name: wenet-realtime-client
-    image: "docker.idiap.ch/wenet/personal_context_builder:v3.0.0"
+    image: "docker.idiap.ch/wenet/personal_context_builder:v3.0.1"
     entrypoint:
       [
         "python3",
@@ -34,7 +34,7 @@ services:
       - wenet-data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    image: "docker.idiap.ch/wenet/personal_context_builder:v3.0.0"
+    image: "docker.idiap.ch/wenet/personal_context_builder:v3.0.1"
 
 volumes:
   wenet-redis-data:
