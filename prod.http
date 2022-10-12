@@ -28,14 +28,14 @@ x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 
 ### get user 44 locations
 
-GET https://internetofus.u-hopper.com/prod/streambase/data?from=20220930&to=20220930&properties=locationeventpertime&userId=44
+GET https://internetofus.u-hopper.com/prod/streambase/data?from=20221011&to=20221012&properties=locationeventpertime&userId=44
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 
 ### get users 44 time diaries
 
-GET https://internetofus.u-hopper.com/prod/streambase/data?from=20220930&to=20220930&properties=timediariesanswers&userId=44
+GET https://internetofus.u-hopper.com/prod/streambase/data?from=20221011&to=20221012&properties=timediariesanswers&userId=44
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv PRODSECRET}}
