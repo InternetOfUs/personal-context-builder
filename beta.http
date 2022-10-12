@@ -28,7 +28,7 @@ x-wenet-component-apikey: {{$dotenv BETASECRET}}
 
 ### get user 12
 
-GET https://wenet.u-hopper.com/beta/streambase/data?from=20211109&to=20211109&properties=locationeventpertime&userId=12
+GET https://wenet.u-hopper.com/beta/streambase/data?from=20211109&to=20211109&properties=locationeventpertime&userId=1
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv BETASECRET}}
