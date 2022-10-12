@@ -8,7 +8,7 @@ x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 # Profile manager
 
 ### get users
-GET https://internetofus.u-hopper.com/prod/profile_manager/userIdentifiers?offset=0&limit=100 HTTP/1.1
+GET https://internetofus.u-hopper.com/prod/profile_manager/userIdentifiers?offset=0&limit=10000 HTTP/1.1
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv PRODSECRET}}
@@ -26,9 +26,16 @@ x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 # Streambase
 
 
-### get user 12
+### get user 44 locations
 
 GET https://internetofus.u-hopper.com/prod/streambase/data?from=20220930&to=20220930&properties=locationeventpertime&userId=44
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv PRODSECRET}}
+
+### get users 44 time diaries
+
+GET https://internetofus.u-hopper.com/prod/streambase/data?from=20220930&to=20220930&properties=timediariesanswers&userId=44
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv PRODSECRET}}
