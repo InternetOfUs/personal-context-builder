@@ -17,7 +17,7 @@ x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 
 ### get specific user
 
-GET https://internetofus.u-hopper.com/prod/profile_manager/profiles/12 HTTP/1.1
+GET https://internetofus.u-hopper.com/prod/profile_manager/profiles/1099 HTTP/1.1
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv PRODSECRET}}
@@ -36,6 +36,20 @@ x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 ### get users 44 time diaries
 
 GET https://internetofus.u-hopper.com/prod/streambase/data?from=20221011&to=20221012&properties=timediariesanswers&userId=44
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv PRODSECRET}}
+
+### tasks for user 1
+
+GET https://internetofus.u-hopper.com/prod/task_manager/tasks/?requesterId=1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv PRODSECRET}}
+
+### tasks interaction
+
+GET https://internetofus.u-hopper.com/prod/interaction_protocol_engine/states/tasks/601d2b6e70de075031328f85/users/1
 Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv PRODSECRET}}
