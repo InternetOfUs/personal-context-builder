@@ -42,6 +42,13 @@ x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 
 ### tasks for user 1
 
+GET https://internetofus.u-hopper.com/prod/task_manager/tasks/
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv PRODSECRET}}
+
+### tasks for user 1
+
 GET https://internetofus.u-hopper.com/prod/task_manager/tasks/?requesterId=1
 Authorization: test:wenet
 Accept: application/json
