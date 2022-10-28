@@ -32,6 +32,7 @@ coverage:
     - docker
     - linux
   stage: coverage
+  coverage: '/TOTAL\s+\d+\s+\d+\s+(\d+)%/'
   script:
     - echo $CI_JOB_TOKEN | docker login docker.idiap.ch -u gitlab-ci-token --password-stdin
     - docker-compose up -d
