@@ -71,8 +71,8 @@ class StreamBaseLocationsLoader(BaseSourceLocations):
     ):
         if date_to is None:
             date_to = datetime.datetime.now()
-        date_to_str = date_to.strftime("%Y%m%d%H%M%S000")
-        date_from_str = date_from.strftime("%Y%m%d%H%M%S000")
+        date_to_str = date_to.strftime("%Y%m%d%H%M%S") + "000"
+        date_from_str = date_from.strftime("%Y%m%d%H%M%S") + "000"
         parameters = dict()
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
@@ -248,8 +248,8 @@ class StreambaseLabelsLoader(BaseSourceLabels):
         parameters = dict()
         date_to = datetime.datetime.now()
         date_from = date_to - datetime.timedelta(hours=24 * last_days * 100)
-        date_to_str = date_to.strftime("%Y%m%d%H%M%S000")
-        date_from_str = date_from.strftime("%Y%m%d%H%M%S000")
+        date_to_str = date_to.strftime("%Y%m%d%H%M%S") + "000"
+        date_from_str = date_from.strftime("%Y%m%d%H%M%S") + "000"
         parameters["from"] = date_from_str
         parameters["to"] = date_to_str
         parameters["properties"] = "timediariesanswers"
