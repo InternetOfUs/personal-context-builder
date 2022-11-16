@@ -94,7 +94,7 @@ class WenetRealTimeUpdateHandler(object):
         Return: The latest location if available
         """
         date_to = datetime.now()
-        date_from = date_to - timedelta(minutes=5)
+        date_from = date_to - timedelta(minutes=120)
 
         #  TODO solve issue with time and localtime differences
         date_to = date_to + timedelta(minutes=120)
