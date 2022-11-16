@@ -25,6 +25,13 @@ x-wenet-component-apikey: {{$dotenv BETASECRET}}
 
 # Streambase
 
+### get user 12 (new format)
+
+GET https://wenet.u-hopper.com/beta/streambase/data?from=20221012090000000&to=20221012110000000&properties=locationeventpertime&userId=1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv BETASECRET}}
+
 
 ### get user 12
 
