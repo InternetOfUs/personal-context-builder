@@ -83,18 +83,18 @@ def compute_semantic_routines(
                                 user, labelled_stay_regions
                             )
                         )
-                        _LOGGER.debug(f"sending the routines for user {user}...")
+                        _LOGGER.info(f"sending the routines for user {user}...")
                         update_profile(routines, user, labels_current_user)
                     if update_relevant_locations:
-                        _LOGGER.debug(
+                        _LOGGER.info(
                             f"sending the relevantLocations for user {user}..."
                         )
                         update_profile_relevant_locations(labelled_stay_regions, user)
                 except wenet_exceptions.SemanticRoutinesComputationError as e:
-                    _LOGGER.debug(
+                    _LOGGER.info(
                         f"cannot create semantic routines for user {user} - {e}"
                     )
-            _LOGGER.debug(
+            _LOGGER.info(
                 f"next computation of semantic routines in {config.PCB_PROFILE_MANAGER_UPDATE_CD_H} hours"
             )
         except wenet_exceptions.WenetError as e:
