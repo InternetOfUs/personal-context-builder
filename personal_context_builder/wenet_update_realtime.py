@@ -142,5 +142,5 @@ class WenetRealTimeUpdateHandler(object):
                 users_location = zip(users_batch, locations)
                 pool.map(WenetRealTimeUpdateHandler.run_one_user, users_location)
             pool.join()
-            _LOGGER.info(f"{len(users_batch)} users updated")
+            _LOGGER.info(f"batch of {len(users_batch)} users updated")
         _LOGGER.info(f"{len(users)} users updated")
