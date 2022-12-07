@@ -135,7 +135,7 @@ class WenetRealTimeUpdateHandler(object):
         _LOGGER.info(f"start to update {len(users)} users")
         for users_batch in batch(users, 500):
             _LOGGER.info(f"start to update batch of {len(users_batch)} users")
-            with ThreadPool(min(100, len(users_batch))) as pool:
+            with ThreadPool(min(20, len(users_batch))) as pool:
                 locations = list(
                     pool.map(WenetRealTimeUpdateHandler.get_user_location, users_batch)
                 )
