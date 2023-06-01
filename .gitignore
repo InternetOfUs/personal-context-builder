@@ -13,3 +13,4 @@ personal_context_builder.yaml
 src/
 target-install/
 .env
+wenet-api/
