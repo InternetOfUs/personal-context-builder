@@ -1,5 +1,6 @@
 # Personal context builder
 
+### Get realtime users
 GET https://internetofus.u-hopper.com/prod/realtime_api/closest/?latitude=1&longitude=1&nb_user_max=10 HTTP/1.1
 Authorization: test:wenet
 Accept: application/json
