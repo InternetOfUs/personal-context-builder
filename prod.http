@@ -6,6 +6,20 @@ Authorization: test:wenet
 Accept: application/json
 x-wenet-component-apikey: {{$dotenv PRODSECRET}}
 
+### Create new user
+POST https://internetofus.u-hopper.com/prod/realtime_api/users_locations/ HTTP/1.1
+Authorization: test:wenet
+Accept: application/json
+x-wenet-component-apikey: {{$dotenv PRODSECRET}}
+content-type: application/json
+
+{
+    "id": "test_test",
+    "timestamp": {{$timestamp}},
+    "latitude": 40.0,
+    "longitude": 120.0
+}
+
 # Profile manager
 
 ### get users
